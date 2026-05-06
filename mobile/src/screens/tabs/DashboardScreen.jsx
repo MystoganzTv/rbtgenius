@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
@@ -9,13 +10,13 @@ import { TOTAL_PRACTICE_QUESTIONS } from '../../services/questionService.js';
 
 const API_BASE = 'https://rbtgenius.com';
 
-const DOMAIN_CONFIG = [
-  { key: 'measurement',         label: 'Measurement',        accent: 'primary'  },
-  { key: 'assessment',          label: 'Assessment',          accent: 'gold'     },
-  { key: 'skill_acquisition',   label: 'Skill Acquisition',   accent: 'success'  },
-  { key: 'behavior_reduction',  label: 'Behavior Reduction',  accent: 'primary'  },
-  { key: 'documentation',       label: 'Documentation',       accent: 'gold'     },
-  { key: 'professional_conduct',label: 'Ethics',              accent: 'success'  },
+const DOMAIN_KEYS = [
+  { key: 'measurement',          accent: 'primary'  },
+  { key: 'assessment',           accent: 'gold'     },
+  { key: 'skill_acquisition',    accent: 'success'  },
+  { key: 'behavior_reduction',   accent: 'primary'  },
+  { key: 'documentation',        accent: 'gold'     },
+  { key: 'professional_conduct', accent: 'success'  },
 ];
 
 export default function DashboardScreen({ navigation }) {
@@ -45,6 +46,7 @@ export default function DashboardScreen({ navigation }) {
   }, [token]);
 
   useEffect(() => { fetchDashboard(true); }, [fetchDashboard]);
+  useFocusEffect(useCallback(() => { fetchDashboard(true); }, [fetchDashboard]));
 
   // Derived values — server wins, falls back to auth context
   const progress = dashboard?.progress ?? {};
@@ -53,7 +55,7 @@ export default function DashboardScreen({ navigation }) {
   const readiness = Math.round(progress.readiness_score ?? user?.readiness ?? 0);
   const streak = progress.study_streak_days ?? user?.streak ?? 0;
   const completed = progress.total_questions_completed ?? user?.completedQuestions ?? 0;
-  const accuracy = Math.round((progress.accuracy_rate ?? 0) * 100);
+  const accuracy = Math.round(progress.accuracy_rate ?? 0);
   const questionsToday = progress.questions_today ?? 0;
   const dailyLimit = entitlements.practice_daily_limit ?? 15;
   const remaining = entitlements.usage?.practice_questions_remaining ?? (dailyLimit - questionsToday);
@@ -68,8 +70,8 @@ export default function DashboardScreen({ navigation }) {
         <View style={s.brand}>
           <View style={s.brandMark}><Text style={s.brandInitials}>RG</Text></View>
           <View>
-            <Text style={s.screenTitle}>Dashboard</Text>
-            <Text style={s.screenSub}>Your exam readiness</Text>
+            <Text style={s.screenTitle}>{t('dashboard.title')}</Text>
+            <Text style={s.screenSub}>{t('dashboard.subtitle')}</Text>
           </View>
         </View>
         {!isPro && (
@@ -77,7 +79,7 @@ export default function DashboardScreen({ navigation }) {
             style={s.proChip}
             onPress={() => navigation?.navigate('More', { screen: 'Upgrade' })}
           >
-            <Text style={s.proChipText}>Go Pro 👑</Text>
+            <Text style={s.proChipText}>{t('dashboard.go_pro')}</Text>
           </Pressable>
         )}
       </View>
@@ -98,15 +100,22 @@ export default function DashboardScreen({ navigation }) {
           <View style={[s.orb, s.orbTop, { backgroundColor: alpha(theme.gold, 0.16) }]} />
           <View style={[s.orb, s.orbBottom, { backgroundColor: alpha(theme.primary, 0.18) }]} />
           <Text style={s.eyebrow}>RBT Genius</Text>
-          <Text style={s.heroTitle}>Welcome back, {firstName}</Text>
+          <Text style={s.heroTitle}>{t('dashboard.welcome_back', { name: firstName })}</Text>
           <Text style={s.heroBody}>
             {readiness > 0
-              ? `Readiness at ${readiness}% — ${readiness >= 80 ? 'you\'re in great shape!' : readiness >= 60 ? 'keep pushing, you\'re getting there.' : 'more practice will get you there.'}`
-              : 'Start practicing to build your readiness score.'}
+              ? t('dashboard.readiness_body', {
+                  pct: readiness,
+                  msg: readiness >= 80
+                    ? t('dashboard.readiness_great')
+                    : readiness >= 60
+                      ? t('dashboard.readiness_medium')
+                      : t('dashboard.readiness_low'),
+                })
+              : t('dashboard.readiness_empty')}
           </Text>
           <View style={s.badgeRow}>
-            <Badge label={`${streak} day streak`} theme={theme} />
-            <Badge label={isPro ? 'Pro' : 'Free Plan'} tone="gold" theme={theme} />
+            <Badge label={t('dashboard.streak_badge', { streak })} theme={theme} />
+            <Badge label={isPro ? t('common.pro') : t('common.free')} tone="gold" theme={theme} />
           </View>
         </View>
 
@@ -147,34 +156,34 @@ export default function DashboardScreen({ navigation }) {
         )}
 
         {/* Metric grid */}
-        <SectionTitle title="Your Stats" subtitle="All time" theme={theme} />
+        <SectionTitle title={t('dashboard.your_stats')} subtitle={t('dashboard.all_time')} theme={theme} />
         <View style={s.metricGrid}>
-          <MetricCard accent="primary" label="Questions Done" value={completed.toLocaleString()} theme={theme} />
+          <MetricCard accent="primary" label={t('dashboard.questions_done')} value={completed.toLocaleString()} theme={theme} />
           <MetricCard
             accent={readiness >= 80 ? 'success' : readiness >= 60 ? 'gold' : 'primary'}
-            label="Readiness"
+            label={t('dashboard.readiness')}
             value={`${readiness}%`}
             theme={theme}
           />
-          <MetricCard accent="gold" label="Study Streak" value={`${streak} days`} theme={theme} />
-          <MetricCard accent="success" label="Accuracy" value={accuracy > 0 ? `${accuracy}%` : '—'} theme={theme} />
+          <MetricCard accent="gold" label={t('dashboard.study_streak')} value={`${streak} ${t('dashboard.days')}`} theme={theme} />
+          <MetricCard accent="success" label={t('dashboard.accuracy')} value={accuracy > 0 ? `${accuracy}%` : '—'} theme={theme} />
         </View>
 
         {/* Domain mastery */}
-        <SectionTitle title="Domain Mastery" subtitle="Your performance by content area" theme={theme} />
+        <SectionTitle title={t('dashboard.domain_mastery')} subtitle={t('dashboard.domain_subtitle')} theme={theme} />
         <View style={s.panel}>
-          {DOMAIN_CONFIG.map((domain) => {
+          {DOMAIN_KEYS.map((domain) => {
             const mastery = Math.round(domainMastery[domain.key] ?? 0);
             const color = toneColor(domain.accent, theme);
             return (
               <View key={domain.key} style={s.domainRow}>
                 <View style={s.domainHeader}>
-                  <Text style={s.domainLabel}>{domain.label}</Text>
+                  <Text style={s.domainLabel}>{t(`domains.${domain.key}`)}</Text>
                   <Text style={[s.domainPct, { color }]}>{mastery}%</Text>
                 </View>
                 <ProgressBar color={color} progress={mastery} theme={theme} />
                 {mastery === 0 && (
-                  <Text style={s.domainHint}>No attempts yet in this area</Text>
+                  <Text style={s.domainHint}>{t('dashboard.no_attempts')}</Text>
                 )}
               </View>
             );

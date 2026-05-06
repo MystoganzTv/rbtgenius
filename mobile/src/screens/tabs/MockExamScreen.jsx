@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Alert, ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 import { isAvailableAsync, requestReview } from 'expo-store-review';
 
 import { useTranslation } from 'react-i18next';
+import { localizeQuestion } from '../../lib/i18n.js';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';
@@ -30,7 +31,7 @@ export default function MockExamScreen({ navigation }) {
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s      = styles(theme);
   const { user, token, refreshDashboard } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isPro = user?.isPremium ?? false;
 
@@ -102,7 +103,7 @@ export default function MockExamScreen({ navigation }) {
     const cnt = Object.keys(answers).length;
     Alert.alert(
       t('exams.submit_early'),
-      `${t('answered_count_alert', { cnt, total: questions.length })}`,
+      t('exams.answered_count_alert', { cnt, total: questions.length }),
       [
         { text: t('common.cancel'), style: 'cancel' },
         { text: t('exams.submit_early'), style: 'destructive', onPress: finishExam },
@@ -323,6 +324,13 @@ export default function MockExamScreen({ navigation }) {
   const answeredCnt = Object.keys(answers).length;
   const timerWarn   = timeLeft <= 600;
 
+  const localizedQ = useMemo(
+    () => q?._raw ? localizeQuestion(q._raw, i18n.language) : null,
+    [q?.id, i18n.language],
+  );
+  const qText    = localizedQ?.localizedText?.primary || q?.prompt || '';
+  const qOptions = localizedQ ? localizedQ.options.map(o => o.localizedText?.primary || o.text) : (q?.options ?? []);
+
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
@@ -336,11 +344,11 @@ export default function MockExamScreen({ navigation }) {
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.qCard}>
           <Text style={s.qDomain}>{q?.topicLabel}</Text>
-          <Text style={s.qText}>{q?.prompt}</Text>
+          <Text style={s.qText}>{qText}</Text>
         </View>
 
         <View style={s.optionsWrap}>
-          {q?.options.map((opt, i) => {
+          {qOptions.map((opt, i) => {
             const letter     = LETTERS[i];
             const isSelected = selected === letter;
             return (
@@ -357,7 +365,7 @@ export default function MockExamScreen({ navigation }) {
 
         <View style={s.navRow}>
           <Pressable style={s.navBtn} onPress={prev} disabled={index === 0}>
-{t('exams.prev')}
+            <Text style={s.navBtnText}>{t('exams.prev')}</Text>
           </Pressable>
           <Pressable style={[s.navBtn, s.navBtnPrimary]} onPress={next}>
             <Text style={[s.navBtnText, { color: '#fff' }]}>

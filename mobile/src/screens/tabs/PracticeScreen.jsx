@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -7,6 +7,7 @@ import { alpha, getTheme } from '../../theme';
 import { Badge } from '../../components/ui';
 import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
+import { localizeQuestion } from '../../lib/i18n.js';
 
 const API_BASE = 'https://rbtgenius.com';
 
@@ -14,7 +15,7 @@ export default function PracticeScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, token } = useAuth();
 
   const [selectedTopic, setSelectedTopic] = useState(TOPICS[0].key);
@@ -30,6 +31,16 @@ export default function PracticeScreen({ navigation }) {
   const questions = getPracticeByTopic(selectedTopic, 24);
   const question = questions[questionIndex] ?? questions[0];
   const answered = selectedOption !== null;
+
+  const localized = useMemo(
+    () => question?._raw ? localizeQuestion(question._raw, i18n.language) : null,
+    [question?.id, i18n.language],
+  );
+  const questionText = localized?.localizedText?.primary || question?.prompt || '';
+  const questionOptions = localized
+    ? localized.options.map(o => o.localizedText?.primary || o.text)
+    : (question?.options ?? []);
+  const questionExplanation = localized?.localizedExplanation?.primary || question?.explanation || '';
 
   const handleTopicChange = (key) => {
     setSelectedTopic(key);
@@ -134,9 +145,9 @@ export default function PracticeScreen({ navigation }) {
               <Badge label={question.difficulty} theme={theme} />
               <Badge label={`${question.timeEstimate} min`} tone="gold" theme={theme} />
             </View>
-            <Text style={s.questionText}>{question.prompt}</Text>
+            <Text style={s.questionText}>{questionText}</Text>
             <View style={s.options}>
-              {question.options.map((opt, i) => {
+              {questionOptions.map((opt, i) => {
                 const isSelected = selectedOption === i;
                 const isCorrect = i === question.correctIndex;
                 const showResult = answered;
@@ -164,7 +175,7 @@ export default function PracticeScreen({ navigation }) {
                     ? t('practice.correct_label')
                     : t('practice.incorrect_label')}
                 </Text>
-                <Text style={s.explanationText}>{question.explanation}</Text>
+                <Text style={s.explanationText}>{questionExplanation}</Text>
               </View>
             )}
           </View>
