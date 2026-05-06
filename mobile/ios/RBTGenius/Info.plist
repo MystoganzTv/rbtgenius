@@ -27,13 +27,19 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.googleusercontent.apps.37632251231-th4qu526qnm34f3uitq7m363dolsu1f0</string>
+          <string>com.rbtgenius.app</string>
         </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
           <string>exp+rbt-genius</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.37632251231-th4qu526qnm34f3uitq7m363dolsu1f0</string>
         </array>
       </dict>
     </array>

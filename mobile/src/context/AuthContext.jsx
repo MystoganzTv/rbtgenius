@@ -143,10 +143,14 @@ export function AuthProvider({ children }) {
     try {
       const userInfo = await GoogleSignin.signIn();
 
-      console.log('[Google] userInfo exists:', !!userInfo);
-      console.log('[Google] idToken exists:', !!userInfo?.idToken);
+      console.log('[Google] full userInfo:', JSON.stringify(userInfo));
 
-      const idToken = userInfo?.idToken;
+      const idToken =
+        userInfo?.idToken ||
+        userInfo?.data?.idToken ||
+        userInfo?.serverAuthCode;
+
+      console.log('[Google] idToken exists:', !!idToken);
 
       if (!idToken) {
         throw new Error('No ID token from Google');
