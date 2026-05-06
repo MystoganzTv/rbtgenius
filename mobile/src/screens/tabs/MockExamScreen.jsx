@@ -311,7 +311,7 @@ export default function MockExamScreen({ navigation }) {
               <Text style={s.lockedEmoji}>🔒</Text>
               <Text style={s.lockedTitle}>Función Pro</Text>
               <Text style={s.lockedSub}>Los exámenes completos están disponibles en el plan Pro.</Text>
-              <Pressable style={s.upgradeBtn} onPress={() => navigation.navigate('Upgrade')}>
+              <Pressable style={s.upgradeBtn} onPress={() => navigation.navigate('More', { screen: 'Upgrade' })}>
                 <Text style={s.upgradeBtnText}>Mejorar a Pro 👑</Text>
               </Pressable>
             </View>

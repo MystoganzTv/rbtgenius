@@ -27,7 +27,7 @@ const QUICK_PROMPTS = [
   'Define stimulus control',
 ];
 
-export default function AITutorScreen() {
+export default function AITutorScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user, token } = useAuth();
@@ -50,7 +50,6 @@ export default function AITutorScreen() {
     Authorization: `Bearer ${token}`,
   });
 
-  // Creates a new conversation and returns its id
   const ensureConversation = async () => {
     if (conversationId) return conversationId;
     const res = await fetch(`${API_BASE}/api/ai-tutor/conversations`, {
@@ -90,16 +89,11 @@ export default function AITutorScreen() {
       );
 
       if (res.status === 403) {
-        // Plan limit reached
-        const data = await res.json();
         setMessages((prev) => [
           ...prev,
-          {
-            id: (Date.now() + 1).toString(),
-            role: 'assistant',
-            text: data.message || 'Daily tutor limit reached. Upgrade to Pro for unlimited messages.',
-          },
+          { id: (Date.now() + 1).toString(), role: 'limit' },
         ]);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
         return;
       }
 
@@ -132,6 +126,28 @@ export default function AITutorScreen() {
   };
 
   const renderItem = ({ item }) => {
+    if (item.role === 'limit') {
+      return (
+        <View style={s.limitCard}>
+          <Text style={s.limitEmoji}>🤖</Text>
+          <Text style={s.limitTitle}>Daily limit reached</Text>
+          <Text style={s.limitSub}>
+            {"You've used all your free AI Tutor messages for today.\nUpgrade to Pro for 150 messages per day."}
+          </Text>
+          <Pressable
+            style={s.limitBtn}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              navigation?.navigate('More', { screen: 'Upgrade' });
+            }}
+          >
+            <Text style={s.limitBtnText}>Upgrade to Pro 👑</Text>
+          </Pressable>
+          <Text style={s.limitReset}>Resets daily at midnight</Text>
+        </View>
+      );
+    }
+
     const isUser = item.role === 'user';
     return (
       <View style={[s.bubble, isUser ? s.bubbleUser : s.bubbleAssistant]}>
@@ -247,6 +263,19 @@ const styles = (theme) =>
       backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1,
       borderRadius: 20, borderBottomLeftRadius: 6, paddingHorizontal: 18, paddingVertical: 14,
     },
+    limitCard: {
+      backgroundColor: theme.surface, borderColor: alpha(theme.primary, 0.3), borderWidth: 1.5,
+      borderRadius: 22, padding: 22, alignItems: 'center', gap: 8, marginHorizontal: 4,
+    },
+    limitEmoji: { fontSize: 36 },
+    limitTitle: { color: theme.text, fontSize: 17, fontWeight: '800', textAlign: 'center' },
+    limitSub: { color: theme.muted, fontSize: 14, lineHeight: 20, textAlign: 'center' },
+    limitBtn: {
+      backgroundColor: theme.primary, borderRadius: 14,
+      paddingHorizontal: 28, paddingVertical: 14, marginTop: 4,
+    },
+    limitBtnText: { color: '#fff', fontSize: 15, fontWeight: '800' },
+    limitReset: { color: theme.muted, fontSize: 12, marginTop: 2 },
     quickWrap: { paddingHorizontal: 16, paddingBottom: 8, gap: 8 },
     quickLabel: { color: theme.muted, fontSize: 12, fontWeight: '700' },
     quickRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },

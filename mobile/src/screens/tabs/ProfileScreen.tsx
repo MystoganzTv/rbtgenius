@@ -79,7 +79,8 @@ export default function ProfileScreen({ navigation }) {
   // Derived display values
   const displayName = profile?.user?.full_name ?? user?.name ?? 'Student';
   const displayEmail = profile?.user?.email ?? user?.email ?? '';
-  const displayPlan = profile?.user?.plan ?? user?.plan ?? 'free';
+  // isPro usa entitlements como fuente de verdad (evita mismatch de strings "premium" vs "pro")
+  const isPro = profile?.entitlements?.is_premium ?? user?.isPremium ?? false;
   const progress = profile?.progress ?? {};
   const readiness = Math.round(progress.readiness_score ?? user?.readiness ?? 0);
   const streak = progress.study_streak_days ?? user?.streak ?? 0;
@@ -205,7 +206,7 @@ export default function ProfileScreen({ navigation }) {
             <Text style={s.profileEmail}>{displayEmail}</Text>
             <View style={[s.planBadge, { backgroundColor: alpha(theme.gold, 0.15) }]}>
               <Text style={[s.planBadgeText, { color: theme.gold }]}>
-                {displayPlan === 'premium' ? 'Pro' : 'Free Plan'}
+                {isPro ? 'Pro' : 'Free Plan'}
               </Text>
             </View>
           </View>
@@ -224,7 +225,7 @@ export default function ProfileScreen({ navigation }) {
             <MetricCard accent="primary" label={t('profile.readiness')} value={`${readiness}%`} theme={theme} />
             <MetricCard accent="gold" label={t('profile.streak')} value={`${streak} ${t('profile.days')}`} theme={theme} />
             <MetricCard accent="success" label={t('profile.questions')} value={completed.toLocaleString()} theme={theme} />
-            <MetricCard accent="primary" label={t('profile.plan')} value={displayPlan === 'premium' ? t('common.pro') : t('common.free')} theme={theme} />
+            <MetricCard accent="primary" label={t('profile.plan')} value={isPro ? t('common.pro') : t('common.free')} theme={theme} />
           </View>
         )}
 
@@ -342,7 +343,7 @@ export default function ProfileScreen({ navigation }) {
           <Text style={s.logoutText}>{t('profile.sign_out')}</Text>
         </Pressable>
 
-        <Text style={s.version}>{t('profile.version')} · {displayPlan === 'premium' ? t('common.pro') : t('common.free')}</Text>
+        <Text style={s.version}>{t('profile.version')} · {isPro ? t('common.pro') : t('common.free')}</Text>
       </ScrollView>
 
       {/* ── Edit name modal ── */}

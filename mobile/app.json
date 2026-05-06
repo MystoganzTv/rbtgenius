@@ -45,7 +45,8 @@
         {
           "iosUrlScheme": "com.googleusercontent.apps.37632251231-th4qu526qnm34f3uitq7m363dolsu1f0"
         }
-      ]
+      ],
+      "react-native-purchases"
     ]
   }
 }

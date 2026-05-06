@@ -134,7 +134,7 @@ export default function FlashcardsScreen({ navigation }) {
             Has respondido {sessionLimit} tarjetas hoy — limite del plan gratuito.
             Actualiza a Pro para sesiones ilimitadas.
           </Text>
-          <Pressable style={[s.bigBtn, { backgroundColor: theme.primary }]} onPress={() => navigation?.navigate('Upgrade')}>
+          <Pressable style={[s.bigBtn, { backgroundColor: theme.primary }]} onPress={() => navigation?.navigate('More', { screen: 'Upgrade' })}>
             <Text style={s.bigBtnText}>{"Mejorar a Pro 👑"}</Text>
           </Pressable>
           <Pressable style={s.textBtn} onPress={resetSession}>

@@ -92,7 +92,7 @@ export default function PracticeScreen({ navigation }) {
           </Text>
           <Pressable
             style={s.upgradeBtn}
-            onPress={() => navigation?.navigate('Upgrade')}
+            onPress={() => navigation?.navigate('More', { screen: 'Upgrade' })}
           >
             <Text style={s.upgradeBtnText}>Upgrade to Pro 👑</Text>
           </Pressable>

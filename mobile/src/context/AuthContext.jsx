@@ -5,6 +5,19 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 
+// RevenueCat — optional (native module, won't be available in Expo Go)
+let _initRevenueCat = null;
+try {
+  const rc = require('../services/RevenueCatService');
+  _initRevenueCat = rc.initRevenueCat;
+} catch { /* no-op */ }
+
+async function maybeInitRC(userId) {
+  if (_initRevenueCat) {
+    try { await _initRevenueCat(userId); } catch (e) { console.log('[RC] init error:', e?.message); }
+  }
+}
+
 const AuthContext = createContext(null);
 
 const TOKEN_KEY = 'rbt_genius_auth_token';
@@ -83,6 +96,7 @@ export function AuthProvider({ children }) {
 
         setToken(saved);
         setUser(buildUser(rawUser, dashboard));
+        maybeInitRC(rawUser.id);
       } catch (error) {
         console.log('[Auth] Restore session error:', error);
       } finally {
@@ -112,6 +126,7 @@ export function AuthProvider({ children }) {
 
     setToken(t);
     setUser(buildUser(rawUser, dashboard));
+    maybeInitRC(rawUser.id);
   };
 
   const register = async (fullName, email, password) => {
@@ -135,6 +150,7 @@ export function AuthProvider({ children }) {
 
     setToken(t);
     setUser(buildUser(rawUser, dashboard));
+    maybeInitRC(rawUser.id);
   };
 
   const loginWithGoogle = async () => {
@@ -171,6 +187,7 @@ export function AuthProvider({ children }) {
 
       setToken(t);
       setUser(buildUser(rawUser, dashboard));
+      maybeInitRC(rawUser.id);
     } catch (error) {
       if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('[Google] User cancelled sign-in');
