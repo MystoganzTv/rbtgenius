@@ -16,6 +16,7 @@ import * as Haptics from 'expo-haptics';
 
 import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const API_BASE = 'https://rbtgenius.com';
 
@@ -31,14 +32,11 @@ export default function AITutorScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user, token } = useAuth();
+  const { t } = useTranslation();
   const s = styles(theme);
 
-  const [messages, setMessages] = useState([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      text: "Hi! I'm your RBT study tutor. Ask me anything about ABA principles, behavior intervention, or the RBT task list.",
-    },
+  const [messages, setMessages] = useState(() => [
+    { id: 'welcome', role: 'assistant', text: t('tutor.welcome_message') },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -130,10 +128,8 @@ export default function AITutorScreen({ navigation }) {
       return (
         <View style={s.limitCard}>
           <Text style={s.limitEmoji}>🤖</Text>
-          <Text style={s.limitTitle}>Daily limit reached</Text>
-          <Text style={s.limitSub}>
-            {"You've used all your free AI Tutor messages for today.\nUpgrade to Pro for 150 messages per day."}
-          </Text>
+          <Text style={s.limitTitle}>{t('practice.daily_limit_title')}</Text>
+          <Text style={s.limitSub}>{t('tutor.daily_limit')}</Text>
           <Pressable
             style={s.limitBtn}
             onPress={() => {
@@ -141,9 +137,9 @@ export default function AITutorScreen({ navigation }) {
               navigation?.navigate('More', { screen: 'Upgrade' });
             }}
           >
-            <Text style={s.limitBtnText}>Upgrade to Pro 👑</Text>
+            <Text style={s.limitBtnText}>{t('upgrade.cta')}</Text>
           </Pressable>
-          <Text style={s.limitReset}>Resets daily at midnight</Text>
+          <Text style={s.limitReset}>{t('tutor.limit_reset')}</Text>
         </View>
       );
     }
@@ -166,8 +162,8 @@ export default function AITutorScreen({ navigation }) {
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
-        <Text style={s.screenTitle}>AI Tutor</Text>
-        <Text style={s.screenSub}>Powered by RBT Genius · Ask anything</Text>
+        <Text style={s.screenTitle}>{t('tutor.title')}</Text>
+        <Text style={s.screenSub}>{t('tutor.subtitle_powered')}</Text>
       </View>
 
       <KeyboardAvoidingView
@@ -196,7 +192,7 @@ export default function AITutorScreen({ navigation }) {
 
         {messages.length === 1 && (
           <View style={s.quickWrap}>
-            <Text style={s.quickLabel}>Try asking:</Text>
+            <Text style={s.quickLabel}>{t('tutor.try_asking')}</Text>
             <View style={s.quickRow}>
               {QUICK_PROMPTS.map((p) => (
                 <Pressable key={p} style={s.quickChip} onPress={() => send(p)}>
@@ -212,7 +208,7 @@ export default function AITutorScreen({ navigation }) {
             style={s.input}
             value={input}
             onChangeText={setInput}
-            placeholder="Ask about RBT concepts..."
+            placeholder={t('tutor.placeholder')}
             placeholderTextColor={theme.muted}
             multiline
             maxLength={500}

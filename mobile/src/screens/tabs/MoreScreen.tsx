@@ -3,39 +3,41 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
-
-const ITEMS = [
-  {
-    key: 'Flashcards',
-    title: 'Flashcards',
-    sub: 'Rapid recall for short study sessions',
-    icon: (color) => <MaterialCommunityIcons name="cards-outline" color={color} size={22} />,
-    accent: 'primary',
-  },
-  {
-    key: 'Analytics',
-    title: 'Analytics',
-    sub: 'Performance insights across all domains',
-    icon: (color) => <Ionicons name="stats-chart-outline" color={color} size={22} />,
-    accent: 'gold',
-  },
-  {
-    key: 'Profile',
-    title: 'Profile',
-    sub: 'Account, plan, and preferences',
-    icon: (color) => <Ionicons name="person-circle-outline" color={color} size={22} />,
-    accent: 'success',
-  },
-];
 
 export default function MoreScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user } = useAuth();
+  const { t } = useTranslation();
   const s = styles(theme);
+
+  const ITEMS = [
+    {
+      key: 'Flashcards',
+      title: t('more.flashcards'),
+      sub: t('more.flashcards_sub'),
+      icon: (color) => <MaterialCommunityIcons name="cards-outline" color={color} size={22} />,
+      accent: 'primary',
+    },
+    {
+      key: 'Analytics',
+      title: t('more.analytics'),
+      sub: t('more.analytics_sub'),
+      icon: (color) => <Ionicons name="stats-chart-outline" color={color} size={22} />,
+      accent: 'gold',
+    },
+    {
+      key: 'Profile',
+      title: t('more.profile'),
+      sub: t('more.profile_sub'),
+      icon: (color) => <Ionicons name="person-circle-outline" color={color} size={22} />,
+      accent: 'success',
+    },
+  ];
 
   const isPro = user?.plan === 'premium' || user?.plan === 'premium_monthly' || user?.plan === 'premium_yearly';
 
@@ -48,8 +50,8 @@ export default function MoreScreen({ navigation }) {
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
-        <Text style={s.screenTitle}>More</Text>
-        <Text style={s.screenSub}>Extra tools and account sections</Text>
+        <Text style={s.screenTitle}>{t('more.title')}</Text>
+        <Text style={s.screenSub}>{t('more.subtitle')}</Text>
       </View>
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
@@ -66,8 +68,8 @@ export default function MoreScreen({ navigation }) {
             <View style={s.proBannerLeft}>
               <Text style={s.proBannerEmoji}>👑</Text>
               <View>
-                <Text style={s.proBannerTitle}>Upgrade to Pro</Text>
-                <Text style={s.proBannerSub}>Unlock mock exams, analytics & unlimited practice</Text>
+                <Text style={s.proBannerTitle}>{t('more.upgrade')}</Text>
+                <Text style={s.proBannerSub}>{t('more.upgrade_banner_sub')}</Text>
               </View>
             </View>
             <Feather name="chevron-right" color={theme.gold} size={18} />

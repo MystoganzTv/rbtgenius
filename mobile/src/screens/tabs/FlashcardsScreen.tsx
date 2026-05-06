@@ -14,12 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 const API_BASE  = 'https://rbtgenius.com';
 const ALL_CARDS = getFlashcards(120);
 
-const DIFFICULTIES = [
-  { key: 'all',    label: 'Todos'   },
-  { key: 'Easy',   label: 'Facil'   },
-  { key: 'Medium', label: 'Medio'   },
-  { key: 'Hard',   label: 'Dificil' },
-];
+const DIFFICULTY_KEYS = ['all', 'Easy', 'Medium', 'Hard'] as const;
 
 export default function FlashcardsScreen({ navigation }) {
   const scheme = useColorScheme();
@@ -197,33 +192,33 @@ export default function FlashcardsScreen({ navigation }) {
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.progressWrap}>
           <ProgressBar color={theme.success} progress={progressPct} theme={theme} />
-          <Text style={s.progressLabel}>{progressPct}% de {totalInDeck} dominadas</Text>
+          <Text style={s.progressLabel}>{t('flashcard_ui.progress_label', { pct: progressPct, total: totalInDeck })}</Text>
         </View>
 
         {!isPro && (
-          <Text style={s.limitNote}>{sessionAnswered}/{sessionLimit} esta sesion · plan gratuito</Text>
+          <Text style={s.limitNote}>{t('flashcard_ui.session_note', { answered: sessionAnswered, limit: sessionLimit })}</Text>
         )}
 
         {/* Topic pills */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.pillScroll}>
           <Pressable onPress={() => changeFilter('topic', 'all')}
             style={[s.pill, filterTopic === 'all' && s.pillActive]}>
-            <Text style={[s.pillText, filterTopic === 'all' && { color: theme.primary }]}>Todos</Text>
+            <Text style={[s.pillText, filterTopic === 'all' && { color: theme.primary }]}>{t('flashcard_ui.all_topics')}</Text>
           </Pressable>
-          {TOPICS.map(t => (
-            <Pressable key={t.key} onPress={() => changeFilter('topic', t.key)}
-              style={[s.pill, filterTopic === t.key && s.pillActive]}>
-              <Text style={[s.pillText, filterTopic === t.key && { color: theme.primary }]}>{t.label}</Text>
+          {TOPICS.map(tp => (
+            <Pressable key={tp.key} onPress={() => changeFilter('topic', tp.key)}
+              style={[s.pill, filterTopic === tp.key && s.pillActive]}>
+              <Text style={[s.pillText, filterTopic === tp.key && { color: theme.primary }]}>{t(`domains.${tp.key}`)}</Text>
             </Pressable>
           ))}
         </ScrollView>
 
         {/* Difficulty pills */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.pillScroll}>
-          {DIFFICULTIES.map(d => (
-            <Pressable key={d.key} onPress={() => changeFilter('diff', d.key)}
-              style={[s.pill, filterDiff === d.key && { backgroundColor: alpha('#7C3AED', 0.1), borderColor: alpha('#7C3AED', 0.35) }]}>
-              <Text style={[s.pillText, filterDiff === d.key && { color: '#7C3AED' }]}>{d.label}</Text>
+          {DIFFICULTY_KEYS.map(key => (
+            <Pressable key={key} onPress={() => changeFilter('diff', key)}
+              style={[s.pill, filterDiff === key && { backgroundColor: alpha('#7C3AED', 0.1), borderColor: alpha('#7C3AED', 0.35) }]}>
+              <Text style={[s.pillText, filterDiff === key && { color: '#7C3AED' }]}>{t(`difficulties.${key.toLowerCase()}`)}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -239,19 +234,19 @@ export default function FlashcardsScreen({ navigation }) {
             {(isCardMastered || isCardReviewing) && (
               <View style={[s.cardBadge, { backgroundColor: isCardMastered ? alpha(theme.success, 0.1) : alpha(theme.gold, 0.1) }]}>
                 <Text style={[s.cardBadgeText, { color: isCardMastered ? theme.success : theme.gold }]}>
-                  {isCardMastered ? '✓ Dominada' : '↩ A repasar'}
+                  {isCardMastered ? t('flashcard_ui.mastered_badge') : t('flashcard_ui.review_badge')}
                 </Text>
               </View>
             )}
             <Text style={s.cardDomain}>{card.domain}</Text>
             <View style={s.cardBody}>
-              <Text style={s.cardSide}>{flipped ? 'Respuesta' : 'Concepto'}</Text>
+              <Text style={s.cardSide}>{flipped ? t('flashcard_ui.answer') : t('flashcard_ui.concept')}</Text>
               <Text style={s.cardText}>{flipped ? card.answer : card.question}</Text>
               {flipped && card.explanation ? (
                 <Text style={s.cardExplanation}>{card.explanation}</Text>
               ) : null}
             </View>
-            <Text style={s.cardHint}>{flipped ? 'Toca para ver el concepto' : 'Toca para ver la respuesta'}</Text>
+            <Text style={s.cardHint}>{flipped ? t('flashcard_ui.tap_for_concept') : t('flashcard_ui.tap_for_answer')}</Text>
           </Pressable>
         )}
 
@@ -259,7 +254,7 @@ export default function FlashcardsScreen({ navigation }) {
         {flipped && card && (
           <View style={s.actionRow}>
             <Pressable style={[s.actionBtn, s.actionReview]} onPress={markStudyMore}>
-              <Text style={s.actionReviewText}>{"↩  Repasar"}</Text>
+              <Text style={s.actionReviewText}>{t('flashcard_ui.study_more')}</Text>
             </Pressable>
             <Pressable style={[s.actionBtn, s.actionGotIt]} onPress={markGotIt}>
 <Text style={s.actionGotItText}>{t('flashcards.mastered_label')}</Text>
@@ -269,7 +264,7 @@ export default function FlashcardsScreen({ navigation }) {
 
         <View style={s.navRow}>
           <Pressable style={s.navBtn} onPress={prev}>
-            <Text style={s.navBtnText}>{"← Anterior"}</Text>
+            <Text style={s.navBtnText}>{t('flashcard_ui.prev')}</Text>
           </Pressable>
           <Pressable style={[s.navBtn, s.navBtnPrimary]} onPress={next}>
             <Text style={[s.navBtnText, { color: '#fff' }]}>{t('flashcards.next_arrow')}</Text>
@@ -277,7 +272,7 @@ export default function FlashcardsScreen({ navigation }) {
         </View>
 
         <Pressable style={s.textBtn} onPress={resetSession}>
-          <Text style={s.textBtnText}>Reiniciar sesion</Text>
+          <Text style={s.textBtnText}>{t('flashcards.restart_btn')}</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>

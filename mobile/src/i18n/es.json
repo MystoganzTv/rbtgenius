@@ -180,7 +180,11 @@
     "send": "Enviar",
     "thinking": "Pensando...",
     "daily_limit": "Límite diario alcanzado. Mejora para acceso ilimitado al Tutor IA.",
-    "error_message": "No se pudo obtener respuesta. Verifica tu conexión."
+    "error_message": "No se pudo obtener respuesta. Verifica tu conexión.",
+    "welcome_message": "¡Hola! Soy tu tutor de estudio RBT. Pregúntame cualquier cosa sobre principios ABA, intervención conductual o la lista de tareas RBT.",
+    "subtitle_powered": "Impulsado por RBT Genius · Pregunta lo que quieras",
+    "try_asking": "Prueba preguntando:",
+    "limit_reset": "Se reinicia cada día a medianoche"
   },
   "analytics": {
     "title": "Análisis",
@@ -267,6 +271,7 @@
   },
   "more": {
     "title": "Más",
+    "subtitle": "Herramientas adicionales y cuenta",
     "flashcards": "Tarjetas",
     "flashcards_sub": "Repaso rápido para sesiones de estudio cortas",
     "analytics": "Análisis",
@@ -274,7 +279,8 @@
     "profile": "Perfil",
     "profile_sub": "Cuenta, plan y preferencias",
     "upgrade": "Mejorar a Pro",
-    "upgrade_sub": "Preguntas, tarjetas y Tutor IA ilimitados"
+    "upgrade_sub": "Preguntas, tarjetas y Tutor IA ilimitados",
+    "upgrade_banner_sub": "Desbloquea exámenes, análisis y práctica ilimitada"
   },
   "upgrade": {
     "title": "Mejorar a Pro",
@@ -302,5 +308,24 @@
     "behavior_reduction": "Reducción de Conducta",
     "documentation": "Documentación",
     "professional_conduct": "Ética"
+  },
+  "difficulties": {
+    "all": "Todos",
+    "easy": "Fácil",
+    "medium": "Medio",
+    "hard": "Difícil"
+  },
+  "flashcard_ui": {
+    "concept": "Concepto",
+    "answer": "Respuesta",
+    "tap_for_answer": "Toca para ver la respuesta",
+    "tap_for_concept": "Toca para ver el concepto",
+    "mastered_badge": "✓ Dominada",
+    "review_badge": "↩ A repasar",
+    "study_more": "↩  Repasar",
+    "prev": "← Anterior",
+    "progress_label": "{{pct}}% de {{total}} dominadas",
+    "session_note": "{{answered}}/{{limit}} esta sesión · plan gratuito",
+    "all_topics": "Todos"
   }
 }

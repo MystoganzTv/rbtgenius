@@ -225,7 +225,7 @@ export default function MockExamScreen({ navigation }) {
                 return (
                   <View key={d.key} style={s.domainRow}>
                     <View style={s.domainMeta}>
-                      <Text style={s.domainLabel}>{d.label}</Text>
+                      <Text style={s.domainLabel}>{t(`domains.${d.key}`)}</Text>
                       <Text style={[s.domainPct, { color: pct >= 80 ? theme.success : pct >= 60 ? theme.gold : '#EF4444' }]}>
                         {pct}%
                       </Text>
@@ -252,7 +252,7 @@ export default function MockExamScreen({ navigation }) {
               return (
                 <View key={i} style={[s.reviewRow, i < questions.length - 1 && s.reviewBorder]}>
                   <Text style={s.reviewNum}>P{i + 1}</Text>
-                  <Text style={s.reviewTopic}>{q.topicLabel}</Text>
+                  <Text style={s.reviewTopic}>{t(`domains.${q.topic}`)}</Text>
                   <Text style={[s.reviewResult, { color: !answered ? theme.muted : isCorrect ? theme.success : '#EF4444' }]}>
                     {!answered ? '—' : isCorrect ? '✓' : `✗ (${LETTERS[q.correctIndex]})`}
                   </Text>
@@ -343,7 +343,7 @@ export default function MockExamScreen({ navigation }) {
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.qCard}>
-          <Text style={s.qDomain}>{q?.topicLabel}</Text>
+          <Text style={s.qDomain}>{q ? t(`domains.${q.topic}`) : ''}</Text>
           <Text style={s.qText}>{qText}</Text>
         </View>
 

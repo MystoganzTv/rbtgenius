@@ -180,7 +180,11 @@
     "send": "Send",
     "thinking": "Thinking...",
     "daily_limit": "Daily limit reached. Upgrade for unlimited AI Tutor access.",
-    "error_message": "Could not get a response. Check your connection."
+    "error_message": "Could not get a response. Check your connection.",
+    "welcome_message": "Hi! I'm your RBT study tutor. Ask me anything about ABA principles, behavior intervention, or the RBT task list.",
+    "subtitle_powered": "Powered by RBT Genius · Ask anything",
+    "try_asking": "Try asking:",
+    "limit_reset": "Resets daily at midnight"
   },
   "analytics": {
     "title": "Analytics",
@@ -267,6 +271,7 @@
   },
   "more": {
     "title": "More",
+    "subtitle": "Extra tools and account sections",
     "flashcards": "Flashcards",
     "flashcards_sub": "Rapid recall for short study sessions",
     "analytics": "Analytics",
@@ -274,7 +279,8 @@
     "profile": "Profile",
     "profile_sub": "Account, plan, and preferences",
     "upgrade": "Upgrade to Pro",
-    "upgrade_sub": "Unlimited questions, flashcards and AI Tutor"
+    "upgrade_sub": "Unlimited questions, flashcards and AI Tutor",
+    "upgrade_banner_sub": "Unlock mock exams, analytics & unlimited practice"
   },
   "upgrade": {
     "title": "Upgrade to Pro",
@@ -302,5 +308,24 @@
     "behavior_reduction": "Behavior Reduction",
     "documentation": "Documentation",
     "professional_conduct": "Ethics"
+  },
+  "difficulties": {
+    "all": "All",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "flashcard_ui": {
+    "concept": "Concept",
+    "answer": "Answer",
+    "tap_for_answer": "Tap to see answer",
+    "tap_for_concept": "Tap to see concept",
+    "mastered_badge": "✓ Mastered",
+    "review_badge": "↩ To review",
+    "study_more": "↩  Study more",
+    "prev": "← Prev",
+    "progress_label": "{{pct}}% of {{total}} mastered",
+    "session_note": "{{answered}}/{{limit}} this session · free plan",
+    "all_topics": "All"
   }
 }

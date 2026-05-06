@@ -117,7 +117,7 @@ export default function PracticeScreen({ navigation }) {
       <View style={s.topBar}>
         <Text style={s.screenTitle}>{t('practice.title')}</Text>
         <View style={s.topBarRight}>
-          <Text style={s.screenSub}>{questionIndex + 1} / {questions.length} · {question?.topicLabel}</Text>
+          <Text style={s.screenSub}>{questionIndex + 1} / {questions.length} · {question ? t(`domains.${question.topic}`) : ''}</Text>
           {!isPro && (
             <Text style={s.limitBadge}>{t('practice.today_count', { answered: answeredToday, limit: dailyLimit })}</Text>
           )}
@@ -132,7 +132,7 @@ export default function PracticeScreen({ navigation }) {
             return (
               <Pressable key={tp.key} onPress={() => handleTopicChange(tp.key)}
                 style={[s.pill, active && { backgroundColor: alpha(theme.primary, 0.12), borderColor: alpha(theme.primary, 0.4) }]}>
-                <Text style={[s.pillText, active && { color: theme.primary }]}>{tp.label}</Text>
+                <Text style={[s.pillText, active && { color: theme.primary }]}>{t(`domains.${tp.key}`)}</Text>
               </Pressable>
             );
           })}
@@ -142,7 +142,7 @@ export default function PracticeScreen({ navigation }) {
         {question && (
           <View style={s.card}>
             <View style={s.cardHeader}>
-              <Badge label={question.difficulty} theme={theme} />
+              <Badge label={t(`difficulties.${question.difficulty.toLowerCase()}`)} theme={theme} />
               <Badge label={`${question.timeEstimate} min`} tone="gold" theme={theme} />
             </View>
             <Text style={s.questionText}>{questionText}</Text>
