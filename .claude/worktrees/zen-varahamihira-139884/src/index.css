@@ -1,0 +1,422 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import "./globals.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@keyframes landing-preview-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(-0.8deg);
+  }
+}
+
+@keyframes landing-preview-drift-alt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, 8px, 0) rotate(0.8deg);
+  }
+}
+
+@keyframes landing-preview-orbit-exit {
+  0% {
+    transform: translate3d(0, 32px, 0) rotate(-5deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(96px, 12px, 0) rotate(11deg) scale(0.9);
+    opacity: 0.16;
+  }
+}
+
+@keyframes landing-preview-mobile-enter {
+  0% {
+    transform: translate3d(0, 14px, 0) scale(0.985);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes landing-preview-mobile-exit {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(-10px, -8px, 0) scale(0.985);
+    opacity: 0;
+  }
+}
+
+@layer base {
+  :root {
+    --brand-blue: #1e5eff;
+    --brand-gold: #ffb800;
+    --brand-dark: #0f172a;
+    --brand-light: #f8fafc;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .dark .bg-white {
+    background-color: hsl(var(--card));
+  }
+
+  .dark .bg-white\/80 {
+    background-color: hsl(var(--card) / 0.8);
+  }
+
+  .dark .bg-slate-50,
+  .dark .bg-slate-100 {
+    background-color: hsl(var(--muted));
+  }
+
+  .dark .border-slate-100,
+  .dark .border-slate-200 {
+    border-color: hsl(var(--border));
+  }
+
+  .dark .text-slate-900,
+  .dark .text-slate-800,
+  .dark .text-slate-700 {
+    color: hsl(var(--foreground));
+  }
+
+  .dark .text-slate-600,
+  .dark .text-slate-500,
+  .dark .text-slate-400 {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .dark .bg-\[\#F8FAFC\] {
+    background-color: hsl(var(--background));
+  }
+
+  .dark .text-\[\#0F172A\] {
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .dark-dashboard-grid {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .dark .dark-dashboard-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 120px 120px;
+    opacity: 0.5;
+  }
+
+  .dark .dark-dashboard-grid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 16% 14%, rgba(96, 165, 250, 0.12), transparent 18rem),
+      radial-gradient(circle at 76% 18%, rgba(59, 130, 246, 0.1), transparent 16rem),
+      radial-gradient(circle at 46% 42%, rgba(30, 94, 255, 0.06), transparent 24rem),
+      radial-gradient(circle at 88% 72%, rgba(125, 211, 252, 0.05), transparent 20rem),
+      linear-gradient(180deg, rgba(8, 15, 35, 0.14), rgba(8, 15, 35, 0.05));
+    opacity: 0.98;
+  }
+}
+
+/* ─── Mobile / Capacitor iOS Layout ─────────────────────────────────────── */
+
+/* Full-screen shell */
+.mobile-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* dynamic viewport height — works inside WKWebView */
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Safe area top (status bar on notched iPhones) */
+.mobile-status-bar {
+  height: env(safe-area-inset-top, 0px);
+  background: var(--background);
+  flex-shrink: 0;
+}
+
+/* Top bar */
+.mobile-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 20px;
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+  background: var(--background);
+  flex-shrink: 0;
+}
+
+/* Scrollable content area — pushes up against the tab bar */
+.mobile-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  /* Content padding so cards don't sit under the tab bar */
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 72px);
+}
+
+/* Bottom tab bar */
+.mobile-tabbar {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: calc(env(safe-area-inset-bottom, 0px) + 62px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid hsl(var(--border) / 0.6);
+  background: var(--background);
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.mobile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px 4px;
+  flex: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 80ms;
+}
+
+.mobile-tab:active {
+  opacity: 0.6;
+}
+
+.mobile-tab-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 28px;
+  border-radius: 14px;
+  transition: background 200ms;
+}
+
+.mobile-tab-icon-wrap--active {
+  background: hsl(217 100% 60% / 0.12);
+}
+
+.mobile-tab-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  line-height: 1;
+  transition: color 200ms;
+}
+
+/* "More" drawer — slides up from bottom */
+.mobile-more-drawer {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 68px);
+  z-index: 50;
+  border-radius: 24px;
+  border: 1px solid hsl(var(--border) / 0.6);
+  background: var(--background);
+  box-shadow:
+    0 -4px 60px -8px rgba(0,0,0,0.18),
+    0 -1px 12px rgba(0,0,0,0.06);
+  animation: drawer-up 220ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes drawer-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.more-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  border-radius: 16px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 150ms;
+}
+
+.more-grid-item:active {
+  background: hsl(var(--muted) / 0.5);
+}
+
+/* Disable hover states on touch devices (prevents sticky hover on iOS) */
+@media (hover: none) {
+  a:hover,
+  button:hover {
+    background: initial !important;
+    color: initial !important;
+  }
+}
+
+/* Faster tap — remove 300ms delay */
+* {
+  touch-action: manipulation;
+}
+
+/* Prevent text selection on interactive elements */
+.mobile-tabbar *,
+.mobile-topbar *,
+.mobile-more-drawer * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Ensure Capacitor WebView uses safe area variables */
+@supports (padding: env(safe-area-inset-top)) {
+  :root {
+    --sat: env(safe-area-inset-top);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+    --sar: env(safe-area-inset-right);
+  }
+}

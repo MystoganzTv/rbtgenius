@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- Primary SEO -->
+    <title>RBT Genius — RBT Exam Prep, Practice Questions &amp; AI Tutor</title>
+    <meta name="description" content="Pass your RBT exam with confidence. 1,100+ practice questions, realistic mock exams, flashcards, and an AI tutor — all built around the BACB RBT Task List 3rd Edition." />
+    <meta name="keywords" content="RBT exam prep, registered behavior technician, BACB, ABA, practice questions, mock exam, flashcards, AI tutor, RBT study app" />
+    <meta name="author" content="RBT Genius" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://rbtgenius.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rbtgenius.com/" />
+    <meta property="og:title" content="RBT Genius — RBT Exam Prep Made Effective" />
+    <meta property="og:description" content="1,100+ practice questions, mock exams, flashcards, and an AI tutor built on the BACB RBT Task List 3rd Edition. Start free." />
+    <meta property="og:image" content="https://rbtgenius.com/og-image.png" />
+    <meta property="og:site_name" content="RBT Genius" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://rbtgenius.com/" />
+    <meta name="twitter:title" content="RBT Genius — RBT Exam Prep Made Effective" />
+    <meta name="twitter:description" content="1,100+ practice questions, mock exams, flashcards, and an AI tutor built on the BACB RBT Task List 3rd Edition. Start free." />
+    <meta name="twitter:image" content="https://rbtgenius.com/og-image.png" />
+
+    <!-- Theme bootstrap (inline to avoid flash) -->
+    <script>
+      (() => {
+        const storedTheme = window.localStorage.getItem("rbt_genius_theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = storedTheme === "dark" || storedTheme === "light"
+          ? storedTheme
+          : prefersDark
+            ? "dark"
+            : "light";
+
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
