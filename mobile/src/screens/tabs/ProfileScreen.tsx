@@ -71,7 +71,6 @@ export default function ProfileScreen({ navigation }) {
   // ── Edit modal ─────────────────────────────────────────────────
   const [editVisible, setEditVisible] = useState(false);
   const [editName, setEditName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
   const [saving, setSaving] = useState(false);
 
   // ── Settings ──────────────────────────────────────────────────
@@ -127,27 +126,23 @@ export default function ProfileScreen({ navigation }) {
   // ── Edit profile ───────────────────────────────────────────────
   const openEdit = () => {
     setEditName(displayName);
-    setEditEmail(displayEmail);
     setEditVisible(true);
   };
 
   const saveEdit = async () => {
     const name = editName.trim();
-    const email = editEmail.trim();
     if (!name) return;
     setSaving(true);
     try {
-      const body: Record<string, string> = { full_name: name };
-      if (email && email !== displayEmail) body.email = email;
       const res = await fetch(`${API_BASE}/api/profile`, {
         method: 'PATCH',
         headers: { ...authHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ full_name: name }),
       });
       if (res.ok) {
         const updated = await res.json();
         setProfile((prev) => prev
-          ? { ...prev, user: { ...prev.user, full_name: updated.full_name, email: updated.email ?? prev.user?.email } }
+          ? { ...prev, user: { ...prev.user, full_name: updated.full_name } }
           : prev);
         setEditVisible(false);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -391,7 +386,7 @@ export default function ProfileScreen({ navigation }) {
           <View style={s.settingRow}>
             <View style={s.settingCopy}>
               <Text style={s.settingLabel}>{t('profile.language')}</Text>
-              <Text style={s.settingSub}>{i18n.language === 'es' ? '🇲🇽 Español' : '🇺🇸 English'}</Text>
+              <Text style={s.settingSub}>{i18n.language === 'es' ? '🇪🇸 Español' : '🇺🇸 English'}</Text>
             </View>
             <Switch
               value={i18n.language === 'es'}
@@ -515,16 +510,6 @@ export default function ProfileScreen({ navigation }) {
                 placeholderTextColor={theme.muted}
                 autoCapitalize="words"
                 autoFocus
-              />
-              <Text style={[s.fieldLabel, { marginTop: 12 }]}>{t('profile.email')}</Text>
-              <TextInput
-                style={s.fieldInput}
-                value={editEmail}
-                onChangeText={setEditEmail}
-                placeholder={t('profile.email')}
-                placeholderTextColor={theme.muted}
-                keyboardType="email-address"
-                autoCapitalize="none"
               />
             </View>
             <Pressable style={[s.saveBtn, saving && { opacity: 0.6 }]} onPress={saveEdit} disabled={saving}>
