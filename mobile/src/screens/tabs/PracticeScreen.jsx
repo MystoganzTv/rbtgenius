@@ -5,9 +5,8 @@ import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { Badge } from '../../components/ui';
-import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
+import { getPracticeByTopic, TOPICS, localizeQuestionSafe } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
-import { localizeQuestion } from '../../lib/i18n.js';
 
 const API_BASE = 'https://rbtgenius.com';
 
@@ -33,7 +32,7 @@ export default function PracticeScreen({ navigation }) {
   const answered = selectedOption !== null;
 
   const localized = useMemo(
-    () => question?._raw ? localizeQuestion(question._raw, i18n.language) : null,
+    () => question?._raw ? localizeQuestionSafe(question._raw, i18n.language) : null,
     [question?.id, i18n.language],
   );
   const questionText = localized?.localizedText?.primary || question?.prompt || '';

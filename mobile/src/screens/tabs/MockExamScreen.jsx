@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { isAvailableAsync, requestReview } from 'expo-store-review';
 
 import { useTranslation } from 'react-i18next';
-import { localizeQuestion } from '../../lib/i18n.js';
+import { localizeQuestionSafe } from '../../services/questionService.js';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';
@@ -325,7 +325,7 @@ export default function MockExamScreen({ navigation }) {
   const timerWarn   = timeLeft <= 600;
 
   const localizedQ = useMemo(
-    () => q?._raw ? localizeQuestion(q._raw, i18n.language) : null,
+    () => q?._raw ? localizeQuestionSafe(q._raw, i18n.language) : null,
     [q?.id, i18n.language],
   );
   const qText    = localizedQ?.localizedText?.primary || q?.prompt || '';

@@ -3,8 +3,34 @@ import {
   evaluateQuestionAnswer, OFFICIAL_CONCEPT_COUNT, PRACTICE_BATCH_SIZE,
   topicLabels, TOTAL_PRACTICE_QUESTIONS,
 } from '../lib/question-bank.js';
+import { localizeQuestion } from '../lib/i18n.js';
 
 export { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS, topicLabels };
+
+const STOP_WORDS = new Set(['the','a','an','of','in','on','at','to','for','is','are','was','were','be','been','it','its','this','that','and','or','but','with','as','by','from','which','what','who','how','so','if','not','no','can','will','do','does','did','have','has','had','they','them','their','we','our','you','your','my','me','he','she','his','her','would','could','should','may','might']);
+
+function mixRatio(originalText, translatedText) {
+  const origWords = (originalText || '').toLowerCase().match(/[a-z]{4,}/g) || [];
+  const transWords = new Set((translatedText || '').toLowerCase().match(/[a-z]{4,}/g) || []);
+  const meaningful = origWords.filter(w => !STOP_WORDS.has(w));
+  if (meaningful.length === 0) return 0;
+  const shared = meaningful.filter(w => transWords.has(w)).length;
+  return shared / meaningful.length;
+}
+
+// Wraps localizeQuestion with a quality check: if the Spanish translation
+// retains >40% of original English content words, fall back to pure English.
+export function localizeQuestionSafe(rawQuestion, language) {
+  const localized = localizeQuestion(rawQuestion, language);
+  if (!localized || language !== 'es') return localized;
+  const ratio = mixRatio(rawQuestion.text, localized.localizedText?.primary);
+  if (ratio > 0.40) return localizeQuestion(rawQuestion, 'en');
+  const optionsMixed = localized.options.some((opt, i) =>
+    mixRatio(rawQuestion.options[i]?.text, opt.localizedText?.primary) > 0.40
+  );
+  if (optionsMixed) return localizeQuestion(rawQuestion, 'en');
+  return localized;
+}
 
 export const TOPIC_KEYS = Object.keys(topicLabels);
 export const TOPICS = TOPIC_KEYS.map(key => ({ key, label: topicLabels[key] }));
