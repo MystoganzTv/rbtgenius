@@ -60,7 +60,10 @@
     "domain_mastery": "Domain Mastery",
     "start_practicing": "Start Practicing",
     "upgrade_banner": "Unlock unlimited questions with Pro",
-    "upgrade_btn": "Upgrade"
+    "upgrade_btn": "Upgrade",
+    "pro_banner_title": "You're on Pro 👑",
+    "pro_banner_sub": "Unlimited questions, exams & AI Tutor messages",
+    "pro_banner_cta": "View your benefits"
   },
   "practice": {
     "title": "Practice",
@@ -75,7 +78,12 @@
     "come_back": "Come back tomorrow",
     "topic_filter": "Topic",
     "difficulty_filter": "Difficulty",
-    "all": "All"
+    "all": "All",
+    "resets_midnight": "Resets every day at midnight",
+    "correct_label": "✓ Correct!",
+    "incorrect_label": "✗ Not quite",
+    "next_question_arrow": "Next Question →",
+    "today_count": "{{answered}}/{{limit}} today"
   },
   "exams": {
     "title": "Mock Exam",
@@ -97,7 +105,31 @@
     "review_answers": "Review Answers",
     "try_again": "Try Again",
     "go_home": "Back to Home",
-    "offline_note": "⚠ Offline — score calculated locally"
+    "offline_note": "⚠ Offline — score calculated locally",
+    "details_title": "Exam Details",
+    "questions_label": "Questions",
+    "time_label": "Time Limit",
+    "pass_label": "Pass Score",
+    "format_label": "Format",
+    "format_value": "Multiple Choice",
+    "tips_title": "Tips",
+    "tip_1": "Read each question carefully before answering.",
+    "tip_2": "You can go back and change answers at any time.",
+    "tip_3": "Skip hard questions and come back later.",
+    "tip_4": "Your score and domain breakdown are saved automatically.",
+    "answered_count": "{{answered}} answered · {{remaining}} remaining",
+    "prev": "← Prev",
+    "next_arrow": "Next →",
+    "finish": "Finish",
+    "submit_early": "Submit Exam",
+    "review_title": "Question-by-Question Review",
+    "correct_count": "{{correct}} / {{total}} correct · {{score}}% required to pass",
+    "saving": "Saving results...",
+    "pro_feature": "Pro Feature",
+    "pro_locked_body": "Full mock exams are available on the Pro plan.",
+    "upgrade_pro": "Upgrade to Pro 👑",
+    "retake": "Retake Exam",
+    "offline_score": "⚠ Offline — score calculated locally"
   },
   "flashcards": {
     "title": "Flashcards",
@@ -111,7 +143,19 @@
     "daily_limit_title": "Session limit reached",
     "daily_limit_body": "Upgrade to Pro for unlimited flashcard sessions.",
     "progress": "{{pct}}% mastered",
-    "cards_left": "{{count}} cards left"
+    "cards_left": "{{count}} cards left",
+    "mastered_label": "Mastered ✓",
+    "review_label": "Review ↩",
+    "next_arrow": "Next →",
+    "mastered_section": "Mastered",
+    "to_review_section": "To Review",
+    "session_limit_body": "You've answered {{limit}} flashcards today — free plan limit. Upgrade to Pro for unlimited sessions.",
+    "restart_btn": "Restart Session",
+    "mastered_count": "You mastered {{count}} card{{plural}}.",
+    "to_review_note": "You have {{count}} to review.",
+    "great_work": "Great work!",
+    "new_session": "New Session",
+    "cards_remaining": "{{index}}/{{total}} remaining"
   },
   "tutor": {
     "title": "AI Tutor",
@@ -212,7 +256,8 @@
     "secure": "🔒 Secure payment via Stripe · Cancel anytime",
     "free_tier": "Free Plan",
     "pro_tier": "Pro Plan",
-    "error": "Could not start checkout. Try again."
+    "error": "Could not start checkout. Try again.",
+    "cta": "Upgrade to Pro 👑"
   },
   "domains": {
     "measurement": "Measurement",

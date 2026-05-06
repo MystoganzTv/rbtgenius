@@ -5,6 +5,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar } from '../../components/ui';
 import { getFlashcards, TOPICS } from '../../services/questionService.js';
@@ -25,6 +26,7 @@ export default function FlashcardsScreen({ navigation }) {
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s      = styles(theme);
   const { user, token } = useAuth();
+  const { t } = useTranslation();
 
   const isPro        = user?.isPremium ?? false;
   const sessionLimit = isPro ? Infinity : (user?.flashcardLimit ?? 15);
@@ -126,19 +128,18 @@ export default function FlashcardsScreen({ navigation }) {
   if (limitHit) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
-        <View style={s.topBar}><Text style={s.screenTitle}>Flashcards</Text></View>
+        <View style={s.topBar}><Text style={s.screenTitle}>{t('flashcards.title')}</Text></View>
         <View style={s.centerWrap}>
           <Text style={s.bigIcon}>{"🎯"}</Text>
-          <Text style={s.centerTitle}>Limite de sesion alcanzado</Text>
+          <Text style={s.centerTitle}>{t('flashcards.daily_limit_title')}</Text>
           <Text style={s.centerSub}>
-            Has respondido {sessionLimit} tarjetas hoy — limite del plan gratuito.
-            Actualiza a Pro para sesiones ilimitadas.
+{t('flashcards.session_limit_body', { limit: sessionLimit })}
           </Text>
           <Pressable style={[s.bigBtn, { backgroundColor: theme.primary }]} onPress={() => navigation?.navigate('More', { screen: 'Upgrade' })}>
-            <Text style={s.bigBtnText}>{"Mejorar a Pro 👑"}</Text>
+<Text style={s.bigBtnText}>{t('upgrade.cta')}</Text>
           </Pressable>
           <Pressable style={s.textBtn} onPress={resetSession}>
-            <Text style={s.textBtnText}>Reiniciar sesion</Text>
+<Text style={s.textBtnText}>{t('flashcards.restart_btn')}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -149,26 +150,25 @@ export default function FlashcardsScreen({ navigation }) {
   if (allMastered) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
-        <View style={s.topBar}><Text style={s.screenTitle}>Flashcards</Text></View>
+        <View style={s.topBar}><Text style={s.screenTitle}>{t('flashcards.title')}</Text></View>
         <View style={s.centerWrap}>
           <Text style={s.bigIcon}>{"🏆"}</Text>
-          <Text style={s.centerTitle}>{"¡Sesion completada!"}</Text>
+          <Text style={s.centerTitle}>{t('flashcards.session_complete')}</Text>
           <Text style={s.centerSub}>
-            Dominaste {masteredCount} tarjeta{masteredCount !== 1 ? 's' : ''}.
-            {reviewing.size > 0 ? ` Tienes ${reviewing.size} para repasar.` : ' ¡Excelente trabajo!'}
+{t('flashcards.mastered_count', { count: masteredCount, plural: masteredCount !== 1 ? 's' : '' })} {reviewing.size > 0 ? t('flashcards.to_review_note', { count: reviewing.size }) : t('flashcards.great_work')}
           </Text>
           <View style={s.completionStats}>
             <View style={s.statPill}>
               <Text style={[s.statVal, { color: theme.success }]}>{masteredCount}</Text>
-              <Text style={s.statLabel}>Dominadas</Text>
+              <Text style={s.statLabel}>{t('flashcards.mastered_section')}</Text>
             </View>
             <View style={s.statPill}>
               <Text style={[s.statVal, { color: theme.gold }]}>{reviewing.size}</Text>
-              <Text style={s.statLabel}>A repasar</Text>
+              <Text style={s.statLabel}>{t('flashcards.to_review_section')}</Text>
             </View>
           </View>
           <Pressable style={[s.bigBtn, { backgroundColor: theme.primary }]} onPress={resetSession}>
-            <Text style={s.bigBtnText}>Nueva sesion</Text>
+            <Text style={s.bigBtnText}>{t('flashcards.new_session')}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -182,9 +182,9 @@ export default function FlashcardsScreen({ navigation }) {
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
-        <Text style={s.screenTitle}>Flashcards</Text>
+        <Text style={s.screenTitle}>{t('flashcards.title')}</Text>
         <View style={s.topStatRow}>
-          <Text style={s.screenSub}>{index + 1}/{filtered.length} restantes</Text>
+          <Text style={s.screenSub}>{t('flashcards.cards_remaining', { index: index + 1, total: filtered.length })}</Text>
           <View style={s.badgeRow}>
             <Text style={[s.badge, { color: theme.success, backgroundColor: alpha(theme.success, 0.1) }]}>{"✓"} {masteredCount}</Text>
             {reviewing.size > 0 && (
@@ -262,7 +262,7 @@ export default function FlashcardsScreen({ navigation }) {
               <Text style={s.actionReviewText}>{"↩  Repasar"}</Text>
             </Pressable>
             <Pressable style={[s.actionBtn, s.actionGotIt]} onPress={markGotIt}>
-              <Text style={s.actionGotItText}>{"Domine  ✓"}</Text>
+<Text style={s.actionGotItText}>{t('flashcards.mastered_label')}</Text>
             </Pressable>
           </View>
         )}
@@ -272,7 +272,7 @@ export default function FlashcardsScreen({ navigation }) {
             <Text style={s.navBtnText}>{"← Anterior"}</Text>
           </Pressable>
           <Pressable style={[s.navBtn, s.navBtnPrimary]} onPress={next}>
-            <Text style={[s.navBtnText, { color: '#fff' }]}>{"Siguiente →"}</Text>
+            <Text style={[s.navBtnText, { color: '#fff' }]}>{t('flashcards.next_arrow')}</Text>
           </Pressable>
         </View>
 

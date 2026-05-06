@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { Badge } from '../../components/ui';
 import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
@@ -13,6 +14,7 @@ export default function PracticeScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
+  const { t } = useTranslation();
   const { user, token } = useAuth();
 
   const [selectedTopic, setSelectedTopic] = useState(TOPICS[0].key);
@@ -56,11 +58,8 @@ export default function PracticeScreen({ navigation }) {
         }),
       });
       setAnsweredToday(n => n + 1);
-    } catch (_) {
-      // silent — don't block UX on network errors
-    } finally {
-      submitting.current = false;
-    }
+    } catch (_) { /* silent */ }
+    finally { submitting.current = false; }
   }, [token]);
 
   const handleOption = (i) => {
@@ -76,41 +75,40 @@ export default function PracticeScreen({ navigation }) {
     setQuestionIndex(idx => (idx + 1) % questions.length);
   };
 
-  // ── Limit reached screen ──────────────────────────────────────────────────
+  // ── Limit reached ─────────────────────────────────────────────────────────
   if (limitReached) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
         <View style={s.topBar}>
-          <Text style={s.screenTitle}>Practice</Text>
+          <Text style={s.screenTitle}>{t('practice.title')}</Text>
         </View>
         <View style={s.limitWrap}>
           <Text style={s.limitIcon}>🎯</Text>
-          <Text style={s.limitTitle}>Daily Limit Reached</Text>
+          <Text style={s.limitTitle}>{t('practice.daily_limit_title')}</Text>
           <Text style={s.limitSub}>
-            You've answered {dailyLimit} questions today — that's your free plan limit.
-            Upgrade to Pro for unlimited practice.
+            {t('practice.daily_limit_body', { limit: dailyLimit })}
           </Text>
           <Pressable
             style={s.upgradeBtn}
             onPress={() => navigation?.navigate('More', { screen: 'Upgrade' })}
           >
-            <Text style={s.upgradeBtnText}>Upgrade to Pro 👑</Text>
+            <Text style={s.upgradeBtnText}>{t('practice.upgrade')} 👑</Text>
           </Pressable>
-          <Text style={s.limitNote}>Resets every day at midnight</Text>
+          <Text style={s.limitNote}>{t('practice.resets_midnight')}</Text>
         </View>
       </SafeAreaView>
     );
   }
 
-  // ── Normal practice screen ────────────────────────────────────────────────
+  // ── Normal practice ───────────────────────────────────────────────────────
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
-        <Text style={s.screenTitle}>Practice</Text>
+        <Text style={s.screenTitle}>{t('practice.title')}</Text>
         <View style={s.topBarRight}>
           <Text style={s.screenSub}>{questionIndex + 1} / {questions.length} · {question?.topicLabel}</Text>
           {!isPro && (
-            <Text style={s.limitBadge}>{answeredToday}/{dailyLimit} today</Text>
+            <Text style={s.limitBadge}>{t('practice.today_count', { answered: answeredToday, limit: dailyLimit })}</Text>
           )}
         </View>
       </View>
@@ -118,12 +116,12 @@ export default function PracticeScreen({ navigation }) {
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         {/* Topic pills */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.pillScroll}>
-          {TOPICS.map(t => {
-            const active = t.key === selectedTopic;
+          {TOPICS.map(tp => {
+            const active = tp.key === selectedTopic;
             return (
-              <Pressable key={t.key} onPress={() => handleTopicChange(t.key)}
+              <Pressable key={tp.key} onPress={() => handleTopicChange(tp.key)}
                 style={[s.pill, active && { backgroundColor: alpha(theme.primary, 0.12), borderColor: alpha(theme.primary, 0.4) }]}>
-                <Text style={[s.pillText, active && { color: theme.primary }]}>{t.label}</Text>
+                <Text style={[s.pillText, active && { color: theme.primary }]}>{tp.label}</Text>
               </Pressable>
             );
           })}
@@ -162,7 +160,9 @@ export default function PracticeScreen({ navigation }) {
             {answered && (
               <View style={s.explanation}>
                 <Text style={s.explanationTitle}>
-                  {selectedOption === question.correctIndex ? '✓ Correct!' : '✗ Not quite'}
+                  {selectedOption === question.correctIndex
+                    ? t('practice.correct_label')
+                    : t('practice.incorrect_label')}
                 </Text>
                 <Text style={s.explanationText}>{question.explanation}</Text>
               </View>
@@ -172,7 +172,7 @@ export default function PracticeScreen({ navigation }) {
 
         {answered && (
           <Pressable style={s.nextBtn} onPress={handleNext}>
-            <Text style={s.nextBtnText}>Next Question →</Text>
+            <Text style={s.nextBtnText}>{t('practice.next_question_arrow')}</Text>
           </Pressable>
         )}
       </ScrollView>
@@ -203,7 +203,6 @@ const styles = (theme) => StyleSheet.create({
   explanationText: { color: theme.muted, fontSize: 14, lineHeight: 22 },
   nextBtn: { backgroundColor: theme.primary, borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowColor: theme.primary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.28, shadowRadius: 16 },
   nextBtnText: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  // Limit reached
   limitWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 16 },
   limitIcon: { fontSize: 64 },
   limitTitle: { color: theme.text, fontSize: 24, fontWeight: '800', textAlign: 'center' },

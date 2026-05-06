@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
 import { Badge, MetricCard, ProgressBar, SectionTitle, toneColor } from '../../components/ui';
@@ -21,6 +22,7 @@ export default function DashboardScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user, token, refreshDashboard } = useAuth();
+  const { t } = useTranslation();
   const s = styles(theme);
 
   const [dashboard, setDashboard] = useState(null);
@@ -108,11 +110,24 @@ export default function DashboardScreen({ navigation }) {
           </View>
         </View>
 
+        {/* Pro banner (premium users) */}
+        {isPro && (
+          <View style={s.proBanner}>
+            <View style={s.proBannerLeft}>
+              <Text style={s.proBannerTitle}>{t('dashboard.pro_banner_title')}</Text>
+              <Text style={s.proBannerSub}>{t('dashboard.pro_banner_sub')}</Text>
+            </View>
+            <View style={s.proCrown}>
+              <Text style={s.proCrownText}>👑</Text>
+            </View>
+          </View>
+        )}
+
         {/* Daily limit bar (free users) */}
         {!isPro && (
           <View style={s.limitCard}>
             <View style={s.limitHeader}>
-              <Text style={s.limitTitle}>Today's Practice</Text>
+              <Text style={s.limitTitle}>{t('dashboard.today')}</Text>
               <Text style={s.limitCount}>
                 <Text style={{ color: theme.primary, fontWeight: '900' }}>{questionsToday}</Text>
                 <Text style={{ color: theme.muted }}> / {dailyLimit}</Text>
@@ -125,8 +140,8 @@ export default function DashboardScreen({ navigation }) {
             />
             <Text style={s.limitSub}>
               {remaining > 0
-                ? `${remaining} questions remaining today`
-                : 'Daily limit reached — upgrade for unlimited practice'}
+                ? t('dashboard.daily_limit', { used: questionsToday, limit: dailyLimit })
+                : t('dashboard.upgrade_banner')}
             </Text>
           </View>
         )}
@@ -216,6 +231,20 @@ const styles = (theme) => StyleSheet.create({
   heroTitle: { color: theme.text, fontSize: 26, fontWeight: '900', lineHeight: 32, marginBottom: 8 },
   heroBody: { color: theme.muted, fontSize: 15, lineHeight: 22, maxWidth: '88%' },
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 16 },
+  proBanner: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    backgroundColor: alpha(theme.gold, 0.10), borderColor: alpha(theme.gold, 0.30),
+    borderWidth: 1.5, borderRadius: 20, padding: 18,
+  },
+  proBannerLeft: { flex: 1, gap: 3 },
+  proBannerTitle: { color: theme.text, fontSize: 15, fontWeight: '900' },
+  proBannerSub: { color: theme.muted, fontSize: 13, lineHeight: 18 },
+  proCrown: {
+    width: 44, height: 44, borderRadius: 14,
+    backgroundColor: alpha(theme.gold, 0.18),
+    alignItems: 'center', justifyContent: 'center',
+  },
+  proCrownText: { fontSize: 22 },
   limitCard: {
     backgroundColor: alpha(theme.primary, 0.06), borderColor: alpha(theme.primary, 0.15),
     borderWidth: 1, borderRadius: 20, padding: 18, gap: 10,

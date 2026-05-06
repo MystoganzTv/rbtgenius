@@ -21,6 +21,7 @@ export function buildSeedDb() {
     tutorConversations: {},
     customQuestions: [],
     rateLimits: {},
+    pushTokens: {},
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -93,5 +94,7 @@ export function normalizeDb(db) {
     customQuestions: Array.isArray(db.customQuestions) ? db.customQuestions : [],
     rateLimits:
       db.rateLimits && typeof db.rateLimits === "object" ? db.rateLimits : {},
+    pushTokens:
+      db.pushTokens && typeof db.pushTokens === "object" ? db.pushTokens : {},
   };
 }

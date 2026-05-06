@@ -76,6 +76,13 @@ export async function cancelReminders() {
 export async function setupNotifications(enabled, authToken = null) {
   if (!enabled) {
     await cancelReminders();
+    // Remove token from server so no server-side pushes are sent either
+    if (authToken) {
+      fetch(`${API_BASE}/api/push-tokens`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${authToken}` },
+      }).catch(() => {});
+    }
     return false;
   }
 

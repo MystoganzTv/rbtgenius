@@ -1635,6 +1635,49 @@ export default async request => {
     return new Response(null, { status: 204 });
   }
 
+  // ── Push token registration ────────────────────────────────────────────────
+  // Stores the Expo push token for the authenticated user so the server can
+  // send daily study reminders via the Expo push notification service.
+  if (apiPath === '/push-tokens' && request.method === 'POST') {
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+
+    const body = await request.json().catch(() => ({}));
+    const { token: pushToken, platform } = body;
+
+    if (!pushToken || typeof pushToken !== 'string') {
+      return json({ message: 'token is required' }, { status: 400 });
+    }
+
+    await updateDb(current => ({
+      ...current,
+      pushTokens: {
+        ...(current.pushTokens ?? {}),
+        [auth.user.id]: {
+          token: pushToken,
+          platform: platform ?? 'ios',
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    }));
+
+    return json({ ok: true });
+  }
+
+  // ── Push token removal (logout / notifications off) ───────────────────────
+  if (apiPath === '/push-tokens' && request.method === 'DELETE') {
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+
+    await updateDb(current => {
+      const tokens = { ...(current.pushTokens ?? {}) };
+      delete tokens[auth.user.id];
+      return { ...current, pushTokens: tokens };
+    });
+
+    return new Response(null, { status: 204 });
+  }
+
   if (apiPath === '/ai-tutor/conversations' && request.method === 'GET') {
     const auth = await requireUser(request);
     if (auth.error) {

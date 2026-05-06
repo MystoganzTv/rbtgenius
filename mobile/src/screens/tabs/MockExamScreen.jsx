@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 import { isAvailableAsync, requestReview } from 'expo-store-review';
 
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';
@@ -29,6 +30,7 @@ export default function MockExamScreen({ navigation }) {
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s      = styles(theme);
   const { user, token, refreshDashboard } = useAuth();
+  const { t } = useTranslation();
 
   const isPro = user?.isPremium ?? false;
 
@@ -99,11 +101,11 @@ export default function MockExamScreen({ navigation }) {
   const submitEarly = () => {
     const cnt = Object.keys(answers).length;
     Alert.alert(
-      'Enviar examen',
-      `Has respondido ${cnt} de ${questions.length} preguntas. ¿Deseas enviar?`,
+      t('exams.submit_early'),
+      `${t('answered_count_alert', { cnt, total: questions.length })}`,
       [
-        { text: 'Seguir', style: 'cancel' },
-        { text: 'Enviar', style: 'destructive', onPress: finishExam },
+        { text: t('common.cancel'), style: 'cancel' },
+        { text: t('exams.submit_early'), style: 'destructive', onPress: finishExam },
       ]
     );
   };
@@ -180,7 +182,7 @@ export default function MockExamScreen({ navigation }) {
       <SafeAreaView style={s.safe} edges={['top']}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16 }}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={{ color: theme.muted, fontSize: 15 }}>Guardando resultados...</Text>
+          <Text style={{ color: theme.muted, fontSize: 15 }}>{t('exams.saving')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -203,18 +205,18 @@ export default function MockExamScreen({ navigation }) {
             <Text style={s.resultEmoji}>{passed ? '🎉' : '📚'}</Text>
             <Text style={[s.resultScore, { color: passed ? theme.success : '#EF4444' }]}>{score}%</Text>
             <Text style={[s.resultStatus, { color: passed ? theme.success : '#EF4444' }]}>
-              {passed ? '¡APROBADO!' : 'NO APROBADO'}
+{passed ? t('exams.passed') : t('exams.failed')}
             </Text>
-            <Text style={s.resultDetail}>{correct} / {total} correctas · se requiere {PASS_SCORE}% para aprobar</Text>
+            <Text style={s.resultDetail}>{t('exams.correct_count', { correct, total, score: PASS_SCORE })}</Text>
             {saveError && (
-              <Text style={s.saveErrorNote}>⚠ Sin conexión — score calculado localmente</Text>
+              <Text style={s.saveErrorNote}>{t('exams.offline_score')}</Text>
             )}
           </View>
 
           {/* Domain breakdown */}
           {Object.keys(domainScores).length > 0 && (
             <View style={s.domainCard}>
-              <Text style={s.domainCardTitle}>Resultado por dominio</Text>
+              <Text style={s.domainCardTitle}>{t('exams.domain_breakdown')}</Text>
               {DOMAIN_CONFIG.map(d => {
                 const pct   = Math.round(domainScores[d.key] ?? 0);
                 const color = toneColor(d.accent, theme);
@@ -239,7 +241,7 @@ export default function MockExamScreen({ navigation }) {
           )}
 
           {/* Q-by-Q review */}
-          <Text style={[s.domainCardTitle, { marginTop: 4 }]}>Revisión pregunta a pregunta</Text>
+          <Text style={[s.domainCardTitle, { marginTop: 4 }]}>{t('exams.review_title')}</Text>
           <View style={s.reviewCard}>
             {questions.map((q, i) => {
               const letter    = answers[q.id];
@@ -259,7 +261,7 @@ export default function MockExamScreen({ navigation }) {
           </View>
 
           <Pressable style={s.retakeBtn} onPress={() => setPhase('setup')}>
-            <Text style={s.retakeBtnText}>Repetir examen</Text>
+            <Text style={s.retakeBtnText}>{t('exams.retake')}</Text>
           </Pressable>
         </ScrollView>
       </SafeAreaView>
@@ -271,17 +273,17 @@ export default function MockExamScreen({ navigation }) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
         <View style={s.topBar}>
-          <Text style={s.screenTitle}>Mock Exam</Text>
-          <Text style={s.screenSub}>Simulacro completo BACB RBT</Text>
+          <Text style={s.screenTitle}>{t('exams.title')}</Text>
+          <Text style={s.screenSub}>{t('exams.subtitle')}</Text>
         </View>
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
           <View style={s.infoCard}>
-            <Text style={s.infoTitle}>Detalles del examen</Text>
+            <Text style={s.infoTitle}>{t('exams.details_title')}</Text>
             {[
-              ['Preguntas', `${EXAM_SIZE}`],
-              ['Tiempo límite', '90 minutos'],
-              ['Puntaje para aprobar', `${PASS_SCORE}%`],
-              ['Formato', 'Opción múltiple'],
+              [t('exams.questions_label'), `${EXAM_SIZE}`],
+              [t('exams.time_label'), '90 min'],
+              [t('exams.pass_label'), `${PASS_SCORE}%`],
+              [t('exams.format_label'), t('exams.format_value')],
             ].map(([label, val]) => (
               <View key={label} style={s.infoRow}>
                 <Text style={s.infoLabel}>{label}</Text>
@@ -291,28 +293,23 @@ export default function MockExamScreen({ navigation }) {
           </View>
 
           <View style={s.tipsCard}>
-            <Text style={s.tipsTitle}>Consejos</Text>
-            {[
-              'Lee cada pregunta con cuidado antes de responder.',
-              'Puedes regresar y cambiar respuestas en cualquier momento.',
-              'Salta preguntas difíciles y vuelve después.',
-              'Tu score y dominio por área se guardan automáticamente.',
-            ].map((tip, i) => (
+            <Text style={s.tipsTitle}>{t('exams.tips_title')}</Text>
+            {[t('exams.tip_1'), t('exams.tip_2'), t('exams.tip_3'), t('exams.tip_4')].map((tip, i) => (
               <Text key={i} style={s.tipText}>• {tip}</Text>
             ))}
           </View>
 
           {isPro ? (
             <Pressable style={s.startBtn} onPress={startExam}>
-              <Text style={s.startBtnText}>Iniciar examen</Text>
+              <Text style={s.startBtnText}>{t('exams.start')}</Text>
             </Pressable>
           ) : (
             <View style={s.lockedWrap}>
               <Text style={s.lockedEmoji}>🔒</Text>
-              <Text style={s.lockedTitle}>Función Pro</Text>
-              <Text style={s.lockedSub}>Los exámenes completos están disponibles en el plan Pro.</Text>
+              <Text style={s.lockedTitle}>{t('exams.pro_feature')}</Text>
+              <Text style={s.lockedSub}>{t('exams.pro_locked_body')}</Text>
               <Pressable style={s.upgradeBtn} onPress={() => navigation.navigate('More', { screen: 'Upgrade' })}>
-                <Text style={s.upgradeBtnText}>Mejorar a Pro 👑</Text>
+                <Text style={s.upgradeBtnText}>{t('exams.upgrade_pro')}</Text>
               </Pressable>
             </View>
           )}
@@ -333,7 +330,7 @@ export default function MockExamScreen({ navigation }) {
           <Text style={s.screenTitle}>{index + 1} / {questions.length}</Text>
           <Text style={[s.timer, timerWarn && { color: '#EF4444' }]}>{fmt(timeLeft)}</Text>
         </View>
-        <Text style={s.screenSub}>{answeredCnt} respondidas · {questions.length - answeredCnt} pendientes</Text>
+        <Text style={s.screenSub}>{t('exams.answered_count', { answered: answeredCnt, remaining: questions.length - answeredCnt })}</Text>
       </View>
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
@@ -360,11 +357,11 @@ export default function MockExamScreen({ navigation }) {
 
         <View style={s.navRow}>
           <Pressable style={s.navBtn} onPress={prev} disabled={index === 0}>
-            <Text style={[s.navBtnText, index === 0 && { color: theme.muted }]}>← Anterior</Text>
+{t('exams.prev')}
           </Pressable>
           <Pressable style={[s.navBtn, s.navBtnPrimary]} onPress={next}>
             <Text style={[s.navBtnText, { color: '#fff' }]}>
-              {index < questions.length - 1 ? 'Siguiente →' : 'Terminar'}
+              {index < questions.length - 1 ? t('exams.next_arrow') : t('exams.finish')}
             </Text>
           </Pressable>
         </View>

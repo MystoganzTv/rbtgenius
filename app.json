@@ -4,6 +4,12 @@
       "eas": {
         "projectId": "caacd2e4-8b30-4ace-b81d-1e5da78e62ed"
       }
+    },
+    "android": {
+      "package": "com.mystodev.rbtgenius"
+    },
+    "ios": {
+      "bundleIdentifier": "com.mystodev.rbtgenius"
     }
   }
 }
