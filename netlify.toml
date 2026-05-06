@@ -4,6 +4,10 @@
 
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[functions."daily-reminder"]
+  schedule = "0 19 * * *"
 
 [[redirects]]
   from = "/api/*"

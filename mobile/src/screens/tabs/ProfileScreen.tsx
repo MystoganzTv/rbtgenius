@@ -140,10 +140,11 @@ export default function ProfileScreen({ navigation }) {
   };
 
   // ── Language toggle ───────────────────────────────────────────
-  const toggleLanguage = () => {
-    const next = i18n.language === 'en' ? 'es' : 'en';
+  const toggleLanguage = (val: boolean) => {
+    const next = val ? 'es' : 'en';
     setLanguage(next);
     changeLanguage(next); // cambia idioma en toda la app al instante
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   // ── Reset progress ────────────────────────────────────────────
@@ -290,13 +291,18 @@ export default function ProfileScreen({ navigation }) {
           <View style={s.divider} />
 
           {/* Language */}
-          <Pressable style={s.settingRow} onPress={toggleLanguage}>
+          <View style={s.settingRow}>
             <View style={s.settingCopy}>
               <Text style={s.settingLabel}>{t('profile.language')}</Text>
-              <Text style={s.settingSub}>{t(i18n.language === 'en' ? 'profile.language_en' : 'profile.language_es')}</Text>
+              <Text style={s.settingSub}>{i18n.language === 'es' ? '🇲🇽 Español' : '🇺🇸 English'}</Text>
             </View>
-            <Text style={s.chevron}>›</Text>
-          </Pressable>
+            <Switch
+              value={i18n.language === 'es'}
+              onValueChange={toggleLanguage}
+              trackColor={{ false: alpha(theme.border, 0.8), true: alpha(theme.primary, 0.4) }}
+              thumbColor={i18n.language === 'es' ? theme.primary : theme.muted}
+            />
+          </View>
 
           <View style={s.divider} />
 
