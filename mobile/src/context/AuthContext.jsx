@@ -10,12 +10,11 @@ const AuthContext = createContext(null);
 const TOKEN_KEY = 'rbt_genius_auth_token';
 const API_BASE = 'https://rbtgenius.com';
 
-const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
-const googleWebClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
-
 GoogleSignin.configure({
-  iosClientId: googleIosClientId,
-  webClientId: googleWebClientId,
+  iosClientId:
+    '37632251231-th4qu526qnm34f3uitq7m363dolsu1f0.apps.googleusercontent.com',
+  webClientId:
+    '37632251231-cc6t4d7beofa9l8h14shg14epdtpflgr.apps.googleusercontent.com',
   offlineAccess: true,
 });
 
@@ -60,9 +59,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('[Google] iOS Client ID exists:', !!googleIosClientId);
-    console.log('[Google] Web Client ID exists:', !!googleWebClientId);
-
     (async () => {
       try {
         const saved = await AsyncStorage.getItem(TOKEN_KEY);
@@ -145,13 +141,9 @@ export function AuthProvider({ children }) {
 
   const loginWithGoogle = async () => {
     try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-
       const userInfo = await GoogleSignin.signIn();
 
-      console.log('[Google] signIn success:', !!userInfo);
+      console.log('[Google] userInfo exists:', !!userInfo);
       console.log('[Google] idToken exists:', !!userInfo?.idToken);
 
       const idToken = userInfo?.idToken;
@@ -181,17 +173,17 @@ export function AuthProvider({ children }) {
       setToken(t);
       setUser(buildUser(rawUser, dashboard));
     } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('[Google] User cancelled sign-in');
         return;
       }
 
-      if (error.code === statusCodes.IN_PROGRESS) {
+      if (error?.code === statusCodes.IN_PROGRESS) {
         console.log('[Google] Sign-in already in progress');
         return;
       }
 
-      if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      if (error?.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         console.log('[Google] Play services not available');
         return;
       }

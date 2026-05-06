@@ -15,14 +15,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.rbtgenius.app",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false,
-        "CFBundleURLTypes": [
-          {
-            "CFBundleURLSchemes": [
-              "com.googleusercontent.apps.37632251231-th4qu526qnm34f3uitq7m363dolsu1f0"
-            ]
-          }
-        ]
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -47,7 +40,12 @@
         }
       ],
       "expo-font",
-      "@react-native-google-signin/google-signin"
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.37632251231-th4qu526qnm34f3uitq7m363dolsu1f0"
+        }
+      ]
     ]
   }
 }
