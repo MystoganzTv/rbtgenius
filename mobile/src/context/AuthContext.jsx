@@ -13,8 +13,7 @@ const API_BASE = 'https://rbtgenius.com';
 GoogleSignin.configure({
   iosClientId:
     '37632251231-th4qu526qnm34f3uitq7m363dolsu1f0.apps.googleusercontent.com',
-  webClientId:
-    '37632251231-4l1t8mg15isp9ck5uvcpelrv5uvj2o66.apps.googleusercontent.com',
+  offlineAccess: false,
 });
 
 async function fetchDashboard(token) {
@@ -144,10 +143,7 @@ export function AuthProvider({ children }) {
 
       console.log('[Google] full userInfo:', JSON.stringify(userInfo));
 
-      const idToken =
-        userInfo?.idToken ||
-        userInfo?.data?.idToken ||
-        userInfo?.serverAuthCode;
+      const idToken = userInfo?.idToken || userInfo?.data?.idToken;
 
       console.log('[Google] idToken exists:', !!idToken);
 
