@@ -24,6 +24,7 @@ export function adaptQuestion(q) {
     task_list_section: q.task_list_section ?? null,
     explanation: q.explanation ?? '',
     timeEstimate: q.difficulty === 'advanced' ? 3 : q.difficulty === 'intermediate' ? 2 : 1,
+    _raw: q,
   };
 }
 
