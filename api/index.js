@@ -33,6 +33,12 @@ function createId(prefix) {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function parseUrl(req) {
+  const host = req.headers.get('host') || 'localhost';
+  const base = `https://${host}`;
+  return new URL(req.url.startsWith('http') ? req.url : `${base}${req.url}`);
+}
+
 function safeUser(user) {
   const { password_hash: _h, password_salt: _s, ...rest } = user;
   return rest;
@@ -108,7 +114,7 @@ function sendPlanLimitReached(feature, limit, remaining) {
 }
 
 function getCheckoutOrigin(req) {
-  return normalizeOrigin(req.headers.get('origin'), new URL(req.url).origin);
+  return normalizeOrigin(req.headers.get('origin'), parseUrl(req).origin);
 }
 
 // Rate limit helpers that work with Postgres instead of the JSON blob
@@ -212,7 +218,7 @@ async function upsertOAuthUser(profile, providerId) {
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return json({}, { status: 204 });
 
-  const url = new URL(req.url);
+  const url = parseUrl(req);
   const apiPath = getApiPath(req.url);
 
   // ── Debug endpoint (remove after confirming setup works) ─────────────────
