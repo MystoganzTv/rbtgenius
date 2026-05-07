@@ -33,10 +33,16 @@ function createId(prefix) {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function parseUrl(req) {
-  const host = req.headers.get('host') || 'localhost';
-  const base = `https://${host}`;
-  return new URL(req.url.startsWith('http') ? req.url : `${base}${req.url}`);
+// req.url is always a full URL when called through the Node.js adapter below
+function parseUrl(req) { return new URL(req.url); }
+
+function readBody(nodeReq) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    nodeReq.on('data', c => chunks.push(c));
+    nodeReq.on('end', () => resolve(Buffer.concat(chunks)));
+    nodeReq.on('error', reject);
+  });
 }
 
 function safeUser(user) {
@@ -213,9 +219,9 @@ async function upsertOAuthUser(profile, providerId) {
   return { token: session.token, expires_at: session.expires_at, user: safeUser(user), created: wasCreated };
 }
 
-// ── Main handler ──────────────────────────────────────────────────────────────
+// ── Web API handler (uses Request/Response) ───────────────────────────────────
 
-export default async function handler(req) {
+async function webApiHandler(req) {
   if (req.method === 'OPTIONS') return json({}, { status: 204 });
 
   const url = parseUrl(req);
@@ -744,4 +750,38 @@ export default async function handler(req) {
   }
 
   return json({ message: 'Not found' }, { status: 404 });
+}
+
+// ── Node.js adapter for Vercel runtime ───────────────────────────────────────
+
+export default async function handler(nodeReq, nodeRes) {
+  const proto = nodeReq.headers['x-forwarded-proto'] || 'https';
+  const host  = nodeReq.headers.host || 'localhost';
+  const url   = `${proto}://${host}${nodeReq.url}`;
+
+  const body = await readBody(nodeReq);
+
+  const webReq = new Request(url, {
+    method: nodeReq.method,
+    headers: new Headers(nodeReq.headers),
+    body: ['GET', 'HEAD', 'OPTIONS'].includes(nodeReq.method) ? undefined : body,
+  });
+
+  const webRes = await webApiHandler(webReq);
+
+  nodeRes.statusCode = webRes.status;
+  webRes.headers.forEach((v, k) => nodeRes.setHeader(k, v));
+
+  if (webRes.body) {
+    const reader = webRes.body.getReader();
+    const pump = async () => {
+      const { done, value } = await reader.read();
+      if (done) { nodeRes.end(); return; }
+      nodeRes.write(value);
+      await pump();
+    };
+    await pump();
+  } else {
+    nodeRes.end();
+  }
 }
