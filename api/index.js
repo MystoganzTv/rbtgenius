@@ -239,6 +239,25 @@ async function webApiHandler(req) {
     } catch (e) {
       checks.db_error = e.message;
     }
+    try {
+      const tables = await db.sql`
+        SELECT table_name FROM information_schema.tables
+        WHERE table_schema = 'public'
+        AND table_name = ANY(ARRAY['users','attempts','mock_exams','payments',
+          'practice_sessions','tutor_conversations','tutor_messages',
+          'push_tokens','stripe_events','oauth_states','rate_limits'])
+        ORDER BY table_name
+      `;
+      const found = tables.map(r => r.table_name);
+      const required = ['users','attempts','mock_exams','payments','practice_sessions',
+        'tutor_conversations','tutor_messages','push_tokens','stripe_events','oauth_states','rate_limits'];
+      const missing = required.filter(t => !found.includes(t));
+      checks.tables_found = found;
+      checks.tables_missing = missing;
+      checks.schema_ok = missing.length === 0;
+    } catch (e) {
+      checks.tables_error = e.message;
+    }
     return json(checks);
   }
 
@@ -328,6 +347,7 @@ async function webApiHandler(req) {
       if (authData.created) await notifyNewMember(authData.user, { source: 'oauth', authProvider: providerId });
       return Response.redirect(loginUrl({ authToken: authData.token }), 302);
     } catch (err) {
+      console.error('[oauth callback]', providerId, err.message);
       return Response.redirect(loginUrl({ oauthError: err.message || 'Unable to complete sign-in' }), 302);
     }
   }
@@ -767,7 +787,17 @@ export default async function handler(nodeReq, nodeRes) {
     body: ['GET', 'HEAD', 'OPTIONS'].includes(nodeReq.method) ? undefined : body,
   });
 
-  const webRes = await webApiHandler(webReq);
+  let webRes;
+  try {
+    webRes = await webApiHandler(webReq);
+  } catch (err) {
+    console.error('[handler]', err);
+    nodeRes.statusCode = 500;
+    nodeRes.setHeader('Content-Type', 'application/json');
+    nodeRes.setHeader('Access-Control-Allow-Origin', '*');
+    nodeRes.end(JSON.stringify({ message: err.message || 'Internal server error' }));
+    return;
+  }
 
   nodeRes.statusCode = webRes.status;
   webRes.headers.forEach((v, k) => nodeRes.setHeader(k, v));

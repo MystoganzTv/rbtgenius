@@ -24,6 +24,8 @@ const TOKEN_KEY = 'rbt_genius_auth_token';
 const API_BASE = 'https://rbtgenius.com';
 
 GoogleSignin.configure({
+  webClientId:
+    '37632251231-cc6t4d7beofa9l8h14shg14epdtpflgr.apps.googleusercontent.com',
   iosClientId:
     '37632251231-th4qu526qnm34f3uitq7m363dolsu1f0.apps.googleusercontent.com',
   offlineAccess: false,
