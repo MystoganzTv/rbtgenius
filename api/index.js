@@ -215,6 +215,21 @@ export default async function handler(req) {
   const url = new URL(req.url);
   const apiPath = getApiPath(req.url);
 
+  // ── Debug endpoint (remove after confirming setup works) ─────────────────
+  if (apiPath === '/debug' && req.method === 'GET') {
+    const checks = {
+      database_url: !!process.env.DATABASE_URL,
+      db_host: process.env.DATABASE_URL ? new URL(process.env.DATABASE_URL).hostname : null,
+    };
+    try {
+      const rows = await db.sql`SELECT 1 AS ok`;
+      checks.db_connected = rows[0]?.ok === 1;
+    } catch (e) {
+      checks.db_error = e.message;
+    }
+    return json(checks);
+  }
+
   // ── Stripe webhook ──────────────────────────────────────────────────────────
   if (apiPath === '/billing/webhook' && req.method === 'POST') {
     try {
