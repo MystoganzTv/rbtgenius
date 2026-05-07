@@ -50,3 +50,13 @@ Thumbs.db
 .env
 mobile/.env
 .expo/
+
+# Worktrees
+.claude/worktrees/
+
+# iOS build artifacts
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+
+# Duplicate files
+*\ 2.*
