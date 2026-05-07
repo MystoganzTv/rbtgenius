@@ -1,9 +1,19 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/index" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "crons": [
-    { "path": "/api/cron/daily-reminder", "schedule": "0 19 * * *" }
+    {
+      "path": "/api/cron/daily-reminder",
+      "schedule": "0 19 * * *"
+    }
   ],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
