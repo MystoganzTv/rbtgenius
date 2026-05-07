@@ -1,0 +1,27 @@
+{
+	"appId": "com.rbtgenius.app",
+	"appName": "RBT Genius",
+	"webDir": "dist",
+	"server": {
+		"url": "https://rbtgenius.com",
+		"cleartext": false
+	},
+	"plugins": {
+		"StatusBar": {
+			"style": "Default",
+			"backgroundColor": "#ffffff",
+			"overlaysWebView": false
+		},
+		"SplashScreen": {
+			"launchShowDuration": 0
+		}
+	},
+	"ios": {
+		"contentInset": "always"
+	},
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"StatusBarPlugin"
+	]
+}
