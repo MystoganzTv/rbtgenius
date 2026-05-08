@@ -216,7 +216,7 @@ export async function getTutorConversationsByUser(userId) {
     updatedAt: c.updated_at,
     messages: msgs
       .filter(m => m.conversation_id === c.id)
-      .map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(m.extras ?? {}) })),
+      .map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(typeof m.extras === 'object' && m.extras !== null ? m.extras : {}) })),
   }));
 }
 
@@ -234,7 +234,7 @@ export async function getTutorConversation(id, userId) {
     metadata: { name: c.name },
     createdAt: c.created_at,
     updatedAt: c.updated_at,
-    messages: msgs.map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(m.extras ?? {}) })),
+    messages: msgs.map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(typeof m.extras === 'object' && m.extras !== null ? m.extras : {}) })),
   };
 }
 
@@ -252,7 +252,7 @@ export async function addTutorMessage(msg) {
   await sql`
     INSERT INTO tutor_messages (id, conversation_id, user_id, role, content, created_at, extras)
     VALUES (${msg.id}, ${msg.conversation_id}, ${msg.user_id}, ${msg.role},
-      ${msg.content}, ${msg.created_at}, ${JSON.stringify(extras)})
+      ${msg.content}, ${msg.created_at}, ${JSON.stringify(extras)}::jsonb)
   `;
   await sql`
     UPDATE tutor_conversations SET updated_at = NOW(), name = CASE

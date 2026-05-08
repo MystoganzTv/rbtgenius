@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Bot,
@@ -43,6 +43,7 @@ export default function QuestionCard({
 }) {
   const { language } = useLanguage();
   const [explanationVisible, setExplanationVisible] = useState(false);
+  const explanationPreference = useRef(null); // null=auto, true=user wants shown, false=user wants hidden
   const [aiConversationId, setAiConversationId] = useState(null);
   const [aiReply, setAiReply] = useState("");
   const [aiReplyVisible, setAiReplyVisible] = useState(false);
@@ -102,7 +103,8 @@ export default function QuestionCard({
   ]);
 
   useEffect(() => {
-    setExplanationVisible(Boolean(isSubmitted && explanation));
+    const auto = Boolean(isSubmitted && explanation);
+    setExplanationVisible(explanationPreference.current !== null ? (explanationPreference.current && auto) : auto);
   }, [explanation, isSubmitted, question?.id]);
 
   useEffect(() => {
@@ -329,7 +331,11 @@ export default function QuestionCard({
                     variant="outline"
                     size="sm"
                     className="rounded-full"
-                    onClick={() => setExplanationVisible((current) => !current)}
+                    onClick={() => setExplanationVisible((current) => {
+                      const next = !current;
+                      explanationPreference.current = next;
+                      return next;
+                    })}
                   >
                     {explanationVisible ? (
                       <ChevronUp className="h-4 w-4" />
