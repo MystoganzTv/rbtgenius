@@ -30,7 +30,7 @@ export default function PremiumGate({
       ];
 
   return (
-    <Card className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] dark:border-slate-800 dark:bg-slate-950">
+    <Card className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
       <div className="mx-auto flex max-w-xl flex-col items-center text-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#1E5EFF] via-[#4F7CFF] to-[#FFB800] text-white shadow-lg shadow-[#1E5EFF]/20">
           <Crown className="h-8 w-8" />
@@ -50,7 +50,7 @@ export default function PremiumGate({
           {resolvedBullets.map((bullet) => (
             <div
               key={bullet}
-              className="flex items-start gap-3 rounded-2xl border border-slate-200/80 bg-slate-50 px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200"
+              className="flex items-start gap-3 rounded-2xl border border-slate-200/80 bg-slate-50 px-4 py-3 text-sm text-slate-700 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A] dark:text-slate-200"
             >
               <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#1E5EFF]" />
               <span>{localizeText(bullet, language).primary}</span>

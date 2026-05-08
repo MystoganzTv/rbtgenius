@@ -414,7 +414,7 @@ export default function Dashboard() {
                   key={badge.label}
                   className={`flex flex-col items-center rounded-xl p-3 transition-all ${
                     badge.unlocked
-                      ? `border ${badgeAccentStyles[badge.label] || "border-slate-200 bg-slate-50/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"}`
+                      ? `border ${badgeAccentStyles[badge.label] || "border-slate-200 bg-slate-50/80 text-slate-700 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:text-slate-200"}`
                       : "border border-slate-200/80 bg-slate-50/70 opacity-45 grayscale dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]"
                   }`}
                 >

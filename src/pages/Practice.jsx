@@ -134,7 +134,7 @@ function QuestionNavigator({
 
         <div className="mt-6 space-y-5">
           <div className="grid grid-cols-3 gap-3 text-xs">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
               <p className="text-slate-500 dark:text-slate-400">{translateUi("Total", language)}</p>
               <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-50">
                 {questions.length}
@@ -184,7 +184,7 @@ function QuestionNavigator({
                       "border-red-200 bg-red-50 text-red-700",
                     !isCurrent &&
                       !state.submitted &&
-                      "border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-900",
+                      "border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628] dark:text-slate-400 dark:hover:bg-slate-900",
                   )}
                 >
                   {index + 1}
@@ -529,7 +529,7 @@ export default function Practice() {
           </p>
         </div>
 
-        <div className="space-y-6 rounded-[1.75rem] border border-slate-100 bg-white p-8 shadow-[0_18px_55px_-38px_rgba(15,23,42,0.3)] dark:border-slate-800 dark:bg-slate-950">
+        <div className="space-y-6 rounded-[1.75rem] border border-slate-100 bg-white p-8 shadow-[0_18px_55px_-38px_rgba(15,23,42,0.3)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -596,7 +596,7 @@ export default function Practice() {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-3xl">
-        <div className="animate-pulse rounded-2xl border border-slate-100 bg-white p-12 text-center dark:border-slate-800 dark:bg-slate-950">
+        <div className="animate-pulse rounded-2xl border border-slate-100 bg-white p-12 text-center dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="mx-auto mb-4 h-6 w-1/2 rounded bg-slate-100" />
           <div className="mx-auto h-4 w-1/3 rounded bg-slate-50" />
         </div>
@@ -607,7 +607,7 @@ export default function Practice() {
   if (baseFilteredQuestions.length === 0) {
     return (
       <div className="mx-auto max-w-3xl text-center">
-        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-slate-800 dark:bg-slate-950">
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <HelpCircle className="mx-auto mb-3 h-12 w-12 text-slate-300" />
           <p className="font-medium text-slate-500 dark:text-slate-400">
             {translateUi("No questions available for this filter.", language)}
@@ -623,7 +623,7 @@ export default function Practice() {
   if (isComplete) {
     return (
       <div className="mx-auto max-w-3xl text-center">
-        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-slate-800 dark:bg-slate-950">
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <Trophy className="mx-auto mb-4 h-16 w-16 text-[#FFB800]" />
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
             {translateUi("Session Complete!", language)}
@@ -670,7 +670,7 @@ export default function Practice() {
   if (questions.length === 0 || !currentQuestion) {
     return (
       <div className="mx-auto max-w-3xl text-center">
-        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-slate-800 dark:bg-slate-950">
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <p className="font-medium text-slate-700 dark:text-slate-200">
             {translateUi("No questions match the current review filter.", language)}
           </p>
@@ -715,7 +715,7 @@ export default function Practice() {
             </div>
           ) : null}
 
-          <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-900">
+          <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-[#0D1E3A]">
             <div
               className="h-full rounded-full bg-[#1E5EFF] transition-all duration-500"
               style={{
@@ -744,7 +744,7 @@ export default function Practice() {
         </div>
 
         <aside className="order-1 xl:order-2">
-          <div className="rounded-2xl border border-slate-100 bg-white px-5 py-4 xl:sticky xl:top-24 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white px-5 py-4 xl:sticky xl:top-24 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
@@ -783,7 +783,7 @@ export default function Practice() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]/80">
                 <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
                   <HelpCircle className="h-4 w-4" />
                   <span className="text-xs font-semibold uppercase tracking-[0.18em]">
@@ -859,7 +859,7 @@ export default function Practice() {
                     "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5EFF]/15",
                     reviewFilter === filter.id
                       ? "border-[#1E5EFF] bg-[#1E5EFF]/10 text-[#1E5EFF]"
-                      : "border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-900",
+                      : "border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628] dark:text-slate-400 dark:hover:bg-slate-900",
                   )}
                 >
                   {translateUi(filter.label, language)}
@@ -890,7 +890,7 @@ export default function Practice() {
               )}
             </DialogDescription>
           </DialogHeader>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A] dark:text-slate-300">
             {translateUi(
               "Premium gives you unlimited practice, full mock exams, and complete analytics.",
               language,

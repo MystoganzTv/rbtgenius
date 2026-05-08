@@ -12,7 +12,7 @@ export default function LanguageSwitcher({ compact = false }) {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/80 p-1 dark:border-slate-700 dark:bg-slate-950/80">
+    <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/80 p-1 dark:border-[#1E5EFF]/12 dark:bg-[#0B1628]/80">
       {!compact ? (
         <div className="flex items-center gap-1 px-2 text-slate-500 dark:text-slate-400">
           <Languages className="h-4 w-4" />

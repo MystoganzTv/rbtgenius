@@ -113,8 +113,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC] p-6 dark:bg-slate-950">
-      <Card className="w-full max-w-md rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] dark:border-slate-800 dark:bg-slate-950">
+    <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC] p-6 dark:bg-[#0B1628]">
+      <Card className="w-full max-w-md rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1E5EFF]">
             <GraduationCap className="h-7 w-7 text-white" />
@@ -137,7 +137,7 @@ export default function Login() {
           </p>
           <a
             href={googleAuthUrl}
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:text-slate-100 dark:hover:bg-slate-800"
           >
             <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 24 24">
               <path

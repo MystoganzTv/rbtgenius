@@ -477,7 +477,7 @@ export default function Profile() {
                 <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {t("Clear your answered questions, mock exam history, readiness, streak, and saved study sessions if you want a fresh start. Your account and payment history stay untouched.")}
                 </p>
-                <div className="mt-4 flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900">
+                <div className="mt-4 flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-[#0D1E3A]">
                   <Checkbox
                     id="clear-tutor-on-reset"
                     checked={clearTutorOnReset}
@@ -522,12 +522,12 @@ export default function Profile() {
 
             {currentPlanId === PLAN_IDS.FREE ? (
               <div className="space-y-5">
-                <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
                   <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                     {t("Free plan limits")}
                   </h4>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-950">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                         {t("Practice today")}
                       </p>
@@ -535,7 +535,7 @@ export default function Profile() {
                         {entitlements?.usage?.practice_questions_today || 0}/{FREE_DAILY_PRACTICE_LIMIT}
                       </p>
                     </div>
-                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-950">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                         {t("AI tutor today")}
                       </p>
@@ -555,7 +555,7 @@ export default function Profile() {
                     return (
                       <div
                         key={plan.id}
-                        className="rounded-2xl border border-slate-200/80 bg-white p-5 dark:border-slate-800 dark:bg-slate-950"
+                        className="rounded-2xl border border-slate-200/80 bg-white p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]"
                       >
                         <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                           {plan.name}
@@ -600,13 +600,13 @@ export default function Profile() {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
+                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
                     <p className="text-xs text-slate-500 dark:text-slate-400">{t("Practice access")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
                       {t("Unlimited")}
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
+                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
                     <p className="text-xs text-slate-500 dark:text-slate-400">{t("AI tutor")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
                       {t("Unlimited")}
@@ -680,7 +680,7 @@ export default function Profile() {
                 {sortedPayments.map((payment) => (
                   <div
                     key={payment.id}
-                    className="flex items-center justify-between rounded-lg border border-slate-100 p-4 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-900"
+                    className="flex items-center justify-between rounded-lg border border-slate-100 p-4 transition-colors hover:bg-slate-50 dark:border-[#1E5EFF]/15 dark:hover:bg-slate-900"
                   >
                     <div className="flex items-center gap-4">
                       <div
@@ -734,7 +734,7 @@ export default function Profile() {
       </Tabs>
 
       <AlertDialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
-        <AlertDialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl dark:border-slate-800 dark:bg-slate-950">
+        <AlertDialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="px-6 py-6">
             <AlertDialogHeader className="space-y-2 text-left">
               <AlertDialogTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
@@ -745,7 +745,7 @@ export default function Profile() {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-            <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-slate-900 dark:text-slate-300">
+            <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-[#0D1E3A] dark:text-slate-300">
               {t(
                 clearTutorOnReset
                   ? "AI tutor conversations will also be cleared."
@@ -754,7 +754,7 @@ export default function Profile() {
             </div>
           </div>
 
-          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-slate-800">
+          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-[#1E5EFF]/15">
             <AlertDialogCancel className="rounded-2xl">{t("Cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleResetProgress}

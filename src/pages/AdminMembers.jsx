@@ -701,7 +701,7 @@ export default function AdminMembers() {
         }}
       >
         <AlertDialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl dark:border-[#2A3A70]/70 dark:bg-[#10182F]">
-          <div className="border-b border-slate-200/80 bg-gradient-to-br from-red-50 via-white to-orange-50 px-6 py-5 dark:border-slate-800 dark:from-red-950/30 dark:via-slate-950 dark:to-orange-950/20">
+          <div className="border-b border-slate-200/80 bg-gradient-to-br from-red-50 via-white to-orange-50 px-6 py-5 dark:border-[#1E5EFF]/15 dark:from-red-950/30 dark:via-slate-950 dark:to-orange-950/20">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-300">
               <Trash2 className="h-5 w-5" />
             </div>
@@ -742,7 +742,7 @@ export default function AdminMembers() {
             </div>
           ) : null}
 
-          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-slate-800">
+          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-[#1E5EFF]/15">
             <AlertDialogCancel
               className="rounded-xl"
               disabled={deleteMemberMutation.isPending}
@@ -785,7 +785,7 @@ export default function AdminMembers() {
         }}
       >
         <DialogContent className="max-h-[85vh] overflow-y-auto rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:max-w-3xl dark:border-[#2A3A70]/70 dark:bg-[#10182F]">
-          <div className="border-b border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-blue-50 px-6 py-5 dark:border-slate-800 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+          <div className="border-b border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-blue-50 px-6 py-5 dark:border-[#1E5EFF]/15 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
             <DialogHeader className="space-y-2 text-left">
               <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
                 {t("Payment history")}
@@ -853,7 +853,7 @@ export default function AdminMembers() {
                 {memberPaymentsData.payments.map((payment) => (
                   <div
                     key={payment.id}
-                    className="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:bg-slate-950"
+                    className="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 sm:flex-row sm:items-center sm:justify-between dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]"
                   >
                     <div className="flex min-w-0 items-center gap-4">
                       <div
@@ -917,7 +917,7 @@ export default function AdminMembers() {
         }}
       >
         <DialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:max-w-lg dark:border-[#2A3A70]/70 dark:bg-[#10182F]">
-          <div className="border-b border-slate-200/80 bg-gradient-to-br from-blue-50 via-white to-slate-50 px-6 py-5 dark:border-slate-800 dark:from-blue-950/30 dark:via-slate-950 dark:to-slate-900">
+          <div className="border-b border-slate-200/80 bg-gradient-to-br from-blue-50 via-white to-slate-50 px-6 py-5 dark:border-[#1E5EFF]/15 dark:from-blue-950/30 dark:via-slate-950 dark:to-slate-900">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-[#1E5EFF] dark:bg-blue-950/60 dark:text-blue-300">
               <Mail className="h-5 w-5" />
             </div>
@@ -969,7 +969,7 @@ export default function AdminMembers() {
             </div>
           </div>
 
-          <DialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-slate-800">
+          <DialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-[#1E5EFF]/15">
             <Button
               type="button"
               variant="outline"

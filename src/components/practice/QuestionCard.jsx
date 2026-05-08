@@ -218,8 +218,8 @@ export default function QuestionCard({
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950">
-      <div className="flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-slate-800 lg:flex-row lg:items-center lg:justify-between">
+    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
+      <div className="flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-[#1E5EFF]/15 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
             {translateUi("Question", language)} {questionNumber} / {totalQuestions}
@@ -282,7 +282,7 @@ export default function QuestionCard({
             const isThis = selectedAnswer === option.label;
             const isCorrectAnswer = option.label === correctAnswer;
             let optionStyle =
-              "border-slate-200 hover:border-[#1E5EFF]/30 hover:bg-[#1E5EFF]/3 dark:border-slate-800 dark:hover:bg-[#1E5EFF]/10";
+              "border-slate-200 hover:border-[#1E5EFF]/30 hover:bg-[#1E5EFF]/3 dark:border-[#1E5EFF]/15 dark:hover:bg-[#1E5EFF]/10";
             let optionTextStyle = "text-slate-900 dark:text-slate-100";
 
             if (isSubmitted) {
@@ -296,7 +296,7 @@ export default function QuestionCard({
                 optionTextStyle = "text-red-950 dark:!text-red-50";
               } else {
                 optionStyle =
-                  "border-slate-100 bg-slate-50/40 opacity-60 dark:border-slate-800 dark:bg-slate-900/60";
+                  "border-slate-100 bg-slate-50/40 opacity-60 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]/70";
                 optionTextStyle = "text-slate-600 dark:text-slate-400";
               }
             } else if (isThis) {
@@ -324,7 +324,7 @@ export default function QuestionCard({
                         ? "bg-red-500 text-white"
                         : isThis
                           ? "bg-[#1E5EFF] text-white"
-                          : "bg-slate-100 text-slate-500 dark:bg-slate-900 dark:text-slate-400",
+                          : "bg-slate-100 text-slate-500 dark:bg-[#0D1E3A] dark:text-slate-400",
                   )}
                 >
                   {isSubmitted && isCorrectAnswer ? (
@@ -346,7 +346,7 @@ export default function QuestionCard({
         </div>
       </div>
 
-      <div className="border-t border-slate-100 px-6 py-4 dark:border-slate-800">
+      <div className="border-t border-slate-100 px-6 py-4 dark:border-[#1E5EFF]/15">
         {!isSubmitted ? (
           <Button
             onClick={handleSubmit}
@@ -357,7 +357,7 @@ export default function QuestionCard({
           </Button>
         ) : (
           <div className="space-y-4">
-            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/60">
+            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]/70">
               <div className="flex flex-wrap gap-2">
                 {explanation ? (
                   <Button
@@ -400,7 +400,7 @@ export default function QuestionCard({
               </div>
 
               {explanationVisible && explanation ? (
-                <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+                <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-white p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
                   <div className="mb-1 flex items-center gap-2">
                     <Lightbulb className="h-4 w-4 text-[#FFB800]" />
                     <span className="text-xs font-semibold text-[#1E5EFF]">

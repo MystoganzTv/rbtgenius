@@ -11,7 +11,7 @@ const SelectTrigger = React.forwardRef(({ className, children, ...props }, ref) 
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-900 shadow-sm data-[placeholder]:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-300 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:data-[placeholder]:text-slate-500 [&>span]:line-clamp-1",
+      "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-900 shadow-sm data-[placeholder]:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-300 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] dark:text-slate-100 dark:data-[placeholder]:text-slate-500 [&>span]:line-clamp-1",
       className,
     )}
     {...props}
@@ -56,7 +56,7 @@ const SelectContent = React.forwardRef(
       <SelectPrimitive.Content
         ref={ref}
         className={cn(
-          "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border border-slate-200 bg-white text-slate-900 shadow-md dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100",
+          "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border border-slate-200 bg-white text-slate-900 shadow-md dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] dark:text-slate-100",
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
           className,
