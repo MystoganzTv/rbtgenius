@@ -48,19 +48,20 @@ export async function createUser(user) {
 }
 
 export async function updateUser(id, fields) {
-  const [row] = await sql`
-    UPDATE users SET
-      full_name         = COALESCE(${fields.full_name ?? null}, full_name),
-      role              = COALESCE(${fields.role ?? null}, role),
-      plan              = COALESCE(${fields.plan ?? null}, plan),
-      token             = ${fields.token !== undefined ? fields.token : sql`token`},
-      token_issued_at   = ${fields.token_issued_at !== undefined ? fields.token_issued_at : sql`token_issued_at`},
-      token_expires_at  = ${fields.token_expires_at !== undefined ? fields.token_expires_at : sql`token_expires_at`},
-      stripe_customer_id = COALESCE(${fields.stripe_customer_id ?? null}, stripe_customer_id),
-      oauth_accounts    = COALESCE(${fields.oauth_accounts ? JSON.stringify(fields.oauth_accounts) : null}::jsonb, oauth_accounts)
-    WHERE id = ${id}
-    RETURNING *
-  `;
+  const patch = {};
+  if (fields.full_name !== undefined) patch.full_name = fields.full_name;
+  if (fields.role !== undefined) patch.role = fields.role;
+  if (fields.plan !== undefined) patch.plan = fields.plan;
+  if (fields.token !== undefined) patch.token = fields.token;
+  if (fields.token_issued_at !== undefined) patch.token_issued_at = fields.token_issued_at;
+  if (fields.token_expires_at !== undefined) patch.token_expires_at = fields.token_expires_at;
+  if (fields.stripe_customer_id !== undefined) patch.stripe_customer_id = fields.stripe_customer_id;
+  if (fields.oauth_accounts !== undefined) patch.oauth_accounts = JSON.stringify(fields.oauth_accounts);
+  if (Object.keys(patch).length === 0) {
+    const rows = await sql`SELECT * FROM users WHERE id = ${id}`;
+    return rows[0] ?? null;
+  }
+  const [row] = await sql`UPDATE users SET ${sql(patch)} WHERE id = ${id} RETURNING *`;
   return row;
 }
 
