@@ -69,8 +69,11 @@ function getApiPath(url) {
 }
 
 async function buildUserAccessState(user) {
-  const attempts = await db.getAttemptsByUser(user.id);
-  const progress = computeProgress({ attempts }, user.id);
+  const [attempts, mockExams] = await Promise.all([
+    db.getAttemptsByUser(user.id),
+    db.getMockExamsByUser(user.id),
+  ]);
+  const progress = computeProgress({ attempts, mockExams }, user.id);
   const tutorMsgsToday = await db.countTutorMessagesToday(user.id);
   return {
     progress,
@@ -553,7 +556,7 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     if (!isPremiumPlan(auth.user.plan)) return sendPremiumRequired('analytics');
     const [attempts, exams] = await Promise.all([db.getAttemptsByUser(auth.user.id), db.getMockExamsByUser(auth.user.id)]);
-    const progress = computeProgress({ attempts }, auth.user.id);
+    const progress = computeProgress({ attempts, mockExams: exams }, auth.user.id);
     return json({ progress, attempts, exams });
   }
 
@@ -638,7 +641,7 @@ async function webApiHandler(req) {
           db.getMockExamsByUser(user.id).catch(() => []),
           db.getPaymentsByUser(user.id).catch(() => []),
         ]);
-        const progress = computeProgress({ attempts }, user.id);
+        const progress = computeProgress({ attempts, mockExams: exams }, user.id);
         const completedPayments = payments.filter(p => p.status === 'completed');
         const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
         const latestPayment = [...payments].sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0))[0];
