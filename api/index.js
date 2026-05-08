@@ -258,6 +258,13 @@ async function webApiHandler(req) {
     } catch (e) {
       checks.tables_error = e.message;
     }
+    try {
+      const rows = await db.sql`SELECT COUNT(*)::int AS total, COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS new_this_week FROM users`;
+      checks.users_total = rows[0]?.total ?? 0;
+      checks.users_new_this_week = rows[0]?.new_this_week ?? 0;
+    } catch (e) {
+      checks.users_error = e.message;
+    }
     return json(checks);
   }
 
