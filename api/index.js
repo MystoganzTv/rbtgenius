@@ -563,7 +563,8 @@ async function webApiHandler(req) {
       answers: questions.map(({ question_id, selected_answer, is_correct }) => ({ question_id, selected_answer, is_correct })),
       passed: score >= 80, domain_scores: domainScores,
     });
-    return json(exam, { status: 201 });
+    const parsed = typeof exam.domain_scores === 'string' ? JSON.parse(exam.domain_scores) : exam.domain_scores;
+    return json({ ...exam, domain_scores: parsed }, { status: 201 });
   }
 
   // ── Dashboard ───────────────────────────────────────────────────────────────

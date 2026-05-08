@@ -128,10 +128,16 @@ function getSmoothedRate(correct, total, baselineRate = 0.65, baselineWeight = 6
   return Math.round((weightedCorrect / weightedTotal) * 100);
 }
 
+function toDateStr(value) {
+  if (!value) return '';
+  if (typeof value === 'string') return value.slice(0, 10);
+  return value instanceof Date ? value.toISOString().slice(0, 10) : '';
+}
+
 function formatUniqueStudyDays(attempts) {
   const dateKeys = new Set(
     attempts
-      .map((attempt) => attempt.created_at?.slice(0, 10))
+      .map((attempt) => toDateStr(attempt.created_at))
       .filter(Boolean),
   );
 
@@ -299,7 +305,7 @@ export function computeProgress(db, userId) {
     domain_mastery: domainMastery,
     domain_attempt_counts: domainAttemptCounts,
     questions_today: practiceAttempts.filter(
-      (attempt) => attempt.created_at?.slice(0, 10) === new Date().toISOString().slice(0, 10),
+      (attempt) => toDateStr(attempt.created_at) === new Date().toISOString().slice(0, 10),
     ).length,
     last_question_date: lastStudyDate,
     total_mock_exams: exams.length,

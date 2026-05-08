@@ -120,8 +120,18 @@ export async function deleteAttemptsByUser(userId) {
 
 // ── Mock Exams ────────────────────────────────────────────────────────────────
 
+function parseJsonbField(value) {
+  if (!value || typeof value !== 'string') return value;
+  try { return JSON.parse(value); } catch { return value; }
+}
+
 export async function getMockExamsByUser(userId) {
-  return sql`SELECT * FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  const rows = await sql`SELECT * FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  return rows.map(r => ({
+    ...r,
+    answers: parseJsonbField(r.answers),
+    domain_scores: parseJsonbField(r.domain_scores),
+  }));
 }
 
 export async function createMockExam(exam) {
