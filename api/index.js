@@ -191,6 +191,7 @@ async function upsertOAuthUser(profile, providerId) {
   if (existing) {
     user = await db.updateUser(existing.id, {
       full_name: existing.full_name || profile.name,
+      role: resolveUserRole(existing.email, existing.role),
       token: session.token,
       token_issued_at: session.issued_at,
       token_expires_at: session.expires_at,
@@ -429,10 +430,16 @@ async function webApiHandler(req) {
   if (apiPath === '/auth/me' && req.method === 'GET') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
-    if (shouldRotateSession(auth.user)) {
-      const session = buildSession();
-      const rotated = await db.updateUser(auth.user.id, { token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
-      return json({ ...safeUser(rotated), token: session.token, expires_at: session.expires_at });
+    const correctRole = resolveUserRole(auth.user.email, auth.user.role);
+    const needsRoleUpdate = auth.user.role !== correctRole;
+    if (shouldRotateSession(auth.user) || needsRoleUpdate) {
+      const session = shouldRotateSession(auth.user) ? buildSession() : null;
+      const rotated = await db.updateUser(auth.user.id, {
+        role: correctRole,
+        ...(session ? { token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at } : {}),
+      });
+      if (session) return json({ ...safeUser(rotated), token: session.token, expires_at: session.expires_at });
+      return json({ ...safeUser(rotated), expires_at: auth.user.token_expires_at });
     }
     return json({ ...safeUser(auth.user), expires_at: auth.user.token_expires_at });
   }
