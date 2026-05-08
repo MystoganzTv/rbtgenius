@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS users (
   token_expires_at TIMESTAMPTZ,
   stripe_customer_id TEXT,
   password_hash TEXT,
-  password_salt TEXT
+  password_salt TEXT,
+  email_verified BOOLEAN NOT NULL DEFAULT TRUE,
+  email_verification_token TEXT
 );
 
 CREATE TABLE IF NOT EXISTS attempts (
@@ -108,3 +110,7 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   data JSONB NOT NULL DEFAULT '{}',
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Run these on existing databases:
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified BOOLEAN NOT NULL DEFAULT TRUE;
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verification_token TEXT;

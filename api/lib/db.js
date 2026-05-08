@@ -57,6 +57,10 @@ export async function updateUser(id, fields) {
   if (fields.token_expires_at !== undefined) patch.token_expires_at = fields.token_expires_at;
   if (fields.stripe_customer_id !== undefined) patch.stripe_customer_id = fields.stripe_customer_id;
   if (fields.oauth_accounts !== undefined) patch.oauth_accounts = JSON.stringify(fields.oauth_accounts);
+  if (fields.password_hash !== undefined) patch.password_hash = fields.password_hash;
+  if (fields.password_salt !== undefined) patch.password_salt = fields.password_salt;
+  if (fields.email_verified !== undefined) patch.email_verified = fields.email_verified;
+  if (fields.email_verification_token !== undefined) patch.email_verification_token = fields.email_verification_token;
   if (Object.keys(patch).length === 0) {
     const rows = await sql`SELECT * FROM users WHERE id = ${id}`;
     return rows[0] ?? null;
@@ -324,4 +328,19 @@ export async function setRateLimitDb(key, data) {
 
 export async function deleteRateLimitKey(key) {
   await sql`DELETE FROM rate_limits WHERE key = ${key}`;
+}
+
+// ── Email verification ────────────────────────────────────────────────────────
+
+export async function getUserByVerificationToken(token) {
+  const rows = await sql`SELECT * FROM users WHERE email_verification_token = ${token} LIMIT 1`;
+  return rows[0] ?? null;
+}
+
+export async function setEmailVerified(userId) {
+  const [row] = await sql`
+    UPDATE users SET email_verified = true, email_verification_token = NULL
+    WHERE id = ${userId} RETURNING *
+  `;
+  return row;
 }

@@ -17,6 +17,7 @@ import {
   Clock,
   CreditCard,
   Crown,
+  KeyRound,
   Loader2,
   Mail,
   Shield,
@@ -88,6 +89,7 @@ export default function Profile() {
   const [formData, setFormData] = useState({ full_name: "" });
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
   const [clearTutorOnReset, setClearTutorOnReset] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ current_password: "", new_password: "", confirm_password: "" });
   const queryClient = useQueryClient();
 
   const { data: profileData, refetch: refetchProfile } = useQuery({
@@ -189,6 +191,17 @@ export default function Profile() {
     },
   });
 
+  const passwordMutation = useMutation({
+    mutationFn: api.setPassword,
+    onSuccess: () => {
+      setPasswordForm({ current_password: "", new_password: "", confirm_password: "" });
+      toast({ title: t("Password updated"), description: t("Your password has been saved.") });
+    },
+    onError: (error) => {
+      toast({ title: t("Unable to update password"), description: t(error.message || "Please try again.") });
+    },
+  });
+
   const resetProgressMutation = useMutation({
     mutationFn: api.resetProfileProgress,
     onSuccess: (data) => {
@@ -246,6 +259,16 @@ export default function Profile() {
 
   const handleResetProgress = () => {
     resetProgressMutation.mutate({ clear_tutor: clearTutorOnReset });
+  };
+
+  const handlePasswordSubmit = () => {
+    if (passwordForm.new_password !== passwordForm.confirm_password) {
+      toast({ title: t("Passwords do not match"), description: t("New password and confirmation must match.") });
+      return;
+    }
+    const payload = { new_password: passwordForm.new_password };
+    if (authUser?.auth_provider === "password") payload.current_password = passwordForm.current_password;
+    passwordMutation.mutate(payload);
   };
 
   return (
@@ -376,6 +399,74 @@ export default function Profile() {
               </p>
             </Card>
           </div>
+
+          <Card className="p-6">
+            <div className="mb-5 flex items-center gap-2">
+              <KeyRound className="h-5 w-5 text-slate-500" />
+              <h3 className="text-lg font-bold text-[#0F172A] dark:text-slate-50">
+                {t("Password & Security")}
+              </h3>
+            </div>
+            <div className="space-y-4">
+              {authUser?.auth_provider === "password" && (
+                <div>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {t("Current Password")}
+                  </label>
+                  <Input
+                    type="password"
+                    value={passwordForm.current_password}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
+                    className="mt-1"
+                    autoComplete="current-password"
+                  />
+                </div>
+              )}
+              <div>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {authUser?.auth_provider === "password" ? t("New Password") : t("Set Password")}
+                </label>
+                <Input
+                  type="password"
+                  value={passwordForm.new_password}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                  className="mt-1"
+                  autoComplete="new-password"
+                  placeholder={t("Minimum 8 characters")}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {t("Confirm New Password")}
+                </label>
+                <Input
+                  type="password"
+                  value={passwordForm.confirm_password}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
+                  className="mt-1"
+                  autoComplete="new-password"
+                />
+              </div>
+              <Button
+                onClick={handlePasswordSubmit}
+                disabled={
+                  passwordMutation.isPending ||
+                  !passwordForm.new_password ||
+                  !passwordForm.confirm_password ||
+                  (authUser?.auth_provider === "password" && !passwordForm.current_password)
+                }
+                className="bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
+              >
+                {passwordMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : authUser?.auth_provider === "password" ? (
+                  t("Change Password")
+                ) : (
+                  t("Set Password")
+                )}
+              </Button>
+            </div>
+          </Card>
 
           <Card className="border-red-200/70 p-6 dark:border-red-900/40">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">

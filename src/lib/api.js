@@ -152,6 +152,9 @@ export const api = {
       body: payload,
     });
   },
+  setPassword(payload) {
+    return request("/api/profile/password", { method: "PATCH", body: payload });
+  },
   createCheckoutSession(plan, origin) {
     return request("/api/billing/checkout", {
       method: "POST",

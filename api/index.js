@@ -9,7 +9,8 @@ import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfi
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
 import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig } from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
-import { notifyNewMember, notifyNewSubscription } from '../server/lib/admin-notify.js';
+import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
+import crypto from 'node:crypto';
 import { getEntitlements, isPremiumPlan } from '../src/lib/plan-access.js';
 import { createTutorReply, isOpenAIConfigured, streamTutorReplyOpenAI } from '../server/lib/tutor.js';
 import * as db from './lib/db.js';
@@ -397,17 +398,19 @@ async function webApiHandler(req) {
     if (password.length < 8) { await recordRateLimitPg('register', [ip]); return json({ message: 'Password must be at least 8 characters' }, { status: 400 }); }
     if (await db.getUserByEmail(email)) { await recordRateLimitPg('register', [ip]); return json({ message: 'An account with that email already exists' }, { status: 409 }); }
     const passwordData = hashPassword(password);
-    const session = buildSession();
     const newUser = await db.createUser({
       id: createId('user'), full_name: fullName, email, created_at: new Date().toISOString(),
-      role: resolveUserRole(email), plan: 'free', token: session.token,
-      token_issued_at: session.issued_at, token_expires_at: session.expires_at,
+      role: resolveUserRole(email), plan: 'free', token: null,
+      token_issued_at: null, token_expires_at: null,
       auth_provider: 'password', oauth_accounts: {},
       password_hash: passwordData.hash, password_salt: passwordData.salt,
     });
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    await db.updateUser(newUser.id, { email_verified: false, email_verification_token: verificationToken });
     await recordRateLimitPg('register', [ip]);
     await notifyNewMember(safeUser(newUser), { source: 'manual_register', authProvider: 'password' });
-    return json({ token: session.token, expires_at: session.expires_at, user: safeUser(newUser) }, { status: 201 });
+    await sendVerificationEmail(safeUser(newUser), verificationToken, url.origin);
+    return json({ message: 'Account created. Please check your email to verify your account.' }, { status: 201 });
   }
 
   // ── Login ───────────────────────────────────────────────────────────────────
@@ -422,6 +425,9 @@ async function webApiHandler(req) {
     if (!user || !user.password_hash || !user.password_salt || !verifyPassword(password, user.password_salt, user.password_hash)) {
       await recordRateLimitPg('login', [ip, email]);
       return json({ message: 'Invalid email or password' }, { status: 401 });
+    }
+    if (user.email_verified === false) {
+      return json({ message: 'Please verify your email before signing in. Check your inbox.' }, { status: 403 });
     }
     const session = buildSession();
     const updated = await db.updateUser(user.id, { role: resolveUserRole(user.email, user.role), token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
@@ -453,6 +459,25 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     await db.clearUserSession(auth.user.id);
     return json({ ok: true });
+  }
+
+  // ── Verify email ─────────────────────────────────────────────────────────────
+  if (apiPath === '/auth/verify-email' && req.method === 'GET') {
+    const token = url.searchParams.get('token');
+    if (!token) return Response.redirect(new URL('/login?oauthError=Invalid+verification+link', url.origin).toString(), 302);
+    try {
+      const user = await db.getUserByVerificationToken(token);
+      if (!user) return Response.redirect(new URL('/login?oauthError=Verification+link+expired+or+already+used', url.origin).toString(), 302);
+      const session = buildSession();
+      await db.updateUser(user.id, { email_verified: true, email_verification_token: null, token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
+      const loginUrl = new URL('/login', url.origin);
+      loginUrl.searchParams.set('authToken', session.token);
+      loginUrl.searchParams.set('redirectTo', '/dashboard');
+      return Response.redirect(loginUrl.toString(), 302);
+    } catch (err) {
+      console.error('[verify-email]', err.message);
+      return Response.redirect(new URL('/login?oauthError=Verification+failed', url.origin).toString(), 302);
+    }
   }
 
   // ── Questions ───────────────────────────────────────────────────────────────
@@ -582,6 +607,22 @@ async function webApiHandler(req) {
     await Promise.all([db.deleteAttemptsByUser(auth.user.id), db.deleteMockExamsByUser(auth.user.id), db.deletePracticeSession(auth.user.id)]);
     if (body?.clear_tutor) await db.deleteTutorConversationsByUser(auth.user.id);
     return json(await buildProfilePayload(auth.user));
+  }
+
+  if (apiPath === '/profile/password' && req.method === 'PATCH') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const body = await req.json();
+    const { current_password, new_password } = body;
+    if (!new_password || new_password.length < 8) return json({ message: 'New password must be at least 8 characters' }, { status: 400 });
+    const user = auth.user;
+    if (user.password_hash && user.password_salt) {
+      if (!current_password) return json({ message: 'Current password is required' }, { status: 400 });
+      if (!verifyPassword(current_password, user.password_salt, user.password_hash)) return json({ message: 'Current password is incorrect' }, { status: 401 });
+    }
+    const { hash, salt } = hashPassword(new_password);
+    await db.updateUser(user.id, { password_hash: hash, password_salt: salt });
+    return json({ ok: true });
   }
 
   // ── Billing ──────────────────────────────────────────────────────────────────
