@@ -20,7 +20,7 @@ export default function DomainProgress({ mastery = {}, attemptCounts = {} }) {
   const { language } = useLanguage();
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
@@ -64,7 +64,7 @@ export default function DomainProgress({ mastery = {}, attemptCounts = {} }) {
                 </p>
               ) : null}
 
-              <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+              <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-[#1E5EFF]/15">
                 <div
                   className="h-full rounded-full transition-all duration-1000 ease-out"
                   style={{

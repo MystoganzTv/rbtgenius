@@ -12,12 +12,12 @@ export default function StreakCard({ streak = 0, questionsToday = 0 }) {
     streak > 0 ? `${streak} days` : hasStudiedToday ? "Started today" : "No streak yet";
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           {translateUi("Study Streak", language)}
         </h3>
-        <div className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
           <Flame className="h-3.5 w-3.5 text-orange-500 dark:text-orange-300" />
           <span className="text-xs font-bold text-orange-600 dark:text-orange-300">
             {translateUi(streakLabel, language)}
@@ -41,7 +41,7 @@ export default function StreakCard({ streak = 0, questionsToday = 0 }) {
                     ? "border border-[#4F7BFF]/35 bg-[#1E5EFF]/12 text-[#6E8FFF] dark:border-[#4F7BFF]/30 dark:bg-[#1E5EFF]/12 dark:text-[#91A8FF]"
                     : isToday
                       ? "border border-amber-400/40 bg-amber-500/8 text-amber-500 dark:border-amber-400/25 dark:bg-amber-500/10 dark:text-amber-300"
-                      : "bg-slate-50 text-slate-400 dark:bg-slate-900 dark:text-slate-500"
+                      : "bg-slate-50 text-slate-400 dark:bg-[#0D1E3A] dark:text-slate-500"
                 }`}
               >
                 {isCompleted ? "✓" : day}

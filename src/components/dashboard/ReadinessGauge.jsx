@@ -46,7 +46,7 @@ export default function ReadinessGauge({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+    <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
       <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
         {translateUi("Exam Readiness", language)}
       </h3>
