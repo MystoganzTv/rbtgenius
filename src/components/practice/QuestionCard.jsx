@@ -8,11 +8,13 @@ import {
   Flag,
   Lightbulb,
   Loader2,
+  SendHorizonal,
   XCircle,
 } from "lucide-react";
 import BilingualText from "@/components/i18n/BilingualText";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/hooks/use-language";
 import { toast } from "@/components/ui/use-toast";
 import { api } from "@/lib/api";
@@ -45,10 +47,12 @@ export default function QuestionCard({
   const [explanationVisible, setExplanationVisible] = useState(false);
   const explanationPreference = useRef(null); // null=auto, true=user wants shown, false=user wants hidden
   const [aiConversationId, setAiConversationId] = useState(null);
+  const [aiMessages, setAiMessages] = useState([]); // [{role, content}]
   const [aiReply, setAiReply] = useState("");
   const [aiReplyVisible, setAiReplyVisible] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
+  const [aiFollowUp, setAiFollowUp] = useState("");
 
   const handleSubmit = () => {
     if (!selectedAnswer) {
@@ -110,9 +114,11 @@ export default function QuestionCard({
   useEffect(() => {
     setAiConversationId(null);
     setAiReply("");
+    setAiMessages([]);
     setAiReplyVisible(false);
     setAiLoading(false);
     setAiError("");
+    setAiFollowUp("");
   }, [question?.id]);
 
   const handleAskAi = async () => {
@@ -158,6 +164,7 @@ export default function QuestionCard({
       }
 
       setAiReply(nextReply);
+      setAiMessages([{ role: "assistant", content: nextReply }]);
       setAiReplyVisible(true);
       onEntitlementsChange?.(payload?.entitlements || entitlements);
     } catch (error) {
@@ -179,6 +186,32 @@ export default function QuestionCard({
           : translateUi("Unable to send message", language),
         description,
       });
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleAiFollowUp = async (e) => {
+    e?.preventDefault();
+    const text = aiFollowUp.trim();
+    if (!text || aiLoading || !aiConversationId) return;
+    setAiFollowUp("");
+    setAiMessages((prev) => [...prev, { role: "user", content: text }]);
+    setAiLoading(true);
+    setAiError("");
+    try {
+      const payload = await api.sendTutorMessage(aiConversationId, { content: text });
+      const updatedConversation = payload?.conversation;
+      const assistantMessage = [...(updatedConversation?.messages || [])].reverse().find((m) => m.role === "assistant");
+      const nextReply = String(assistantMessage?.content || "").replaceAll("**", "").trim();
+      if (nextReply) {
+        setAiMessages((prev) => [...prev, { role: "assistant", content: nextReply }]);
+        setAiReply(nextReply);
+      }
+      onEntitlementsChange?.(payload?.entitlements || entitlements);
+    } catch (error) {
+      const description = error?.message || translateUi("Please try again.", language);
+      setAiError(description);
     } finally {
       setAiLoading(false);
     }
@@ -391,19 +424,48 @@ export default function QuestionCard({
                     </span>
                   </div>
 
-                  {aiLoading ? (
-                    <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-                      <Loader2 className="h-4 w-4 animate-spin text-[#1E5EFF]" />
-                      <span>{translateUi("Preparing AI help...", language)}</span>
-                    </div>
-                  ) : aiError ? (
-                    <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                      {aiError}
-                    </p>
-                  ) : (
-                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-200">
-                      {aiReply}
-                    </p>
+                  <div className="space-y-3">
+                    {aiMessages.map((msg, i) => (
+                      <div key={i} className={msg.role === "user" ? "flex justify-end" : ""}>
+                        {msg.role === "user" ? (
+                          <div className="max-w-[85%] rounded-xl bg-[#1E5EFF] px-3 py-2 text-sm text-white">
+                            {msg.content}
+                          </div>
+                        ) : (
+                          <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+                            {msg.content}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                    {aiLoading && (
+                      <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                        <Loader2 className="h-3 w-3 animate-spin text-[#1E5EFF]" />
+                        <span>{translateUi("Thinking...", language)}</span>
+                      </div>
+                    )}
+                    {aiError && !aiLoading && (
+                      <p className="text-sm text-rose-500">{aiError}</p>
+                    )}
+                  </div>
+
+                  {aiConversationId && !aiLoading && (
+                    <form onSubmit={handleAiFollowUp} className="flex gap-2 pt-1">
+                      <Input
+                        value={aiFollowUp}
+                        onChange={(e) => setAiFollowUp(e.target.value)}
+                        placeholder={translateUi("Ask a follow-up question...", language)}
+                        className="h-8 text-sm dark:border-[#1E5EFF]/20 dark:bg-[#0D1E3A]"
+                      />
+                      <Button
+                        type="submit"
+                        size="sm"
+                        className="h-8 bg-[#1E5EFF] px-3 hover:bg-[#1E5EFF]/90"
+                        disabled={!aiFollowUp.trim()}
+                      >
+                        <SendHorizonal className="h-3.5 w-3.5" />
+                      </Button>
+                    </form>
                   )}
                 </div>
               ) : null}
