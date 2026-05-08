@@ -95,12 +95,15 @@ export async function getPracticeAttemptIdsByUser(userId) {
 }
 
 export async function getMockAttemptIdsByUser(userId) {
-  const rows = await sql`
-    SELECT DISTINCT a->>'question_id' as question_id
-    FROM mock_exams, jsonb_array_elements(answers) as a
-    WHERE user_id = ${userId}
-  `;
-  return rows.map(r => r.question_id).filter(Boolean);
+  const exams = await getMockExamsByUser(userId);
+  const ids = new Set();
+  for (const exam of exams) {
+    const answers = Array.isArray(exam.answers) ? exam.answers : [];
+    for (const a of answers) {
+      if (a.question_id) ids.add(a.question_id);
+    }
+  }
+  return [...ids];
 }
 
 export async function createAttempt(attempt) {
@@ -140,7 +143,7 @@ export async function createMockExam(exam) {
       time_taken_minutes, status, passed, answers, domain_scores)
     VALUES (${exam.id}, ${exam.user_id}, ${exam.created_at}, ${exam.score},
       ${exam.total_questions}, ${exam.correct_answers}, ${exam.time_taken_minutes},
-      ${exam.status}, ${exam.passed}, ${JSON.stringify(exam.answers)}, ${JSON.stringify(exam.domain_scores)})
+      ${exam.status}, ${exam.passed}, ${JSON.stringify(exam.answers)}::jsonb, ${JSON.stringify(exam.domain_scores)}::jsonb)
     RETURNING *
   `;
   return row;
