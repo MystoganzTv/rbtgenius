@@ -630,26 +630,33 @@ async function webApiHandler(req) {
   if (apiPath === '/admin/members' && req.method === 'GET') {
     const auth = await requireAdmin(req);
     if (auth.error) return auth.error;
-    const allUsers = await db.getAllUsers();
-    const members = await Promise.all(allUsers.map(async user => {
-      const [attempts, exams, payments] = await Promise.all([
-        db.getAttemptsByUser(user.id), db.getMockExamsByUser(user.id), db.getPaymentsByUser(user.id),
-      ]);
-      const progress = computeProgress({ attempts }, user.id);
-      const completedPayments = payments.filter(p => p.status === 'completed');
-      const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
-      const latestPayment = [...payments].sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0))[0];
-      return {
-        id: user.id, full_name: user.full_name, email: user.email, created_at: user.created_at,
-        auth_provider: user.auth_provider, role: resolveUserRole(user.email, user.role),
-        plan: user.plan, study_streak_days: progress.study_streak_days,
-        readiness_score: progress.readiness_score, total_questions_completed: progress.total_questions_completed,
-        attempts_count: attempts.length, exams_count: exams.length, last_study_date: progress.last_study_date,
-        payments_count: payments.length, total_paid_amount: Number(totalPaid.toFixed(2)),
-        last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
-      };
-    }));
-    return json(members);
+    try {
+      const allUsers = await db.getAllUsers();
+      const members = await Promise.all(allUsers.map(async user => {
+        const [attempts, exams, payments] = await Promise.all([
+          db.getAttemptsByUser(user.id).catch(() => []),
+          db.getMockExamsByUser(user.id).catch(() => []),
+          db.getPaymentsByUser(user.id).catch(() => []),
+        ]);
+        const progress = computeProgress({ attempts }, user.id);
+        const completedPayments = payments.filter(p => p.status === 'completed');
+        const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
+        const latestPayment = [...payments].sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0))[0];
+        return {
+          id: user.id, full_name: user.full_name, email: user.email, created_at: user.created_at,
+          auth_provider: user.auth_provider, role: resolveUserRole(user.email, user.role),
+          plan: user.plan, study_streak_days: progress.study_streak_days,
+          readiness_score: progress.readiness_score, total_questions_completed: progress.total_questions_completed,
+          attempts_count: attempts.length, exams_count: exams.length, last_study_date: progress.last_study_date,
+          payments_count: payments.length, total_paid_amount: Number(totalPaid.toFixed(2)),
+          last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
+        };
+      }));
+      return json(members);
+    } catch (err) {
+      console.error('[admin/members]', err.message);
+      return json({ message: err.message || 'Failed to load members' }, { status: 500 });
+    }
   }
 
   const memberPaymentsMatch = apiPath.match(/^\/admin\/members\/([^/]+)\/payments$/);
