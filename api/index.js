@@ -671,6 +671,27 @@ async function webApiHandler(req) {
   }
 
   // ── Admin ────────────────────────────────────────────────────────────────────
+  if (apiPath === '/admin/metrics' && req.method === 'GET') {
+    const auth = await requireAdmin(req);
+    if (auth.error) return auth.error;
+    try {
+      const allUsers = await db.getAllUsers();
+      const now = new Date();
+      const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const total = allUsers.length;
+      const premium = allUsers.filter(u => u.plan && u.plan !== 'free').length;
+      const newThisWeek = allUsers.filter(u => u.created_at >= sevenDaysAgo).length;
+      const activeThisMonth = allUsers.filter(u => u.token_issued_at && u.token_issued_at >= thirtyDaysAgo).length;
+      const inactiveCount = allUsers.filter(u => !u.token_issued_at || u.token_issued_at < thirtyDaysAgo).length;
+      const conversionRate = total > 0 ? Math.round((premium / total) * 100) : 0;
+      return json({ total, premium, newThisWeek, activeThisMonth, inactiveCount, conversionRate });
+    } catch (err) {
+      console.error('[admin/metrics]', err.message);
+      return json({ message: err.message }, { status: 500 });
+    }
+  }
+
   if (apiPath === '/admin/members' && req.method === 'GET') {
     const auth = await requireAdmin(req);
     if (auth.error) return auth.error;
@@ -692,8 +713,10 @@ async function webApiHandler(req) {
           plan: user.plan, study_streak_days: progress.study_streak_days,
           readiness_score: progress.readiness_score, total_questions_completed: progress.total_questions_completed,
           attempts_count: attempts.length, exams_count: exams.length, last_study_date: progress.last_study_date,
+          questions_today: progress.questions_today,
           payments_count: payments.length, total_paid_amount: Number(totalPaid.toFixed(2)),
           last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
+          last_login: user.token_issued_at || null,
         };
       }));
       return json(members);
@@ -711,6 +734,34 @@ async function webApiHandler(req) {
     if (!member) return json({ message: 'Member not found' }, { status: 404 });
     const payments = (await db.getPaymentsByUser(member.id)).sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0));
     return json({ member: { id: member.id, full_name: member.full_name, email: member.email, plan: member.plan, auth_provider: member.auth_provider }, payments });
+  }
+
+  const memberEmailMatch = apiPath.match(/^\/admin\/members\/([^/]+)\/email$/);
+  if (memberEmailMatch && req.method === 'POST') {
+    const auth = await requireAdmin(req);
+    if (auth.error) return auth.error;
+    const member = await db.getUserById(memberEmailMatch[1]);
+    if (!member) return json({ message: 'Member not found' }, { status: 404 });
+    const body = await req.json();
+    const subject = String(body.subject || '').trim();
+    const message = String(body.message || '').trim();
+    if (!subject || !message) return json({ message: 'Subject and message are required' }, { status: 400 });
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) return json({ message: 'Email service not configured' }, { status: 503 });
+    const from = process.env.ADMIN_NOTIFICATION_FROM_EMAIL || 'RBT Genius <onboarding@resend.dev>';
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from,
+        to: member.email,
+        subject,
+        html: `<div style="font-family:Inter,Arial,sans-serif;padding:24px;background:#f8fafc;color:#0f172a;"><div style="max-width:560px;margin:0 auto;background:white;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;"><div style="padding:20px 24px;background:#1e5eff;color:white;"><div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;">RBT Genius</div><h1 style="margin:8px 0 0;font-size:22px;">${subject}</h1></div><div style="padding:28px 24px;white-space:pre-wrap;line-height:1.6;">${message}</div></div></div>`,
+        text: message,
+      }),
+    });
+    if (!res.ok) return json({ message: 'Failed to send email' }, { status: 500 });
+    return json({ ok: true });
   }
 
   if (/^\/admin\/members\/[^/]+$/.test(apiPath) && req.method === 'PATCH') {

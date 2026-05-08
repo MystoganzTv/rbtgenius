@@ -1,14 +1,19 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  Activity,
   Calendar,
   CheckCircle2,
   Clock,
   CreditCard,
   Crown,
+  Download,
   Loader2,
+  Mail,
+  Send,
   Shield,
   Trash2,
+  TrendingUp,
   Users,
   XCircle,
 } from "lucide-react";
@@ -29,10 +34,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -40,6 +47,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/api";
 import { useLanguage } from "@/hooks/use-language";
 import { translateUi } from "@/lib/i18n";
@@ -74,6 +82,8 @@ const memberSelectClass =
 
 const memberOutlineButtonClass =
   "w-full border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 dark:!border-slate-700 dark:!bg-slate-950 dark:text-slate-100 dark:hover:!bg-slate-900 dark:hover:text-slate-50";
+
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 function formatJoinedDate(value) {
   if (!value) {
@@ -132,6 +142,55 @@ function getPaymentPlanLabel(plan) {
   return PLAN_OPTIONS.find((option) => option.value === plan)?.label || "Premium";
 }
 
+function getActivityStatus(lastLogin) {
+  if (!lastLogin) return "never";
+  const diff = Date.now() - new Date(lastLogin).getTime();
+  return diff <= THIRTY_DAYS_MS ? "active" : "inactive";
+}
+
+function getDaysAgo(dateStr) {
+  if (!dateStr) return null;
+  const diff = Date.now() - new Date(dateStr).getTime();
+  return Math.floor(diff / (24 * 60 * 60 * 1000));
+}
+
+function ActivityDot({ lastLogin }) {
+  const status = getActivityStatus(lastLogin);
+  if (status === "active") {
+    return <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" title="Active in last 30 days" />;
+  }
+  if (status === "inactive") {
+    return <span className="inline-block h-2 w-2 rounded-full bg-red-400" title="Inactive for 30+ days" />;
+  }
+  return <span className="inline-block h-2 w-2 rounded-full bg-slate-300 dark:bg-slate-600" title="Never logged in" />;
+}
+
+function exportToCsv(members) {
+  const headers = ["Name", "Email", "Plan", "Role", "Auth", "Joined", "Last Login", "Questions", "Readiness", "Total Paid"];
+  const rows = members.map((m) => [
+    m.full_name,
+    m.email,
+    m.plan,
+    m.role,
+    m.auth_provider,
+    m.created_at ? new Date(m.created_at).toLocaleDateString() : "",
+    m.last_login ? new Date(m.last_login).toLocaleDateString() : "Never",
+    m.total_questions_completed || 0,
+    m.readiness_score || 0,
+    m.total_paid_amount || 0,
+  ]);
+  const csv = [headers, ...rows]
+    .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `members-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function AdminMembers() {
   const { user } = useAuth();
   const { language } = useLanguage();
@@ -142,6 +201,8 @@ export default function AdminMembers() {
   const [memberPendingDelete, setMemberPendingDelete] = useState(null);
   const [memberPaymentsOpen, setMemberPaymentsOpen] = useState(false);
   const [memberPaymentsTarget, setMemberPaymentsTarget] = useState(null);
+  const [emailTarget, setEmailTarget] = useState(null);
+  const [emailForm, setEmailForm] = useState({ subject: "", message: "" });
 
   const isAdmin = user?.role === "admin";
   const t = (value) => translateUi(value, language);
@@ -151,6 +212,12 @@ export default function AdminMembers() {
     queryFn: api.listAdminMembers,
     enabled: isAdmin,
     initialData: [],
+  });
+
+  const { data: metrics } = useQuery({
+    queryKey: ["admin-metrics"],
+    queryFn: api.getAdminMetrics,
+    enabled: isAdmin,
   });
 
   const {
@@ -201,6 +268,25 @@ export default function AdminMembers() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-members"] });
+    },
+  });
+
+  const sendEmailMutation = useMutation({
+    mutationFn: ({ memberId, payload }) => api.sendMemberEmail(memberId, payload),
+    onSuccess: () => {
+      toast({
+        title: t("Email sent"),
+        description: t("Your message was delivered successfully."),
+      });
+      setEmailTarget(null);
+      setEmailForm({ subject: "", message: "" });
+    },
+    onError: () => {
+      toast({
+        title: t("Failed to send email"),
+        description: t("Please try again in a moment."),
+        variant: "destructive",
+      });
     },
   });
 
@@ -271,6 +357,19 @@ export default function AdminMembers() {
     setMemberPaymentsOpen(true);
   };
 
+  const openEmail = (member) => {
+    setEmailTarget(member);
+    setEmailForm({ subject: "", message: "" });
+  };
+
+  const handleSendEmail = () => {
+    if (!emailTarget) return;
+    sendEmailMutation.mutate({
+      memberId: emailTarget.id,
+      payload: emailForm,
+    });
+  };
+
   if (!isAdmin) {
     return (
       <div className="mx-auto max-w-3xl">
@@ -337,8 +436,57 @@ export default function AdminMembers() {
           </div>
         </div>
 
+        {/* Metrics row */}
+        {metrics ? (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <Card className={summaryCardClass}>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t("New This Week")}</p>
+                <p className="text-xl font-bold text-[#1E5EFF] dark:text-[#7C97FF]">
+                  {metrics.newThisWeek}
+                </p>
+              </div>
+            </Card>
+            <Card className={summaryCardClass}>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t("Active (30d)")}</p>
+                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-300">
+                  {metrics.activeThisMonth}
+                </p>
+              </div>
+            </Card>
+            <Card className={summaryCardClass}>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t("Inactive")}</p>
+                <p className="text-xl font-bold text-slate-500 dark:text-slate-400">
+                  {metrics.inactiveCount}
+                </p>
+              </div>
+            </Card>
+            <Card className={summaryCardClass}>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t("Conversion")}</p>
+                <p className="text-xl font-bold text-amber-600 dark:text-amber-300">
+                  {metrics.conversionRate}%
+                </p>
+              </div>
+            </Card>
+            <Card className={`${summaryCardClass} col-span-2 sm:col-span-1 lg:col-span-2`}>
+              <div className="flex items-center gap-3">
+                <TrendingUp className="h-5 w-5 shrink-0 text-[#1E5EFF]" />
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("Premium of Total")}</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                    {metrics.premium} / {metrics.total}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        ) : null}
+
         <Card className={summaryCardClass}>
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_220px]">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_220px_auto]">
             <Input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
@@ -359,6 +507,17 @@ export default function AdminMembers() {
                 ))}
               </SelectContent>
             </Select>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => exportToCsv(filteredMembers)}
+              disabled={filteredMembers.length === 0}
+              className={memberOutlineButtonClass}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {t("Export CSV")}
+            </Button>
           </div>
         </Card>
 
@@ -376,6 +535,7 @@ export default function AdminMembers() {
               const draft = getDraft(member);
               const hasChanges = draft.plan !== member.plan || draft.role !== member.role;
               const isCurrentAdmin = member.id === user?.id;
+              const daysAgo = getDaysAgo(member.last_login);
 
               return (
                 <Card
@@ -385,6 +545,7 @@ export default function AdminMembers() {
                   <div className="space-y-5">
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
+                        <ActivityDot lastLogin={member.last_login} />
                         <h2 className="min-w-0 break-words text-lg font-semibold text-slate-900 dark:text-slate-50">
                           {member.full_name}
                         </h2>
@@ -410,7 +571,19 @@ export default function AdminMembers() {
                       </p>
                       <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400">
                         <span>{t(`Joined ${formatJoinedDate(member.created_at)}`)}</span>
+                        <span>
+                          {member.last_login
+                            ? daysAgo === 0
+                              ? t("Last active: today")
+                              : t(`Last active: ${daysAgo}d ago`)
+                            : t("Never logged in")}
+                        </span>
                         <span>{t(`${member.total_questions_completed} questions completed`)}</span>
+                        {member.questions_today > 0 ? (
+                          <span className="font-medium text-[#1E5EFF] dark:text-[#7C97FF]">
+                            {t(`${member.questions_today} today`)}
+                          </span>
+                        ) : null}
                         <span>{t(`${member.readiness_score}% readiness`)}</span>
                         <span>{t(`${member.study_streak_days} day streak`)}</span>
                         <span>{t(`${member.exams_count} exams`)}</span>
@@ -428,7 +601,7 @@ export default function AdminMembers() {
                         ) : null}
                       </div>
 
-                      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px] xl:items-end">
+                      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_460px] xl:items-end">
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <Select
                             value={draft.plan}
@@ -463,7 +636,7 @@ export default function AdminMembers() {
                           </Select>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                           <Button
                             type="button"
                             variant="outline"
@@ -473,6 +646,17 @@ export default function AdminMembers() {
                           >
                             <CreditCard className="mr-2 h-4 w-4" />
                             {t("Payments")}
+                          </Button>
+
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => openEmail(member)}
+                            disabled={deleteMemberMutation.isPending}
+                            className={memberOutlineButtonClass}
+                          >
+                            <Mail className="mr-2 h-4 w-4" />
+                            {t("Email")}
                           </Button>
 
                           <Button
@@ -719,6 +903,108 @@ export default function AdminMembers() {
               </div>
             )}
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Send Email dialog */}
+      <Dialog
+        open={Boolean(emailTarget)}
+        onOpenChange={(open) => {
+          if (!open && !sendEmailMutation.isPending) {
+            setEmailTarget(null);
+            setEmailForm({ subject: "", message: "" });
+          }
+        }}
+      >
+        <DialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:max-w-lg dark:border-[#2A3A70]/70 dark:bg-[#10182F]">
+          <div className="border-b border-slate-200/80 bg-gradient-to-br from-blue-50 via-white to-slate-50 px-6 py-5 dark:border-slate-800 dark:from-blue-950/30 dark:via-slate-950 dark:to-slate-900">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-[#1E5EFF] dark:bg-blue-950/60 dark:text-blue-300">
+              <Mail className="h-5 w-5" />
+            </div>
+            <DialogHeader className="space-y-2 text-left">
+              <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+                {t("Send Email")}
+              </DialogTitle>
+              <DialogDescription className="text-sm leading-6 text-slate-600 dark:text-slate-300">
+                {emailTarget ? (
+                  <>
+                    {t("Compose a message for")}{" "}
+                    <span className="font-medium text-slate-900 dark:text-slate-100">
+                      {emailTarget.full_name}
+                    </span>{" "}
+                    <span className="text-slate-400">({emailTarget.email})</span>
+                  </>
+                ) : null}
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+
+          <div className="space-y-4 px-6 py-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="email-subject" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {t("Subject")}
+              </Label>
+              <Input
+                id="email-subject"
+                value={emailForm.subject}
+                onChange={(e) => setEmailForm((f) => ({ ...f, subject: e.target.value }))}
+                placeholder={t("e.g. Important update from RBT Genius")}
+                disabled={sendEmailMutation.isPending}
+                className="dark:!border-slate-700 dark:!bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="email-message" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {t("Message")}
+              </Label>
+              <Textarea
+                id="email-message"
+                value={emailForm.message}
+                onChange={(e) => setEmailForm((f) => ({ ...f, message: e.target.value }))}
+                placeholder={t("Write your message here...")}
+                rows={6}
+                disabled={sendEmailMutation.isPending}
+                className="resize-none dark:!border-slate-700 dark:!bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-slate-800">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={sendEmailMutation.isPending}
+              onClick={() => {
+                setEmailTarget(null);
+                setEmailForm({ subject: "", message: "" });
+              }}
+              className="rounded-xl"
+            >
+              {t("Cancel")}
+            </Button>
+            <Button
+              type="button"
+              disabled={
+                sendEmailMutation.isPending ||
+                !emailForm.subject.trim() ||
+                !emailForm.message.trim()
+              }
+              onClick={handleSendEmail}
+              className="rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90 dark:bg-[#7C97FF] dark:text-slate-950 dark:hover:bg-[#96ACFF]"
+            >
+              {sendEmailMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t("Sending...")}
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  {t("Send Email")}
+                </>
+              )}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

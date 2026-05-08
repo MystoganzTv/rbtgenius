@@ -183,6 +183,12 @@ export const api = {
   listAdminMembers() {
     return request("/api/admin/members");
   },
+  getAdminMetrics() {
+    return request("/api/admin/metrics");
+  },
+  sendMemberEmail(memberId, payload) {
+    return request(`/api/admin/members/${memberId}/email`, { method: "POST", body: payload });
+  },
   getAdminMemberPayments(memberId) {
     return request(`/api/admin/members/${memberId}/payments`);
   },
