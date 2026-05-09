@@ -10,5 +10,233 @@
       "answer": "Documentación ensayo por ensayo",
       "purpose": "Para registrar por separado el desempeño del aprendiz en cada oportunidad de enseñanza."
     }
+  },
+  "documentation_notes": {
+    "status": "reviewed",
+    "answer": "Notas objetivas de sesión",
+    "definition": "las notas describen eventos observables y datos sin opiniones ni etiquetas",
+    "scenario": "En lugar de escribir que un cliente estaba desmotivado, el RBT documenta que completó 3 de 10 tareas y se levantó de la mesa dos veces.",
+    "purpose": "Para mantener registros objetivos, profesionales y útiles para la toma de decisiones clínicas.",
+    "explanation": "Las notas objetivas se centran en lo que ocurrió y en los datos recogidos, no en opiniones ni suposiciones.",
+    "options_es": {
+      "answer": "Notas objetivas de sesión",
+      "purpose": "Para mantener registros objetivos, profesionales y útiles para la toma de decisiones clínicas."
+    }
+  },
+  "documentation_graphing": {
+    "status": "reviewed",
+    "answer": "Graficación de datos",
+    "definition": "los datos se presentan de forma visual para revisar tendencias y cambios a lo largo del tiempo",
+    "scenario": "Un BCBA pide al RBT que actualice la gráfica para que el equipo pueda ver si el mand independiente ha aumentado este mes.",
+    "purpose": "Para facilitar la revisión e interpretación de las tendencias de conducta.",
+    "explanation": "Las gráficas facilitan que el equipo clínico detecte patrones y cambios con rapidez.",
+    "options_es": {
+      "answer": "Graficación de datos",
+      "purpose": "Para facilitar la revisión e interpretación de las tendencias de conducta."
+    }
+  },
+  "documentation_immediate_entry": {
+    "status": "reviewed",
+    "answer": "Registro inmediato de datos",
+    "definition": "los datos se registran lo antes posible después de la conducta o del ensayo de enseñanza",
+    "scenario": "Después de cada ensayo discreto, el RBT anota la respuesta de inmediato en lugar de esperar al final de la sesión.",
+    "purpose": "Para mejorar la precisión registrando la información mientras aún está reciente.",
+    "explanation": "Registrar los datos de inmediato reduce errores de memoria y hace que el registro sea más fiable.",
+    "options_es": {
+      "answer": "Registro inmediato de datos",
+      "purpose": "Para mejorar la precisión registrando la información mientras aún está reciente."
+    }
+  },
+  "documentation_incident_report": {
+    "status": "reviewed",
+    "answer": "Reporte de incidentes",
+    "definition": "un evento significativo se documenta según la política y se comunica con prontitud",
+    "scenario": "Un cliente se cae durante la sesión y necesita primeros auxilios, así que el RBT completa el reporte requerido y notifica al supervisor.",
+    "purpose": "Para documentar claramente los eventos graves y comunicarlos por el proceso correcto.",
+    "explanation": "Los reportes de incidentes se requieren cuando eventos importantes afectan la seguridad, la salud o la integridad de los servicios.",
+    "options_es": {
+      "answer": "Reporte de incidentes",
+      "purpose": "Para documentar claramente los eventos graves y comunicarlos por el proceso correcto."
+    }
+  },
+  "documentation_integrity": {
+    "status": "reviewed",
+    "answer": "Integridad del tratamiento",
+    "definition": "los procedimientos se implementan tal como fueron escritos en el plan",
+    "scenario": "El BCBA verifica si el RBT está presentando las ayudas y el reforzamiento exactamente como especifica el programa.",
+    "purpose": "Para asegurar que la intervención se lleve a cabo según fue diseñada.",
+    "explanation": "La integridad del tratamiento importa porque incluso los buenos planes no funcionan como se espera si se aplican de forma inconsistente.",
+    "options_es": {
+      "answer": "Integridad del tratamiento",
+      "purpose": "Para asegurar que la intervención se lleve a cabo según fue diseñada."
+    }
+  },
+  "documentation_prompt_levels": {
+    "status": "reviewed",
+    "answer": "Documentación del nivel de ayuda",
+    "definition": "los registros muestran cuánta ayuda se necesitó en cada respuesta",
+    "scenario": "Una hoja de datos indica si cada respuesta fue independiente, con ayuda verbal, modelada o con guía física.",
+    "purpose": "Para mostrar cuánta ayuda necesitó el aprendiz en cada respuesta.",
+    "explanation": "La documentación del nivel de ayuda ayuda al equipo a evaluar la independencia y cuándo se pueden desvanecer las ayudas.",
+    "options_es": {
+      "answer": "Documentación del nivel de ayuda",
+      "purpose": "Para mostrar cuánta ayuda necesitó el aprendiz en cada respuesta."
+    }
+  },
+  "documentation_abc_note": {
+    "status": "reviewed",
+    "answer": "Nota narrativa ABC",
+    "definition": "un episodio conductual significativo se resume describiendo en secuencia el antecedente, la conducta y la consecuencia",
+    "scenario": "Después de un episodio de fuga, el RBT escribe qué ocurrió antes, exactamente qué hizo el aprendiz y qué ocurrió después.",
+    "purpose": "Para resumir en secuencia el contexto de un episodio significativo de conducta.",
+    "explanation": "Una nota narrativa ABC es útil cuando el equipo necesita detalles de contexto sobre un incidente importante.",
+    "options_es": {
+      "answer": "Nota narrativa ABC",
+      "purpose": "Para resumir en secuencia el contexto de un episodio significativo de conducta."
+    }
+  },
+  "documentation_mastery_tracking": {
+    "status": "reviewed",
+    "answer": "Seguimiento del criterio de dominio",
+    "definition": "los registros continuos se comparan con el criterio de dominio establecido en el programa",
+    "scenario": "El BCBA revisa si un objetivo ha alcanzado 90 por ciento de respuestas correctas independientes durante tres sesiones.",
+    "purpose": "Para determinar si un objetivo cumple con el criterio de dominio del programa.",
+    "explanation": "El seguimiento del dominio evita avanzar demasiado pronto o mantener un objetivo más tiempo del necesario sin criterios claros.",
+    "options_es": {
+      "answer": "Seguimiento del criterio de dominio",
+      "purpose": "Para determinar si un objetivo cumple con el criterio de dominio del programa."
+    }
+  },
+  "documentation_service_verification": {
+    "status": "reviewed",
+    "answer": "Documentación de verificación del servicio",
+    "definition": "los registros confirman la fecha, la hora, el lugar y la prestación de servicios autorizados",
+    "scenario": "Al final de la sesión, el RBT confirma asistencia, tiempo de servicio y las firmas requeridas según la política de la agencia.",
+    "purpose": "Para confirmar cuándo y dónde se prestaron servicios autorizados.",
+    "explanation": "La documentación de verificación del servicio respalda el cumplimiento, la precisión de la programación y la integridad de la facturación.",
+    "options_es": {
+      "answer": "Documentación de verificación del servicio",
+      "purpose": "Para confirmar cuándo y dónde se prestaron servicios autorizados."
+    }
+  },
+  "documentation_data_summary": {
+    "status": "reviewed",
+    "answer": "Reporte resumido de datos",
+    "definition": "el desempeño de la sesión se resume en una visión factual breve para revisión del supervisor o del equipo",
+    "scenario": "Al final del tratamiento, el RBT informa que el aprendiz completó 18 ensayos, respondió de forma independiente en 14 y mostró agresión dos veces.",
+    "purpose": "Para dar al equipo una visión factual breve del desempeño de la sesión.",
+    "explanation": "El reporte resumido de datos ayuda a los supervisores a revisar el progreso rápidamente sin reemplazar los registros detallados subyacentes.",
+    "options_es": {
+      "answer": "Reporte resumido de datos",
+      "purpose": "Para dar al equipo una visión factual breve del desempeño de la sesión."
+    }
+  },
+  "documentation_timestamp": {
+    "status": "reviewed",
+    "answer": "Documentación de sesión con marcas de tiempo",
+    "definition": "los registros incluyen cuándo ocurrieron eventos, transiciones o servicios importantes",
+    "scenario": "El RBT anota cuándo comenzó la sesión, cuándo ocurrió la agresión, cuándo se dio un descanso y cuándo terminó la sesión.",
+    "purpose": "Para documentar cuándo ocurrieron eventos o servicios importantes durante la sesión.",
+    "explanation": "La documentación con marcas de tiempo mejora la claridad cuando importan la secuencia y el momento de los eventos.",
+    "options_es": {
+      "answer": "Documentación de sesión con marcas de tiempo",
+      "purpose": "Para documentar cuándo ocurrieron eventos o servicios importantes durante la sesión."
+    }
+  },
+  "documentation_caregiver_log": {
+    "status": "reviewed",
+    "answer": "Registro de comunicación con cuidadores",
+    "definition": "la información importante compartida con cuidadores o recibida de ellos se registra con claridad y profesionalismo",
+    "scenario": "Un cuidador informa que el aprendiz durmió mal antes de la sesión, y el RBT documenta la actualización y la comparte con el supervisor.",
+    "purpose": "Para registrar de manera profesional la comunicación importante con los cuidadores.",
+    "explanation": "Los registros de comunicación con cuidadores ayudan al equipo a seguir información importante que puede afectar el tratamiento o la interpretación de la sesión.",
+    "options_es": {
+      "answer": "Registro de comunicación con cuidadores",
+      "purpose": "Para registrar de manera profesional la comunicación importante con los cuidadores."
+    }
+  },
+  "documentation_preference_update": {
+    "status": "reviewed",
+    "answer": "Nota de actualización de preferencias",
+    "definition": "los cambios en los elementos preferidos o en la motivación se documentan para ajustar la enseñanza y el reforzamiento",
+    "scenario": "Al aprendiz ya no le motivan las pegatinas, pero responde bien a materiales de dibujo, y el RBT registra ese cambio para el equipo.",
+    "purpose": "Para documentar cambios en aquello por lo que el aprendiz está motivado a trabajar.",
+    "explanation": "Las notas de actualización de preferencias ayudan al equipo a ajustar los procedimientos de reforzamiento a medida que cambia la motivación del aprendiz.",
+    "options_es": {
+      "answer": "Nota de actualización de preferencias",
+      "purpose": "Para documentar cambios en aquello por lo que el aprendiz está motivado a trabajar."
+    }
+  },
+  "documentation_absence_note": {
+    "status": "reviewed",
+    "answer": "Documentación de ausencia o cancelación",
+    "definition": "las sesiones perdidas, acortadas o canceladas se registran con los detalles factuales relevantes",
+    "scenario": "Una sesión termina antes por una asamblea escolar, y el RBT registra la duración reducida y la razón.",
+    "purpose": "Para documentar cuándo los servicios programados se perdieron o cambiaron.",
+    "explanation": "Las notas de ausencia y cancelación ayudan a mantener registros de servicio precisos y a explicar vacíos en los datos o en el tiempo de tratamiento.",
+    "options_es": {
+      "answer": "Documentación de ausencia o cancelación",
+      "purpose": "Para documentar cuándo los servicios programados se perdieron o cambiaron."
+    }
+  },
+  "documentation_material_change": {
+    "status": "reviewed",
+    "answer": "Nota de cambio de materiales del programa",
+    "definition": "se deja constancia cuando los materiales o la preparación difieren de lo habitual y pueden afectar el desempeño",
+    "scenario": "El aprendiz suele usar tarjetas con imágenes, pero hoy un dispositivo no estaba disponible, así que el RBT documenta los materiales alternativos utilizados.",
+    "purpose": "Para señalar cambios ambientales o de materiales que puedan afectar el desempeño de la sesión.",
+    "explanation": "Documentar los cambios de materiales aporta contexto para interpretar diferencias en el desempeño del aprendiz.",
+    "options_es": {
+      "answer": "Nota de cambio de materiales del programa",
+      "purpose": "Para señalar cambios ambientales o de materiales que puedan afectar el desempeño de la sesión."
+    }
+  },
+  "documentation_behavior_frequency_summary": {
+    "status": "reviewed",
+    "answer": "Resumen de frecuencia de conducta",
+    "definition": "una nota informa cuántas veces ocurrió una conducta objetivo durante la sesión",
+    "scenario": "Al final de la sesión, el RBT registra que la fuga ocurrió tres veces y la agresión una vez.",
+    "purpose": "Para resumir cuántas veces ocurrieron las conductas objetivo.",
+    "explanation": "Los resúmenes de frecuencia de conducta ayudan al equipo a revisar los conteos clave sin leer cada nota de evento individual.",
+    "options_es": {
+      "answer": "Resumen de frecuencia de conducta",
+      "purpose": "Para resumir cuántas veces ocurrieron las conductas objetivo."
+    }
+  },
+  "documentation_reinforcement_log": {
+    "status": "reviewed",
+    "answer": "Registro de reforzadores",
+    "definition": "el RBT registra qué reforzadores se utilizaron y cómo respondió el aprendiz a ellos",
+    "scenario": "El equipo está probando varios reforzadores, así que el RBT registra cuáles aumentaron con mayor eficacia las respuestas correctas.",
+    "purpose": "Para documentar qué reforzadores se usaron y qué tan eficaces parecieron.",
+    "explanation": "Los registros de reforzadores pueden ayudar al equipo a ajustar los sistemas motivacionales según lo que esté funcionando mejor.",
+    "options_es": {
+      "answer": "Registro de reforzadores",
+      "purpose": "Para documentar qué reforzadores se usaron y qué tan eficaces parecieron."
+    }
+  },
+  "documentation_session_objective": {
+    "status": "reviewed",
+    "answer": "Resumen objetivo de la sesión",
+    "definition": "la nota general de la sesión incluye detalles factuales sobre objetivos trabajados, conductas observadas y resultados clave sin interpretar más allá de los datos",
+    "scenario": "Una nota indica que se trabajaron 4 objetivos, que hubo agresión dos veces y que las peticiones independientes aumentaron en comparación con la sesión anterior.",
+    "purpose": "Para resumir la sesión de forma objetiva y clara para revisión del supervisor.",
+    "explanation": "Los resúmenes objetivos de la sesión ayudan al equipo a ver los eventos y datos clave de una sesión sin depender de impresiones subjetivas.",
+    "options_es": {
+      "answer": "Resumen objetivo de la sesión",
+      "purpose": "Para resumir la sesión de forma objetiva y clara para revisión del supervisor."
+    }
+  },
+  "documentation_signature_compliance": {
+    "status": "reviewed",
+    "answer": "Cumplimiento de firmas",
+    "definition": "las firmas o confirmaciones requeridas se recogen según la política cuando la documentación así lo exige",
+    "scenario": "Después de prestar servicios autorizados, el RBT se asegura de obtener la firma de verificación requerida antes de cerrar la nota.",
+    "purpose": "Para mantener la documentación en cumplimiento con los procedimientos requeridos de verificación.",
+    "explanation": "El cumplimiento de firmas es importante cuando las agencias o los pagadores exigen confirmar que los servicios se prestaron como se documentó.",
+    "options_es": {
+      "answer": "Cumplimiento de firmas",
+      "purpose": "Para mantener la documentación en cumplimiento con los procedimientos requeridos de verificación."
+    }
   }
 }
