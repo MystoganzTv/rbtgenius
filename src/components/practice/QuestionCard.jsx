@@ -26,6 +26,7 @@ import {
   translateUi,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { extractKeyTerms, getGlossaryEntry } from "@/lib/aba-glossary";
 
 export default function QuestionCard({
   question,
@@ -53,6 +54,7 @@ export default function QuestionCard({
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
   const [aiFollowUp, setAiFollowUp] = useState("");
+  const [spanishExplanationVisible, setSpanishExplanationVisible] = useState(false);
 
   const handleSubmit = () => {
     if (!selectedAnswer) {
@@ -119,6 +121,7 @@ export default function QuestionCard({
     setAiLoading(false);
     setAiError("");
     setAiFollowUp("");
+    setSpanishExplanationVisible(false);
   }, [question?.id]);
 
   const buildLocalAiReply = () => {
@@ -215,6 +218,59 @@ export default function QuestionCard({
       setAiLoading(false);
     }
   };
+
+  const handleExplainInSpanish = async () => {
+    if (aiLoading) return;
+    if (spanishExplanationVisible && aiMessages.length > 0) {
+      setSpanishExplanationVisible(false);
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError("");
+    setSpanishExplanationVisible(true);
+
+    const correctOption = (localizedQuestion?.options || []).find(o => o.label === correctAnswer);
+    const explainPrompt = [
+      "Explica este concepto de RBT en español para un estudiante hispanohablante que está preparándose para el examen.",
+      "IMPORTANTE: mantén los términos técnicos de ABA en inglés (como reinforcement, prompting, extinction, etc.) pero explica su significado en español.",
+      "Sé conciso y claro.",
+      "",
+      `Pregunta (en inglés): ${localizedQuestionText}`,
+      correctOption ? `Respuesta correcta: ${correctAnswer}) ${correctOption.localizedText?.primary || ""}` : "",
+      localizedExplanation?.primary ? `Explicación oficial: ${localizedExplanation.primary}` : "",
+    ].filter(Boolean).join("\n");
+
+    try {
+      const created = await api.createTutorConversation({ name: `Explicación Q${questionNumber}` });
+      const conversationId = created?.conversation?.id || null;
+      setAiConversationId(conversationId);
+      onEntitlementsChange?.(created?.entitlements || entitlements);
+
+      if (!conversationId) throw new Error("No se pudo iniciar la explicación.");
+
+      const payload = await api.sendTutorMessage(conversationId, { content: explainPrompt });
+      const updatedConversation = payload?.conversation;
+      const assistantMessage = [...(updatedConversation?.messages || [])].reverse().find(m => m.role === "assistant");
+      const reply = String(assistantMessage?.content || "").replaceAll("**", "").trim();
+
+      if (reply) {
+        setAiMessages([{ role: "assistant", content: reply }]);
+        setAiReply(reply);
+        setAiReplyVisible(true);
+      }
+      onEntitlementsChange?.(payload?.entitlements || entitlements);
+    } catch (error) {
+      setAiError(error?.message || "No se pudo generar la explicación.");
+      setSpanishExplanationVisible(false);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const keyTerms = language === "es" && isSubmitted
+    ? extractKeyTerms((localizedQuestion?.localizedText?.primary || "") + " " + (localizedExplanation?.primary || ""))
+    : [];
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
@@ -387,15 +443,30 @@ export default function QuestionCard({
                   onClick={handleAskAi}
                   disabled={aiLoading}
                 >
-                  {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bot className="h-4 w-4" />}
-                  {aiLoading
+                  {aiLoading && !spanishExplanationVisible ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bot className="h-4 w-4" />}
+                  {aiLoading && !spanishExplanationVisible
                     ? translateUi("Preparing AI help...", language)
-                    : aiReply
+                    : aiReply && !spanishExplanationVisible
                       ? aiReplyVisible
                         ? translateUi("Hide AI Reply", language)
                         : translateUi("Show AI Reply", language)
                       : translateUi("Ask AI", language)}
                 </Button>
+
+                {language === "es" && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-emerald-200 bg-emerald-50/80 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-500/20 dark:bg-emerald-500/8 dark:text-emerald-300"
+                    onClick={handleExplainInSpanish}
+                    disabled={aiLoading}
+                  >
+                    {aiLoading && spanishExplanationVisible ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-sm">🇪🇸</span>}
+                    {spanishExplanationVisible && aiMessages.length > 0
+                      ? translateUi("Hide Spanish", language)
+                      : translateUi("Explain in Spanish", language)}
+                  </Button>
+                )}
               </div>
 
               {explanationVisible && explanation ? (
@@ -413,6 +484,24 @@ export default function QuestionCard({
                   />
                 </div>
               ) : null}
+
+              {language === "es" && isSubmitted && keyTerms.length > 0 && (
+                <div className="mt-2 space-y-1 rounded-xl border border-blue-200/60 bg-blue-50/50 px-3 py-2 dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-[#8EB0FF]">
+                    {translateUi("ABA Glossary", language)}
+                  </p>
+                  {keyTerms.map((term) => {
+                    const entry = getGlossaryEntry(term);
+                    if (!entry) return null;
+                    return (
+                      <div key={term} className="flex flex-wrap items-baseline gap-1 text-xs">
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">{term}</span>
+                        <span className="text-slate-500 dark:text-slate-400">→ {entry}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {(aiReplyVisible || aiLoading || aiError) ? (
                 <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-[#1E5EFF]/5 p-4">

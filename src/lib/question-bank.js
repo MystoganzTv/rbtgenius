@@ -2102,13 +2102,19 @@ export function setConceptTranslations(translations) {
   for (const [conceptId, tr] of Object.entries(_conceptTranslationsEs)) {
     const concept = questionConceptLookup[conceptId];
     if (!concept) continue;
-    if (tr.answer) _answerToSpanish[concept.answer] = tr.answer;
-    if (tr.purpose) _purposeToSpanish[concept.purpose] = tr.purpose;
+    // Only use reviewed/approved translations
+    if (!tr.status || tr.status === 'draft_machine') continue;
+    if (tr.options_es?.answer) _answerToSpanish[concept.answer] = tr.options_es.answer;
+    if (tr.options_es?.purpose) _purposeToSpanish[concept.purpose] = tr.options_es.purpose;
   }
 }
 
 export function getConceptTranslationEs(conceptId) {
-  return _conceptTranslationsEs[conceptId] || null;
+  const tr = _conceptTranslationsEs[conceptId];
+  if (!tr) return null;
+  // Only return reviewed or approved translations
+  if (!tr.status || tr.status === 'draft_machine') return null;
+  return tr;
 }
 
 export function getSpanishForOptionText(englishText) {

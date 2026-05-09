@@ -436,6 +436,9 @@ const UI_TRANSLATIONS = {
   "Ethics & Professional Conduct below 75%": "Ética y Conducta Profesional por debajo del 75%",
   "Measurement below 70%": "Medición por debajo del 70%",
   "Behavior Reduction below 70%": "Reducción de conducta por debajo del 70%",
+  "Explain in Spanish": "Explicar en español",
+  "Hide Spanish": "Ocultar español",
+  "ABA Glossary": "Glosario ABA",
 };
 
 const TOPIC_TRANSLATIONS = {
