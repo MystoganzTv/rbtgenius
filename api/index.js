@@ -7,7 +7,7 @@ import {
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
-import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig } from '../server/lib/billing.js';
+import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, resolvePlanFromPriceId } from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
 import crypto from 'node:crypto';
@@ -289,9 +289,8 @@ async function webApiHandler(req) {
         const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
         for (const u of mockNext.users) {
           const orig = allUsers.find(x => x.id === u.id);
-          if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id)) {
+          if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id))
             await db.updateUser(u.id, { plan: u.plan, stripe_customer_id: u.stripe_customer_id });
-          }
         }
         for (const p of mockNext.payments) {
           if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p);
@@ -302,6 +301,69 @@ async function webApiHandler(req) {
           email: checkout.customer_details?.email || checkout.customer_email,
         });
         if (user) await notifyNewSubscription({ user, plan: checkout.metadata?.plan || user.plan, checkout });
+      }
+
+      if (event.type === 'customer.subscription.deleted') {
+        const sub = event.data?.object || {};
+        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user) {
+          await db.updateUser(user.id, { plan: 'free' });
+          console.log(`[webhook] Subscription cancelled — downgraded ${user.email} to free`);
+        }
+      }
+
+      if (event.type === 'customer.subscription.updated') {
+        const sub = event.data?.object || {};
+        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user && sub.status === 'active') {
+          const priceId = sub.items?.data?.[0]?.price?.id;
+          const plan = resolvePlanFromPriceId(priceId);
+          if (plan && plan !== 'free') {
+            await db.updateUser(user.id, { plan });
+            console.log(`[webhook] Subscription updated — ${user.email} → ${plan}`);
+          }
+        }
+        if (user && (sub.status === 'canceled' || sub.status === 'unpaid')) {
+          await db.updateUser(user.id, { plan: 'free' });
+          console.log(`[webhook] Subscription ${sub.status} — downgraded ${user.email} to free`);
+        }
+      }
+
+      if (event.type === 'invoice.paid') {
+        const invoice = event.data?.object || {};
+        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user && invoice.billing_reason === 'subscription_cycle') {
+          // Recurring renewal — ensure plan stays active
+          const priceId = invoice.lines?.data?.[0]?.price?.id;
+          const plan = resolvePlanFromPriceId(priceId);
+          if (plan && plan !== 'free' && user.plan !== plan) {
+            await db.updateUser(user.id, { plan });
+          }
+          // Record renewal payment
+          await db.createPayment({
+            id: createId('pay'),
+            user_id: user.id,
+            status: 'completed',
+            amount: (invoice.amount_paid || 0) / 100,
+            payment_date: new Date((invoice.created || Date.now() / 1000) * 1000).toISOString(),
+            created_at: new Date().toISOString(),
+            metadata: { invoice_id: invoice.id, reason: 'subscription_renewal' },
+          });
+          console.log(`[webhook] Renewal payment recorded for ${user.email}`);
+        }
+      }
+
+      if (event.type === 'invoice.payment_failed') {
+        const invoice = event.data?.object || {};
+        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user) {
+          console.warn(`[webhook] Payment failed for ${user.email} — invoice ${invoice.id}`);
+          // Stripe will retry — we don't downgrade immediately
+        }
       }
 
       return json({ received: true });

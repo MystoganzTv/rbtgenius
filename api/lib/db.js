@@ -27,6 +27,12 @@ export async function getUserById(id) {
   return rows[0] ?? null;
 }
 
+export async function getUserByStripeCustomerId(customerId) {
+  if (!customerId) return null;
+  const rows = await sql`SELECT * FROM users WHERE stripe_customer_id = ${customerId} LIMIT 1`;
+  return rows[0] ?? null;
+}
+
 export async function getAllUsers() {
   return sql`SELECT * FROM users ORDER BY created_at DESC`;
 }
