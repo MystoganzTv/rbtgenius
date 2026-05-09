@@ -183,39 +183,39 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="Questions Answered"
+          title={t("Questions Answered")}
           value={`${totalQuestions}/${totalQuestionsAvailable}`}
-          subtitle={`${totalQuestionsAvailable} live questions across ${OFFICIAL_CONCEPT_COUNT} concepts`}
+          subtitle={`${totalQuestionsAvailable} ${t("live questions across")} ${OFFICIAL_CONCEPT_COUNT} ${t("tracked concepts")}`}
           icon={HelpCircle}
           color="blue"
         />
         <StatCard
-          title="Bank Accuracy"
+          title={t("Bank Accuracy")}
           value={`${bankAccuracy}%`}
           subtitle={
             totalQuestions > 0
-              ? `${progress?.total_correct || 0} correct out of ${totalQuestionsAvailable} total bank questions`
-              : "No bank progress yet"
+              ? `${progress?.total_correct || 0} ${t("correct out of")} ${totalQuestionsAvailable} ${t("total bank questions")}`
+              : t("No bank progress yet")
           }
           icon={Target}
           color="green"
         />
         <StatCard
-          title="Bank Coverage"
+          title={t("Bank Coverage")}
           value={`${bankCoverage}%`}
-          subtitle={`${totalQuestions} answered across ${OFFICIAL_CONCEPT_COUNT} tracked concepts`}
+          subtitle={`${totalQuestions} ${t("answered across")} ${OFFICIAL_CONCEPT_COUNT} ${t("tracked concepts")}`}
           icon={BookOpenCheck}
           color="purple"
         />
         <StatCard
-          title="Study Streak"
-          value={streak > 0 ? `${streak} days` : questionsToday > 0 ? "Started" : "0 days"}
+          title={t("Study Streak")}
+          value={streak > 0 ? `${streak} ${streak === 1 ? t("day") : t("days")}` : questionsToday > 0 ? t("Started") : `0 ${t("days")}`}
           subtitle={
             streak > 0
-              ? "Consecutive return days"
+              ? t("Consecutive return days")
               : questionsToday > 0
-                ? "Come back tomorrow to start your streak"
-                : "No streak yet"
+                ? t("Come back tomorrow to start your streak")
+                : t("No streak yet")
           }
           icon={Flame}
           color="gold"
@@ -396,11 +396,9 @@ export default function Dashboard() {
                   )}
                 </p>
                 <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  {t(
-                    mockExamsTaken === 0
-                      ? "Mock exams matter more than small practice samples for final readiness."
-                      : `${failedMockExams} mock exam${failedMockExams === 1 ? "" : "s"} below the target score so far.`,
-                  )}
+                  {mockExamsTaken === 0
+                    ? t("Mock exams matter more than small practice samples for final readiness.")
+                    : `${failedMockExams} ${failedMockExams === 1 ? t("mock exam below the target score so far.") : t("mock exams below the target score so far.")}`}
                 </p>
               </div>
             </div>

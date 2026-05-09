@@ -106,7 +106,7 @@ export default function Pricing() {
   const anyLoading = checkoutMutation.isPending || portalMutation.isPending;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#080F1E]">
       {/* Nav */}
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <Link

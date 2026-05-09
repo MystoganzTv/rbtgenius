@@ -32,10 +32,10 @@ export default function ReadinessGauge({
 
   const getSubtext = () => {
     if (examCount > 0)
-      return `Guided by ${examCount} mock exam${examCount === 1 ? "" : "s"} and practice accuracy`;
+      return `${translateUi("Guided by", language)} ${examCount} ${examCount === 1 ? translateUi("mock exam", language) : translateUi("mock exams", language)} ${translateUi("and practice accuracy", language)}`;
     if (questionCount >= 20)
-      return `Practice-only estimate · Take a mock exam for a stronger signal`;
-    return "Very early estimate · Answer more questions and take a mock exam";
+      return translateUi("Practice-only estimate · Take a mock exam for a stronger signal", language);
+    return translateUi("Very early estimate · Answer more questions and take a mock exam", language);
   };
 
   return (
@@ -70,14 +70,14 @@ export default function ReadinessGauge({
         </span>
 
         <p className="mt-1 text-center text-xs text-slate-400 dark:text-slate-500">
-          {translateUi(getSubtext(), language)}
+          {getSubtext()}
         </p>
 
         {cappedBy && (
           <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 dark:border-amber-500/25 dark:bg-amber-500/10">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
             <p className="text-xs text-amber-700 dark:text-amber-300">
-              Score capped at 78% — {cappedBy} needs more practice before the exam.
+              {translateUi("Score capped at 78%", language)} — {translateUi(cappedBy, language)} {translateUi("needs more practice before the exam.", language)}
             </p>
           </div>
         )}
