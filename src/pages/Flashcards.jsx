@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { api } from "@/lib/api";
 import BilingualText from "@/components/i18n/BilingualText";
+import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { useLanguage } from "@/hooks/use-language";
 import { localizeQuestion, translateDifficulty, translateTopic, translateUi } from "@/lib/i18n";
 import { FREE_FLASHCARD_LIMIT, isPremiumPlan } from "@/lib/plan-access";
@@ -107,6 +108,7 @@ export default function Flashcards() {
     () => localizeQuestion(currentCard, language),
     [currentCard, language],
   );
+  const spanishCurrentCard = useMemo(() => localizeQuestion(currentCard, "es"), [currentCard]);
 
   useEffect(() => {
     if (filteredQuestions.length === 0) {
@@ -372,11 +374,21 @@ export default function Flashcards() {
                       <p className="mb-4 text-xs uppercase tracking-wider opacity-80">
                         {translateUi("Question", language)}
                       </p>
-                      <BilingualText
-                        content={localizedCurrentCard?.localizedText}
-                        primaryClassName="text-2xl font-bold leading-relaxed"
-                        secondaryClassName="text-white/70"
-                      />
+                      <div className="flex items-start gap-3 text-left">
+                        <BilingualText
+                          content={localizedCurrentCard?.localizedText}
+                          className="flex-1"
+                          primaryClassName="text-2xl font-bold leading-relaxed"
+                          secondaryClassName="text-white/70"
+                        />
+                        <TranslateTextButton
+                          title="Question"
+                          language={language}
+                          englishText={currentCard?.text}
+                          spanishText={spanishCurrentCard?.localizedText?.primary}
+                          className="mt-1 flex-shrink-0 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                        />
+                      </div>
                       <p className="mt-8 text-xs opacity-60">
                         {translateUi("Click to view the answer", language)}
                       </p>
@@ -402,22 +414,42 @@ export default function Flashcards() {
                                   : "bg-slate-50 opacity-50 dark:bg-slate-900"
                               }`}
                             >
-                              <span className="font-semibold">{option.label}.</span>{" "}
-                              <BilingualText
-                                content={option.localizedText}
-                                className="inline-block align-middle"
-                                primaryClassName="inline"
-                                secondaryClassName="inline text-xs"
-                              />
+                              <div className="flex items-start gap-2">
+                                <div className="flex-1">
+                                  <span className="font-semibold">{option.label}.</span>{" "}
+                                  <BilingualText
+                                    content={option.localizedText}
+                                    className="inline-block align-middle"
+                                    primaryClassName="inline"
+                                    secondaryClassName="inline text-xs"
+                                  />
+                                </div>
+                                <TranslateTextButton
+                                  title="Translation"
+                                  language={language}
+                                  englishText={currentCard?.options?.find((englishOption) => englishOption.label === option.label)?.text}
+                                  spanishText={spanishCurrentCard?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
+                                  className="h-7 w-7 flex-shrink-0"
+                                />
+                              </div>
                             </div>
                           ))}
                         </div>
 
                         {currentCard.explanation ? (
                           <div className="space-y-3 rounded-lg bg-blue-50 p-4 dark:bg-slate-900">
-                            <p className="mb-1 text-xs font-semibold text-[#1E5EFF]">
-                              {translateUi("Explanation", language)}:
-                            </p>
+                            <div className="mb-2 flex items-center justify-between gap-3">
+                              <p className="text-xs font-semibold text-[#1E5EFF]">
+                                {translateUi("Explanation", language)}:
+                              </p>
+                              <TranslateTextButton
+                                title="Explanation"
+                                language={language}
+                                englishText={currentCard?.explanation}
+                                spanishText={spanishCurrentCard?.localizedExplanation?.primary}
+                                className="h-7 w-7 flex-shrink-0"
+                              />
+                            </div>
                             <BilingualText
                               content={localizedCurrentCard?.localizedExplanation}
                               primaryClassName="text-sm text-slate-700 dark:text-slate-200"

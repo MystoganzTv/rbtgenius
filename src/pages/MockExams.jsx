@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import PremiumGate from "@/components/billing/PremiumGate";
 import BilingualText from "@/components/i18n/BilingualText";
+import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/use-language";
@@ -133,6 +134,7 @@ export default function MockExams() {
 
   const currentQuestion = questions[currentIndex] || null;
   const localizedCurrentQuestion = localizeQuestion(currentQuestion, language);
+  const spanishCurrentQuestion = localizeQuestion(currentQuestion, "es");
 
   if (!entitlements) {
     return (
@@ -367,12 +369,21 @@ export default function MockExams() {
       </div>
 
       <div className="rounded-2xl border border-slate-100 bg-white p-6">
-        <BilingualText
-          content={localizedCurrentQuestion?.localizedText}
-          className="mb-6"
-          primaryClassName="text-base font-medium leading-relaxed text-slate-900"
-          secondaryClassName="leading-relaxed text-slate-500"
-        />
+        <div className="mb-6 flex items-start gap-3">
+          <BilingualText
+            content={localizedCurrentQuestion?.localizedText}
+            className="flex-1"
+            primaryClassName="text-base font-medium leading-relaxed text-slate-900"
+            secondaryClassName="leading-relaxed text-slate-500"
+          />
+          <TranslateTextButton
+            title="Question"
+            language={language}
+            englishText={currentQuestion?.text}
+            spanishText={spanishCurrentQuestion?.localizedText?.primary}
+            className="mt-0.5 flex-shrink-0"
+          />
+        </div>
         <div className="space-y-3">
           {(localizedCurrentQuestion?.options || []).map((option) => {
             const isSelected = answers[currentQuestion.id] === option.label;
@@ -404,11 +415,21 @@ export default function MockExams() {
                 >
                   {option.label}
                 </span>
-                <BilingualText
-                  content={option.localizedText}
-                  primaryClassName="text-sm text-slate-900"
-                  secondaryClassName="text-slate-500"
-                />
+                <div className="flex min-w-0 flex-1 items-start gap-2">
+                  <BilingualText
+                    content={option.localizedText}
+                    className="flex-1"
+                    primaryClassName="text-sm text-slate-900"
+                    secondaryClassName="text-slate-500"
+                  />
+                  <TranslateTextButton
+                    title="Translation"
+                    language={language}
+                    englishText={currentQuestion?.options?.find((englishOption) => englishOption.label === option.label)?.text}
+                    spanishText={spanishCurrentQuestion?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
+                    className="mt-0.5 flex-shrink-0"
+                  />
+                </div>
               </button>
             );
           })}

@@ -11,6 +11,7 @@ import {
   XCircle,
 } from "lucide-react";
 import BilingualText from "@/components/i18n/BilingualText";
+import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/use-language";
@@ -63,6 +64,7 @@ export default function QuestionCard({
 
   const isCorrect = selectedAnswer === correctAnswer;
   const localizedQuestion = localizeQuestion(question, language);
+  const spanishQuestion = useMemo(() => localizeQuestion(question, "es"), [question]);
   const localizedExplanation =
     explanation && explanation !== question?.explanation
       ? localizeText(explanation, language)
@@ -235,12 +237,21 @@ export default function QuestionCard({
       </div>
 
       <div className="p-6">
-        <BilingualText
-          content={localizedQuestion?.localizedText}
-          className="mb-6"
-          primaryClassName="text-base font-medium leading-relaxed text-slate-900 dark:text-slate-50"
-          secondaryClassName="leading-relaxed text-slate-500 dark:text-slate-400"
-        />
+        <div className="mb-6 flex items-start gap-3">
+          <BilingualText
+            content={localizedQuestion?.localizedText}
+            className="flex-1"
+            primaryClassName="text-base font-medium leading-relaxed text-slate-900 dark:text-slate-50"
+            secondaryClassName="leading-relaxed text-slate-500 dark:text-slate-400"
+          />
+          <TranslateTextButton
+            title="Translation"
+            language={language}
+            englishText={question?.text}
+            spanishText={spanishQuestion?.localizedText?.primary}
+            className="mt-0.5 flex-shrink-0"
+          />
+        </div>
 
         <div className="space-y-3">
           {(localizedQuestion?.options || []).map((option) => {
@@ -300,11 +311,21 @@ export default function QuestionCard({
                     option.label
                   )}
                 </span>
-                <BilingualText
-                  content={option.localizedText}
-                  primaryClassName={cn("text-sm", optionTextStyle)}
-                  secondaryClassName="text-slate-500 dark:text-slate-400"
-                />
+                <div className="flex min-w-0 flex-1 items-start gap-2">
+                  <BilingualText
+                    content={option.localizedText}
+                    className="flex-1"
+                    primaryClassName={cn("text-sm", optionTextStyle)}
+                    secondaryClassName="text-slate-500 dark:text-slate-400"
+                  />
+                  <TranslateTextButton
+                    title="Translation"
+                    language={language}
+                    englishText={option.text}
+                    spanishText={spanishQuestion?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
+                    className="mt-0.5 flex-shrink-0"
+                  />
+                </div>
               </button>
             );
           })}
@@ -362,11 +383,20 @@ export default function QuestionCard({
 
               {explanationVisible && explanation ? (
                 <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-                  <div className="mb-1 flex items-center gap-2">
-                    <Lightbulb className="h-4 w-4 text-[#FFB800]" />
-                    <span className="text-xs font-semibold text-[#1E5EFF]">
-                      {translateUi("Explanation", language)}
-                    </span>
+                  <div className="mb-1 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <Lightbulb className="h-4 w-4 text-[#FFB800]" />
+                      <span className="text-xs font-semibold text-[#1E5EFF]">
+                        {translateUi("Explanation", language)}
+                      </span>
+                    </div>
+                    <TranslateTextButton
+                      title="Explanation"
+                      language={language}
+                      englishText={question?.explanation || explanation}
+                      spanishText={spanishQuestion?.localizedExplanation?.primary || localizedExplanation?.primary}
+                      className="h-7 w-7 flex-shrink-0"
+                    />
                   </div>
                   <BilingualText
                     content={localizedExplanation}

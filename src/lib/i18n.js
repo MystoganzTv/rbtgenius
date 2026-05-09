@@ -47,6 +47,8 @@ const UI_TRANSLATIONS = {
   "Show Explanation": "Mostrar explicación",
   "Hide Explanation": "Ocultar explicación",
   "Ask AI": "Preguntar a la IA",
+  "Translation": "Traducción",
+  "View translation": "Ver traducción",
   "Show AI Reply": "Mostrar respuesta de IA",
   "Hide AI Reply": "Ocultar respuesta de IA",
   "AI Coach": "Asistente IA",
