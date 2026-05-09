@@ -1,197 +1,211 @@
 /**
  * translate-questions.mjs
  *
- * Translates all RBT concept fields from English to Spanish using Claude.
- * Outputs to src/lib/question-translations-es.json
+ * Translates all RBT concept fields from English to Spanish using LibreTranslate
+ * (100% free, no API key required).
  *
  * Usage:
- *   ANTHROPIC_API_KEY=your_key node scripts/translate-questions.mjs
+ *   node scripts/translate-questions.mjs
  *
- * The script saves progress every 5 batches so it can resume if interrupted.
+ * Saves progress every 10 concepts so it can resume if interrupted.
  * Re-running skips concepts that already have translations.
  */
 
-import Anthropic from "@anthropic-ai/sdk";
-import { createRequire } from "module";
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = join(__dirname, "../src/lib/question-translations-es.json");
-const BATCH_SIZE = 20;
-const SAVE_EVERY = 5; // save every N batches
 
-const SYSTEM_PROMPT =
-  "You are a professional translator specializing in Applied Behavior Analysis (ABA) and RBT certification content. " +
-  "Translate the following RBT concept fields from English to Spanish. " +
-  "Keep technical ABA terms in their original English form as they are commonly used in Spanish-speaking ABA communities: " +
-  "reinforcement, punishment, RBT, BCBA, ABA, DTT, NET, VB-MAPP, extinction, shaping, chaining, prompting, fading, " +
-  "baseline, FBA, ABC, MSWO, token economy, DRO, DRA, DRI, NCR, FCT, PECS, naturalistic teaching. " +
-  "Make the translation natural and professional. " +
-  "Respond ONLY with a JSON object.";
+// Public LibreTranslate instances (tries each if one fails)
+const LIBRETRANSLATE_URLS = [
+  "https://libretranslate.com/translate",
+  "https://translate.argosopentech.com/translate",
+  "https://libretranslate.de/translate",
+];
 
-async function main() {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    console.error("ANTHROPIC_API_KEY environment variable is required");
-    process.exit(1);
+// ABA/RBT technical terms to keep in English
+const PROTECTED_TERMS = [
+  "RBT", "BCBA", "ABA", "DTT", "NET", "VB-MAPP", "PECS",
+  "reinforcement", "punishment", "extinction", "shaping", "chaining",
+  "prompting", "fading", "baseline", "FBA", "ABC", "MSWO",
+  "DRO", "DRA", "DRI", "NCR", "FCT", "IOA",
+];
+
+// Replace protected terms with placeholders before translating
+function protectTerms(text) {
+  const map = {};
+  let result = text;
+  PROTECTED_TERMS.forEach((term, i) => {
+    const placeholder = `TERM${i}`;
+    const regex = new RegExp(`\\b${term}\\b`, "gi");
+    if (regex.test(result)) {
+      map[placeholder] = term;
+      result = result.replace(new RegExp(`\\b${term}\\b`, "gi"), placeholder);
+    }
+  });
+  return { text: result, map };
+}
+
+function restoreTerms(text, map) {
+  let result = text;
+  for (const [placeholder, original] of Object.entries(map)) {
+    result = result.replace(new RegExp(placeholder, "g"), original);
+  }
+  return result;
+}
+
+async function translateText(text, retries = 3) {
+  const { text: protected_, map } = protectTerms(text);
+
+  for (const url of LIBRETRANSLATE_URLS) {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            q: protected_,
+            source: "en",
+            target: "es",
+            format: "text",
+          }),
+          signal: AbortSignal.timeout(15000),
+        });
+
+        if (!res.ok) {
+          if (attempt < retries - 1) await sleep(2000);
+          continue;
+        }
+
+        const data = await res.json();
+        const translated = data.translatedText || data.translated_text || "";
+        if (!translated) continue;
+
+        return restoreTerms(translated, map);
+      } catch {
+        if (attempt < retries - 1) await sleep(2000);
+      }
+    }
   }
 
-  const client = new Anthropic({ apiKey });
+  // All instances failed — return original English
+  console.warn(`  ⚠ Could not translate: "${text.slice(0, 50)}..." — keeping English`);
+  return text;
+}
 
-  // Load question-bank concepts via dynamic import
-  console.log("Loading question bank...");
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function translateConcept(concept) {
+  // Small delay between requests to be polite to free servers
+  const fields = ["answer", "definition", "scenario", "purpose", "explanation"];
+  const result = {};
+
+  for (const field of fields) {
+    const value = concept[field];
+    if (value) {
+      result[field] = await translateText(value);
+      await sleep(300); // 300ms between requests
+    } else {
+      result[field] = value;
+    }
+  }
+
+  return result;
+}
+
+async function main() {
+  console.log("RBT Genius — Question Translator (free, LibreTranslate)");
+  console.log("=".repeat(55));
+
+  // Load concept lookup from question bank
+  console.log("\nLoading question bank...");
   const qbPath = join(__dirname, "../src/lib/question-bank.js");
 
-  // We need to load the concept lookup. Since the file has complex imports,
-  // we'll extract concepts from it by parsing the exported questionConceptLookup.
-  // Use a simple approach: read the file and run it via node with special env.
   let conceptLookup;
   try {
     const mod = await import(qbPath);
     conceptLookup = mod.questionConceptLookup;
   } catch (e) {
     console.error("Failed to import question-bank.js:", e.message);
-    console.log("Trying alternative extraction...");
     process.exit(1);
   }
 
   if (!conceptLookup || Object.keys(conceptLookup).length === 0) {
-    console.error("No concepts found in questionConceptLookup");
+    console.error("No concepts found");
     process.exit(1);
   }
 
   const allConcepts = Object.values(conceptLookup);
-  console.log(`Found ${allConcepts.length} concepts to translate`);
+  console.log(`Found ${allConcepts.length} concepts`);
 
-  // Load existing translations (resume support)
+  // Load existing progress
   let translations = {};
   if (existsSync(OUTPUT_PATH)) {
     try {
       translations = JSON.parse(readFileSync(OUTPUT_PATH, "utf8"));
       const done = Object.keys(translations).length;
-      console.log(`Resuming: ${done} concepts already translated`);
+      console.log(`Resuming: ${done}/${allConcepts.length} already translated`);
     } catch {
-      console.log("Starting fresh translation");
+      console.log("Starting fresh");
     }
   }
 
-  // Filter out already-translated concepts
   const remaining = allConcepts.filter((c) => !translations[c.id]);
-  console.log(`Translating ${remaining.length} remaining concepts in batches of ${BATCH_SIZE}`);
+  console.log(`Translating ${remaining.length} remaining concepts...\n`);
 
-  let batchCount = 0;
-  let totalTranslated = Object.keys(translations).length;
+  if (remaining.length === 0) {
+    console.log("✅ All concepts already translated!");
+    return;
+  }
 
-  for (let i = 0; i < remaining.length; i += BATCH_SIZE) {
-    const batch = remaining.slice(i, i + BATCH_SIZE);
-    batchCount++;
+  // Test connection first
+  console.log("Testing LibreTranslate connection...");
+  const test = await translateText("Hello");
+  if (test === "Hello") {
+    console.error("❌ LibreTranslate unavailable. Try again later or check your internet connection.");
+    process.exit(1);
+  }
+  console.log(`✓ Connected (test: "Hello" → "${test}")\n`);
 
-    console.log(
-      `\nBatch ${batchCount}: concepts ${i + 1}–${Math.min(i + BATCH_SIZE, remaining.length)} of ${remaining.length}`
-    );
+  let done = 0;
+  const startTime = Date.now();
 
-    const batchInput = {};
-    for (const concept of batch) {
-      batchInput[concept.id] = {
-        answer: concept.answer,
-        definition: concept.definition,
-        scenario: concept.scenario,
-        purpose: concept.purpose,
-        explanation: concept.explanation,
-      };
-    }
+  for (const concept of remaining) {
+    process.stdout.write(`[${done + 1}/${remaining.length}] ${concept.id}... `);
 
     try {
-      const response = await client.messages.create({
-        model: "claude-haiku-4-5",
-        max_tokens: 4096,
-        system: [
-          {
-            type: "text",
-            text: SYSTEM_PROMPT,
-            cache_control: { type: "ephemeral" },
-          },
-        ],
-        messages: [
-          {
-            role: "user",
-            content:
-              `Translate these ${batch.length} RBT concept objects from English to Spanish. ` +
-              `Return a JSON object where each key is the concept ID and the value has the same fields ` +
-              `(answer, definition, scenario, purpose, explanation) translated to Spanish.\n\n` +
-              JSON.stringify(batchInput, null, 2),
-          },
-        ],
-      });
-
-      const text = response.content.find((b) => b.type === "text")?.text || "";
-
-      // Extract JSON from the response
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        console.error(`  Batch ${batchCount}: No JSON found in response`);
-        continue;
-      }
-
-      const batchTranslations = JSON.parse(jsonMatch[0]);
-
-      // Validate and merge
-      let batchAdded = 0;
-      for (const concept of batch) {
-        const tr = batchTranslations[concept.id];
-        if (
-          tr &&
-          tr.answer &&
-          tr.definition &&
-          tr.scenario &&
-          tr.purpose &&
-          tr.explanation
-        ) {
-          translations[concept.id] = {
-            answer: tr.answer,
-            definition: tr.definition,
-            scenario: tr.scenario,
-            purpose: tr.purpose,
-            explanation: tr.explanation,
-          };
-          batchAdded++;
-        } else {
-          console.warn(`  Missing translation for: ${concept.id}`);
-        }
-      }
-
-      totalTranslated += batchAdded;
-      console.log(
-        `  ✓ Translated ${batchAdded}/${batch.length} concepts (total: ${totalTranslated}/${allConcepts.length})`
-      );
-
-      const cacheRead = response.usage?.cache_read_input_tokens || 0;
-      const cacheWrite = response.usage?.cache_creation_input_tokens || 0;
-      if (cacheRead > 0 || cacheWrite > 0) {
-        console.log(`  Cache: ${cacheRead} read, ${cacheWrite} write`);
-      }
+      const translated = await translateConcept(concept);
+      translations[concept.id] = translated;
+      done++;
+      process.stdout.write(`✓\n`);
     } catch (e) {
-      console.error(`  Batch ${batchCount} error:`, e.message);
+      process.stdout.write(`✗ (${e.message})\n`);
     }
 
-    // Save progress every SAVE_EVERY batches
-    if (batchCount % SAVE_EVERY === 0) {
+    // Save progress every 10 concepts
+    if (done % 10 === 0) {
       writeFileSync(OUTPUT_PATH, JSON.stringify(translations, null, 2));
-      console.log(`  Progress saved (${Object.keys(translations).length} concepts)`);
+      const elapsed = Math.round((Date.now() - startTime) / 1000);
+      const rate = done / elapsed;
+      const remaining_ = remaining.length - done;
+      const eta = Math.round(remaining_ / rate);
+      console.log(`  → Saved (${Object.keys(translations).length} total, ETA: ~${eta}s)`);
     }
   }
 
   // Final save
   writeFileSync(OUTPUT_PATH, JSON.stringify(translations, null, 2));
-  console.log(
-    `\n✅ Done! Translated ${Object.keys(translations).length}/${allConcepts.length} concepts`
-  );
+  const total = Object.keys(translations).length;
+  console.log(`\n✅ Done! ${total}/${allConcepts.length} concepts translated`);
   console.log(`Output: ${OUTPUT_PATH}`);
+  console.log("\nNext step: git add src/lib/question-translations-es.json && git commit");
 }
 
 main().catch((e) => {
-  console.error("Fatal error:", e);
+  console.error("Fatal:", e);
   process.exit(1);
 });
