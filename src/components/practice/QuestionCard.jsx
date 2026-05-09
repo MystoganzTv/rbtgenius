@@ -121,10 +121,31 @@ export default function QuestionCard({
     setAiFollowUp("");
   }, [question?.id]);
 
-  const handleAskAi = async () => {
-    if (aiLoading) {
-      return;
+  const buildLocalAiReply = () => {
+    const correctOption = (localizedQuestion?.options || []).find(o => o.label === correctAnswer);
+    const wrongOptions = (localizedQuestion?.options || []).filter(o => o.label !== correctAnswer);
+    const lines = [];
+    if (correctOption) {
+      lines.push(`Correct answer: ${correctAnswer}) ${correctOption.localizedText?.primary || ""}`);
+      lines.push("");
     }
+    if (localizedExplanation?.primary) {
+      lines.push(localizedExplanation.primary);
+      lines.push("");
+    }
+    if (wrongOptions.length > 0) {
+      lines.push("Why the other options are not the best fit:");
+      wrongOptions.forEach(o => {
+        lines.push(`- ${o.label}) ${o.localizedText?.primary || ""} — does not match what the scenario describes.`);
+      });
+    }
+    lines.push("");
+    lines.push("Ask me anything about this question or concept.");
+    return lines.filter((l, i, arr) => !(l === "" && arr[i - 1] === "")).join("\n");
+  };
+
+  const handleAskAi = async () => {
+    if (aiLoading) return;
 
     if (aiReply) {
       setAiReplyVisible((current) => !current);
@@ -135,38 +156,17 @@ export default function QuestionCard({
     setAiError("");
 
     try {
-      let conversationId = aiConversationId;
-
-      if (!conversationId) {
-        const created = await api.createTutorConversation({
-          name: `Question ${questionNumber}`,
-        });
-        conversationId = created?.conversation?.id || null;
-        setAiConversationId(conversationId);
-        onEntitlementsChange?.(created?.entitlements || entitlements);
-      }
-
-      if (!conversationId) {
-        throw new Error("Unable to start AI help.");
-      }
-
-      const payload = await api.sendTutorMessage(conversationId, {
-        content: aiPrompt,
-      });
-      const updatedConversation = payload?.conversation;
-      const assistantMessage = [...(updatedConversation?.messages || [])]
-        .reverse()
-        .find((message) => message.role === "assistant");
-      const nextReply = String(assistantMessage?.content || "").replaceAll("**", "").trim();
-
-      if (!nextReply) {
-        throw new Error("AI did not return an explanation.");
-      }
-
-      setAiReply(nextReply);
-      setAiMessages([{ role: "assistant", content: nextReply }]);
+      // Show local context-aware reply immediately, then open conversation for follow-ups
+      const localReply = buildLocalAiReply();
+      setAiReply(localReply);
+      setAiMessages([{ role: "assistant", content: localReply }]);
       setAiReplyVisible(true);
-      onEntitlementsChange?.(payload?.entitlements || entitlements);
+
+      // Create conversation in background for follow-up questions
+      const created = await api.createTutorConversation({ name: `Q${questionNumber}` });
+      const conversationId = created?.conversation?.id || null;
+      setAiConversationId(conversationId);
+      onEntitlementsChange?.(created?.entitlements || entitlements);
     } catch (error) {
       const isLimit = error?.data?.code === "plan_limit_reached";
       const isPremium = Boolean(entitlements?.is_premium);
@@ -178,7 +178,6 @@ export default function QuestionCard({
             language,
           )
         : error?.message || translateUi("Please try again.", language);
-
       setAiError(description);
       toast({
         title: isLimit
