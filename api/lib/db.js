@@ -11,30 +11,41 @@ export function sql(strings, ...values) {
 
 // ── Users ─────────────────────────────────────────────────────────────────────
 
+function normalizeUser(row) {
+  if (!row) return null;
+  return {
+    ...row,
+    oauth_accounts: typeof row.oauth_accounts === 'string'
+      ? (() => { try { return JSON.parse(row.oauth_accounts); } catch { return {}; } })()
+      : (row.oauth_accounts ?? {}),
+  };
+}
+
 export async function getUserByToken(token) {
   if (!token) return null;
   const rows = await sql`SELECT * FROM users WHERE token = ${token} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getUserByEmail(email) {
   const rows = await sql`SELECT * FROM users WHERE email = ${email.toLowerCase()} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getUserById(id) {
   const rows = await sql`SELECT * FROM users WHERE id = ${id} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getUserByStripeCustomerId(customerId) {
   if (!customerId) return null;
   const rows = await sql`SELECT * FROM users WHERE stripe_customer_id = ${customerId} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getAllUsers() {
-  return sql`SELECT * FROM users ORDER BY created_at DESC`;
+  const rows = await sql`SELECT * FROM users ORDER BY created_at DESC`;
+  return rows.map(normalizeUser);
 }
 
 export async function createUser(user) {
@@ -50,7 +61,7 @@ export async function createUser(user) {
     )
     RETURNING *
   `;
-  return row;
+  return normalizeUser(row);
 }
 
 export async function updateUser(id, fields) {
@@ -69,10 +80,10 @@ export async function updateUser(id, fields) {
   if (fields.email_verification_token !== undefined) patch.email_verification_token = fields.email_verification_token;
   if (Object.keys(patch).length === 0) {
     const rows = await sql`SELECT * FROM users WHERE id = ${id}`;
-    return rows[0] ?? null;
+    return normalizeUser(rows[0] ?? null);
   }
   const [row] = await sql`UPDATE users SET ${sql(patch)} WHERE id = ${id} RETURNING *`;
-  return row;
+  return normalizeUser(row);
 }
 
 export async function clearUserSession(id) {
