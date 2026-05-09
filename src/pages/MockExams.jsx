@@ -382,6 +382,8 @@ export default function MockExams() {
             englishText={currentQuestion?.text}
             spanishText={spanishCurrentQuestion?.localizedText?.primary}
             className="mt-0.5 flex-shrink-0"
+            contentType="question"
+            question={question}
           />
         </div>
         <div className="space-y-3">
@@ -428,6 +430,8 @@ export default function MockExams() {
                     englishText={currentQuestion?.options?.find((englishOption) => englishOption.label === option.label)?.text}
                     spanishText={spanishCurrentQuestion?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
                     className="mt-0.5 flex-shrink-0"
+                    contentType="option"
+                    question={question}
                   />
                 </div>
               </button>

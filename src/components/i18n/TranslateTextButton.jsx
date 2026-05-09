@@ -1,7 +1,7 @@
 import { Languages, Volume2, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { translateUi } from "@/lib/i18n";
+import { resolveInlineSpanishText, translateUi } from "@/lib/i18n";
 
 const subscribers = new Set();
 let activeTranslationPanel = null;
@@ -13,6 +13,10 @@ function notifyTranslationPanel() {
 }
 
 function openTranslationPanel(payload) {
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
   activeTranslationPanel = payload;
   notifyTranslationPanel();
 }
@@ -23,6 +27,10 @@ function closeTranslationPanel(id) {
   }
 
   if (!id || activeTranslationPanel.id === id) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+
     activeTranslationPanel = null;
     notifyTranslationPanel();
   }
@@ -39,13 +47,21 @@ export default function TranslateTextButton({
   language = "en",
   title = "Translation",
   className = "",
+  contentType = "question",
+  question = null,
 }) {
   const [speaking, setSpeaking] = useState(null);
   const [activePanel, setActivePanel] = useState(activeTranslationPanel);
   const utteranceRef = useRef(null);
   const panelId = useId();
   const english = String(englishText || "").trim();
-  const spanish = String(spanishText || "").trim();
+  const spanish = resolveInlineSpanishText({
+    englishText,
+    spanishText,
+    contentType,
+    question,
+  });
+  const hasSpanish = Boolean(spanish);
   const isOpen = activePanel?.id === panelId;
 
   const stopPropagation = (event) => {
@@ -64,7 +80,7 @@ export default function TranslateTextButton({
     }
   }, [panelId]);
 
-  if (!english && !spanish) {
+  if (!english && !hasSpanish) {
     return null;
   }
 
@@ -196,13 +212,14 @@ export default function TranslateTextButton({
                     size="icon"
                     className="h-8 w-8 rounded-full text-[#1E5EFF] hover:bg-[#1E5EFF]/10 hover:text-[#1E5EFF] dark:hover:bg-[#1E5EFF]/15"
                     aria-label="Play Spanish audio"
-                    onClick={() => speakText(spanish || english, "es")}
+                    disabled={!hasSpanish}
+                    onClick={() => speakText(spanish, "es")}
                   >
                     <Volume2 className={`h-4 w-4 ${speaking === "es" ? "text-[#1E5EFF]" : ""}`} />
                   </Button>
                 </div>
                 <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
-                  {spanish || english || "—"}
+                  {hasSpanish ? spanish : translateUi("Spanish translation unavailable.", language)}
                 </p>
               </section>
             </div>

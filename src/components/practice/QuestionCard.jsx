@@ -140,6 +140,8 @@ export default function QuestionCard({
             englishText={question?.text}
             spanishText={spanishQuestion?.localizedText?.primary}
             className="mt-0.5 flex-shrink-0"
+            contentType="question"
+            question={question}
           />
         </div>
 
@@ -214,6 +216,8 @@ export default function QuestionCard({
                     englishText={option.text}
                     spanishText={spanishQuestion?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
                     className="mt-0.5 flex-shrink-0"
+                    contentType="option"
+                    question={question}
                   />
                 </div>
               </button>
@@ -269,6 +273,8 @@ export default function QuestionCard({
                       englishText={question?.explanation || explanation}
                       spanishText={spanishQuestion?.localizedExplanation?.primary || localizedExplanation?.primary}
                       className="h-7 w-7 flex-shrink-0"
+                      contentType="explanation"
+                      question={question}
                     />
                   </div>
                   <BilingualText

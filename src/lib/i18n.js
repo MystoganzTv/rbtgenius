@@ -49,6 +49,7 @@ const UI_TRANSLATIONS = {
   "Ask AI": "Preguntar a la IA",
   "Translation": "Traducción",
   "View translation": "Ver traducción",
+  "Spanish translation unavailable.": "Traducción al español no disponible.",
   "Show AI Reply": "Mostrar respuesta de IA",
   "Hide AI Reply": "Ocultar respuesta de IA",
   "AI Coach": "Asistente IA",
@@ -2501,6 +2502,14 @@ function translateExplanationText(text) {
   return translateQuestionSentence(value);
 }
 
+function normalizeTranslationCandidate(text) {
+  return String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[¿?¡!.,;:()"']/g, "");
+}
+
 function translateOptionText(optionText, question) {
   if (!optionText) {
     return "";
@@ -2521,6 +2530,46 @@ function translateOptionText(optionText, question) {
   }
 
   return applyQuestionSentenceReplacements(translateToSpanish(optionText));
+}
+
+export function resolveInlineSpanishText({
+  englishText = "",
+  spanishText = "",
+  contentType = "question",
+  question = null,
+} = {}) {
+  const english = String(englishText || "").trim();
+  const reviewedSpanish = String(spanishText || "").trim();
+
+  if (!english && !reviewedSpanish) {
+    return "";
+  }
+
+  if (
+    reviewedSpanish &&
+    normalizeTranslationCandidate(reviewedSpanish) !== normalizeTranslationCandidate(english)
+  ) {
+    return reviewedSpanish;
+  }
+
+  let generatedSpanish = "";
+
+  if (contentType === "explanation") {
+    generatedSpanish = translateExplanationText(english);
+  } else if (contentType === "option") {
+    generatedSpanish = translateOptionText(english, question);
+  } else {
+    generatedSpanish = translateQuestionText(english);
+  }
+
+  if (
+    !generatedSpanish ||
+    normalizeTranslationCandidate(generatedSpanish) === normalizeTranslationCandidate(english)
+  ) {
+    return "";
+  }
+
+  return generatedSpanish;
 }
 
 export function localizeText(text, language) {

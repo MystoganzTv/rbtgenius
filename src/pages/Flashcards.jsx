@@ -387,6 +387,8 @@ export default function Flashcards() {
                           englishText={currentCard?.text}
                           spanishText={spanishCurrentCard?.localizedText?.primary}
                           className="mt-1 flex-shrink-0 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                          contentType="question"
+                          question={currentCard}
                         />
                       </div>
                       <p className="mt-8 text-xs opacity-60">
@@ -430,6 +432,8 @@ export default function Flashcards() {
                                   englishText={currentCard?.options?.find((englishOption) => englishOption.label === option.label)?.text}
                                   spanishText={spanishCurrentCard?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
                                   className="h-7 w-7 flex-shrink-0"
+                                  contentType="option"
+                                  question={currentCard}
                                 />
                               </div>
                             </div>
@@ -448,6 +452,8 @@ export default function Flashcards() {
                                 englishText={currentCard?.explanation}
                                 spanishText={spanishCurrentCard?.localizedExplanation?.primary}
                                 className="h-7 w-7 flex-shrink-0"
+                                contentType="explanation"
+                                question={currentCard}
                               />
                             </div>
                             <BilingualText
