@@ -191,6 +191,8 @@ const UI_TRANSLATIONS = {
   "Current access": "Acceso actual",
   "Practice, flashcards, and profile tools": "Práctica, tarjetas y herramientas de perfil",
   "Your membership is active and your billing is managed from this page.": "Tu membresía está activa y tu facturación se gestiona desde esta página.",
+  "Subscription cancelled": "Suscripción cancelada",
+  "You keep your premium access until": "Mantienes tu acceso premium hasta",
   "Included": "Incluido",
   "Switch to Yearly": "Cambiar a anual",
   "Switch to Monthly": "Cambiar a mensual",

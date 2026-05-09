@@ -36,6 +36,7 @@ import {
   createStripeCheckoutSession,
   createStripePortalSession,
   getBillingConfig,
+  getStripeSubscriptionSummary,
 } from './lib/billing.js';
 import {
   applyStripeWebhookEvent,
@@ -324,6 +325,19 @@ function buildProfilePayload(db, user) {
     entitlements,
     billing,
     payments: db.payments.filter(payment => payment.user_id === user.id),
+  };
+}
+
+async function buildProfilePayloadAsync(db, user) {
+  const payload = buildProfilePayload(db, user);
+  const subscription = await getStripeSubscriptionSummary(user);
+
+  return {
+    ...payload,
+    billing: {
+      ...payload.billing,
+      subscription,
+    },
   };
 }
 
@@ -1040,9 +1054,9 @@ app.get('/api/analytics', requireUser, (req, res) => {
   });
 });
 
-app.get('/api/profile', requireUser, (req, res) => {
+app.get('/api/profile', requireUser, async (req, res) => {
   const db = readDb();
-  res.json(buildProfilePayload(db, req.currentUser));
+  res.json(await buildProfilePayloadAsync(db, req.currentUser));
 });
 
 app.patch('/api/profile', requireUser, (req, res) => {
@@ -1170,7 +1184,7 @@ app.post('/api/billing/confirm', requireUser, async (req, res) => {
     const db = readDb();
     const nextUser =
       db.users.find(user => user.id === req.currentUser.id) || req.currentUser;
-    res.json(buildProfilePayload(db, nextUser));
+    res.json(await buildProfilePayloadAsync(db, nextUser));
   } catch (error) {
     res
       .status(400)

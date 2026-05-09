@@ -103,11 +103,19 @@ export default function Profile() {
     stripe_enabled: false,
     checkout_enabled: {},
     portal_enabled: false,
+    subscription: null,
   };
   const currentPlanId = currentUser?.plan || PLAN_IDS.FREE;
   const currentPlan = planInfo[currentPlanId] || planInfo.free;
   const CurrentPlanIcon = currentPlan.icon;
   const canManageBilling = Boolean(billing.portal_enabled && currentUser?.stripe_customer_id);
+  const subscriptionSummary = billing.subscription || null;
+  const cancellationEffectiveDate = subscriptionSummary?.current_period_end
+    ? formatPaymentDate(subscriptionSummary.current_period_end)
+    : null;
+  const willCancelAtPeriodEnd = Boolean(
+    subscriptionSummary?.cancel_at_period_end && cancellationEffectiveDate,
+  );
   const t = (value) => translateUi(value, language);
 
   useEffect(() => {
@@ -609,6 +617,17 @@ export default function Profile() {
                     <Badge className="bg-emerald-600 text-white">{t("Active")}</Badge>
                   </div>
                 </div>
+
+                {willCancelAtPeriodEnd ? (
+                  <div className="rounded-2xl border border-amber-200/80 bg-amber-50/90 p-4 dark:border-amber-500/20 dark:bg-amber-500/10">
+                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
+                      {t("Subscription cancelled")}
+                    </p>
+                    <p className="mt-1 text-sm text-amber-800 dark:text-amber-200">
+                      {t("You keep your premium access until")} {cancellationEffectiveDate}.
+                    </p>
+                  </div>
+                ) : null}
 
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">

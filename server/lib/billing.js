@@ -59,6 +59,38 @@ export function getBillingConfig(user = null) {
   };
 }
 
+export async function getStripeSubscriptionSummary(user = null) {
+  if (!user?.stripe_subscription_id) {
+    return null;
+  }
+
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return null;
+  }
+
+  try {
+    const subscription = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
+    return {
+      id: subscription.id,
+      status: subscription.status || null,
+      cancel_at_period_end: Boolean(subscription.cancel_at_period_end),
+      current_period_end: subscription.current_period_end
+        ? new Date(subscription.current_period_end * 1000).toISOString()
+        : null,
+      cancel_at: subscription.cancel_at
+        ? new Date(subscription.cancel_at * 1000).toISOString()
+        : null,
+      canceled_at: subscription.canceled_at
+        ? new Date(subscription.canceled_at * 1000).toISOString()
+        : null,
+    };
+  } catch (error) {
+    console.warn('[billing] Unable to load Stripe subscription summary:', error?.message || error);
+    return null;
+  }
+}
+
 function ensureStripeReady(plan) {
   const stripe = getStripeClient();
   if (!stripe) {
