@@ -27,7 +27,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
@@ -37,7 +36,6 @@ import { api } from "@/lib/api";
 import { translateUi } from "@/lib/i18n";
 import {
   FREE_DAILY_PRACTICE_LIMIT,
-  FREE_DAILY_TUTOR_LIMIT,
   PLAN_CATALOG,
   PLAN_IDS,
   getPlanLabel,
@@ -89,7 +87,6 @@ export default function Profile() {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ full_name: "" });
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
-  const [clearTutorOnReset, setClearTutorOnReset] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ current_password: "", new_password: "", confirm_password: "" });
   const queryClient = useQueryClient();
 
@@ -259,7 +256,7 @@ export default function Profile() {
   };
 
   const handleResetProgress = () => {
-    resetProgressMutation.mutate({ clear_tutor: clearTutorOnReset });
+    resetProgressMutation.mutate({ clear_tutor: false });
   };
 
   const handlePasswordSubmit = () => {
@@ -490,20 +487,6 @@ export default function Profile() {
                 <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {t("Clear your answered questions, mock exam history, readiness, streak, and saved study sessions if you want a fresh start. Your account and payment history stay untouched.")}
                 </p>
-                <div className="mt-4 flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-[#0D1E3A]">
-                  <Checkbox
-                    id="clear-tutor-on-reset"
-                    checked={clearTutorOnReset}
-                    onCheckedChange={(checked) => setClearTutorOnReset(Boolean(checked))}
-                    className="mt-0.5"
-                  />
-                  <label
-                    htmlFor="clear-tutor-on-reset"
-                    className="text-sm leading-6 text-slate-600 dark:text-slate-300"
-                  >
-                    {t("Also clear AI tutor conversations and start with an empty tutor history.")}
-                  </label>
-                </div>
               </div>
 
               <Button
@@ -536,9 +519,20 @@ export default function Profile() {
             {currentPlanId === PLAN_IDS.FREE ? (
               <div className="space-y-5">
                 <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
-                  <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
-                    {t("Free plan limits")}
-                  </h4>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
+                        {t("Free plan") }
+                      </h4>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        {t("You can practice daily, review flashcards, and upgrade whenever you want more access.")}
+                      </p>
+                    </div>
+                    <Badge className="bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">
+                      {t("Current") }
+                    </Badge>
+                  </div>
+
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
@@ -550,10 +544,10 @@ export default function Profile() {
                     </div>
                     <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                        {t("AI tutor today")}
+                        {t("Current access")}
                       </p>
-                      <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-50">
-                        {entitlements?.usage?.tutor_messages_today || 0}/{FREE_DAILY_TUTOR_LIMIT}
+                      <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
+                        {t("Practice, flashcards, and profile tools")}
                       </p>
                     </div>
                   </div>
@@ -601,28 +595,38 @@ export default function Profile() {
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-lg bg-emerald-50 p-4 dark:bg-emerald-500/10">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="font-medium text-emerald-800 dark:text-emerald-200">
-                      {t("Premium is active")}
-                    </span>
+              <div className="space-y-5">
+                <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 p-5 dark:border-emerald-500/20 dark:bg-emerald-500/10">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <h4 className="text-lg font-bold text-emerald-900 dark:text-emerald-100">
+                        {currentPlan.name}
+                      </h4>
+                      <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-200">
+                        {t("Your membership is active and your billing is managed from this page.")}
+                      </p>
+                    </div>
+                    <Badge className="bg-emerald-600 text-white">{t("Active")}</Badge>
                   </div>
-                  <Badge className="bg-emerald-600 text-white">{t("Active")}</Badge>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
                     <p className="text-xs text-slate-500 dark:text-slate-400">{t("Practice access")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
-                      {t("Unlimited")}
+                      {t("Unlimited") }
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("AI tutor")}</p>
+                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("Flashcards")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
-                      {t("Unlimited")}
+                      {t("Unlimited") }
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("Mock Exams")}</p>
+                    <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
+                      {t("Included") }
                     </p>
                   </div>
                 </div>
@@ -658,7 +662,9 @@ export default function Profile() {
                       ]
                     }
                   >
-                    {t("Switch Plan")}
+                    {currentPlanId === PLAN_IDS.PREMIUM_MONTHLY
+                      ? t("Switch to Yearly")
+                      : t("Switch to Monthly")}
                   </Button>
                 </div>
 
