@@ -85,15 +85,27 @@ function pickBestSubscription(subscriptions = []) {
     return null;
   }
 
+  const unique = subscriptions.filter(Boolean).reduce((accumulator, subscription) => {
+    if (!accumulator.find((entry) => entry.id === subscription.id)) {
+      accumulator.push(subscription);
+    }
+    return accumulator;
+  }, []);
+
+  const cancellationScheduled = unique.find((subscription) => subscription?.cancel_at_period_end);
+  if (cancellationScheduled) {
+    return cancellationScheduled;
+  }
+
   const preferredStatuses = ['active', 'trialing', 'past_due', 'unpaid', 'canceled', 'incomplete'];
   for (const status of preferredStatuses) {
-    const match = subscriptions.find((subscription) => subscription?.status === status);
+    const match = unique.find((subscription) => subscription?.status === status);
     if (match) {
       return match;
     }
   }
 
-  return subscriptions[0] || null;
+  return unique[0] || null;
 }
 
 export async function getStripeSubscriptionSummary(user = null) {
@@ -106,23 +118,33 @@ export async function getStripeSubscriptionSummary(user = null) {
     return null;
   }
 
-  try {
-    if (user?.stripe_subscription_id) {
+  const candidates = [];
+
+  if (user?.stripe_subscription_id) {
+    try {
       const subscription = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
-      return formatStripeSubscriptionSummary(subscription);
+      if (subscription) {
+        candidates.push(subscription);
+      }
+    } catch (error) {
+      console.warn('[billing] Unable to retrieve Stripe subscription by id:', error?.message || error);
     }
-
-    const subscriptions = await stripe.subscriptions.list({
-      customer: user.stripe_customer_id,
-      status: 'all',
-      limit: 10,
-    });
-
-    return formatStripeSubscriptionSummary(pickBestSubscription(subscriptions?.data || []));
-  } catch (error) {
-    console.warn('[billing] Unable to load Stripe subscription summary:', error?.message || error);
-    return null;
   }
+
+  if (user?.stripe_customer_id) {
+    try {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: user.stripe_customer_id,
+        status: 'all',
+        limit: 10,
+      });
+      candidates.push(...(subscriptions?.data || []));
+    } catch (error) {
+      console.warn('[billing] Unable to list Stripe subscriptions by customer:', error?.message || error);
+    }
+  }
+
+  return formatStripeSubscriptionSummary(pickBestSubscription(candidates));
 }
 
 function ensureStripeReady(plan) {
