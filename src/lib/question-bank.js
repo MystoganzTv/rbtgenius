@@ -2088,6 +2088,33 @@ export const OFFICIAL_CONCEPT_COUNT = questionConcepts.filter((concept) =>
   isRbtEligibleConcept(concept),
 ).length;
 
+// ── Spanish concept translations ──────────────────────────────────────────────
+// Loaded at runtime by question-translations-es-loader.js
+let _conceptTranslationsEs = {};
+// Reverse lookup: English option text → Spanish translation
+let _answerToSpanish = {};
+let _purposeToSpanish = {};
+
+export function setConceptTranslations(translations) {
+  _conceptTranslationsEs = translations || {};
+  _answerToSpanish = {};
+  _purposeToSpanish = {};
+  for (const [conceptId, tr] of Object.entries(_conceptTranslationsEs)) {
+    const concept = questionConceptLookup[conceptId];
+    if (!concept) continue;
+    if (tr.answer) _answerToSpanish[concept.answer] = tr.answer;
+    if (tr.purpose) _purposeToSpanish[concept.purpose] = tr.purpose;
+  }
+}
+
+export function getConceptTranslationEs(conceptId) {
+  return _conceptTranslationsEs[conceptId] || null;
+}
+
+export function getSpanishForOptionText(englishText) {
+  return _answerToSpanish[englishText] || _purposeToSpanish[englishText] || null;
+}
+
 export const PRACTICE_TOPIC_TOTALS = rbtQuestions.reduce(
   (result, question) => ({
     ...result,

@@ -1,4 +1,4 @@
-import { questionConceptLookup } from "./question-bank.js";
+import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./question-bank.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {
@@ -2752,6 +2752,48 @@ export function localizeQuestion(question, language) {
 
   const concept = questionConceptLookup[question.concept_id];
   const questionKind = question.id?.split("_").pop();
+
+  // Use proper Spanish translations when available — avoids Spanglish
+  if (language === "es" && question.concept_id) {
+    const tr = getConceptTranslationEs(question.concept_id);
+    if (tr) {
+      let textEs, explanationEs;
+
+      if (questionKind === "definition") {
+        const def = String(tr.definition || "").replace(/[.]\s*$/, "");
+        textEs = `¿Qué concepto corresponde a esta definición: ${def}?`;
+        explanationEs = tr.explanation;
+      } else if (questionKind === "scenario") {
+        const scenario = String(tr.scenario || "").trim();
+        textEs = `${scenario} ¿Qué concepto corresponde mejor?`;
+        explanationEs = tr.explanation;
+      } else if (questionKind === "purpose") {
+        const answer = String(tr.answer || "").replace(/[.]\s*$/, "");
+        const purpose = String(tr.purpose || "").replace(/[.]\s*$/, "").replace(/^Para\s+/i, "");
+        textEs = `¿Cuál es el objetivo principal de ${answer}?`;
+        explanationEs = `${tr.explanation} El objetivo principal es ${purpose.toLowerCase()}.`;
+      }
+
+      if (textEs) {
+        const localizedOptions = (question.options || []).map((option) => {
+          const spanishText = getSpanishForOptionText(option.text);
+          return {
+            ...option,
+            localizedText: { primary: spanishText || option.text, secondary: "" },
+          };
+        });
+
+        return {
+          ...question,
+          localizedTopic: translateTopic(question.topic, language),
+          localizedDifficulty: translateDifficulty(question.difficulty, language),
+          localizedText: { primary: textEs, secondary: "" },
+          localizedExplanation: { primary: explanationEs, secondary: "" },
+          options: localizedOptions,
+        };
+      }
+    }
+  }
   const spanishQuestionText = concept
     ? questionKind === "definition"
       ? `¿Qué concepto corresponde a esta definición: ${stripTrailingPeriod(translateQuestionSentence(concept.definition))}?`
