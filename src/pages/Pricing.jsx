@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Check, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { api } from "@/lib/api";
 import { PLAN_IDS, isPremiumPlan } from "@/lib/plan-access";
-import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "@/lib/question-bank";
+import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/question-bank";
 import { toast } from "@/components/ui/use-toast";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
@@ -18,10 +18,10 @@ const PLANS = [
     badge: "Current",
     upgradeLabel: "Upgrade Monthly",
     features: [
-      "Enable full features",
       `Access to ${TOTAL_PRACTICE_QUESTIONS}+ practice questions`,
-      "Flashcards full access",
-      "Cancel any time",
+      "Full flashcard access",
+      "Mock exams included",
+      "Cancel anytime",
     ],
   },
   {
@@ -34,24 +34,19 @@ const PLANS = [
     features: [
       "Everything in Premium Monthly",
       "10% less than paying monthly for a full year",
-      "Full mock exams and analytics",
-      "Manage billing with Stripe",
+      "One yearly payment, same study access",
+      "Cancel anytime",
     ],
   },
 ];
 
-function PlanLabel(plan) {
-  if (plan === PLAN_IDS.PREMIUM_YEARLY) return "Premium Yearly";
-  if (plan === PLAN_IDS.PREMIUM_MONTHLY) return "Premium Monthly";
-  return "Free";
-}
 
 export default function Pricing() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
 
-  const { data: profileData, refetch: refetchProfile } = useQuery({
+  const { data: profileData } = useQuery({
     queryKey: ["profile-data"],
     queryFn: api.getProfile,
     enabled: isAuthenticated,
@@ -134,7 +129,7 @@ export default function Pricing() {
           Simple, transparent pricing
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-slate-500 dark:text-slate-400">
-          Unlock unlimited RBT exam prep — practice questions, mock exams, and full analytics.
+          Choose the billing rhythm that fits you best. Same study system, clear pricing, and no surprises.
         </p>
 
         {/* 40-hour course notice */}
@@ -142,14 +137,6 @@ export default function Pricing() {
           <span>📋</span>
           The 40-hour course is planned for a future release and is not included in current plans yet.
         </div>
-
-        {/* Current plan pill */}
-        {isAuthenticated && (
-          <div className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full border border-[#1E5EFF]/20 bg-[#1E5EFF]/8 px-4 py-2 text-sm font-semibold text-[#1E5EFF]">
-            <span className="h-2 w-2 rounded-full bg-[#1E5EFF]" />
-            Current plan: {PlanLabel(currentPlan)}
-          </div>
-        )}
       </div>
 
       {/* Cards */}
@@ -157,6 +144,7 @@ export default function Pricing() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isCurrent = isAuthenticated && currentPlan === plan.id;
+            const isYearly = plan.id === PLAN_IDS.PREMIUM_YEARLY;
             const isLoadingThis =
               (checkoutMutation.isPending && checkoutMutation.variables === plan.id) ||
               (portalMutation.isPending && isCurrent);
@@ -164,74 +152,71 @@ export default function Pricing() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-[0_8px_40px_-12px_rgba(15,23,42,0.15)] transition-all dark:bg-[#0D1E3A] dark:shadow-[0_8px_40px_-12px_rgba(30,94,255,0.15)] ${
+                className={`relative flex min-h-[38rem] flex-col rounded-[2rem] border bg-white p-8 shadow-[0_24px_70px_-36px_rgba(15,23,42,0.22)] transition-all dark:bg-[#0D1E3A] ${
                   isCurrent
-                    ? "border-[#1E5EFF]/30 ring-2 ring-[#1E5EFF]/10 dark:border-[#1E5EFF]/30"
+                    ? "border-[#1E5EFF]/35 ring-2 ring-[#1E5EFF]/12 dark:border-[#1E5EFF]/35"
                     : "border-slate-200 dark:border-[#1E5EFF]/15"
                 }`}
               >
-                {/* Badge */}
-                <div className="mb-4 h-7">
+                <div className="mb-8 flex min-h-[3rem] items-start justify-between gap-4">
                   {isCurrent ? (
-                    <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
                       ✓ Current
                     </span>
-                  ) : plan.id === PLAN_IDS.PREMIUM_YEARLY ? (
-                    <span className="inline-flex items-center rounded-full bg-[#1E5EFF] px-3 py-1 text-xs font-semibold text-white">
+                  ) : <span />}
+
+                  {isYearly ? (
+                    <span className="relative -mt-12 mr-2 inline-flex rounded-full bg-[#1E5EFF] px-4 py-2 text-xs font-semibold text-white shadow-[0_18px_34px_-18px_rgba(30,94,255,0.65)] before:absolute before:-bottom-2 before:left-6 before:h-4 before:w-4 before:rotate-45 before:rounded-[0.35rem] before:bg-[#1E5EFF] before:content-['']">
                       Save 10%
                     </span>
                   ) : null}
                 </div>
 
-                {/* Title & price */}
-                <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">{plan.name}</h2>
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="text-4xl font-black text-slate-900 dark:text-slate-50">{plan.price}</span>
-                  <span className="mb-1 text-sm text-slate-400">{plan.period}</span>
-                </div>
-                <div className="mt-1.5 h-5">
-                  {plan.id === PLAN_IDS.PREMIUM_YEARLY && (
-                    <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                      10% less than paying monthly for a full year
-                    </p>
-                  )}
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">{plan.name}</h2>
+                  <div className="mt-5 flex items-end gap-2">
+                    <span className="text-5xl font-black tracking-tight text-slate-900 dark:text-slate-50">{plan.price}</span>
+                    <span className="mb-1.5 text-base text-slate-400">{plan.period}</span>
+                  </div>
+                  <p className="mt-3 min-h-[3rem] text-sm font-medium leading-6 text-slate-500 dark:text-slate-400">
+                    {isYearly
+                      ? "10% less than paying monthly for a full year."
+                      : "Full premium access billed month to month."}
+                  </p>
                 </div>
 
-                {/* CTA button */}
                 <button
                   onClick={() => handleAction(plan.id)}
                   disabled={anyLoading}
-                  className={`mt-7 flex w-full items-center justify-center rounded-2xl py-3.5 text-sm font-bold transition-all disabled:opacity-60 ${
+                  className={`mt-8 flex w-full items-center justify-center rounded-2xl py-3.5 text-sm font-bold transition-all disabled:opacity-60 ${
                     isCurrent
-                      ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                      : "bg-[#1E5EFF] text-white hover:bg-[#1751e0] shadow-[0_4px_16px_-4px_rgba(30,94,255,0.5)]"
+                      ? "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-white/10 dark:text-slate-100 dark:hover:bg-white/15"
+                      : "bg-[#1E5EFF] text-white hover:bg-[#1751e0] shadow-[0_10px_26px_-10px_rgba(30,94,255,0.55)]"
                   }`}
                 >
                   {isLoadingThis ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : isCurrent ? (
-                    "Manage Billing"
+                    "Manage Plan"
                   ) : (
                     plan.upgradeLabel
                   )}
                 </button>
 
-                {/* Features */}
-                <ul className="mt-7 space-y-3">
+                <ul className="mt-8 space-y-4">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
-                      <span className="text-sm text-slate-600 dark:text-slate-300">{feature}</span>
+                      <span className="text-sm leading-6 text-slate-600 dark:text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* Footer note */}
-                <p className="mt-6 text-xs text-slate-400 dark:text-slate-500">
+                <p className="mt-auto pt-8 text-xs text-slate-400 dark:text-slate-500">
                   {isCurrent
-                    ? "You are on this plan. Tap above to manage or cancel."
+                    ? "You are already on this plan. Billing changes and cancellation live inside Manage Plan."
                     : isAnyPremium
-                    ? "Switch plans anytime from billing."
+                    ? "Switch plans anytime from Manage Plan."
                     : "Cancel anytime. No hidden fees."}
                 </p>
               </div>
