@@ -1417,6 +1417,7 @@ const EXACT_SPANISH_TEXT = {
   "Immediate data entry": "Registro inmediato de datos",
   "Antecedent pattern analysis": "Análisis de patrones antecedentes",
   "Timely reporting": "Reporte oportuno",
+  "Reporting concerns to the supervisor": "Comunicar preocupaciones al supervisor",
   "Fixed-interval schedule": "Programa de intervalo fijo",
   "Relevant variable documentation": "Documentación de variables relevantes",
   "Transfer trial": "Ensayo de transferencia",

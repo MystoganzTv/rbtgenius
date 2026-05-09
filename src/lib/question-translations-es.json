@@ -1,1 +1,14 @@
-{}
+{
+  "documentation_trial_by_trial": {
+    "status": "reviewed",
+    "answer": "Documentación ensayo por ensayo",
+    "definition": "el desempeño se registra por separado en cada oportunidad de enseñanza en lugar de hacerlo solo al final de la sesión",
+    "scenario": "El RBT registra correcto, incorrecto y con ayuda en cada ensayo de clasificación de tarjetas durante la enseñanza en ensayos discretos.",
+    "purpose": "Para registrar por separado el desempeño del aprendiz en cada oportunidad de enseñanza.",
+    "explanation": "La documentación ensayo por ensayo proporciona un registro más detallado del desempeño durante la enseñanza estructurada.",
+    "options_es": {
+      "answer": "Documentación ensayo por ensayo",
+      "purpose": "Para registrar por separado el desempeño del aprendiz en cada oportunidad de enseñanza."
+    }
+  }
+}
