@@ -2562,24 +2562,25 @@ export function resolveInlineSpanishText({
     return reviewedSpanish;
   }
 
-  let generatedSpanish = "";
-
-  if (contentType === "explanation") {
-    generatedSpanish = translateExplanationText(english);
-  } else if (contentType === "option") {
-    generatedSpanish = translateOptionText(english, question);
-  } else {
-    generatedSpanish = translateQuestionText(english);
-  }
-
+  const exactMatch = EXACT_SPANISH_TEXT[english] || UI_TRANSLATIONS[english];
   if (
-    !generatedSpanish ||
-    normalizeTranslationCandidate(generatedSpanish) === normalizeTranslationCandidate(english)
+    exactMatch &&
+    normalizeTranslationCandidate(exactMatch) !== normalizeTranslationCandidate(english)
   ) {
-    return "";
+    return exactMatch;
   }
 
-  return generatedSpanish;
+  if (contentType === "option") {
+    const reviewedOption = getSpanishForOptionText(english);
+    if (
+      reviewedOption &&
+      normalizeTranslationCandidate(reviewedOption) !== normalizeTranslationCandidate(english)
+    ) {
+      return reviewedOption;
+    }
+  }
+
+  return "";
 }
 
 export function localizeText(text, language) {
