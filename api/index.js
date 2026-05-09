@@ -7,7 +7,7 @@ import {
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
-import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, resolvePlanFromPriceId } from '../server/lib/billing.js';
+import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, getStripeSubscriptionSummary, resolvePlanFromPriceId } from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
 import crypto from 'node:crypto';
@@ -92,6 +92,19 @@ async function buildProfilePayload(user) {
   return {
     user: { id: user.id, full_name: user.full_name, email: user.email, role: user.role, plan: user.plan, stripe_customer_id: user.stripe_customer_id ?? null },
     progress, entitlements, billing, payments,
+  };
+}
+
+async function buildProfilePayloadAsync(user) {
+  const payload = await buildProfilePayload(user);
+  const subscription = await getStripeSubscriptionSummary(user);
+
+  return {
+    ...payload,
+    billing: {
+      ...payload.billing,
+      subscription,
+    },
   };
 }
 
@@ -652,7 +665,7 @@ async function webApiHandler(req) {
   if (apiPath === '/profile' && req.method === 'GET') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
-    return json(await buildProfilePayload(auth.user));
+    return json(await buildProfilePayloadAsync(auth.user));
   }
 
   if (apiPath === '/profile' && req.method === 'PATCH') {
@@ -669,7 +682,7 @@ async function webApiHandler(req) {
     const body = await req.json().catch(() => ({}));
     await Promise.all([db.deleteAttemptsByUser(auth.user.id), db.deleteMockExamsByUser(auth.user.id), db.deletePracticeSession(auth.user.id)]);
     if (body?.clear_tutor) await db.deleteTutorConversationsByUser(auth.user.id);
-    return json(await buildProfilePayload(auth.user));
+    return json(await buildProfilePayloadAsync(auth.user));
   }
 
   if (apiPath === '/profile/password' && req.method === 'PATCH') {
@@ -720,7 +733,7 @@ async function webApiHandler(req) {
       }
       for (const p of next.payments) { if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p); }
       const freshUser = await db.getUserById(auth.user.id);
-      return json(await buildProfilePayload(freshUser));
+      return json(await buildProfilePayloadAsync(freshUser));
     } catch (err) { return json({ message: err.message || 'Unable to confirm checkout' }, { status: 400 }); }
   }
 
