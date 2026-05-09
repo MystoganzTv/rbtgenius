@@ -105,7 +105,7 @@ export default function Flashcards() {
 
   const currentCard = filteredQuestions[currentIndex] || null;
   const localizedCurrentCard = useMemo(
-    () => localizeQuestion(currentCard, language),
+    () => localizeQuestion(currentCard, "en"),
     [currentCard, language],
   );
   const spanishCurrentCard = useMemo(() => localizeQuestion(currentCard, "es"), [currentCard]);

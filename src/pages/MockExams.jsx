@@ -133,7 +133,7 @@ export default function MockExams() {
   };
 
   const currentQuestion = questions[currentIndex] || null;
-  const localizedCurrentQuestion = localizeQuestion(currentQuestion, language);
+  const localizedCurrentQuestion = localizeQuestion(currentQuestion, "en");
   const spanishCurrentQuestion = localizeQuestion(currentQuestion, "es");
 
   if (!entitlements) {
@@ -383,7 +383,7 @@ export default function MockExams() {
             spanishText={spanishCurrentQuestion?.localizedText?.primary}
             className="mt-0.5 flex-shrink-0"
             contentType="question"
-            question={question}
+            question={currentQuestion}
           />
         </div>
         <div className="space-y-3">
@@ -431,7 +431,7 @@ export default function MockExams() {
                     spanishText={spanishCurrentQuestion?.options?.find((spanishOption) => spanishOption.label === option.label)?.localizedText?.primary}
                     className="mt-0.5 flex-shrink-0"
                     contentType="option"
-                    question={question}
+                    question={currentQuestion}
                   />
                 </div>
               </button>

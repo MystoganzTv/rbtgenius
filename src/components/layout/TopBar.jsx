@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/hooks/use-theme";
 import { isPremiumPlan } from "@/lib/plan-access";
@@ -108,7 +107,6 @@ export default function TopBar({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <LanguageSwitcher compact />
       </div>
     </header>
   );

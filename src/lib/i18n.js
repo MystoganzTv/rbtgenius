@@ -50,6 +50,8 @@ const UI_TRANSLATIONS = {
   "Translation": "Traducción",
   "View translation": "Ver traducción",
   "Spanish translation unavailable.": "Traducción al español no disponible.",
+  "Interface language": "Idioma de la interfaz",
+  "This only changes the app interface. Study questions keep their original wording.": "Esto solo cambia la interfaz de la app. Las preguntas de estudio mantienen su redacción original.",
   "Show AI Reply": "Mostrar respuesta de IA",
   "Hide AI Reply": "Ocultar respuesta de IA",
   "AI Coach": "Asistente IA",

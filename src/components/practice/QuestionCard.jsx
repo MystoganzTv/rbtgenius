@@ -21,7 +21,6 @@ import {
   translateUi,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { extractKeyTerms, getGlossaryEntry } from "@/lib/aba-glossary";
 
 export default function QuestionCard({
   question,
@@ -54,24 +53,16 @@ export default function QuestionCard({
   };
 
   const isCorrect = selectedAnswer === correctAnswer;
-  const localizedQuestion = localizeQuestion(question, language);
+  const localizedQuestion = localizeQuestion(question, "en");
   const spanishQuestion = useMemo(() => localizeQuestion(question, "es"), [question]);
   const localizedExplanation =
     explanation && explanation !== question?.explanation
-      ? localizeText(explanation, language)
-      : localizedQuestion?.localizedExplanation || localizeText(explanation, language);
+      ? localizeText(explanation, "en")
+      : localizedQuestion?.localizedExplanation || localizeText(explanation, "en");
   useEffect(() => {
     const auto = Boolean(isSubmitted && explanation);
     setExplanationVisible(explanationPreference.current !== null ? (explanationPreference.current && auto) : auto);
   }, [explanation, isSubmitted, question?.id]);
-
-
-  // Key terms for glossary (shown after answering)
-  const keyTerms = useMemo(() =>
-    isSubmitted ? extractKeyTerms(
-      (question?.text || "") + " " + (explanation || "")
-    ) : [],
-  [isSubmitted, question?.text, explanation]);
 
 
   return (
@@ -285,23 +276,6 @@ export default function QuestionCard({
                 </div>
               ) : null}
 
-              {isSubmitted && keyTerms.length > 0 && (
-                <div className="space-y-1 rounded-xl border border-[#1E5EFF]/15 bg-[#1E5EFF]/5 px-3 py-2">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF] dark:text-[#8EB0FF]">
-                    {translateUi("ABA Glossary", language)}
-                  </p>
-                  {keyTerms.map((term) => {
-                    const entry = getGlossaryEntry(term);
-                    if (!entry) return null;
-                    return (
-                      <div key={term} className="flex flex-wrap items-baseline gap-1 text-xs">
-                        <span className="font-semibold text-slate-800 dark:text-slate-100">{term}</span>
-                        <span className="text-slate-500 dark:text-slate-400">→ {entry}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
             </div>
 
             <Button

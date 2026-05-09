@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { GraduationCap, Moon, Sparkles, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BilingualText from "@/components/i18n/BilingualText";
-import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import PublicSiteFooter from "@/components/public/PublicSiteFooter";
 import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/hooks/use-theme";
@@ -33,7 +32,6 @@ export default function PublicPageShell({ title, description, children }) {
           </Link>
 
           <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
-            <LanguageSwitcher compact />
             <Button
               variant="ghost"
               size="icon"

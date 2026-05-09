@@ -14,7 +14,6 @@ import {
   Target,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import PublicSiteFooter from "@/components/public/PublicSiteFooter";
 import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/hooks/use-theme";
@@ -393,7 +392,6 @@ export default function Landing() {
           </div>
 
           <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
-            <LanguageSwitcher compact />
             <Button
               variant="ghost"
               size="icon"

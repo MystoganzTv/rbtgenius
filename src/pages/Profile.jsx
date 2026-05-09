@@ -32,6 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import { api } from "@/lib/api";
 import { translateUi } from "@/lib/i18n";
 import {
@@ -377,6 +378,18 @@ export default function Profile() {
                 )}
               </div>
             </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-[#0F172A] dark:text-slate-50">
+                {t("Interface language")}
+              </h3>
+            </div>
+            <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+              {t("This only changes the app interface. Study questions keep their original wording.")}
+            </p>
+            <LanguageSwitcher />
           </Card>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

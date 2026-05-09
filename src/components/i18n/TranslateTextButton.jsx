@@ -41,6 +41,36 @@ function subscribeToTranslationPanel(callback) {
   return () => subscribers.delete(callback);
 }
 
+function pickBestVoice(langCode) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return null;
+  }
+
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices?.length) {
+    return null;
+  }
+
+  if (langCode === "es") {
+    const preferredLocales = ["es-MX", "es-US", "es-419", "es-ES"];
+    const preferredNames = ["Paulina", "Monica", "Paloma", "Jorge", "Juan", "Luciana"];
+
+    for (const locale of preferredLocales) {
+      const voice = voices.find((item) => item.lang === locale);
+      if (voice) return voice;
+    }
+
+    for (const name of preferredNames) {
+      const voice = voices.find((item) => item.name?.toLowerCase().includes(name.toLowerCase()));
+      if (voice) return voice;
+    }
+
+    return voices.find((item) => item.lang?.toLowerCase().startsWith("es")) || null;
+  }
+
+  return voices.find((item) => item.lang === "en-US") || voices.find((item) => item.lang?.toLowerCase().startsWith("en")) || null;
+}
+
 export default function TranslateTextButton({
   englishText = "",
   spanishText = "",
@@ -69,6 +99,13 @@ export default function TranslateTextButton({
   };
 
   useEffect(() => subscribeToTranslationPanel(setActivePanel), []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSpeaking(null);
+      utteranceRef.current = null;
+    }
+  }, [isOpen]);
 
   useEffect(() => () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -105,8 +142,10 @@ export default function TranslateTextButton({
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = langCode === "es" ? "es-ES" : "en-US";
-    utterance.rate = 0.95;
+    const voice = pickBestVoice(langCode);
+    utterance.voice = voice || null;
+    utterance.lang = voice?.lang || (langCode === "es" ? "es-MX" : "en-US");
+    utterance.rate = langCode === "es" ? 0.92 : 0.95;
     utterance.onend = () => {
       if (utteranceRef.current === utterance) {
         utteranceRef.current = null;
