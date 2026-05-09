@@ -52,12 +52,12 @@ export async function createUser(user) {
   const [row] = await sql`
     INSERT INTO users (id, email, full_name, role, plan, created_at, auth_provider,
       oauth_accounts, token, token_issued_at, token_expires_at, stripe_customer_id,
-      password_hash, password_salt)
+      stripe_subscription_id, password_hash, password_salt)
     VALUES (
       ${user.id}, ${user.email}, ${user.full_name}, ${user.role}, ${user.plan},
       ${user.created_at}, ${user.auth_provider}, ${JSON.stringify(user.oauth_accounts ?? {})},
       ${user.token ?? null}, ${user.token_issued_at ?? null}, ${user.token_expires_at ?? null},
-      ${user.stripe_customer_id ?? null}, ${user.password_hash ?? null}, ${user.password_salt ?? null}
+      ${user.stripe_customer_id ?? null}, ${user.stripe_subscription_id ?? null}, ${user.password_hash ?? null}, ${user.password_salt ?? null}
     )
     RETURNING *
   `;
@@ -73,6 +73,7 @@ export async function updateUser(id, fields) {
   if (fields.token_issued_at !== undefined) patch.token_issued_at = fields.token_issued_at;
   if (fields.token_expires_at !== undefined) patch.token_expires_at = fields.token_expires_at;
   if (fields.stripe_customer_id !== undefined) patch.stripe_customer_id = fields.stripe_customer_id;
+  if (fields.stripe_subscription_id !== undefined) patch.stripe_subscription_id = fields.stripe_subscription_id;
   if (fields.oauth_accounts !== undefined) patch.oauth_accounts = JSON.stringify(fields.oauth_accounts);
   if (fields.password_hash !== undefined) patch.password_hash = fields.password_hash;
   if (fields.password_salt !== undefined) patch.password_salt = fields.password_salt;

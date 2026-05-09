@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   token_issued_at TIMESTAMPTZ,
   token_expires_at TIMESTAMPTZ,
   stripe_customer_id TEXT,
+  stripe_subscription_id TEXT,
   password_hash TEXT,
   password_salt TEXT,
   email_verified BOOLEAN NOT NULL DEFAULT TRUE,
@@ -112,5 +113,6 @@ CREATE TABLE IF NOT EXISTS rate_limits (
 );
 
 -- Run these on existing databases:
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_subscription_id TEXT;
 -- ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified BOOLEAN NOT NULL DEFAULT TRUE;
 -- ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verification_token TEXT;
