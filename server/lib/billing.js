@@ -59,8 +59,45 @@ export function getBillingConfig(user = null) {
   };
 }
 
+function formatStripeSubscriptionSummary(subscription) {
+  if (!subscription) {
+    return null;
+  }
+
+  return {
+    id: subscription.id,
+    status: subscription.status || null,
+    cancel_at_period_end: Boolean(subscription.cancel_at_period_end),
+    current_period_end: subscription.current_period_end
+      ? new Date(subscription.current_period_end * 1000).toISOString()
+      : null,
+    cancel_at: subscription.cancel_at
+      ? new Date(subscription.cancel_at * 1000).toISOString()
+      : null,
+    canceled_at: subscription.canceled_at
+      ? new Date(subscription.canceled_at * 1000).toISOString()
+      : null,
+  };
+}
+
+function pickBestSubscription(subscriptions = []) {
+  if (!Array.isArray(subscriptions) || subscriptions.length === 0) {
+    return null;
+  }
+
+  const preferredStatuses = ['active', 'trialing', 'past_due', 'unpaid', 'canceled', 'incomplete'];
+  for (const status of preferredStatuses) {
+    const match = subscriptions.find((subscription) => subscription?.status === status);
+    if (match) {
+      return match;
+    }
+  }
+
+  return subscriptions[0] || null;
+}
+
 export async function getStripeSubscriptionSummary(user = null) {
-  if (!user?.stripe_subscription_id) {
+  if (!user?.stripe_subscription_id && !user?.stripe_customer_id) {
     return null;
   }
 
@@ -70,21 +107,18 @@ export async function getStripeSubscriptionSummary(user = null) {
   }
 
   try {
-    const subscription = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
-    return {
-      id: subscription.id,
-      status: subscription.status || null,
-      cancel_at_period_end: Boolean(subscription.cancel_at_period_end),
-      current_period_end: subscription.current_period_end
-        ? new Date(subscription.current_period_end * 1000).toISOString()
-        : null,
-      cancel_at: subscription.cancel_at
-        ? new Date(subscription.cancel_at * 1000).toISOString()
-        : null,
-      canceled_at: subscription.canceled_at
-        ? new Date(subscription.canceled_at * 1000).toISOString()
-        : null,
-    };
+    if (user?.stripe_subscription_id) {
+      const subscription = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
+      return formatStripeSubscriptionSummary(subscription);
+    }
+
+    const subscriptions = await stripe.subscriptions.list({
+      customer: user.stripe_customer_id,
+      status: 'all',
+      limit: 10,
+    });
+
+    return formatStripeSubscriptionSummary(pickBestSubscription(subscriptions?.data || []));
   } catch (error) {
     console.warn('[billing] Unable to load Stripe subscription summary:', error?.message || error);
     return null;
