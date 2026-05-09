@@ -231,32 +231,51 @@ export function computeProgress(db, userId) {
       ? Number(((totalCorrect / TOTAL_PRACTICE_QUESTIONS) * 100).toFixed(1))
       : 0;
 
-  let readinessScore;
+  // ── Readiness score ───────────────────────────────────────────────────────
+  const practiceScore = totalQuestionsCompleted > 0
+    ? Math.min(100, Math.round(accuracyRate * Math.min(1, bankCoverage * 3)))
+    : 0;
 
-  if (exams.length > 0) {
-    // Mock exams are the primary signal — they simulate real exam conditions
-    // Weight grows with more exams taken (more data = more trust), max 80%
-    const examWeight = Math.min(0.80, 0.55 + (exams.length - 1) * 0.05);
-    const practiceWeight = 1 - examWeight;
-    const blended = Math.round(averageExamScore * examWeight + accuracyRate * practiceWeight);
-    readinessScore = Math.min(100, blended);
+  let rawReadiness;
+  if (exams.length === 0) {
+    rawReadiness = Math.min(40, practiceScore);
+  } else if (exams.length === 1) {
+    rawReadiness = Math.round(averageExamScore * 0.70 + practiceScore * 0.30);
+  } else if (exams.length === 2) {
+    rawReadiness = Math.round(averageExamScore * 0.75 + practiceScore * 0.25);
   } else {
-    // No exams yet — practice-only signal, capped at 35% to encourage taking a mock exam
-    const bankCeilingNoCap = Math.min(1, bankCoverage * 3);
-    const practiceScore = totalQuestionsCompleted > 0
-      ? Math.min(100, Math.round(accuracyRate * bankCeilingNoCap))
-      : 0;
-    readinessScore = Math.min(35, practiceScore);
+    rawReadiness = Math.round(averageExamScore * 0.80 + practiceScore * 0.20);
   }
 
+  // Domain safety caps
+  const ethicsMastery = domainMastery["professional_conduct"] || 0;
+  const measurementMastery = domainMastery["measurement"] || 0;
+  const behaviorReductionMastery = domainMastery["behavior_reduction"] || 0;
+
+  let readinessCappedBy = null;
+  if (ethicsMastery < 75 && domainAttemptCounts["professional_conduct"] >= 5) {
+    readinessCappedBy = "Ethics & Professional Conduct below 75%";
+  } else if (measurementMastery < 70 && domainAttemptCounts["measurement"] >= 5) {
+    readinessCappedBy = "Measurement below 70%";
+  } else if (behaviorReductionMastery < 70 && domainAttemptCounts["behavior_reduction"] >= 5) {
+    readinessCappedBy = "Behavior Reduction below 70%";
+  }
+
+  const readinessScore = readinessCappedBy
+    ? Math.min(rawReadiness, 78)
+    : Math.min(100, rawReadiness);
+
+  const readinessLabel =
+    readinessScore >= 85 ? "Strong Pass Probability"
+    : readinessScore >= 70 ? "Likely Exam Ready"
+    : readinessScore >= 50 ? "Needs Reinforcement"
+    : "At Risk";
+
   const readinessConfidence =
-    exams.length >= 2
-      ? "high"
-      : exams.length === 1
-        ? "medium"
-        : totalQuestionsCompleted >= 50
-          ? "medium"
-          : "low";
+    exams.length >= 2 ? "high"
+    : exams.length === 1 ? "medium"
+    : totalQuestionsCompleted >= 50 ? "medium"
+    : "low";
 
   const studyHours =
     Math.round(
@@ -294,7 +313,9 @@ export function computeProgress(db, userId) {
     last_study_date: lastStudyDate,
     study_hours: studyHours,
     readiness_score: readinessScore,
+    readiness_label: readinessLabel,
     readiness_confidence: readinessConfidence,
+    readiness_capped_by: readinessCappedBy,
     badges,
     plan: user.plan || "free",
     domain_mastery: domainMastery,
