@@ -2,7 +2,7 @@ import { defaultUser, DEMO_USER_ID } from "../../src/lib/backend-core.js";
 
 const LEGACY_DEMO_EMAIL = "alex.carter@example.com";
 const LEGACY_DEMO_EMAILS = [LEGACY_DEMO_EMAIL, "demo@rbtgenius.app"];
-export const ADMIN_EMAILS = ["enrique.padron853@gmail.com"];
+export const ADMIN_EMAILS = [];
 
 export function resolveUserRole(email, fallbackRole = "student") {
   const normalizedEmail = String(email || "").trim().toLowerCase();

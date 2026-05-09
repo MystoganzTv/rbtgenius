@@ -1,4 +1,4 @@
-const DEFAULT_ADMIN_EMAIL = "enrique.padron853@gmail.com";
+const DEFAULT_ADMIN_EMAIL = "";
 const DEFAULT_FROM_EMAIL = "RBT Genius <onboarding@resend.dev>";
 
 function parseRecipients(value) {
@@ -38,6 +38,10 @@ async function sendAdminEmail({ subject, preview, fields }) {
   }
 
   const to = parseRecipients(process.env.ADMIN_NOTIFICATION_EMAIL);
+  if (!to.length) {
+    console.warn(`[admin-notify] Skipped "${subject}" because ADMIN_NOTIFICATION_EMAIL is not configured.`);
+    return { sent: false, reason: "missing_recipient" };
+  }
   const from = process.env.ADMIN_NOTIFICATION_FROM_EMAIL || DEFAULT_FROM_EMAIL;
 
   const text = fields
