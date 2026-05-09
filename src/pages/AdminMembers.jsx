@@ -601,8 +601,8 @@ export default function AdminMembers() {
                         ) : null}
                       </div>
 
-                      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_460px] xl:items-end">
-                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                      <div className="flex flex-col gap-3">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <Select
                             value={draft.plan}
                             onValueChange={(value) => updateDraft(member.id, { plan: value })}
@@ -636,15 +636,15 @@ export default function AdminMembers() {
                           </Select>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        <div className="flex flex-wrap gap-2">
                           <Button
                             type="button"
                             variant="outline"
                             onClick={() => openPayments(member)}
                             disabled={deleteMemberMutation.isPending}
-                            className={memberOutlineButtonClass}
+                            className={memberOutlineButtonClass + " flex-1 min-w-[100px]"}
                           >
-                            <CreditCard className="mr-2 h-4 w-4" />
+                            <CreditCard className="mr-2 h-4 w-4 shrink-0" />
                             {t("Payments")}
                           </Button>
 
@@ -653,9 +653,9 @@ export default function AdminMembers() {
                             variant="outline"
                             onClick={() => openEmail(member)}
                             disabled={deleteMemberMutation.isPending}
-                            className={memberOutlineButtonClass}
+                            className={memberOutlineButtonClass + " flex-1 min-w-[100px]"}
                           >
-                            <Mail className="mr-2 h-4 w-4" />
+                            <Mail className="mr-2 h-4 w-4 shrink-0" />
                             {t("Email")}
                           </Button>
 
@@ -666,7 +666,7 @@ export default function AdminMembers() {
                               updateMemberMutation.isPending ||
                               deleteMemberMutation.isPending
                             }
-                            className="w-full bg-[#1E5EFF] hover:bg-[#1E5EFF]/90 dark:bg-[#7C97FF] dark:text-slate-950 dark:hover:bg-[#96ACFF] dark:shadow-[0_16px_32px_-22px_rgba(124,151,255,0.85)]"
+                            className="flex-1 min-w-[80px] bg-[#1E5EFF] hover:bg-[#1E5EFF]/90 dark:bg-[#7C97FF] dark:text-slate-950 dark:hover:bg-[#96ACFF]"
                           >
                             {t("Save")}
                           </Button>
@@ -676,9 +676,9 @@ export default function AdminMembers() {
                             variant="outline"
                             onClick={() => setMemberPendingDelete(member)}
                             disabled={isCurrentAdmin || deleteMemberMutation.isPending}
-                            className="w-full border-red-200 bg-white text-red-600 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-red-400/30 dark:bg-[#2C1C30] dark:text-red-200 dark:hover:bg-[#38233D]"
+                            className="flex-1 min-w-[80px] border-red-200 bg-white text-red-600 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-red-400/30 dark:bg-[#2C1C30] dark:text-red-200 dark:hover:bg-[#38233D]"
                           >
-                            <Trash2 className="mr-2 h-4 w-4" />
+                            <Trash2 className="mr-2 h-4 w-4 shrink-0" />
                             {t("Delete")}
                           </Button>
                         </div>
