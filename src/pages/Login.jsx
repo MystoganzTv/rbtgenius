@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -275,6 +275,14 @@ export default function Login() {
             {errorMessage}
           </div>
         ) : null}
+
+        <Button
+          asChild
+          variant="ghost"
+          className="mt-4 w-full rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-slate-100"
+        >
+          <Link to="/">back to landing</Link>
+        </Button>
       </Card>
     </div>
   );
