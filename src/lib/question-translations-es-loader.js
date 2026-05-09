@@ -1,18 +1,8 @@
 import { setConceptTranslations } from "./question-bank.js";
+import translations from "./question-translations-es.json";
 
-let initialized = false;
-
-export async function initTranslations() {
-  if (initialized) return;
-  initialized = true;
-
-  try {
-    const translations = await import("./question-translations-es.json", {
-      assert: { type: "json" },
-    });
-    setConceptTranslations(translations.default || translations);
-  } catch {
-    // Translations file not yet generated — questions will show in English
-    // Run: node scripts/translate-questions.mjs to generate it
+export function initTranslations() {
+  if (translations && Object.keys(translations).length > 0) {
+    setConceptTranslations(translations);
   }
 }
