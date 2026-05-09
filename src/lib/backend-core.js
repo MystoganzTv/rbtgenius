@@ -225,43 +225,38 @@ export function computeProgress(db, userId) {
         )
       : null;
 
-  let readinessWeightedTotal = 0;
-  let readinessWeights = 0;
-
-  if (totalQuestionsCompleted > 0) {
-    readinessWeightedTotal += accuracyRate * 0.75;
-    readinessWeights += 0.75;
-  }
-
-  if (stableDomainAverage !== null) {
-    readinessWeightedTotal += stableDomainAverage * 0.1;
-    readinessWeights += 0.1;
-  }
-
-  if (exams.length > 0) {
-    readinessWeightedTotal += averageExamScore * 0.15;
-    readinessWeights += 0.15;
-  }
-
-  const readinessBaseScore =
-    readinessWeights > 0
-      ? Math.min(100, Math.round(readinessWeightedTotal / readinessWeights))
-      : 0;
   const bankCoverage = Math.min(1, totalQuestionsCompleted / TOTAL_PRACTICE_QUESTIONS);
   const bankAccuracy =
     TOTAL_PRACTICE_QUESTIONS > 0
       ? Number(((totalCorrect / TOTAL_PRACTICE_QUESTIONS) * 100).toFixed(1))
       : 0;
-  const examCoverageBoost = Math.min(0.35, exams.length * 0.08);
-  const readinessCeiling = Math.min(1, bankCoverage * 3 + examCoverageBoost);
-  const readinessScore = Math.round(readinessBaseScore * readinessCeiling);
+
+  let readinessScore;
+
+  if (exams.length > 0) {
+    // Mock exams are the primary signal — they simulate real exam conditions
+    // Weight grows with more exams taken (more data = more trust), max 80%
+    const examWeight = Math.min(0.80, 0.55 + (exams.length - 1) * 0.05);
+    const practiceWeight = 1 - examWeight;
+    const blended = Math.round(averageExamScore * examWeight + accuracyRate * practiceWeight);
+    readinessScore = Math.min(100, blended);
+  } else {
+    // No exams yet — practice-only signal, capped at 35% to encourage taking a mock exam
+    const bankCeilingNoCap = Math.min(1, bankCoverage * 3);
+    const practiceScore = totalQuestionsCompleted > 0
+      ? Math.min(100, Math.round(accuracyRate * bankCeilingNoCap))
+      : 0;
+    readinessScore = Math.min(35, practiceScore);
+  }
 
   const readinessConfidence =
-    exams.length > 0 || totalQuestionsCompleted >= 150
+    exams.length >= 2
       ? "high"
-      : totalQuestionsCompleted >= 50
+      : exams.length === 1
         ? "medium"
-        : "low";
+        : totalQuestionsCompleted >= 50
+          ? "medium"
+          : "low";
 
   const studyHours =
     Math.round(
