@@ -2516,10 +2516,13 @@ function translateOptionText(optionText, question) {
 
 export function localizeText(text, language) {
   const english = String(text || "");
-  const spanish = translateToSpanish(english);
 
   if (language === "es") {
-    return { primary: spanish || english, secondary: "" };
+    // Only use Spanish if there is an exact human-approved translation.
+    // Word-by-word substitution on ABA technical content produces Spanglish —
+    // so we fall back to English when no exact match exists.
+    const exact = EXACT_SPANISH_TEXT[english.trim()];
+    return { primary: exact || english, secondary: "" };
   }
 
   return { primary: english, secondary: "" };
