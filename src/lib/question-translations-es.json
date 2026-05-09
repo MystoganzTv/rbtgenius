@@ -598,5 +598,365 @@
       "answer": "Programación de mantenimiento",
       "purpose": "Para mantener fuerte una habilidad aprendida después del dominio inicial."
     }
+  },
+  "measurement_accuracy": {
+    "status": "reviewed",
+    "answer": "Registro de precisión",
+    "definition": "las respuestas se califican según si fueron correctas o incorrectas.",
+    "scenario": "Durante una identificación receptiva, el RBT registra si la respuesta en cada ensayo coincide o no con el estímulo correcto.",
+    "purpose": "Para medir qué tan correctas son las respuestas del aprendiz.",
+    "explanation": "El registro de precisión se usa cuando importa más la exactitud de la respuesta que cuántas veces ocurrió.",
+    "options_es": {
+      "answer": "Registro de precisión",
+      "purpose": "Para medir qué tan correctas son las respuestas del aprendiz."
+    }
+  },
+  "measurement_celeration": {
+    "status": "reviewed",
+    "answer": "Celeración",
+    "definition": "el equipo analiza qué tan rápido la tasa de conducta acelera o desacelera con el tiempo.",
+    "scenario": "Un supervisor revisa si las respuestas independientes de lectura están aumentando cada semana con mayor rapidez, no solo el conteo bruto.",
+    "purpose": "Para describir la velocidad de cambio de una conducta a lo largo del tiempo.",
+    "explanation": "La celeración se enfoca en si la conducta se acelera o desacelera con el tiempo, no solo en el nivel actual de respuestas.",
+    "options_es": {
+      "answer": "Celeración",
+      "purpose": "Para describir la velocidad de cambio de una conducta a lo largo del tiempo."
+    }
+  },
+  "measurement_continuous": {
+    "status": "reviewed",
+    "answer": "Medición continua",
+    "definition": "cada instancia o dimensión completa de la conducta se mide directamente durante la observación.",
+    "scenario": "El equipo quiere los datos más precisos posibles, así que el RBT registra cada episodio de agresión tal como ocurre durante toda la sesión.",
+    "purpose": "Para capturar cada instancia o dimensión completa de la conducta con la mayor precisión posible.",
+    "explanation": "La medición continua incluye métodos como conteo, duración y latencia porque registran directamente toda la dimensión de la respuesta.",
+    "options_es": {
+      "answer": "Medición continua",
+      "purpose": "Para capturar cada instancia o dimensión completa de la conducta con la mayor precisión posible."
+    }
+  },
+  "measurement_count": {
+    "status": "reviewed",
+    "answer": "Conteo",
+    "definition": "el RBT registra cuántas veces ocurre una conducta durante el periodo de observación.",
+    "scenario": "Durante la sesión, el RBT cuenta cuántas veces el aprendiz hace una petición independiente.",
+    "purpose": "Para registrar el número total de veces que ocurre una conducta.",
+    "explanation": "El conteo es útil cuando el equipo necesita saber cuántas respuestas hubo y la duración de la sesión no es la variable principal.",
+    "options_es": {
+      "answer": "Conteo",
+      "purpose": "Para registrar el número total de veces que ocurre una conducta."
+    }
+  },
+  "measurement_data_review_frequency": {
+    "status": "reviewed",
+    "answer": "Frecuencia de revisión de datos",
+    "definition": "los datos se revisan regularmente para detectar cambios, errores o necesidades de ajuste.",
+    "scenario": "El supervisor revisa las gráficas cada semana para decidir si un programa debe continuar, modificarse o retirarse.",
+    "purpose": "Para asegurar que las decisiones se basen en datos revisados de manera constante.",
+    "explanation": "Revisar datos con frecuencia ayuda al equipo a responder a tiempo cuando el progreso cambia o cuando un programa no está funcionando.",
+    "options_es": {
+      "answer": "Frecuencia de revisión de datos",
+      "purpose": "Para asegurar que las decisiones se basen en datos revisados de manera constante."
+    }
+  },
+  "measurement_discontinuous": {
+    "status": "reviewed",
+    "answer": "Medición discontinua",
+    "definition": "la conducta se muestrea en lugar de medirse por completo, usando intervalos o momentos específicos.",
+    "scenario": "Como la observación completa es difícil durante una rutina de aula muy activa, el RBT usa intervalos en vez de registrar cada segundo de la conducta.",
+    "purpose": "Para estimar la conducta por muestreo en lugar de registrar cada instancia completa.",
+    "explanation": "La medición discontinua incluye métodos como registro por intervalos y muestreo momentáneo cuando la medición continua no es práctica.",
+    "options_es": {
+      "answer": "Medición discontinua",
+      "purpose": "Para estimar la conducta por muestreo en lugar de registrar cada instancia completa."
+    }
+  },
+  "measurement_duration_per_occurrence": {
+    "status": "reviewed",
+    "answer": "Duración por episodio",
+    "definition": "se mide y compara la duración de cada episodio individual de la conducta.",
+    "scenario": "Las rabietas ocurren varias veces durante la sesión, así que el RBT registra cuánto dura cada una en lugar de anotar solo el total del día.",
+    "purpose": "Para comparar cuánto dura cada episodio individual de la conducta.",
+    "explanation": "La duración por episodio es útil cuando al equipo le importa cuánto dura cada evento por separado y no solo el tiempo total acumulado.",
+    "options_es": {
+      "answer": "Duración por episodio",
+      "purpose": "Para comparar cuánto dura cada episodio individual de la conducta."
+    }
+  },
+  "measurement_event_recording": {
+    "status": "reviewed",
+    "answer": "Registro de eventos",
+    "definition": "cada ocurrencia de una conducta discreta se marca a medida que sucede durante la observación.",
+    "scenario": "Cada vez que el aprendiz aplaude, el RBT pulsa un contador para registrar otra ocurrencia.",
+    "purpose": "Para registrar cada ocurrencia de una conducta discreta y observable.",
+    "explanation": "El registro de eventos es más útil cuando la conducta tiene un inicio y un final claros y cada ocurrencia se puede contar de forma fiable.",
+    "options_es": {
+      "answer": "Registro de eventos",
+      "purpose": "Para registrar cada ocurrencia de una conducta discreta y observable."
+    }
+  },
+  "measurement_magnitude": {
+    "status": "reviewed",
+    "answer": "Registro de magnitud",
+    "definition": "se mide la intensidad o fuerza de una respuesta en lugar de solo su frecuencia.",
+    "scenario": "Un aprendiz golpea la puerta con distinta fuerza, y el equipo quiere seguir cuán intensa es la respuesta en cada incidente.",
+    "purpose": "Para medir qué tan intensa o fuerte es una conducta.",
+    "explanation": "El registro de magnitud es útil cuando la fuerza o intensidad de la conducta importa clínicamente, no solo la frecuencia con que ocurre.",
+    "options_es": {
+      "answer": "Registro de magnitud",
+      "purpose": "Para medir qué tan intensa o fuerte es una conducta."
+    }
+  },
+  "measurement_opportunity_based": {
+    "status": "reviewed",
+    "answer": "Registro basado en oportunidades",
+    "definition": "la conducta se mide en relación con el número de oportunidades disponibles para responder.",
+    "scenario": "El aprendiz tuvo solo seis oportunidades de saludar a sus pares en una salida corta, así que el equipo evalúa los saludos según esas oportunidades y no por la duración total.",
+    "purpose": "Para medir la conducta en función de las oportunidades que el aprendiz tuvo para responder.",
+    "explanation": "El registro basado en oportunidades es útil cuando las ocasiones para responder varían y un conteo bruto podría ser engañoso.",
+    "options_es": {
+      "answer": "Registro basado en oportunidades",
+      "purpose": "Para medir la conducta en función de las oportunidades que el aprendiz tuvo para responder."
+    }
+  },
+  "professional_caregiver_respect": {
+    "status": "reviewed",
+    "answer": "Comunicación respetuosa con cuidadores",
+    "definition": "el RBT comunica inquietudes y actualizaciones de forma profesional, calmada y dentro de los límites de su rol.",
+    "scenario": "Un cuidador está frustrado y el RBT responde con respeto, comparte información objetiva y evita discutir u ofrecer consejos clínicos fuera de supervisión.",
+    "purpose": "Para mantener una comunicación profesional y respetuosa con los cuidadores.",
+    "explanation": "La comunicación respetuosa con cuidadores favorece la colaboración y ayuda al RBT a mantenerse dentro de su alcance profesional.",
+    "options_es": {
+      "answer": "Comunicación respetuosa con cuidadores",
+      "purpose": "Para mantener una comunicación profesional y respetuosa con los cuidadores."
+    }
+  },
+  "professional_chain_of_command": {
+    "status": "reviewed",
+    "answer": "Seguir la cadena de mando",
+    "definition": "las inquietudes y solicitudes se dirigen a través de la estructura de supervisión adecuada en lugar de saltársela.",
+    "scenario": "Cuando un cuidador pide cambios en el tratamiento, el RBT dirige la solicitud al BCBA supervisor en lugar de modificar el programa por su cuenta.",
+    "purpose": "Para canalizar inquietudes y decisiones a través de la estructura de supervisión adecuada.",
+    "explanation": "Seguir la cadena de mando mantiene claras las responsabilidades y deja las decisiones clínicas en manos del supervisor correspondiente.",
+    "options_es": {
+      "answer": "Seguir la cadena de mando",
+      "purpose": "Para canalizar inquietudes y decisiones a través de la estructura de supervisión adecuada."
+    }
+  },
+  "professional_conduct": {
+    "status": "reviewed",
+    "answer": "Conducta profesional",
+    "definition": "el RBT se comporta de manera ética, respetuosa y confiable en sus interacciones laborales.",
+    "scenario": "Aunque la sesión sea difícil, el RBT mantiene el lenguaje apropiado, sigue el plan y actúa con calma frente al aprendiz, la familia y el equipo.",
+    "purpose": "Para mantener un comportamiento ético y profesional en todo momento.",
+    "explanation": "La conducta profesional sostiene la confianza, la seguridad y la consistencia del servicio entre el RBT, la familia y el equipo clínico.",
+    "options_es": {
+      "answer": "Conducta profesional",
+      "purpose": "Para mantener un comportamiento ético y profesional en todo momento."
+    }
+  },
+  "professional_consistency": {
+    "status": "reviewed",
+    "answer": "Comportamiento profesional consistente",
+    "definition": "el RBT actúa profesionalmente en distintas sesiones, contextos e interacciones de equipo, no solo cuando está siendo observado.",
+    "scenario": "Tanto en clínica como en la comunidad, el RBT mantiene el mismo tono respetuoso, las mismas prácticas de confidencialidad y los mismos procedimientos del plan.",
+    "purpose": "Para mantener estándares profesionales consistentes en distintos contextos e interacciones.",
+    "explanation": "La conducta profesional debe ser constante y no depender del lugar, del horario ni de quién esté supervisando en ese momento.",
+    "options_es": {
+      "answer": "Comportamiento profesional consistente",
+      "purpose": "Para mantener estándares profesionales consistentes en distintos contextos e interacciones."
+    }
+  },
+  "professional_documentation_timeliness": {
+    "status": "reviewed",
+    "answer": "Documentación oportuna",
+    "definition": "los registros se completan con la rapidez suficiente para seguir siendo precisos y clínicamente útiles.",
+    "scenario": "El RBT termina las notas poco después de la sesión en lugar de esperar hasta mucho más tarde, cuando los detalles podrían olvidarse.",
+    "purpose": "Para mantener la documentación precisa al completarla con prontitud.",
+    "explanation": "La documentación oportuna mejora la precisión, el cumplimiento y la comunicación con el resto del equipo clínico.",
+    "options_es": {
+      "answer": "Documentación oportuna",
+      "purpose": "Para mantener la documentación precisa al completarla con prontitud."
+    }
+  },
+  "professional_dual_relationship": {
+    "status": "reviewed",
+    "answer": "Evitar relaciones duales",
+    "definition": "el RBT evita relaciones personales o roles adicionales que puedan interferir con la relación profesional.",
+    "scenario": "Un cuidador invita al RBT a encargarse del niño fuera del servicio, y el RBT rechaza la propuesta para no mezclar roles.",
+    "purpose": "Para proteger los límites profesionales y evitar conflictos de rol.",
+    "explanation": "Evitar relaciones duales ayuda a preservar la objetividad, la claridad de límites y la seguridad ética del servicio.",
+    "options_es": {
+      "answer": "Evitar relaciones duales",
+      "purpose": "Para proteger los límites profesionales y evitar conflictos de rol."
+    }
+  },
+  "professional_ethics_consultation": {
+    "status": "reviewed",
+    "answer": "Consulta ética al supervisor",
+    "definition": "cuando surge una situación dudosa o compleja, el RBT consulta al supervisor en lugar de resolverla por cuenta propia.",
+    "scenario": "El RBT no está seguro de si una solicitud de la familia es apropiada, así que lleva la inquietud al supervisor antes de actuar.",
+    "purpose": "Para pedir orientación cuando surgen dudas éticas o situaciones complejas.",
+    "explanation": "Consultar al supervisor ante dilemas éticos protege al aprendiz, a la familia y al propio RBT frente a decisiones fuera de rol.",
+    "options_es": {
+      "answer": "Consulta ética al supervisor",
+      "purpose": "Para pedir orientación cuando surgen dudas éticas o situaciones complejas."
+    }
+  },
+  "professional_following_plan": {
+    "status": "reviewed",
+    "answer": "Seguir el plan de tratamiento",
+    "definition": "el RBT implementa los procedimientos escritos tal como fueron diseñados por el supervisor.",
+    "scenario": "Aunque la sesión esté complicada, el RBT sigue los procedimientos de ayudas y reforzamiento del plan en lugar de improvisar una estrategia nueva.",
+    "purpose": "Para mantener la implementación alineada con el plan escrito del supervisor.",
+    "explanation": "Seguir el plan protege la integridad del tratamiento y mantiene las decisiones clínicas dentro del rol del supervisor.",
+    "options_es": {
+      "answer": "Seguir el plan de tratamiento",
+      "purpose": "Para mantener la implementación alineada con el plan escrito del supervisor."
+    }
+  },
+  "professional_mandated_reporting": {
+    "status": "reviewed",
+    "answer": "Reporte obligatorio",
+    "definition": "el RBT comunica de inmediato sospechas de abuso, negligencia o situaciones de riesgo siguiendo la política y la ley aplicable.",
+    "scenario": "Un aprendiz llega con lesiones preocupantes y hace un comentario alarmante, así que el RBT sigue el proceso requerido para reportarlo de inmediato.",
+    "purpose": "Para cumplir con la obligación de reportar preocupaciones de seguridad, abuso o negligencia.",
+    "explanation": "El reporte obligatorio existe para proteger al aprendiz y requiere actuar según la ley y las políticas de la agencia, no según opiniones personales.",
+    "options_es": {
+      "answer": "Reporte obligatorio",
+      "purpose": "Para cumplir con la obligación de reportar preocupaciones de seguridad, abuso o negligencia."
+    }
+  },
+  "professional_nonjudgmental_language": {
+    "status": "reviewed",
+    "answer": "Lenguaje no prejuicioso",
+    "definition": "el RBT describe la conducta y las interacciones familiares sin culpa, sarcasmo ni palabras emocionalmente cargadas.",
+    "scenario": "En lugar de escribir que un cuidador fue difícil, el RBT anota que rechazó dos oportunidades sugeridas de práctica.",
+    "purpose": "Para mantener la comunicación respetuosa, objetiva y profesional.",
+    "explanation": "El lenguaje no prejuicioso hace que los registros sean más útiles, más claros y más respetuosos para todos los involucrados.",
+    "options_es": {
+      "answer": "Lenguaje no prejuicioso",
+      "purpose": "Para mantener la comunicación respetuosa, objetiva y profesional."
+    }
+  },
+  "skill_acquisition": {
+    "status": "reviewed",
+    "answer": "Adquisición de habilidades",
+    "definition": "la enseñanza se enfoca en desarrollar habilidades nuevas o fortalecer respuestas que el aprendiz aún no domina.",
+    "scenario": "El equipo diseña programas para enseñar mandos, seguir instrucciones y habilidades de autocuidado que el aprendiz todavía está desarrollando.",
+    "purpose": "Para ayudar al aprendiz a desarrollar habilidades nuevas y funcionales.",
+    "explanation": "La adquisición de habilidades abarca procedimientos de enseñanza dirigidos a aumentar el repertorio del aprendiz de forma útil y medible.",
+    "options_es": {
+      "answer": "Adquisición de habilidades",
+      "purpose": "Para ayudar al aprendiz a desarrollar habilidades nuevas y funcionales."
+    }
+  },
+  "skill_backward_chaining": {
+    "status": "reviewed",
+    "answer": "Encadenamiento hacia atrás",
+    "definition": "el último paso de una cadena se enseña primero para que el aprendiz contacte el reforzador final al terminar cada ensayo.",
+    "scenario": "Durante el aprendizaje de atarse los zapatos, el RBT completa la mayor parte de la secuencia y deja que el aprendiz haga de forma independiente el paso final.",
+    "purpose": "Para enseñar una habilidad encadenada comenzando por el último paso.",
+    "explanation": "El encadenamiento hacia atrás permite que el aprendiz termine la rutina en cada ensayo y contacte de inmediato el resultado final de la cadena.",
+    "options_es": {
+      "answer": "Encadenamiento hacia atrás",
+      "purpose": "Para enseñar una habilidad encadenada comenzando por el último paso."
+    }
+  },
+  "skill_choral_responding": {
+    "status": "reviewed",
+    "answer": "Respuesta coral",
+    "definition": "varios aprendices responden al mismo tiempo después de una instrucción compartida.",
+    "scenario": "Durante una lección grupal, el RBT pide que todos digan el color al mismo tiempo antes de dar retroalimentación.",
+    "purpose": "Para aumentar la participación activa durante la enseñanza en grupo.",
+    "explanation": "La respuesta coral puede aumentar la participación y las oportunidades de práctica cuando se enseña a varios aprendices a la vez.",
+    "options_es": {
+      "answer": "Respuesta coral",
+      "purpose": "Para aumentar la participación activa durante la enseñanza en grupo."
+    }
+  },
+  "skill_dtt": {
+    "status": "reviewed",
+    "answer": "Enseñanza en ensayos discretos",
+    "definition": "la instrucción se presenta en ensayos estructurados y repetidos con una señal, una respuesta, una consecuencia y una breve pausa antes del siguiente ensayo.",
+    "scenario": "En la mesa, el RBT realiza ensayos repetidos de identificación receptiva con retroalimentación inmediata después de cada respuesta.",
+    "purpose": "Para enseñar habilidades mediante ensayos de enseñanza estructurados y repetidos.",
+    "explanation": "La enseñanza en ensayos discretos usa un formato claro de ensayo y suele emplearse para habilidades iniciales o fundacionales.",
+    "options_es": {
+      "answer": "Enseñanza en ensayos discretos",
+      "purpose": "Para enseñar habilidades mediante ensayos de enseñanza estructurados y repetidos."
+    }
+  },
+  "skill_forward_chaining": {
+    "status": "reviewed",
+    "answer": "Encadenamiento hacia adelante",
+    "definition": "el primer paso de una cadena se enseña primero y luego se agregan los pasos siguientes en orden.",
+    "scenario": "Al enseñar a lavarse las manos, el aprendiz domina primero abrir el grifo y después se añaden los demás pasos.",
+    "purpose": "Para enseñar una habilidad encadenada comenzando por el primer paso.",
+    "explanation": "El encadenamiento hacia adelante enseña la secuencia desde el inicio hacia el final, agregando pasos en orden.",
+    "options_es": {
+      "answer": "Encadenamiento hacia adelante",
+      "purpose": "Para enseñar una habilidad encadenada comenzando por el primer paso."
+    }
+  },
+  "skill_gesture_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda gestual",
+    "definition": "el instructor señala, asiente o hace un gesto hacia la respuesta correcta sin guiar físicamente al aprendiz.",
+    "scenario": "Después de dar la instrucción, el RBT señala la tarjeta correcta para dirigir la atención del aprendiz.",
+    "purpose": "Para dirigir la atención hacia la respuesta correcta con un gesto simple.",
+    "explanation": "Las ayudas gestuales son menos intrusivas que las ayudas de modelado o físicas y pueden favorecer una mayor independencia.",
+    "options_es": {
+      "answer": "Ayuda gestual",
+      "purpose": "Para dirigir la atención hacia la respuesta correcta con un gesto simple."
+    }
+  },
+  "skill_incidental_teaching": {
+    "status": "reviewed",
+    "answer": "Enseñanza incidental",
+    "definition": "la enseñanza se organiza alrededor de oportunidades naturales iniciadas por el propio aprendiz.",
+    "scenario": "El aprendiz estira la mano hacia las burbujas y el RBT usa ese momento para enseñar una petición más completa antes de dárselas.",
+    "purpose": "Para enseñar lenguaje u otras habilidades dentro de oportunidades naturales iniciadas por el aprendiz.",
+    "explanation": "La enseñanza incidental aprovecha la motivación y las interacciones naturales para construir habilidades de manera funcional.",
+    "options_es": {
+      "answer": "Enseñanza incidental",
+      "purpose": "Para enseñar lenguaje u otras habilidades dentro de oportunidades naturales iniciadas por el aprendiz."
+    }
+  },
+  "skill_model_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda de modelado",
+    "definition": "el instructor demuestra la respuesta correcta para que el aprendiz la imite.",
+    "scenario": "Al enseñar a aplaudir, el RBT aplaude primero para que el aprendiz pueda copiar la acción.",
+    "purpose": "Para mostrarle al aprendiz cómo se ve la respuesta correcta.",
+    "explanation": "La ayuda de modelado ofrece un ejemplo de la respuesta objetivo y se usa mucho en enseñanza motora e imitación.",
+    "options_es": {
+      "answer": "Ayuda de modelado",
+      "purpose": "Para mostrarle al aprendiz cómo se ve la respuesta correcta."
+    }
+  },
+  "skill_net": {
+    "status": "reviewed",
+    "answer": "Enseñanza en el entorno natural",
+    "definition": "la instrucción se integra en rutinas, juego y motivación del aprendiz en lugar de limitarse al trabajo de mesa.",
+    "scenario": "Mientras juega con trenes, el RBT aprovecha la motivación del aprendiz para enseñar peticiones, turnos y etiquetas simples.",
+    "purpose": "Para enseñar habilidades dentro de rutinas naturales y motivación real del aprendiz.",
+    "explanation": "La enseñanza en el entorno natural hace que las habilidades sean más funcionales porque se practican en contextos significativos del día a día.",
+    "options_es": {
+      "answer": "Enseñanza en el entorno natural",
+      "purpose": "Para enseñar habilidades dentro de rutinas naturales y motivación real del aprendiz."
+    }
+  },
+  "skill_prompt_hierarchy": {
+    "status": "reviewed",
+    "answer": "Jerarquía de ayudas",
+    "definition": "las ayudas se organizan desde más intrusivas a menos intrusivas, o al revés, para apoyar la respuesta correcta de manera planificada.",
+    "scenario": "El RBT sigue una secuencia definida de ayudas para decidir qué nivel usar y cuándo reducirlo durante la enseñanza.",
+    "purpose": "Para usar ayudas de forma sistemática mientras se apoya la independencia.",
+    "explanation": "Una jerarquía de ayudas aporta consistencia a la enseñanza y facilita desvanecer apoyos sin depender de decisiones improvisadas.",
+    "options_es": {
+      "answer": "Jerarquía de ayudas",
+      "purpose": "Para usar ayudas de forma sistemática mientras se apoya la independencia."
+    }
   }
 }
