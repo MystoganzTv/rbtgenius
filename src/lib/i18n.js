@@ -439,6 +439,10 @@ const UI_TRANSLATIONS = {
   "Explain in Spanish": "Explicar en español",
   "Hide Spanish": "Ocultar español",
   "ABA Glossary": "Glosario ABA",
+  "EN / ES": "EN / ES",
+  "Question Translation": "Traducción de la pregunta",
+  "Translation coming soon": "Traducción próximamente",
+  "Options": "Opciones",
 };
 
 const TOPIC_TRANSLATIONS = {
