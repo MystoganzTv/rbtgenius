@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Shield,
   BarChart3,
-  Bot,
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
@@ -12,6 +11,7 @@ import {
   HelpCircle,
   LayoutDashboard,
   Sparkles,
+  User,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { translateUi } from "@/lib/i18n";
@@ -25,6 +25,10 @@ const navItems = [
   { name: "Mock Exams", icon: ClipboardCheck, page: "MockExams", premium: true },
   { name: "Analytics", icon: BarChart3, page: "Analytics", premium: true },
   { name: "Pricing", icon: CreditCard, page: "Pricing" },
+];
+
+const secondaryItems = [
+  { name: "Profile", icon: User, page: "Profile" },
 ];
 
 const adminItems = [
@@ -110,6 +114,45 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
                   {item.badge || "PRO"}
                 </span>
               ) : null}
+
+              {isActive ? (
+                <div className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-[#1E5EFF]" />
+              ) : null}
+            </Link>
+          );
+        })}
+
+        <div
+          className={cn(
+            "my-4",
+            collapsed ? "px-4" : "px-3",
+          )}
+        >
+          <div className="h-px w-full bg-slate-200 dark:bg-slate-800" />
+        </div>
+
+        {secondaryItems.map((item) => {
+          const isActive = currentPage === item.page;
+
+          return (
+            <Link
+              key={item.page}
+              to={createPageUrl(item.page)}
+              className={cn(
+                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium transition-all duration-200",
+                isActive
+                  ? "bg-[#1E5EFF]/8 text-[#1E5EFF]"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-[#0D1628] dark:hover:text-slate-100",
+              )}
+            >
+              <item.icon
+                className={cn(
+                  "h-[18px] w-[18px] flex-shrink-0",
+                  isActive && "text-[#1E5EFF]",
+                )}
+              />
+
+              {!collapsed ? <span>{translateUi(item.name, language)}</span> : null}
 
               {isActive ? (
                 <div className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-[#1E5EFF]" />

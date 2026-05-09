@@ -765,11 +765,7 @@ export default function Profile() {
             </AlertDialogHeader>
 
             <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-[#0D1E3A] dark:text-slate-300">
-              {t(
-                clearTutorOnReset
-                  ? "AI tutor conversations will also be cleared."
-                  : "AI tutor conversations will be kept.",
-              )}
+              {t("Your account, billing history, and sign-in settings will stay intact.")}
             </div>
           </div>
 
