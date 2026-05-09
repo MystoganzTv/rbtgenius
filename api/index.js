@@ -760,12 +760,18 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     try {
       const allUsers = await db.getAllUsers();
-      const members = await Promise.all(allUsers.map(async user => {
-        const [attempts, exams, payments] = await Promise.all([
-          db.getAttemptsByUser(user.id).catch(() => []),
-          db.getMockExamsByUser(user.id).catch(() => []),
-          db.getPaymentsByUser(user.id).catch(() => []),
-        ]);
+      if (allUsers.length === 0) return json([]);
+      const userIds = allUsers.map(u => u.id);
+      // Bulk fetch — 4 queries total regardless of user count
+      const [allAttempts, allExams, allPayments] = await Promise.all([
+        db.getAttemptsByUserIds(userIds).catch(() => []),
+        db.getMockExamsByUserIds(userIds).catch(() => []),
+        db.getPaymentsByUserIds(userIds).catch(() => []),
+      ]);
+      const members = allUsers.map(user => {
+        const attempts = allAttempts.filter(a => a.user_id === user.id);
+        const exams = allExams.filter(e => e.user_id === user.id);
+        const payments = allPayments.filter(p => p.user_id === user.id);
         const progress = computeProgress({ attempts, mockExams: exams, users: [user] }, user.id);
         const completedPayments = payments.filter(p => p.status === 'completed');
         const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
@@ -781,7 +787,7 @@ async function webApiHandler(req) {
           last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
           last_login: user.token_issued_at || null,
         };
-      }));
+      });
       return json(members);
     } catch (err) {
       console.error('[admin/members]', err.message);

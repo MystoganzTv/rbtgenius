@@ -103,6 +103,11 @@ export async function getAttemptsByUser(userId) {
   return sql`SELECT * FROM attempts WHERE user_id = ${userId} ORDER BY created_at DESC`;
 }
 
+export async function getAttemptsByUserIds(userIds) {
+  if (!userIds.length) return [];
+  return sql`SELECT * FROM attempts WHERE user_id = ANY(${userIds}) ORDER BY created_at DESC`;
+}
+
 export async function getPracticeAttemptIdsByUser(userId) {
   const rows = await sql`
     SELECT DISTINCT question_id FROM attempts
@@ -154,6 +159,16 @@ export async function getMockExamsByUser(userId) {
   }));
 }
 
+export async function getMockExamsByUserIds(userIds) {
+  if (!userIds.length) return [];
+  const rows = await sql`SELECT * FROM mock_exams WHERE user_id = ANY(${userIds}) ORDER BY created_at DESC`;
+  return rows.map(r => ({
+    ...r,
+    answers: parseJsonbField(r.answers),
+    domain_scores: parseJsonbField(r.domain_scores),
+  }));
+}
+
 export async function createMockExam(exam) {
   const [row] = await sql`
     INSERT INTO mock_exams (id, user_id, created_at, score, total_questions, correct_answers,
@@ -174,6 +189,11 @@ export async function deleteMockExamsByUser(userId) {
 
 export async function getPaymentsByUser(userId) {
   return sql`SELECT * FROM payments WHERE user_id = ${userId} ORDER BY created_at DESC`;
+}
+
+export async function getPaymentsByUserIds(userIds) {
+  if (!userIds.length) return [];
+  return sql`SELECT * FROM payments WHERE user_id = ANY(${userIds}) ORDER BY created_at DESC`;
 }
 
 export async function getAllPayments() {
