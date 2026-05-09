@@ -18,10 +18,10 @@ const PLANS = [
     badge: "Current",
     upgradeLabel: "Upgrade Monthly",
     features: [
-      `Unlimited practice across ${TOTAL_PRACTICE_QUESTIONS} questions and ${OFFICIAL_CONCEPT_COUNT} concepts`,
-      "Full mock exams — 85 questions, timed",
-      "Full analytics and readiness tracking",
-      "Manage billing with Stripe",
+      "Enable full features",
+      `Access to ${TOTAL_PRACTICE_QUESTIONS}+ practice questions`,
+      "Flashcards full access",
+      "Cancel any time",
     ],
   },
   {
