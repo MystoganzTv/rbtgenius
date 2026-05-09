@@ -642,16 +642,27 @@ export default function Profile() {
                     </div>
                     <Badge className="bg-emerald-600 text-white">{t("Active")}</Badge>
                   </div>
+                  {!willCancelAtPeriodEnd ? (
+                    <div className="mt-4 rounded-2xl border border-emerald-200/80 bg-white/70 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-400/15 dark:bg-slate-950/20 dark:text-emerald-100">
+                      <span className="font-medium">{t("If you cancel from Manage Billing")}</span>{" "}
+                      {t("your premium access stays active until the end of your current billing period.")}
+                    </div>
+                  ) : null}
                 </div>
 
                 {willCancelAtPeriodEnd ? (
-                  <div className="rounded-2xl border border-amber-200/80 bg-amber-50/90 p-4 dark:border-amber-500/20 dark:bg-amber-500/10">
-                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
-                      {t("Subscription cancelled")}
-                    </p>
-                    <p className="mt-1 text-sm text-amber-800 dark:text-amber-200">
-                      {t("You keep your premium access until")} {cancellationEffectiveDate}.
-                    </p>
+                  <div className="rounded-2xl border border-amber-200/80 bg-amber-50/90 p-4 shadow-sm dark:border-amber-500/20 dark:bg-amber-500/10">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
+                          {t("Subscription cancelled")}
+                        </p>
+                        <p className="mt-1 text-sm text-amber-800 dark:text-amber-200">
+                          {t("You keep your premium access until")} {cancellationEffectiveDate}.
+                        </p>
+                      </div>
+                      <Badge className="bg-amber-500 text-white hover:bg-amber-500">{t("Access continues")}</Badge>
+                    </div>
                   </div>
                 ) : null}
 
