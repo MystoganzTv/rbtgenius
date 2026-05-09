@@ -17,6 +17,7 @@ import {
   Clock,
   CreditCard,
   Crown,
+  KeyRound,
   Loader2,
   Mail,
   Shield,
@@ -88,6 +89,7 @@ export default function Profile() {
   const [formData, setFormData] = useState({ full_name: "" });
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
   const [clearTutorOnReset, setClearTutorOnReset] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ current_password: "", new_password: "", confirm_password: "" });
   const queryClient = useQueryClient();
 
   const { data: profileData, refetch: refetchProfile } = useQuery({
@@ -189,6 +191,17 @@ export default function Profile() {
     },
   });
 
+  const passwordMutation = useMutation({
+    mutationFn: api.setPassword,
+    onSuccess: () => {
+      setPasswordForm({ current_password: "", new_password: "", confirm_password: "" });
+      toast({ title: t("Password updated"), description: t("Your password has been saved.") });
+    },
+    onError: (error) => {
+      toast({ title: t("Unable to update password"), description: t(error.message || "Please try again.") });
+    },
+  });
+
   const resetProgressMutation = useMutation({
     mutationFn: api.resetProfileProgress,
     onSuccess: (data) => {
@@ -246,6 +259,16 @@ export default function Profile() {
 
   const handleResetProgress = () => {
     resetProgressMutation.mutate({ clear_tutor: clearTutorOnReset });
+  };
+
+  const handlePasswordSubmit = () => {
+    if (passwordForm.new_password !== passwordForm.confirm_password) {
+      toast({ title: t("Passwords do not match"), description: t("New password and confirmation must match.") });
+      return;
+    }
+    const payload = { new_password: passwordForm.new_password };
+    if (authUser?.auth_provider === "password") payload.current_password = passwordForm.current_password;
+    passwordMutation.mutate(payload);
   };
 
   return (
@@ -377,6 +400,74 @@ export default function Profile() {
             </Card>
           </div>
 
+          <Card className="p-6">
+            <div className="mb-5 flex items-center gap-2">
+              <KeyRound className="h-5 w-5 text-slate-500" />
+              <h3 className="text-lg font-bold text-[#0F172A] dark:text-slate-50">
+                {t("Password & Security")}
+              </h3>
+            </div>
+            <div className="space-y-4">
+              {authUser?.auth_provider === "password" && (
+                <div>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {t("Current Password")}
+                  </label>
+                  <Input
+                    type="password"
+                    value={passwordForm.current_password}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
+                    className="mt-1"
+                    autoComplete="current-password"
+                  />
+                </div>
+              )}
+              <div>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {authUser?.auth_provider === "password" ? t("New Password") : t("Set Password")}
+                </label>
+                <Input
+                  type="password"
+                  value={passwordForm.new_password}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                  className="mt-1"
+                  autoComplete="new-password"
+                  placeholder={t("Minimum 8 characters")}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {t("Confirm New Password")}
+                </label>
+                <Input
+                  type="password"
+                  value={passwordForm.confirm_password}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
+                  className="mt-1"
+                  autoComplete="new-password"
+                />
+              </div>
+              <Button
+                onClick={handlePasswordSubmit}
+                disabled={
+                  passwordMutation.isPending ||
+                  !passwordForm.new_password ||
+                  !passwordForm.confirm_password ||
+                  (authUser?.auth_provider === "password" && !passwordForm.current_password)
+                }
+                className="bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
+              >
+                {passwordMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : authUser?.auth_provider === "password" ? (
+                  t("Change Password")
+                ) : (
+                  t("Set Password")
+                )}
+              </Button>
+            </div>
+          </Card>
+
           <Card className="border-red-200/70 p-6 dark:border-red-900/40">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="max-w-2xl">
@@ -386,7 +477,7 @@ export default function Profile() {
                 <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {t("Clear your answered questions, mock exam history, readiness, streak, and saved study sessions if you want a fresh start. Your account and payment history stay untouched.")}
                 </p>
-                <div className="mt-4 flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900">
+                <div className="mt-4 flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-[#0D1E3A]">
                   <Checkbox
                     id="clear-tutor-on-reset"
                     checked={clearTutorOnReset}
@@ -431,12 +522,12 @@ export default function Profile() {
 
             {currentPlanId === PLAN_IDS.FREE ? (
               <div className="space-y-5">
-                <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
                   <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                     {t("Free plan limits")}
                   </h4>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-950">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                         {t("Practice today")}
                       </p>
@@ -444,7 +535,7 @@ export default function Profile() {
                         {entitlements?.usage?.practice_questions_today || 0}/{FREE_DAILY_PRACTICE_LIMIT}
                       </p>
                     </div>
-                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-950">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#0B1628]">
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                         {t("AI tutor today")}
                       </p>
@@ -464,7 +555,7 @@ export default function Profile() {
                     return (
                       <div
                         key={plan.id}
-                        className="rounded-2xl border border-slate-200/80 bg-white p-5 dark:border-slate-800 dark:bg-slate-950"
+                        className="rounded-2xl border border-slate-200/80 bg-white p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]"
                       >
                         <h4 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                           {plan.name}
@@ -509,13 +600,13 @@ export default function Profile() {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
+                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
                     <p className="text-xs text-slate-500 dark:text-slate-400">{t("Practice access")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
                       {t("Unlimited")}
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
+                  <div className="rounded-2xl bg-slate-50 p-4 dark:bg-[#0D1E3A]">
                     <p className="text-xs text-slate-500 dark:text-slate-400">{t("AI tutor")}</p>
                     <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
                       {t("Unlimited")}
@@ -589,7 +680,7 @@ export default function Profile() {
                 {sortedPayments.map((payment) => (
                   <div
                     key={payment.id}
-                    className="flex items-center justify-between rounded-lg border border-slate-100 p-4 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-900"
+                    className="flex items-center justify-between rounded-lg border border-slate-100 p-4 transition-colors hover:bg-slate-50 dark:border-[#1E5EFF]/15 dark:hover:bg-slate-900"
                   >
                     <div className="flex items-center gap-4">
                       <div
@@ -643,7 +734,7 @@ export default function Profile() {
       </Tabs>
 
       <AlertDialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
-        <AlertDialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl dark:border-slate-800 dark:bg-slate-950">
+        <AlertDialogContent className="rounded-3xl border-slate-200 bg-white p-0 shadow-2xl dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="px-6 py-6">
             <AlertDialogHeader className="space-y-2 text-left">
               <AlertDialogTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
@@ -654,7 +745,7 @@ export default function Profile() {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-            <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-slate-900 dark:text-slate-300">
+            <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-[#0D1E3A] dark:text-slate-300">
               {t(
                 clearTutorOnReset
                   ? "AI tutor conversations will also be cleared."
@@ -663,7 +754,7 @@ export default function Profile() {
             </div>
           </div>
 
-          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-slate-800">
+          <AlertDialogFooter className="border-t border-slate-200/80 px-6 py-4 dark:border-[#1E5EFF]/15">
             <AlertDialogCancel className="rounded-2xl">{t("Cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleResetProgress}

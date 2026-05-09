@@ -9,7 +9,7 @@ export default function PublicSiteFooter() {
   const { language } = useLanguage();
 
   return (
-    <footer className="border-t border-slate-200/70 bg-white/90 dark:border-slate-800 dark:bg-slate-950/90">
+    <footer className="border-t border-slate-200/70 bg-white/90 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/90">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 text-sm text-slate-500 dark:text-slate-400 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="font-medium text-slate-700 dark:text-slate-200">

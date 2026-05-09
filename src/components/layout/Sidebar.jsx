@@ -23,7 +23,6 @@ const navItems = [
   { name: "Practice", icon: HelpCircle, page: "Practice" },
   { name: "Flashcards", icon: Sparkles, page: "Flashcards" },
   { name: "Mock Exams", icon: ClipboardCheck, page: "MockExams", premium: true },
-  { name: "AI Tutor", icon: Bot, page: "AITutor", badge: "AI" },
   { name: "Analytics", icon: BarChart3, page: "Analytics", premium: true },
   { name: "Pricing", icon: CreditCard, page: "Pricing" },
 ];
@@ -39,11 +38,11 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-slate-100 bg-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-950",
+        "fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-slate-100 bg-white transition-all duration-300 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]",
         collapsed ? "w-[72px]" : "w-[260px]",
       )}
     >
-      <div className="flex h-16 items-center border-b border-slate-100 px-4 dark:border-slate-800">
+      <div className="flex h-16 items-center border-b border-slate-100 px-4 dark:border-[#1E5EFF]/15">
         <Link
           to={createPageUrl("Dashboard")}
           className="flex min-w-0 items-center gap-2.5"
@@ -87,7 +86,7 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
                 "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium transition-all duration-200",
                 isActive
                   ? "bg-[#1E5EFF]/8 text-[#1E5EFF]"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-100",
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-[#0D1628] dark:hover:text-slate-100",
               )}
             >
               <item.icon
@@ -150,7 +149,7 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
                     "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium transition-all duration-200",
                     isActive
                       ? "bg-[#1E5EFF]/8 text-[#1E5EFF]"
-                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-100",
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-[#0D1628] dark:hover:text-slate-100",
                   )}
                 >
                   <item.icon
@@ -163,7 +162,7 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
                   {!collapsed ? <span>{translateUi(item.name, language)}</span> : null}
 
                   {!collapsed && item.badge ? (
-                    <span className="ml-auto rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-white dark:bg-slate-100 dark:text-slate-900">
+                    <span className="ml-auto rounded-full bg-[#0D1628] px-2 py-0.5 text-[10px] font-bold text-white dark:bg-slate-100 dark:text-slate-900">
                       {item.badge}
                     </span>
                   ) : null}
@@ -178,11 +177,11 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
         ) : null}
       </nav>
 
-      <div className="border-t border-slate-100 p-3 dark:border-slate-800">
+      <div className="border-t border-slate-100 p-3 dark:border-[#1E5EFF]/15">
         <button
           type="button"
           onClick={() => setCollapsed((current) => !current)}
-          className="flex w-full items-center justify-center rounded-xl py-2 text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-200"
+          className="flex w-full items-center justify-center rounded-xl py-2 text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-[#0D1628] dark:hover:text-slate-200"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />

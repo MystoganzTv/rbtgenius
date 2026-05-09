@@ -12,15 +12,15 @@ export default function StatCard({
 }) {
   const { language } = useLanguage();
   const colorStyles = {
-    blue: "bg-[#1E5EFF]/10 text-[#1E5EFF] dark:bg-slate-900/80 dark:text-[#91A8FF]",
-    gold: "bg-[#FFB800]/12 text-[#D18B00] dark:bg-slate-900/80 dark:text-[#F5C96B]",
-    green: "bg-emerald-50 text-emerald-600 dark:bg-slate-900/80 dark:text-emerald-300",
-    purple: "bg-violet-50 text-violet-600 dark:bg-slate-900/80 dark:text-violet-300",
-    rose: "bg-rose-50 text-rose-500 dark:bg-slate-900/80 dark:text-rose-300",
+    blue: "bg-[#1E5EFF]/10 text-[#1E5EFF] dark:bg-[#0D1E3A]/80 dark:text-[#91A8FF]",
+    gold: "bg-[#FFB800]/12 text-[#D18B00] dark:bg-[#0D1E3A]/80 dark:text-[#F5C96B]",
+    green: "bg-emerald-50 text-emerald-600 dark:bg-[#0D1E3A]/80 dark:text-emerald-300",
+    purple: "bg-violet-50 text-violet-600 dark:bg-[#0D1E3A]/80 dark:text-violet-300",
+    rose: "bg-rose-50 text-rose-500 dark:bg-[#0D1E3A]/80 dark:text-rose-300",
   };
 
   return (
-    <div className="rounded-[1.75rem] border border-slate-100 bg-white p-5 shadow-[0_18px_50px_-35px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.24)] dark:border-slate-800 dark:bg-slate-950 dark:hover:shadow-[0_24px_60px_-40px_rgba(2,6,23,0.7)]">
+    <div className="rounded-[1.75rem] border border-slate-100 bg-white p-5 shadow-[0_18px_50px_-35px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.24)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628] dark:hover:shadow-[0_24px_60px_-40px_rgba(2,6,23,0.7)]">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">

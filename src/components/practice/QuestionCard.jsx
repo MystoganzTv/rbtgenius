@@ -1,13 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  Bot,
   CheckCircle2,
   ChevronDown,
   ChevronUp,
   Flag,
   Lightbulb,
-  Loader2,
   XCircle,
 } from "lucide-react";
 import BilingualText from "@/components/i18n/BilingualText";
@@ -15,8 +13,6 @@ import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/use-language";
-import { toast } from "@/components/ui/use-toast";
-import { api } from "@/lib/api";
 import {
   localizeQuestion,
   localizeText,
@@ -25,6 +21,7 @@ import {
   translateUi,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { extractKeyTerms, getGlossaryEntry } from "@/lib/aba-glossary";
 
 export default function QuestionCard({
   question,
@@ -35,8 +32,6 @@ export default function QuestionCard({
   isFlagged = false,
   correctAnswer = null,
   explanation = "",
-  entitlements = null,
-  onEntitlementsChange,
   onSelectAnswer,
   onAnswer,
   onNext,
@@ -44,11 +39,7 @@ export default function QuestionCard({
 }) {
   const { language } = useLanguage();
   const [explanationVisible, setExplanationVisible] = useState(false);
-  const [aiConversationId, setAiConversationId] = useState(null);
-  const [aiReply, setAiReply] = useState("");
-  const [aiReplyVisible, setAiReplyVisible] = useState(false);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiError, setAiError] = useState("");
+  const explanationPreference = useRef(null);
 
   const handleSubmit = () => {
     if (!selectedAnswer) {
@@ -69,124 +60,23 @@ export default function QuestionCard({
     explanation && explanation !== question?.explanation
       ? localizeText(explanation, language)
       : localizedQuestion?.localizedExplanation || localizeText(explanation, language);
-  const localizedQuestionText = localizedQuestion?.localizedText?.primary || "";
-  const aiPrompt = useMemo(() => {
-    const options = (localizedQuestion?.options || [])
-      .map((option) => `${option.label}) ${option.localizedText?.primary || ""}`)
-      .join("\n");
-    const correctOption = (localizedQuestion?.options || []).find(
-      (option) => option.label === correctAnswer,
-    );
-    const replyLanguage = language === "es" ? "Spanish" : "English";
-
-    return [
-      `Help me with this RBT practice question in ${replyLanguage}.`,
-      "Keep the tone supportive and concise.",
-      "Explain why the best answer is correct, then briefly say why the other options are not the best fit.",
-      "Do not mention BCBA or BACB unless the question itself requires it.",
-      "",
-      `Question: ${localizedQuestionText}`,
-      "Options:",
-      options,
-      `Correct answer: ${correctAnswer}) ${correctOption?.localizedText?.primary || ""}`,
-      localizedExplanation?.primary
-        ? `Current explanation: ${localizedExplanation.primary}`
-        : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-  }, [
-    correctAnswer,
-    language,
-    localizedExplanation?.primary,
-    localizedQuestion?.options,
-    localizedQuestionText,
-  ]);
-
   useEffect(() => {
-    setExplanationVisible(Boolean(isSubmitted && explanation));
+    const auto = Boolean(isSubmitted && explanation);
+    setExplanationVisible(explanationPreference.current !== null ? (explanationPreference.current && auto) : auto);
   }, [explanation, isSubmitted, question?.id]);
 
-  useEffect(() => {
-    setAiConversationId(null);
-    setAiReply("");
-    setAiReplyVisible(false);
-    setAiLoading(false);
-    setAiError("");
-  }, [question?.id]);
 
-  const handleAskAi = async () => {
-    if (aiLoading) {
-      return;
-    }
+  // Key terms for glossary (shown after answering)
+  const keyTerms = useMemo(() =>
+    isSubmitted ? extractKeyTerms(
+      (question?.text || "") + " " + (explanation || "")
+    ) : [],
+  [isSubmitted, question?.text, explanation]);
 
-    if (aiReply) {
-      setAiReplyVisible((current) => !current);
-      return;
-    }
-
-    setAiLoading(true);
-    setAiError("");
-
-    try {
-      let conversationId = aiConversationId;
-
-      if (!conversationId) {
-        const created = await api.createTutorConversation({
-          name: `Question ${questionNumber}`,
-        });
-        conversationId = created?.conversation?.id || null;
-        setAiConversationId(conversationId);
-        onEntitlementsChange?.(created?.entitlements || entitlements);
-      }
-
-      if (!conversationId) {
-        throw new Error("Unable to start AI help.");
-      }
-
-      const payload = await api.sendTutorMessage(conversationId, {
-        content: aiPrompt,
-      });
-      const updatedConversation = payload?.conversation;
-      const assistantMessage = [...(updatedConversation?.messages || [])]
-        .reverse()
-        .find((message) => message.role === "assistant");
-      const nextReply = String(assistantMessage?.content || "").replaceAll("**", "").trim();
-
-      if (!nextReply) {
-        throw new Error("AI did not return an explanation.");
-      }
-
-      setAiReply(nextReply);
-      setAiReplyVisible(true);
-      onEntitlementsChange?.(payload?.entitlements || entitlements);
-    } catch (error) {
-      const isLimit = error?.data?.code === "plan_limit_reached";
-      const isPremium = Boolean(entitlements?.is_premium);
-      const description = isLimit
-        ? translateUi(
-            isPremium
-              ? "Premium includes a generous daily AI tutor allowance. You have reached today's limit."
-              : "Free accounts include 5 AI tutor messages per day.",
-            language,
-          )
-        : error?.message || translateUi("Please try again.", language);
-
-      setAiError(description);
-      toast({
-        title: isLimit
-          ? translateUi("Daily AI tutor limit reached", language)
-          : translateUi("Unable to send message", language),
-        description,
-      });
-    } finally {
-      setAiLoading(false);
-    }
-  };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950">
-      <div className="flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-slate-800 lg:flex-row lg:items-center lg:justify-between">
+    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
+      <div className="flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-[#1E5EFF]/15 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
             {translateUi("Question", language)} {questionNumber} / {totalQuestions}
@@ -258,7 +148,7 @@ export default function QuestionCard({
             const isThis = selectedAnswer === option.label;
             const isCorrectAnswer = option.label === correctAnswer;
             let optionStyle =
-              "border-slate-200 hover:border-[#1E5EFF]/30 hover:bg-[#1E5EFF]/3 dark:border-slate-800 dark:hover:bg-[#1E5EFF]/10";
+              "border-slate-200 hover:border-[#1E5EFF]/30 hover:bg-[#1E5EFF]/3 dark:border-[#1E5EFF]/15 dark:hover:bg-[#1E5EFF]/10";
             let optionTextStyle = "text-slate-900 dark:text-slate-100";
 
             if (isSubmitted) {
@@ -272,7 +162,7 @@ export default function QuestionCard({
                 optionTextStyle = "text-red-950 dark:!text-red-50";
               } else {
                 optionStyle =
-                  "border-slate-100 bg-slate-50/40 opacity-60 dark:border-slate-800 dark:bg-slate-900/60";
+                  "border-slate-100 bg-slate-50/40 opacity-60 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]/70";
                 optionTextStyle = "text-slate-600 dark:text-slate-400";
               }
             } else if (isThis) {
@@ -300,7 +190,7 @@ export default function QuestionCard({
                         ? "bg-red-500 text-white"
                         : isThis
                           ? "bg-[#1E5EFF] text-white"
-                          : "bg-slate-100 text-slate-500 dark:bg-slate-900 dark:text-slate-400",
+                          : "bg-slate-100 text-slate-500 dark:bg-[#0D1E3A] dark:text-slate-400",
                   )}
                 >
                   {isSubmitted && isCorrectAnswer ? (
@@ -332,7 +222,7 @@ export default function QuestionCard({
         </div>
       </div>
 
-      <div className="border-t border-slate-100 px-6 py-4 dark:border-slate-800">
+      <div className="border-t border-slate-100 px-6 py-4 dark:border-[#1E5EFF]/15">
         {!isSubmitted ? (
           <Button
             onClick={handleSubmit}
@@ -343,46 +233,29 @@ export default function QuestionCard({
           </Button>
         ) : (
           <div className="space-y-4">
-            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/60">
+            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]/70">
               <div className="flex flex-wrap gap-2">
                 {explanation ? (
                   <Button
                     variant="outline"
                     size="sm"
                     className="rounded-full"
-                    onClick={() => setExplanationVisible((current) => !current)}
+                    onClick={() => setExplanationVisible((current) => {
+                      const next = !current;
+                      explanationPreference.current = next;
+                      return next;
+                    })}
                   >
-                    {explanationVisible ? (
-                      <ChevronUp className="h-4 w-4" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4" />
-                    )}
+                    {explanationVisible ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                     {explanationVisible
                       ? translateUi("Hide Explanation", language)
                       : translateUi("Show Explanation", language)}
                   </Button>
                 ) : null}
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-[#1E5EFF]/20 bg-[#1E5EFF]/5 text-[#1E5EFF] hover:bg-[#1E5EFF]/10"
-                  onClick={handleAskAi}
-                  disabled={aiLoading}
-                >
-                  {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bot className="h-4 w-4" />}
-                  {aiLoading
-                    ? translateUi("Preparing AI help...", language)
-                    : aiReply
-                      ? aiReplyVisible
-                        ? translateUi("Hide AI Reply", language)
-                        : translateUi("Show AI Reply", language)
-                      : translateUi("Ask AI", language)}
-                </Button>
               </div>
 
               {explanationVisible && explanation ? (
-                <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+                <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-white p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
                   <div className="mb-1 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <Lightbulb className="h-4 w-4 text-[#FFB800]" />
@@ -406,31 +279,23 @@ export default function QuestionCard({
                 </div>
               ) : null}
 
-              {(aiReplyVisible || aiLoading || aiError) ? (
-                <div className="space-y-3 rounded-xl border border-[#1E5EFF]/10 bg-[#1E5EFF]/5 p-4">
-                  <div className="flex items-center gap-2">
-                    <Bot className="h-4 w-4 text-[#1E5EFF]" />
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1E5EFF]">
-                      {translateUi("AI Coach", language)}
-                    </span>
-                  </div>
-
-                  {aiLoading ? (
-                    <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-                      <Loader2 className="h-4 w-4 animate-spin text-[#1E5EFF]" />
-                      <span>{translateUi("Preparing AI help...", language)}</span>
-                    </div>
-                  ) : aiError ? (
-                    <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                      {aiError}
-                    </p>
-                  ) : (
-                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-200">
-                      {aiReply}
-                    </p>
-                  )}
+              {isSubmitted && keyTerms.length > 0 && (
+                <div className="space-y-1 rounded-xl border border-[#1E5EFF]/15 bg-[#1E5EFF]/5 px-3 py-2">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF] dark:text-[#8EB0FF]">
+                    {translateUi("ABA Glossary", language)}
+                  </p>
+                  {keyTerms.map((term) => {
+                    const entry = getGlossaryEntry(term);
+                    if (!entry) return null;
+                    return (
+                      <div key={term} className="flex flex-wrap items-baseline gap-1 text-xs">
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">{term}</span>
+                        <span className="text-slate-500 dark:text-slate-400">→ {entry}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-              ) : null}
+              )}
             </div>
 
             <Button
@@ -442,6 +307,90 @@ export default function QuestionCard({
           </div>
         )}
       </div>
+
+      {/* EN / ES Translation Modal */}
+      <Dialog open={translateModalOpen} onOpenChange={setTranslateModalOpen}>
+        <DialogContent className="max-w-lg dark:border-[#1E5EFF]/20 dark:bg-[#0B1628]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-base">
+              <Languages className="h-4 w-4 text-[#1E5EFF]" />
+              {translateUi("Question Translation", language)}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 pt-1">
+            {/* English */}
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
+              <span className="mb-2 inline-block rounded-md bg-slate-200 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:bg-[#1E5EFF]/20 dark:text-[#8EB0FF]">
+                EN
+              </span>
+              <p className="text-sm leading-relaxed text-slate-800 dark:text-slate-100">
+                {question?.text || ""}
+              </p>
+            </div>
+
+            {/* Spanish */}
+            <div className="rounded-xl border border-[#1E5EFF]/20 bg-[#1E5EFF]/5 p-4 dark:border-[#1E5EFF]/20 dark:bg-[#0D1E3A]">
+              <span className="mb-2 inline-block rounded-md bg-[#1E5EFF]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1E5EFF] dark:text-[#8EB0FF]">
+                ES
+              </span>
+              {spanishQuestion ? (
+                <p className="text-sm leading-relaxed text-slate-800 dark:text-slate-100">
+                  {spanishQuestion}
+                </p>
+              ) : (
+                <p className="text-sm italic text-slate-400 dark:text-slate-500">
+                  {translateUi("Translation coming soon", language)}
+                </p>
+              )}
+            </div>
+
+            {/* Options */}
+            {(localizedQuestion?.options || []).length > 0 && (
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                  {translateUi("Options", language)}
+                </p>
+                {(localizedQuestion?.options || []).map((opt) => {
+                  const isCorrect = opt.label === correctAnswer;
+                  return (
+                    <div key={opt.label} className={cn(
+                      "rounded-lg border px-3 py-2 text-xs",
+                      isCorrect
+                        ? "border-emerald-300 bg-emerald-50 dark:border-emerald-500/30 dark:bg-emerald-500/10"
+                        : "border-slate-100 dark:border-[#1E5EFF]/10"
+                    )}>
+                      <span className="font-semibold text-slate-500 dark:text-slate-400">{opt.label})</span>
+                      <span className="ml-2 text-slate-700 dark:text-slate-200">{opt.text || opt.localizedText?.primary}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Glossary */}
+            {keyTerms.length > 0 && (
+              <div className="rounded-xl border border-[#1E5EFF]/15 bg-[#1E5EFF]/5 px-3 py-2">
+                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF] dark:text-[#8EB0FF]">
+                  {translateUi("ABA Glossary", language)}
+                </p>
+                <div className="space-y-1">
+                  {keyTerms.map((term) => {
+                    const entry = getGlossaryEntry(term);
+                    if (!entry) return null;
+                    return (
+                      <div key={term} className="flex flex-wrap items-baseline gap-1 text-xs">
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">{term}</span>
+                        <span className="text-slate-500 dark:text-slate-400">→ {entry}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

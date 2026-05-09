@@ -11,24 +11,41 @@ export function sql(strings, ...values) {
 
 // ── Users ─────────────────────────────────────────────────────────────────────
 
+function normalizeUser(row) {
+  if (!row) return null;
+  return {
+    ...row,
+    oauth_accounts: typeof row.oauth_accounts === 'string'
+      ? (() => { try { return JSON.parse(row.oauth_accounts); } catch { return {}; } })()
+      : (row.oauth_accounts ?? {}),
+  };
+}
+
 export async function getUserByToken(token) {
   if (!token) return null;
   const rows = await sql`SELECT * FROM users WHERE token = ${token} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getUserByEmail(email) {
   const rows = await sql`SELECT * FROM users WHERE email = ${email.toLowerCase()} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getUserById(id) {
   const rows = await sql`SELECT * FROM users WHERE id = ${id} LIMIT 1`;
-  return rows[0] ?? null;
+  return normalizeUser(rows[0] ?? null);
+}
+
+export async function getUserByStripeCustomerId(customerId) {
+  if (!customerId) return null;
+  const rows = await sql`SELECT * FROM users WHERE stripe_customer_id = ${customerId} LIMIT 1`;
+  return normalizeUser(rows[0] ?? null);
 }
 
 export async function getAllUsers() {
-  return sql`SELECT * FROM users ORDER BY created_at DESC`;
+  const rows = await sql`SELECT * FROM users ORDER BY created_at DESC`;
+  return rows.map(normalizeUser);
 }
 
 export async function createUser(user) {
@@ -44,24 +61,29 @@ export async function createUser(user) {
     )
     RETURNING *
   `;
-  return row;
+  return normalizeUser(row);
 }
 
 export async function updateUser(id, fields) {
-  const [row] = await sql`
-    UPDATE users SET
-      full_name         = COALESCE(${fields.full_name ?? null}, full_name),
-      role              = COALESCE(${fields.role ?? null}, role),
-      plan              = COALESCE(${fields.plan ?? null}, plan),
-      token             = ${fields.token !== undefined ? fields.token : sql`token`},
-      token_issued_at   = ${fields.token_issued_at !== undefined ? fields.token_issued_at : sql`token_issued_at`},
-      token_expires_at  = ${fields.token_expires_at !== undefined ? fields.token_expires_at : sql`token_expires_at`},
-      stripe_customer_id = COALESCE(${fields.stripe_customer_id ?? null}, stripe_customer_id),
-      oauth_accounts    = COALESCE(${fields.oauth_accounts ? JSON.stringify(fields.oauth_accounts) : null}::jsonb, oauth_accounts)
-    WHERE id = ${id}
-    RETURNING *
-  `;
-  return row;
+  const patch = {};
+  if (fields.full_name !== undefined) patch.full_name = fields.full_name;
+  if (fields.role !== undefined) patch.role = fields.role;
+  if (fields.plan !== undefined) patch.plan = fields.plan;
+  if (fields.token !== undefined) patch.token = fields.token;
+  if (fields.token_issued_at !== undefined) patch.token_issued_at = fields.token_issued_at;
+  if (fields.token_expires_at !== undefined) patch.token_expires_at = fields.token_expires_at;
+  if (fields.stripe_customer_id !== undefined) patch.stripe_customer_id = fields.stripe_customer_id;
+  if (fields.oauth_accounts !== undefined) patch.oauth_accounts = JSON.stringify(fields.oauth_accounts);
+  if (fields.password_hash !== undefined) patch.password_hash = fields.password_hash;
+  if (fields.password_salt !== undefined) patch.password_salt = fields.password_salt;
+  if (fields.email_verified !== undefined) patch.email_verified = fields.email_verified;
+  if (fields.email_verification_token !== undefined) patch.email_verification_token = fields.email_verification_token;
+  if (Object.keys(patch).length === 0) {
+    const rows = await sql`SELECT * FROM users WHERE id = ${id}`;
+    return normalizeUser(rows[0] ?? null);
+  }
+  const [row] = await sql`UPDATE users SET ${sql(patch)} WHERE id = ${id} RETURNING *`;
+  return normalizeUser(row);
 }
 
 export async function clearUserSession(id) {
@@ -90,12 +112,15 @@ export async function getPracticeAttemptIdsByUser(userId) {
 }
 
 export async function getMockAttemptIdsByUser(userId) {
-  const rows = await sql`
-    SELECT DISTINCT a->>'question_id' as question_id
-    FROM mock_exams, jsonb_array_elements(answers) as a
-    WHERE user_id = ${userId}
-  `;
-  return rows.map(r => r.question_id).filter(Boolean);
+  const exams = await getMockExamsByUser(userId);
+  const ids = new Set();
+  for (const exam of exams) {
+    const answers = Array.isArray(exam.answers) ? exam.answers : [];
+    for (const a of answers) {
+      if (a.question_id) ids.add(a.question_id);
+    }
+  }
+  return [...ids];
 }
 
 export async function createAttempt(attempt) {
@@ -115,8 +140,18 @@ export async function deleteAttemptsByUser(userId) {
 
 // ── Mock Exams ────────────────────────────────────────────────────────────────
 
+function parseJsonbField(value) {
+  if (!value || typeof value !== 'string') return value;
+  try { return JSON.parse(value); } catch { return value; }
+}
+
 export async function getMockExamsByUser(userId) {
-  return sql`SELECT * FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  const rows = await sql`SELECT * FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  return rows.map(r => ({
+    ...r,
+    answers: parseJsonbField(r.answers),
+    domain_scores: parseJsonbField(r.domain_scores),
+  }));
 }
 
 export async function createMockExam(exam) {
@@ -125,7 +160,7 @@ export async function createMockExam(exam) {
       time_taken_minutes, status, passed, answers, domain_scores)
     VALUES (${exam.id}, ${exam.user_id}, ${exam.created_at}, ${exam.score},
       ${exam.total_questions}, ${exam.correct_answers}, ${exam.time_taken_minutes},
-      ${exam.status}, ${exam.passed}, ${JSON.stringify(exam.answers)}, ${JSON.stringify(exam.domain_scores)})
+      ${exam.status}, ${exam.passed}, ${JSON.stringify(exam.answers)}::jsonb, ${JSON.stringify(exam.domain_scores)}::jsonb)
     RETURNING *
   `;
   return row;
@@ -198,7 +233,7 @@ export async function getTutorConversationsByUser(userId) {
     updatedAt: c.updated_at,
     messages: msgs
       .filter(m => m.conversation_id === c.id)
-      .map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(m.extras ?? {}) })),
+      .map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(typeof m.extras === 'object' && m.extras !== null ? m.extras : {}) })),
   }));
 }
 
@@ -216,7 +251,7 @@ export async function getTutorConversation(id, userId) {
     metadata: { name: c.name },
     createdAt: c.created_at,
     updatedAt: c.updated_at,
-    messages: msgs.map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(m.extras ?? {}) })),
+    messages: msgs.map(m => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at, ...(typeof m.extras === 'object' && m.extras !== null ? m.extras : {}) })),
   };
 }
 
@@ -234,7 +269,7 @@ export async function addTutorMessage(msg) {
   await sql`
     INSERT INTO tutor_messages (id, conversation_id, user_id, role, content, created_at, extras)
     VALUES (${msg.id}, ${msg.conversation_id}, ${msg.user_id}, ${msg.role},
-      ${msg.content}, ${msg.created_at}, ${JSON.stringify(extras)})
+      ${msg.content}, ${msg.created_at}, ${JSON.stringify(extras)}::jsonb)
   `;
   await sql`
     UPDATE tutor_conversations SET updated_at = NOW(), name = CASE
@@ -323,4 +358,19 @@ export async function setRateLimitDb(key, data) {
 
 export async function deleteRateLimitKey(key) {
   await sql`DELETE FROM rate_limits WHERE key = ${key}`;
+}
+
+// ── Email verification ────────────────────────────────────────────────────────
+
+export async function getUserByVerificationToken(token) {
+  const rows = await sql`SELECT * FROM users WHERE email_verification_token = ${token} LIMIT 1`;
+  return rows[0] ?? null;
+}
+
+export async function setEmailVerified(userId) {
+  const [row] = await sql`
+    UPDATE users SET email_verified = true, email_verification_token = NULL
+    WHERE id = ${userId} RETURNING *
+  `;
+  return row;
 }

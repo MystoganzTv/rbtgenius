@@ -7,9 +7,10 @@ import {
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
-import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig } from '../server/lib/billing.js';
+import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, resolvePlanFromPriceId } from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
-import { notifyNewMember, notifyNewSubscription } from '../server/lib/admin-notify.js';
+import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
+import crypto from 'node:crypto';
 import { getEntitlements, isPremiumPlan } from '../src/lib/plan-access.js';
 import { createTutorReply, isOpenAIConfigured, streamTutorReplyOpenAI } from '../server/lib/tutor.js';
 import * as db from './lib/db.js';
@@ -69,8 +70,11 @@ function getApiPath(url) {
 }
 
 async function buildUserAccessState(user) {
-  const attempts = await db.getAttemptsByUser(user.id);
-  const progress = computeProgress({ attempts }, user.id);
+  const [attempts, mockExams] = await Promise.all([
+    db.getAttemptsByUser(user.id),
+    db.getMockExamsByUser(user.id),
+  ]);
+  const progress = computeProgress({ attempts, mockExams, users: [user] }, user.id);
   const tutorMsgsToday = await db.countTutorMessagesToday(user.id);
   return {
     progress,
@@ -191,6 +195,7 @@ async function upsertOAuthUser(profile, providerId) {
   if (existing) {
     user = await db.updateUser(existing.id, {
       full_name: existing.full_name || profile.name,
+      role: resolveUserRole(existing.email, existing.role),
       token: session.token,
       token_issued_at: session.issued_at,
       token_expires_at: session.expires_at,
@@ -239,6 +244,32 @@ async function webApiHandler(req) {
     } catch (e) {
       checks.db_error = e.message;
     }
+    try {
+      const tables = await db.sql`
+        SELECT table_name FROM information_schema.tables
+        WHERE table_schema = 'public'
+        AND table_name = ANY(ARRAY['users','attempts','mock_exams','payments',
+          'practice_sessions','tutor_conversations','tutor_messages',
+          'push_tokens','stripe_events','oauth_states','rate_limits'])
+        ORDER BY table_name
+      `;
+      const found = tables.map(r => r.table_name);
+      const required = ['users','attempts','mock_exams','payments','practice_sessions',
+        'tutor_conversations','tutor_messages','push_tokens','stripe_events','oauth_states','rate_limits'];
+      const missing = required.filter(t => !found.includes(t));
+      checks.tables_found = found;
+      checks.tables_missing = missing;
+      checks.schema_ok = missing.length === 0;
+    } catch (e) {
+      checks.tables_error = e.message;
+    }
+    try {
+      const rows = await db.sql`SELECT COUNT(*)::int AS total, COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS new_this_week FROM users`;
+      checks.users_total = rows[0]?.total ?? 0;
+      checks.users_new_this_week = rows[0]?.new_this_week ?? 0;
+    } catch (e) {
+      checks.users_error = e.message;
+    }
     return json(checks);
   }
 
@@ -258,9 +289,8 @@ async function webApiHandler(req) {
         const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
         for (const u of mockNext.users) {
           const orig = allUsers.find(x => x.id === u.id);
-          if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id)) {
+          if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id))
             await db.updateUser(u.id, { plan: u.plan, stripe_customer_id: u.stripe_customer_id });
-          }
         }
         for (const p of mockNext.payments) {
           if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p);
@@ -271,6 +301,69 @@ async function webApiHandler(req) {
           email: checkout.customer_details?.email || checkout.customer_email,
         });
         if (user) await notifyNewSubscription({ user, plan: checkout.metadata?.plan || user.plan, checkout });
+      }
+
+      if (event.type === 'customer.subscription.deleted') {
+        const sub = event.data?.object || {};
+        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user) {
+          await db.updateUser(user.id, { plan: 'free' });
+          console.log(`[webhook] Subscription cancelled — downgraded ${user.email} to free`);
+        }
+      }
+
+      if (event.type === 'customer.subscription.updated') {
+        const sub = event.data?.object || {};
+        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user && sub.status === 'active') {
+          const priceId = sub.items?.data?.[0]?.price?.id;
+          const plan = resolvePlanFromPriceId(priceId);
+          if (plan && plan !== 'free') {
+            await db.updateUser(user.id, { plan });
+            console.log(`[webhook] Subscription updated — ${user.email} → ${plan}`);
+          }
+        }
+        if (user && (sub.status === 'canceled' || sub.status === 'unpaid')) {
+          await db.updateUser(user.id, { plan: 'free' });
+          console.log(`[webhook] Subscription ${sub.status} — downgraded ${user.email} to free`);
+        }
+      }
+
+      if (event.type === 'invoice.paid') {
+        const invoice = event.data?.object || {};
+        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user && invoice.billing_reason === 'subscription_cycle') {
+          // Recurring renewal — ensure plan stays active
+          const priceId = invoice.lines?.data?.[0]?.price?.id;
+          const plan = resolvePlanFromPriceId(priceId);
+          if (plan && plan !== 'free' && user.plan !== plan) {
+            await db.updateUser(user.id, { plan });
+          }
+          // Record renewal payment
+          await db.createPayment({
+            id: createId('pay'),
+            user_id: user.id,
+            status: 'completed',
+            amount: (invoice.amount_paid || 0) / 100,
+            payment_date: new Date((invoice.created || Date.now() / 1000) * 1000).toISOString(),
+            created_at: new Date().toISOString(),
+            metadata: { invoice_id: invoice.id, reason: 'subscription_renewal' },
+          });
+          console.log(`[webhook] Renewal payment recorded for ${user.email}`);
+        }
+      }
+
+      if (event.type === 'invoice.payment_failed') {
+        const invoice = event.data?.object || {};
+        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+        const user = await db.getUserByStripeCustomerId(customerId);
+        if (user) {
+          console.warn(`[webhook] Payment failed for ${user.email} — invoice ${invoice.id}`);
+          // Stripe will retry — we don't downgrade immediately
+        }
       }
 
       return json({ received: true });
@@ -328,6 +421,7 @@ async function webApiHandler(req) {
       if (authData.created) await notifyNewMember(authData.user, { source: 'oauth', authProvider: providerId });
       return Response.redirect(loginUrl({ authToken: authData.token }), 302);
     } catch (err) {
+      console.error('[oauth callback]', providerId, err.message);
       return Response.redirect(loginUrl({ oauthError: err.message || 'Unable to complete sign-in' }), 302);
     }
   }
@@ -366,17 +460,19 @@ async function webApiHandler(req) {
     if (password.length < 8) { await recordRateLimitPg('register', [ip]); return json({ message: 'Password must be at least 8 characters' }, { status: 400 }); }
     if (await db.getUserByEmail(email)) { await recordRateLimitPg('register', [ip]); return json({ message: 'An account with that email already exists' }, { status: 409 }); }
     const passwordData = hashPassword(password);
-    const session = buildSession();
     const newUser = await db.createUser({
       id: createId('user'), full_name: fullName, email, created_at: new Date().toISOString(),
-      role: resolveUserRole(email), plan: 'free', token: session.token,
-      token_issued_at: session.issued_at, token_expires_at: session.expires_at,
+      role: resolveUserRole(email), plan: 'free', token: null,
+      token_issued_at: null, token_expires_at: null,
       auth_provider: 'password', oauth_accounts: {},
       password_hash: passwordData.hash, password_salt: passwordData.salt,
     });
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    await db.updateUser(newUser.id, { email_verified: false, email_verification_token: verificationToken });
     await recordRateLimitPg('register', [ip]);
     await notifyNewMember(safeUser(newUser), { source: 'manual_register', authProvider: 'password' });
-    return json({ token: session.token, expires_at: session.expires_at, user: safeUser(newUser) }, { status: 201 });
+    await sendVerificationEmail(safeUser(newUser), verificationToken, url.origin);
+    return json({ message: 'Account created. Please check your email to verify your account.' }, { status: 201 });
   }
 
   // ── Login ───────────────────────────────────────────────────────────────────
@@ -392,6 +488,9 @@ async function webApiHandler(req) {
       await recordRateLimitPg('login', [ip, email]);
       return json({ message: 'Invalid email or password' }, { status: 401 });
     }
+    if (user.email_verified === false) {
+      return json({ message: 'Please verify your email before signing in. Check your inbox.' }, { status: 403 });
+    }
     const session = buildSession();
     const updated = await db.updateUser(user.id, { role: resolveUserRole(user.email, user.role), token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
     await clearRateLimitPg('login', [ip, email]);
@@ -402,10 +501,16 @@ async function webApiHandler(req) {
   if (apiPath === '/auth/me' && req.method === 'GET') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
-    if (shouldRotateSession(auth.user)) {
-      const session = buildSession();
-      const rotated = await db.updateUser(auth.user.id, { token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
-      return json({ ...safeUser(rotated), token: session.token, expires_at: session.expires_at });
+    const correctRole = resolveUserRole(auth.user.email, auth.user.role);
+    const needsRoleUpdate = auth.user.role !== correctRole;
+    if (shouldRotateSession(auth.user) || needsRoleUpdate) {
+      const session = shouldRotateSession(auth.user) ? buildSession() : null;
+      const rotated = await db.updateUser(auth.user.id, {
+        role: correctRole,
+        ...(session ? { token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at } : {}),
+      });
+      if (session) return json({ ...safeUser(rotated), token: session.token, expires_at: session.expires_at });
+      return json({ ...safeUser(rotated), expires_at: auth.user.token_expires_at });
     }
     return json({ ...safeUser(auth.user), expires_at: auth.user.token_expires_at });
   }
@@ -416,6 +521,25 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     await db.clearUserSession(auth.user.id);
     return json({ ok: true });
+  }
+
+  // ── Verify email ─────────────────────────────────────────────────────────────
+  if (apiPath === '/auth/verify-email' && req.method === 'GET') {
+    const token = url.searchParams.get('token');
+    if (!token) return Response.redirect(new URL('/login?oauthError=Invalid+verification+link', url.origin).toString(), 302);
+    try {
+      const user = await db.getUserByVerificationToken(token);
+      if (!user) return Response.redirect(new URL('/login?oauthError=Verification+link+expired+or+already+used', url.origin).toString(), 302);
+      const session = buildSession();
+      await db.updateUser(user.id, { email_verified: true, email_verification_token: null, token: session.token, token_issued_at: session.issued_at, token_expires_at: session.expires_at });
+      const loginUrl = new URL('/login', url.origin);
+      loginUrl.searchParams.set('authToken', session.token);
+      loginUrl.searchParams.set('redirectTo', '/dashboard');
+      return Response.redirect(loginUrl.toString(), 302);
+    } catch (err) {
+      console.error('[verify-email]', err.message);
+      return Response.redirect(new URL('/login?oauthError=Verification+failed', url.origin).toString(), 302);
+    }
   }
 
   // ── Questions ───────────────────────────────────────────────────────────────
@@ -501,7 +625,8 @@ async function webApiHandler(req) {
       answers: questions.map(({ question_id, selected_answer, is_correct }) => ({ question_id, selected_answer, is_correct })),
       passed: score >= 80, domain_scores: domainScores,
     });
-    return json(exam, { status: 201 });
+    const parsed = typeof exam.domain_scores === 'string' ? JSON.parse(exam.domain_scores) : exam.domain_scores;
+    return json({ ...exam, domain_scores: parsed }, { status: 201 });
   }
 
   // ── Dashboard ───────────────────────────────────────────────────────────────
@@ -519,7 +644,7 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     if (!isPremiumPlan(auth.user.plan)) return sendPremiumRequired('analytics');
     const [attempts, exams] = await Promise.all([db.getAttemptsByUser(auth.user.id), db.getMockExamsByUser(auth.user.id)]);
-    const progress = computeProgress({ attempts }, auth.user.id);
+    const progress = computeProgress({ attempts, mockExams: exams, users: [auth.user] }, auth.user.id);
     return json({ progress, attempts, exams });
   }
 
@@ -545,6 +670,22 @@ async function webApiHandler(req) {
     await Promise.all([db.deleteAttemptsByUser(auth.user.id), db.deleteMockExamsByUser(auth.user.id), db.deletePracticeSession(auth.user.id)]);
     if (body?.clear_tutor) await db.deleteTutorConversationsByUser(auth.user.id);
     return json(await buildProfilePayload(auth.user));
+  }
+
+  if (apiPath === '/profile/password' && req.method === 'PATCH') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const body = await req.json();
+    const { current_password, new_password } = body;
+    if (!new_password || new_password.length < 8) return json({ message: 'New password must be at least 8 characters' }, { status: 400 });
+    const user = auth.user;
+    if (user.password_hash && user.password_salt) {
+      if (!current_password) return json({ message: 'Current password is required' }, { status: 400 });
+      if (!verifyPassword(current_password, user.password_salt, user.password_hash)) return json({ message: 'Current password is incorrect' }, { status: 401 });
+    }
+    const { hash, salt } = hashPassword(new_password);
+    await db.updateUser(user.id, { password_hash: hash, password_salt: salt });
+    return json({ ok: true });
   }
 
   // ── Billing ──────────────────────────────────────────────────────────────────
@@ -593,29 +734,59 @@ async function webApiHandler(req) {
   }
 
   // ── Admin ────────────────────────────────────────────────────────────────────
+  if (apiPath === '/admin/metrics' && req.method === 'GET') {
+    const auth = await requireAdmin(req);
+    if (auth.error) return auth.error;
+    try {
+      const allUsers = await db.getAllUsers();
+      const now = new Date();
+      const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const total = allUsers.length;
+      const premium = allUsers.filter(u => u.plan && u.plan !== 'free').length;
+      const newThisWeek = allUsers.filter(u => u.created_at >= sevenDaysAgo).length;
+      const activeThisMonth = allUsers.filter(u => u.token_issued_at && u.token_issued_at >= thirtyDaysAgo).length;
+      const inactiveCount = allUsers.filter(u => !u.token_issued_at || u.token_issued_at < thirtyDaysAgo).length;
+      const conversionRate = total > 0 ? Math.round((premium / total) * 100) : 0;
+      return json({ total, premium, newThisWeek, activeThisMonth, inactiveCount, conversionRate });
+    } catch (err) {
+      console.error('[admin/metrics]', err.message);
+      return json({ message: err.message }, { status: 500 });
+    }
+  }
+
   if (apiPath === '/admin/members' && req.method === 'GET') {
     const auth = await requireAdmin(req);
     if (auth.error) return auth.error;
-    const allUsers = await db.getAllUsers();
-    const members = await Promise.all(allUsers.map(async user => {
-      const [attempts, exams, payments] = await Promise.all([
-        db.getAttemptsByUser(user.id), db.getMockExamsByUser(user.id), db.getPaymentsByUser(user.id),
-      ]);
-      const progress = computeProgress({ attempts }, user.id);
-      const completedPayments = payments.filter(p => p.status === 'completed');
-      const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
-      const latestPayment = [...payments].sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0))[0];
-      return {
-        id: user.id, full_name: user.full_name, email: user.email, created_at: user.created_at,
-        auth_provider: user.auth_provider, role: resolveUserRole(user.email, user.role),
-        plan: user.plan, study_streak_days: progress.study_streak_days,
-        readiness_score: progress.readiness_score, total_questions_completed: progress.total_questions_completed,
-        attempts_count: attempts.length, exams_count: exams.length, last_study_date: progress.last_study_date,
-        payments_count: payments.length, total_paid_amount: Number(totalPaid.toFixed(2)),
-        last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
-      };
-    }));
-    return json(members);
+    try {
+      const allUsers = await db.getAllUsers();
+      const members = await Promise.all(allUsers.map(async user => {
+        const [attempts, exams, payments] = await Promise.all([
+          db.getAttemptsByUser(user.id).catch(() => []),
+          db.getMockExamsByUser(user.id).catch(() => []),
+          db.getPaymentsByUser(user.id).catch(() => []),
+        ]);
+        const progress = computeProgress({ attempts, mockExams: exams, users: [user] }, user.id);
+        const completedPayments = payments.filter(p => p.status === 'completed');
+        const totalPaid = completedPayments.reduce((s, p) => s + Number(p.amount || 0), 0);
+        const latestPayment = [...payments].sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0))[0];
+        return {
+          id: user.id, full_name: user.full_name, email: user.email, created_at: user.created_at,
+          auth_provider: user.auth_provider, role: resolveUserRole(user.email, user.role),
+          plan: user.plan, study_streak_days: progress.study_streak_days,
+          readiness_score: progress.readiness_score, total_questions_completed: progress.total_questions_completed,
+          attempts_count: attempts.length, exams_count: exams.length, last_study_date: progress.last_study_date,
+          questions_today: progress.questions_today,
+          payments_count: payments.length, total_paid_amount: Number(totalPaid.toFixed(2)),
+          last_payment_date: latestPayment?.payment_date || latestPayment?.created_at || null,
+          last_login: user.token_issued_at || null,
+        };
+      }));
+      return json(members);
+    } catch (err) {
+      console.error('[admin/members]', err.message);
+      return json({ message: err.message || 'Failed to load members' }, { status: 500 });
+    }
   }
 
   const memberPaymentsMatch = apiPath.match(/^\/admin\/members\/([^/]+)\/payments$/);
@@ -626,6 +797,34 @@ async function webApiHandler(req) {
     if (!member) return json({ message: 'Member not found' }, { status: 404 });
     const payments = (await db.getPaymentsByUser(member.id)).sort((a, b) => new Date(b.payment_date || b.created_at || 0) - new Date(a.payment_date || a.created_at || 0));
     return json({ member: { id: member.id, full_name: member.full_name, email: member.email, plan: member.plan, auth_provider: member.auth_provider }, payments });
+  }
+
+  const memberEmailMatch = apiPath.match(/^\/admin\/members\/([^/]+)\/email$/);
+  if (memberEmailMatch && req.method === 'POST') {
+    const auth = await requireAdmin(req);
+    if (auth.error) return auth.error;
+    const member = await db.getUserById(memberEmailMatch[1]);
+    if (!member) return json({ message: 'Member not found' }, { status: 404 });
+    const body = await req.json();
+    const subject = String(body.subject || '').trim();
+    const message = String(body.message || '').trim();
+    if (!subject || !message) return json({ message: 'Subject and message are required' }, { status: 400 });
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) return json({ message: 'Email service not configured' }, { status: 503 });
+    const from = process.env.ADMIN_NOTIFICATION_FROM_EMAIL || 'RBT Genius <onboarding@resend.dev>';
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from,
+        to: member.email,
+        subject,
+        html: `<div style="font-family:Inter,Arial,sans-serif;padding:24px;background:#f8fafc;color:#0f172a;"><div style="max-width:560px;margin:0 auto;background:white;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;"><div style="padding:20px 24px;background:#1e5eff;color:white;"><div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;">RBT Genius</div><h1 style="margin:8px 0 0;font-size:22px;">${subject}</h1></div><div style="padding:28px 24px;white-space:pre-wrap;line-height:1.6;">${message}</div></div></div>`,
+        text: message,
+      }),
+    });
+    if (!res.ok) return json({ message: 'Failed to send email' }, { status: 500 });
+    return json({ ok: true });
   }
 
   if (/^\/admin\/members\/[^/]+$/.test(apiPath) && req.method === 'PATCH') {
@@ -767,7 +966,17 @@ export default async function handler(nodeReq, nodeRes) {
     body: ['GET', 'HEAD', 'OPTIONS'].includes(nodeReq.method) ? undefined : body,
   });
 
-  const webRes = await webApiHandler(webReq);
+  let webRes;
+  try {
+    webRes = await webApiHandler(webReq);
+  } catch (err) {
+    console.error('[handler]', err);
+    nodeRes.statusCode = 500;
+    nodeRes.setHeader('Content-Type', 'application/json');
+    nodeRes.setHeader('Access-Control-Allow-Origin', '*');
+    nodeRes.end(JSON.stringify({ message: err.message || 'Internal server error' }));
+    return;
+  }
 
   nodeRes.statusCode = webRes.status;
   webRes.headers.forEach((v, k) => nodeRes.setHeader(k, v));

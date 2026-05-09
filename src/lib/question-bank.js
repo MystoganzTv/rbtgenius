@@ -2088,6 +2088,39 @@ export const OFFICIAL_CONCEPT_COUNT = questionConcepts.filter((concept) =>
   isRbtEligibleConcept(concept),
 ).length;
 
+// ── Spanish concept translations ──────────────────────────────────────────────
+// Loaded at runtime by question-translations-es-loader.js
+let _conceptTranslationsEs = {};
+// Reverse lookup: English option text → Spanish translation
+let _answerToSpanish = {};
+let _purposeToSpanish = {};
+
+export function setConceptTranslations(translations) {
+  _conceptTranslationsEs = translations || {};
+  _answerToSpanish = {};
+  _purposeToSpanish = {};
+  for (const [conceptId, tr] of Object.entries(_conceptTranslationsEs)) {
+    const concept = questionConceptLookup[conceptId];
+    if (!concept) continue;
+    // Only use reviewed/approved translations
+    if (!tr.status || tr.status === 'draft_machine') continue;
+    if (tr.options_es?.answer) _answerToSpanish[concept.answer] = tr.options_es.answer;
+    if (tr.options_es?.purpose) _purposeToSpanish[concept.purpose] = tr.options_es.purpose;
+  }
+}
+
+export function getConceptTranslationEs(conceptId) {
+  const tr = _conceptTranslationsEs[conceptId];
+  if (!tr) return null;
+  // Only return reviewed or approved translations
+  if (!tr.status || tr.status === 'draft_machine') return null;
+  return tr;
+}
+
+export function getSpanishForOptionText(englishText) {
+  return _answerToSpanish[englishText] || _purposeToSpanish[englishText] || null;
+}
+
 export const PRACTICE_TOPIC_TOTALS = rbtQuestions.reduce(
   (result, question) => ({
     ...result,

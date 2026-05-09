@@ -1,4 +1,4 @@
-import { questionConceptLookup } from "./question-bank.js";
+import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./question-bank.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {
@@ -345,6 +345,106 @@ const UI_TRANSLATIONS = {
   "Unable to complete sign in": "No se pudo completar el acceso",
   "Unable to sign in": "No se pudo iniciar sesión",
   "Unable to create account": "No se pudo crear la cuenta",
+  // Dashboard StatCard subtitles
+  "live questions across": "preguntas en vivo en",
+  "correct out of": "correctas de",
+  "total bank questions": "preguntas totales del banco",
+  "answered across": "respondidas en",
+  "tracked concepts": "conceptos rastreados",
+  "Bank Coverage": "Cobertura del banco",
+  "Consecutive return days": "Días consecutivos regresando",
+  "day": "día",
+  "days": "días",
+  "Started": "Comenzado",
+  "No streak yet": "Sin racha aún",
+  "Come back tomorrow to start your streak": "Regresa mañana para empezar tu racha",
+  "No bank progress yet": "Sin progreso en el banco aún",
+  // Readiness labels
+  "At Risk": "En riesgo",
+  "Needs Reinforcement": "Necesita refuerzo",
+  "Likely Exam Ready": "Probablemente listo para el examen",
+  "Strong Pass Probability": "Alta probabilidad de aprobar",
+  "Early Estimate": "Estimación temprana",
+  "Exam Ready": "Listo para el examen",
+  "Almost There": "Casi listo",
+  "Keep Studying": "Sigue estudiando",
+  // ReadinessGauge subtexts
+  "Practice-only estimate · Take a mock exam for a stronger signal": "Estimación basada en práctica · Toma un simulado para una señal más sólida",
+  "Very early estimate · Answer more questions and take a mock exam": "Estimación muy temprana · Responde más preguntas y toma un simulado",
+  "mock exam": "simulado",
+  "mock exams": "simulados",
+  "and practice accuracy": "y precisión de práctica",
+  "Guided by": "Basado en",
+  "practice accuracy": "precisión de práctica",
+  // RBT Exam Outline section
+  "RBT Exam Outline": "Esquema del examen RBT",
+  "See full breakdown": "Ver desglose completo",
+  // Badge labels
+  "First 50": "Primeras 50",
+  "250 Answered": "250 Respondidas",
+  "10% Covered": "10% Cubierto",
+  "3-Day Streak": "Racha de 3 días",
+  "First Mock": "Primer simulado",
+  "Mock Pass": "Simulado aprobado",
+  "Ready Signal": "Señal de preparación",
+  // Badge descriptions
+  "Answer your first 50 questions.": "Responde tus primeras 50 preguntas.",
+  "Build a real practice base with 250 answered questions.": "Construye una base sólida con 250 preguntas respondidas.",
+  "Cover at least 10% of the 1116-question bank.": "Cubre al menos el 10% del banco de 1116 preguntas.",
+  "Come back and study on 3 consecutive return days.": "Regresa a estudiar 3 días consecutivos.",
+  "Complete your first mock exam.": "Completa tu primer examen simulado.",
+  "Pass at least one mock exam.": "Aprueba al menos un examen simulado.",
+  "Reach a stronger readiness score built from coverage and exam data.": "Alcanza una puntuación de preparación más sólida basada en cobertura y datos del examen.",
+  // Study streak labels
+  "Study streak": "Racha de estudio",
+  "Study Streak": "Racha de estudio",
+  "study streak": "racha de estudio",
+  // Quick actions
+  "Test your knowledge": "Pon a prueba tus conocimientos",
+  "Simulate the real test": "Simula el examen real",
+  "Get instant help": "Obtén ayuda al instante",
+  // Mock exam signal section
+  "Mock Exam Signal": "Señal de examen simulado",
+  "Mock Exams Taken": "Simulados realizados",
+  "Average Mock Score": "Puntaje promedio en simulados",
+  "Mock Exams Passed": "Simulados aprobados",
+  "Current Recommendation": "Recomendación actual",
+  "Ready for the exam": "Listo para el examen",
+  "Need more mock practice": "Necesitas más práctica en simulados",
+  "Take a mock exam": "Toma un simulado",
+  "Scores at or above 80% count as a passed mock exam.": "Los puntajes de 80% o más cuentan como simulacro aprobado.",
+  "Use mock exam results as your strongest exam-readiness signal.": "Usa los resultados de los simulados como tu señal más fuerte de preparación para el examen.",
+  "Take your first mock exam to unlock a stronger readiness signal.": "Toma tu primer simulado para obtener una señal de preparación más sólida.",
+  "You are performing in a ready-to-test range.": "Estás en un rango listo para el examen.",
+  "Keep practicing before scheduling the real exam.": "Sigue practicando antes de programar el examen real.",
+  "Your readiness recommendation will improve once you have at least one mock exam.": "Tu recomendación de preparación mejorará cuando tengas al menos un simulado.",
+  "You are on this plan. Tap above to manage or cancel.": "Estás en este plan. Toca arriba para gestionar o cancelar.",
+  "mock exam below the target score so far.": "simulado por debajo del puntaje objetivo hasta ahora.",
+  "mock exams below the target score so far.": "simulados por debajo del puntaje objetivo hasta ahora.",
+  // Badges section
+  "Badges Earned": "Insignias obtenidas",
+  "Your Progress": "Tu progreso",
+  "Questions Completed": "Preguntas completadas",
+  "Bank Accuracy": "Precisión del banco",
+  "Study Hours": "Horas de estudio",
+  "Questions Answered": "Preguntas respondidas",
+  "Exam Readiness": "Preparación para el examen",
+  // Streak card
+  "First day in progress": "Primer día en progreso",
+  "Start your streak": "Empieza tu racha",
+  // Score cap reason
+  "Score capped at 78%": "Puntaje limitado al 78%",
+  "needs more practice before the exam.": "necesita más práctica antes del examen.",
+  "Ethics & Professional Conduct below 75%": "Ética y Conducta Profesional por debajo del 75%",
+  "Measurement below 70%": "Medición por debajo del 70%",
+  "Behavior Reduction below 70%": "Reducción de conducta por debajo del 70%",
+  "Explain in Spanish": "Explicar en español",
+  "Hide Spanish": "Ocultar español",
+  "ABA Glossary": "Glosario ABA",
+  "EN / ES": "EN / ES",
+  "Question Translation": "Traducción de la pregunta",
+  "Translation coming soon": "Traducción próximamente",
+  "Options": "Opciones",
 };
 
 const TOPIC_TRANSLATIONS = {
@@ -2425,10 +2525,13 @@ function translateOptionText(optionText, question) {
 
 export function localizeText(text, language) {
   const english = String(text || "");
-  const spanish = translateToSpanish(english);
 
   if (language === "es") {
-    return { primary: spanish || english, secondary: "" };
+    // Only use Spanish if there is an exact human-approved translation.
+    // Word-by-word substitution on ABA technical content produces Spanglish —
+    // so we fall back to English when no exact match exists.
+    const exact = EXACT_SPANISH_TEXT[english.trim()];
+    return { primary: exact || english, secondary: "" };
   }
 
   return { primary: english, secondary: "" };
@@ -2658,63 +2761,56 @@ export function localizeQuestion(question, language) {
 
   const concept = questionConceptLookup[question.concept_id];
   const questionKind = question.id?.split("_").pop();
-  const spanishQuestionText = concept
-    ? questionKind === "definition"
-      ? `¿Qué concepto corresponde a esta definición: ${stripTrailingPeriod(translateQuestionSentence(concept.definition))}?`
-      : questionKind === "scenario"
-        ? `${translateQuestionSentence(concept.scenario)} ¿Qué concepto corresponde mejor?`
-        : questionKind === "purpose"
-          ? `¿Cuál es el objetivo principal de ${stripTrailingPeriod(translateQuestionSentence(concept.answer))}?`
-          : translateQuestionText(question.text)
-    : translateQuestionText(question.text);
-  const spanishExplanation = concept
-    ? questionKind === "purpose"
-      ? `${translateQuestionSentence(concept.explanation)} El objetivo principal es ${stripTrailingPeriod(stripLeadingPara(translatePurposeText(concept.purpose)))}.`
-      : translateQuestionSentence(concept.explanation)
-    : translateExplanationText(question.explanation);
 
-  const localizedText =
-    language === "es"
-      ? { primary: spanishQuestionText, secondary: "" }
-      : localizeText(question.text, language);
-  const localizedExplanation =
-    language === "es"
-      ? { primary: spanishExplanation, secondary: "" }
-      : localizeText(question.explanation, language);
+  // Use proper Spanish translations when available — avoids Spanglish
+  if (language === "es" && question.concept_id) {
+    const tr = getConceptTranslationEs(question.concept_id);
+    if (tr) {
+      let textEs, explanationEs;
+
+      if (questionKind === "definition") {
+        const def = String(tr.definition || "").replace(/[.]\s*$/, "");
+        textEs = `¿Qué concepto corresponde a esta definición: ${def}?`;
+        explanationEs = tr.explanation;
+      } else if (questionKind === "scenario") {
+        const scenario = String(tr.scenario || "").trim();
+        textEs = `${scenario} ¿Qué concepto corresponde mejor?`;
+        explanationEs = tr.explanation;
+      } else if (questionKind === "purpose") {
+        const answer = String(tr.answer || "").replace(/[.]\s*$/, "");
+        const purpose = String(tr.purpose || "").replace(/[.]\s*$/, "").replace(/^Para\s+/i, "");
+        textEs = `¿Cuál es el objetivo principal de ${answer}?`;
+        explanationEs = `${tr.explanation} El objetivo principal es ${purpose.toLowerCase()}.`;
+      }
+
+      if (textEs) {
+        const localizedOptions = (question.options || []).map((option) => {
+          const spanishText = getSpanishForOptionText(option.text);
+          return {
+            ...option,
+            localizedText: { primary: spanishText || option.text, secondary: "" },
+          };
+        });
+
+        return {
+          ...question,
+          localizedTopic: translateTopic(question.topic, language),
+          localizedDifficulty: translateDifficulty(question.difficulty, language),
+          localizedText: { primary: textEs, secondary: "" },
+          localizedExplanation: { primary: explanationEs, secondary: "" },
+          options: localizedOptions,
+        };
+      }
+    }
+  }
+  // No proper Spanish translation available — show in English
+  // (Run scripts/translate-questions.mjs to generate translations)
+  const localizedText = localizeText(question.text, "en");
+  const localizedExplanation = localizeText(question.explanation, "en");
   const localizedOptions = (question.options || []).map((option) => ({
     ...option,
-    localizedText:
-      language === "es"
-        ? { primary: translateOptionText(option.text, question), secondary: "" }
-        : localizeText(option.text, language),
+    localizedText: localizeText(option.text, "en"),
   }));
-
-  const leakCounts =
-    language === "es"
-      ? [
-          spanishQuestionText,
-          spanishExplanation,
-          ...localizedOptions.map((option) => option.localizedText.primary),
-        ].map(countEnglishLeaks)
-      : [];
-
-  const totalLeakCount = leakCounts.reduce((sum, count) => sum + count, 0);
-  const shouldFallbackToEnglish =
-    language === "es" && (totalLeakCount >= 8 || leakCounts.some((count) => count >= 4));
-
-  if (shouldFallbackToEnglish) {
-    return {
-      ...question,
-      localizedTopic: translateTopic(question.topic, language),
-      localizedDifficulty: translateDifficulty(question.difficulty, language),
-      localizedText: localizeText(question.text, "en"),
-      localizedExplanation: localizeText(question.explanation, "en"),
-      options: (question.options || []).map((option) => ({
-        ...option,
-        localizedText: localizeText(option.text, "en"),
-      })),
-    };
-  }
 
   return {
     ...question,

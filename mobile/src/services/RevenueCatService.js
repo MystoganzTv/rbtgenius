@@ -1,17 +1,6 @@
-/**
- * RevenueCatService.js
- * API Key: test (sandbox). Para producción cambia a la key "appl_..." de
- * RevenueCat → API Keys → Public app-specific keys → iOS
- *
- * PASOS RESTANTES:
- * 1. RevenueCat dashboard → Products: agrega com.rbtgenius.monthly + com.rbtgenius.yearly
- * 2. Offerings → "default" → Packages: monthly + annual
- * 3. En terminal: npx expo install react-native-purchases
- * 4. eas build --platform ios --profile production
- */
 import Purchases, { LOG_LEVEL } from 'react-native-purchases';
 
-const REVENUECAT_API_KEY = 'test_VmZJOLIZBusywtVqSStncuBZEFi';
+const REVENUECAT_API_KEY = 'appl_fKgYufvLyPKZGTjOdEoAtsNwjnU';
 
 export async function initRevenueCat(userId) {
   if (__DEV__) Purchases.setLogLevel(LOG_LEVEL.DEBUG);

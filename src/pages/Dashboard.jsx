@@ -131,7 +131,7 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
-      <section className="relative overflow-hidden rounded-[2rem] border border-[#1E5EFF]/10 bg-white px-8 py-9 shadow-[0_30px_80px_-40px_rgba(30,94,255,0.35)] dark:border-slate-800 dark:bg-slate-950 sm:px-10">
+      <section className="relative overflow-hidden rounded-[2rem] border border-[#1E5EFF]/10 bg-white px-8 py-9 shadow-[0_30px_80px_-40px_rgba(30,94,255,0.35)] dark:border-[#1E5EFF]/20 dark:bg-[#0B1628] sm:px-10">
         <div className="pointer-events-none absolute -bottom-10 -left-12 h-44 w-44 rounded-full bg-[#1E5EFF]/16 blur-[1px] dark:bg-[#1E5EFF]/20" />
         <div className="pointer-events-none absolute -right-3 -top-8 h-40 w-40 rounded-full bg-[#FFB800]/18 blur-[1px] dark:bg-[#FFB800]/12" />
 
@@ -161,7 +161,7 @@ export default function Dashboard() {
                     ? t("First day in progress")
                     : t("Start your streak")}
               </div>
-              <div className="rounded-full border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+              <div className="rounded-full border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-700 dark:border-[#1E5EFF]/20 dark:bg-[#0D1E3A] dark:text-slate-200">
                 {t(`${totalQuestions}/${totalQuestionsAvailable} answered`)}
               </div>
               <div className={`rounded-full border px-5 py-3 text-base font-semibold ${activePlan.className}`}>
@@ -183,39 +183,39 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="Questions Answered"
+          title={t("Questions Answered")}
           value={`${totalQuestions}/${totalQuestionsAvailable}`}
-          subtitle={`${totalQuestionsAvailable} live questions across ${OFFICIAL_CONCEPT_COUNT} concepts`}
+          subtitle={`${totalQuestionsAvailable} ${t("live questions across")} ${OFFICIAL_CONCEPT_COUNT} ${t("tracked concepts")}`}
           icon={HelpCircle}
           color="blue"
         />
         <StatCard
-          title="Bank Accuracy"
+          title={t("Bank Accuracy")}
           value={`${bankAccuracy}%`}
           subtitle={
             totalQuestions > 0
-              ? `${progress?.total_correct || 0} correct out of ${totalQuestionsAvailable} total bank questions`
-              : "No bank progress yet"
+              ? `${progress?.total_correct || 0} ${t("correct out of")} ${totalQuestionsAvailable} ${t("total bank questions")}`
+              : t("No bank progress yet")
           }
           icon={Target}
           color="green"
         />
         <StatCard
-          title="Bank Coverage"
+          title={t("Bank Coverage")}
           value={`${bankCoverage}%`}
-          subtitle={`${totalQuestions} answered across ${OFFICIAL_CONCEPT_COUNT} tracked concepts`}
+          subtitle={`${totalQuestions} ${t("answered across")} ${OFFICIAL_CONCEPT_COUNT} ${t("tracked concepts")}`}
           icon={BookOpenCheck}
           color="purple"
         />
         <StatCard
-          title="Study Streak"
-          value={streak > 0 ? `${streak} days` : questionsToday > 0 ? "Started" : "0 days"}
+          title={t("Study Streak")}
+          value={streak > 0 ? `${streak} ${streak === 1 ? t("day") : t("days")}` : questionsToday > 0 ? t("Started") : `0 ${t("days")}`}
           subtitle={
             streak > 0
-              ? "Consecutive return days"
+              ? t("Consecutive return days")
               : questionsToday > 0
-                ? "Come back tomorrow to start your streak"
-                : "No streak yet"
+                ? t("Come back tomorrow to start your streak")
+                : t("No streak yet")
           }
           icon={Flame}
           color="gold"
@@ -230,7 +230,7 @@ export default function Dashboard() {
             attemptCounts={progress?.domain_attempt_counts || {}}
           />
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-5 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white p-5 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                 {t("RBT Exam Outline")}
@@ -251,7 +251,7 @@ export default function Dashboard() {
                 return (
                   <div
                     key={section.code}
-                    className="flex flex-col items-center justify-center rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-center dark:border-slate-800 dark:bg-slate-900"
+                    className="flex flex-col items-center justify-center rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-center dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]"
                     title={sectionTitle}
                   >
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
@@ -269,13 +269,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Quick Actions")}
             </h3>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Link to={createPageUrl("Practice")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-[#1E5EFF]/20 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-[#1E5EFF]/20 dark:hover:bg-slate-900">
+                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-[#1E5EFF]/20 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-[#1E5EFF]/20 dark:hover:bg-slate-900">
                   <HelpCircle className="mb-2 h-5 w-5 text-[#1E5EFF] dark:text-[#8EB0FF]" />
                   <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                     {t("Practice Questions")}
@@ -288,7 +288,7 @@ export default function Dashboard() {
               </Link>
 
               <Link to={createPageUrl("MockExams")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-emerald-200 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-500/20 dark:hover:bg-slate-900">
+                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-emerald-200 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-emerald-500/20 dark:hover:bg-slate-900">
                   <Trophy className="mb-2 h-5 w-5 text-emerald-600 dark:text-emerald-300" />
                   <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                     {t("Mock Exam")}
@@ -301,7 +301,7 @@ export default function Dashboard() {
               </Link>
 
               <Link to={createPageUrl("AITutor")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-violet-200 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-violet-500/20 dark:hover:bg-slate-900">
+                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-violet-200 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-violet-500/20 dark:hover:bg-slate-900">
                   <Brain className="mb-2 h-5 w-5 text-violet-600 dark:text-violet-300" />
                   <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                     {t("AI Tutor")}
@@ -322,14 +322,16 @@ export default function Dashboard() {
             questionCount={totalQuestions}
             examCount={exams.length}
             averageExamScore={averageMockExamScore}
+            label={progress?.readiness_label}
+            cappedBy={progress?.readiness_capped_by}
           />
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Mock Exam Signal")}
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                   {t("Mock Exams Taken")}
                 </p>
@@ -344,7 +346,7 @@ export default function Dashboard() {
                   )}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                   {t("Average Mock Score")}
                 </p>
@@ -361,7 +363,7 @@ export default function Dashboard() {
                   )}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                   {t("Mock Exams Passed")}
                 </p>
@@ -372,7 +374,7 @@ export default function Dashboard() {
                   {t("Scores at or above 80% count as a passed mock exam.")}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                   {t("Current Recommendation")}
                 </p>
@@ -394,17 +396,15 @@ export default function Dashboard() {
                   )}
                 </p>
                 <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  {t(
-                    mockExamsTaken === 0
-                      ? "Mock exams matter more than small practice samples for final readiness."
-                      : `${failedMockExams} mock exam${failedMockExams === 1 ? "" : "s"} below the target score so far.`,
-                  )}
+                  {mockExamsTaken === 0
+                    ? t("Mock exams matter more than small practice samples for final readiness.")
+                    : `${failedMockExams} ${failedMockExams === 1 ? t("mock exam below the target score so far.") : t("mock exams below the target score so far.")}`}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Badges Earned")}
             </h3>
@@ -414,8 +414,8 @@ export default function Dashboard() {
                   key={badge.label}
                   className={`flex flex-col items-center rounded-xl p-3 transition-all ${
                     badge.unlocked
-                      ? `border ${badgeAccentStyles[badge.label] || "border-slate-200 bg-slate-50/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"}`
-                      : "border border-slate-200/80 bg-slate-50/70 opacity-45 grayscale dark:border-slate-800 dark:bg-slate-900"
+                      ? `border ${badgeAccentStyles[badge.label] || "border-slate-200 bg-slate-50/80 text-slate-700 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:text-slate-200"}`
+                      : "border border-slate-200/80 bg-slate-50/70 opacity-45 grayscale dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A]"
                   }`}
                 >
                   <span className="text-xl drop-shadow-sm">{badge.emoji}</span>
@@ -444,7 +444,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
             <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Your Progress")}
             </h3>
@@ -457,7 +457,7 @@ export default function Dashboard() {
                   {totalQuestions}/{totalQuestionsAvailable}
                 </span>
               </div>
-              <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800">
+              <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-[#1E5EFF]/15">
                 <div
                   className="h-2 rounded-full bg-gradient-to-r from-[#1E5EFF] to-[#6366F1] transition-all"
                   style={{ width: `${bankCoverage}%` }}

@@ -18,11 +18,10 @@ const PLANS = [
     badge: "Current",
     upgradeLabel: "Upgrade Monthly",
     features: [
-      `Unlimited practice across ${TOTAL_PRACTICE_QUESTIONS} questions and ${OFFICIAL_CONCEPT_COUNT} concepts`,
-      "150 AI tutor messages each day",
-      "Full mock exams",
-      "Full analytics and readiness tracking",
-      "Manage billing with Stripe",
+      "Enable full features",
+      `Access to ${TOTAL_PRACTICE_QUESTIONS}+ practice questions`,
+      "Flashcards full access",
+      "Cancel any time",
     ],
   },
   {
@@ -34,8 +33,7 @@ const PLANS = [
     upgradeLabel: "Upgrade Yearly",
     features: [
       "Everything in Premium Monthly",
-      "Lower yearly cost than paying month to month",
-      "Unlimited practice with higher daily AI tutor access",
+      "10% less than paying monthly for a full year",
       "Full mock exams and analytics",
       "Manage billing with Stripe",
     ],
@@ -108,7 +106,7 @@ export default function Pricing() {
   const anyLoading = checkoutMutation.isPending || portalMutation.isPending;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#080F1E]">
       {/* Nav */}
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <Link
@@ -132,11 +130,11 @@ export default function Pricing() {
 
       {/* Header */}
       <div className="mx-auto max-w-5xl px-6 pb-10 pt-8 text-center">
-        <h1 className="text-4xl font-bold text-[#0F172A] md:text-5xl">
+        <h1 className="text-4xl font-bold text-[#0F172A] dark:text-slate-50 md:text-5xl">
           Simple, transparent pricing
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-slate-500">
-          Unlock unlimited RBT exam prep — practice questions, mock exams, AI tutor, and full analytics.
+        <p className="mx-auto mt-3 max-w-xl text-slate-500 dark:text-slate-400">
+          Unlock unlimited RBT exam prep — practice questions, mock exams, and full analytics.
         </p>
 
         {/* 40-hour course notice */}
@@ -166,10 +164,10 @@ export default function Pricing() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-[0_8px_40px_-12px_rgba(15,23,42,0.15)] transition-all ${
+                className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-[0_8px_40px_-12px_rgba(15,23,42,0.15)] transition-all dark:bg-[#0D1E3A] dark:shadow-[0_8px_40px_-12px_rgba(30,94,255,0.15)] ${
                   isCurrent
-                    ? "border-[#1E5EFF]/30 ring-2 ring-[#1E5EFF]/10"
-                    : "border-slate-200"
+                    ? "border-[#1E5EFF]/30 ring-2 ring-[#1E5EFF]/10 dark:border-[#1E5EFF]/30"
+                    : "border-slate-200 dark:border-[#1E5EFF]/15"
                 }`}
               >
                 {/* Badge */}
@@ -186,16 +184,18 @@ export default function Pricing() {
                 </div>
 
                 {/* Title & price */}
-                <h2 className="text-xl font-bold text-slate-900">{plan.name}</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">{plan.name}</h2>
                 <div className="mt-4 flex items-end gap-1">
-                  <span className="text-4xl font-black text-slate-900">{plan.price}</span>
+                  <span className="text-4xl font-black text-slate-900 dark:text-slate-50">{plan.price}</span>
                   <span className="mb-1 text-sm text-slate-400">{plan.period}</span>
                 </div>
-                {plan.id === PLAN_IDS.PREMIUM_YEARLY && (
-                  <p className="mt-1.5 text-sm font-medium text-emerald-600">
-                    10% less than paying monthly for a full year
-                  </p>
-                )}
+                <div className="mt-1.5 h-5">
+                  {plan.id === PLAN_IDS.PREMIUM_YEARLY && (
+                    <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                      10% less than paying monthly for a full year
+                    </p>
+                  )}
+                </div>
 
                 {/* CTA button */}
                 <button
@@ -221,13 +221,13 @@ export default function Pricing() {
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
-                      <span className="text-sm text-slate-600">{feature}</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 {/* Footer note */}
-                <p className="mt-6 text-xs text-slate-400">
+                <p className="mt-6 text-xs text-slate-400 dark:text-slate-500">
                   {isCurrent
                     ? "You are on this plan. Tap above to manage or cancel."
                     : isAnyPremium

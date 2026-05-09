@@ -39,13 +39,13 @@ export default function TopBar({
     .toUpperCase();
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-100 bg-white/80 px-6 backdrop-blur-xl transition-colors dark:border-slate-800 dark:bg-slate-950/80">
+    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-100 bg-white/80 px-6 backdrop-blur-xl transition-colors dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/80">
       <div className="flex items-center gap-3">
         {onMenuClick ? (
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-xl lg:hidden dark:hover:bg-slate-900"
+            className="rounded-xl lg:hidden dark:hover:bg-[#0D1628]"
             onClick={onMenuClick}
           >
             <Menu className="h-5 w-5 text-slate-600 dark:text-slate-300" />
@@ -57,7 +57,7 @@ export default function TopBar({
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-xl text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-200"
+          className="rounded-xl text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-[#0D1628] dark:hover:text-slate-200"
           onClick={toggleTheme}
         >
           {isDark ? (
@@ -69,7 +69,7 @@ export default function TopBar({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2.5 rounded-xl py-1.5 pl-2 pr-3 transition-all hover:bg-slate-50 dark:hover:bg-slate-900">
+            <button className="flex items-center gap-2.5 rounded-xl py-1.5 pl-2 pr-3 transition-all hover:bg-slate-50 dark:hover:bg-[#0D1628]">
               <Avatar className="h-8 w-8 bg-gradient-to-br from-[#1E5EFF] to-[#6366F1]">
                 <AvatarFallback className="bg-transparent text-xs font-semibold text-white">
                   {initials || "?"}

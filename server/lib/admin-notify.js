@@ -94,6 +94,43 @@ async function sendAdminEmail({ subject, preview, fields }) {
   }
 }
 
+async function sendUserEmail({ to, subject, preview, bodyHtml }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) { console.warn('[notify] Skipped because RESEND_API_KEY not set'); return { sent: false }; }
+  const from = process.env.NOTIFICATION_FROM_EMAIL || process.env.ADMIN_NOTIFICATION_FROM_EMAIL || DEFAULT_FROM_EMAIL;
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to, subject, html: bodyHtml, text: preview }),
+    });
+    if (!r.ok) { console.error('[notify] email failed', r.status); return { sent: false }; }
+    return { sent: true };
+  } catch (e) { console.error('[notify] email error', e); return { sent: false }; }
+}
+
+export async function sendVerificationEmail(user, verificationToken, origin = 'https://www.rbtgenius.com') {
+  const link = `${origin}/api/auth/verify-email?token=${verificationToken}`;
+  return sendUserEmail({
+    to: user.email,
+    subject: 'Verify your RBT Genius email',
+    preview: `Click the link to verify your email: ${link}`,
+    bodyHtml: `<div style="font-family:Inter,Arial,sans-serif;padding:24px;background:#f8fafc;color:#0f172a;">
+      <div style="max-width:560px;margin:0 auto;background:white;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;">
+        <div style="padding:20px 24px;background:#1e5eff;color:white;">
+          <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;">RBT Genius</div>
+          <h1 style="margin:8px 0 0;font-size:22px;">Verify your email</h1>
+        </div>
+        <div style="padding:28px 24px;">
+          <p style="margin:0 0 20px;color:#475569;">Hi ${escapeHtml(user.full_name || user.email)}, please click the button below to verify your email address and activate your account.</p>
+          <a href="${link}" style="display:inline-block;padding:12px 28px;background:#1e5eff;color:white;border-radius:10px;text-decoration:none;font-weight:600;">Verify Email</a>
+          <p style="margin:20px 0 0;font-size:12px;color:#94a3b8;">If you didn't create an account, you can safely ignore this email.</p>
+        </div>
+      </div>
+    </div>`,
+  });
+}
+
 export async function notifyNewMember(user, details = {}) {
   return sendAdminEmail({
     subject: "New member created",

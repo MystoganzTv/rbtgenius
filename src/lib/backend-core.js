@@ -128,10 +128,16 @@ function getSmoothedRate(correct, total, baselineRate = 0.65, baselineWeight = 6
   return Math.round((weightedCorrect / weightedTotal) * 100);
 }
 
+function toDateStr(value) {
+  if (!value) return '';
+  if (typeof value === 'string') return value.slice(0, 10);
+  return value instanceof Date ? value.toISOString().slice(0, 10) : '';
+}
+
 function formatUniqueStudyDays(attempts) {
   const dateKeys = new Set(
     attempts
-      .map((attempt) => attempt.created_at?.slice(0, 10))
+      .map((attempt) => toDateStr(attempt.created_at))
       .filter(Boolean),
   );
 
@@ -219,43 +225,57 @@ export function computeProgress(db, userId) {
         )
       : null;
 
-  let readinessWeightedTotal = 0;
-  let readinessWeights = 0;
-
-  if (totalQuestionsCompleted > 0) {
-    readinessWeightedTotal += accuracyRate * 0.75;
-    readinessWeights += 0.75;
-  }
-
-  if (stableDomainAverage !== null) {
-    readinessWeightedTotal += stableDomainAverage * 0.1;
-    readinessWeights += 0.1;
-  }
-
-  if (exams.length > 0) {
-    readinessWeightedTotal += averageExamScore * 0.15;
-    readinessWeights += 0.15;
-  }
-
-  const readinessBaseScore =
-    readinessWeights > 0
-      ? Math.min(100, Math.round(readinessWeightedTotal / readinessWeights))
-      : 0;
   const bankCoverage = Math.min(1, totalQuestionsCompleted / TOTAL_PRACTICE_QUESTIONS);
   const bankAccuracy =
     TOTAL_PRACTICE_QUESTIONS > 0
       ? Number(((totalCorrect / TOTAL_PRACTICE_QUESTIONS) * 100).toFixed(1))
       : 0;
-  const examCoverageBoost = Math.min(0.35, exams.length * 0.08);
-  const readinessCeiling = Math.min(1, bankCoverage * 3 + examCoverageBoost);
-  const readinessScore = Math.round(readinessBaseScore * readinessCeiling);
+
+  // ── Readiness score ───────────────────────────────────────────────────────
+  const practiceScore = totalQuestionsCompleted > 0
+    ? Math.min(100, Math.round(accuracyRate * Math.min(1, bankCoverage * 3)))
+    : 0;
+
+  let rawReadiness;
+  if (exams.length === 0) {
+    rawReadiness = Math.min(40, practiceScore);
+  } else if (exams.length === 1) {
+    rawReadiness = Math.round(averageExamScore * 0.70 + practiceScore * 0.30);
+  } else if (exams.length === 2) {
+    rawReadiness = Math.round(averageExamScore * 0.75 + practiceScore * 0.25);
+  } else {
+    rawReadiness = Math.round(averageExamScore * 0.80 + practiceScore * 0.20);
+  }
+
+  // Domain safety caps
+  const ethicsMastery = domainMastery["professional_conduct"] || 0;
+  const measurementMastery = domainMastery["measurement"] || 0;
+  const behaviorReductionMastery = domainMastery["behavior_reduction"] || 0;
+
+  let readinessCappedBy = null;
+  if (ethicsMastery < 75 && domainAttemptCounts["professional_conduct"] >= 5) {
+    readinessCappedBy = "Ethics & Professional Conduct below 75%";
+  } else if (measurementMastery < 70 && domainAttemptCounts["measurement"] >= 5) {
+    readinessCappedBy = "Measurement below 70%";
+  } else if (behaviorReductionMastery < 70 && domainAttemptCounts["behavior_reduction"] >= 5) {
+    readinessCappedBy = "Behavior Reduction below 70%";
+  }
+
+  const readinessScore = readinessCappedBy
+    ? Math.min(rawReadiness, 78)
+    : Math.min(100, rawReadiness);
+
+  const readinessLabel =
+    readinessScore >= 85 ? "Strong Pass Probability"
+    : readinessScore >= 70 ? "Likely Exam Ready"
+    : readinessScore >= 50 ? "Needs Reinforcement"
+    : "At Risk";
 
   const readinessConfidence =
-    exams.length > 0 || totalQuestionsCompleted >= 150
-      ? "high"
-      : totalQuestionsCompleted >= 50
-        ? "medium"
-        : "low";
+    exams.length >= 2 ? "high"
+    : exams.length === 1 ? "medium"
+    : totalQuestionsCompleted >= 50 ? "medium"
+    : "low";
 
   const studyHours =
     Math.round(
@@ -293,13 +313,15 @@ export function computeProgress(db, userId) {
     last_study_date: lastStudyDate,
     study_hours: studyHours,
     readiness_score: readinessScore,
+    readiness_label: readinessLabel,
     readiness_confidence: readinessConfidence,
+    readiness_capped_by: readinessCappedBy,
     badges,
     plan: user.plan || "free",
     domain_mastery: domainMastery,
     domain_attempt_counts: domainAttemptCounts,
     questions_today: practiceAttempts.filter(
-      (attempt) => attempt.created_at?.slice(0, 10) === new Date().toISOString().slice(0, 10),
+      (attempt) => toDateStr(attempt.created_at) === new Date().toISOString().slice(0, 10),
     ).length,
     last_question_date: lastStudyDate,
     total_mock_exams: exams.length,

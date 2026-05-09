@@ -119,9 +119,9 @@ export default function Analytics() {
   if (!entitlements) {
     return (
       <div className="mx-auto max-w-4xl">
-        <div className="animate-pulse rounded-2xl border border-slate-100 bg-white p-12 dark:border-slate-800 dark:bg-slate-950">
-          <div className="h-8 w-48 rounded bg-slate-100 dark:bg-slate-900" />
-          <div className="mt-3 h-4 w-72 rounded bg-slate-100 dark:bg-slate-900" />
+        <div className="animate-pulse rounded-2xl border border-slate-100 bg-white p-12 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
+          <div className="h-8 w-48 rounded bg-slate-100 dark:bg-[#0D1E3A]" />
+          <div className="mt-3 h-4 w-72 rounded bg-slate-100 dark:bg-[#0D1E3A]" />
         </div>
       </div>
     );
@@ -181,7 +181,7 @@ export default function Analytics() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Domain Coverage")}
@@ -232,7 +232,7 @@ export default function Analytics() {
             {domainCoverageData.map((item) => (
               <div
                 key={item.name}
-                className="rounded-xl border border-slate-200/70 bg-slate-50 px-3 py-2 text-xs dark:border-slate-800 dark:bg-slate-900"
+                className="rounded-xl border border-slate-200/70 bg-slate-50 px-3 py-2 text-xs dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]"
               >
                 <p className="font-medium text-slate-700 dark:text-slate-200">{item.name}</p>
                 <p className="mt-1 text-slate-500 dark:text-slate-400">
@@ -250,7 +250,7 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
             {t("Questions by Topic")}
           </h3>
@@ -300,7 +300,7 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950 lg:col-span-2">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628] lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("RBT Exam Outline — Section Mastery")}
@@ -318,7 +318,7 @@ export default function Analytics() {
               return (
                 <div
                   key={section.code}
-                  className="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900"
+                  className="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -350,7 +350,7 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-slate-800 dark:bg-slate-950 lg:col-span-2">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628] lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("Mock Exam Score Trend")}

@@ -254,7 +254,7 @@ export default function Flashcards() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-4">
-      <div className="flex flex-col gap-3 rounded-[2rem] border border-slate-200/80 bg-white/95 px-5 py-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-slate-800 dark:bg-slate-950/95 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 rounded-[2rem] border border-slate-200/80 bg-white/95 px-5 py-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
             {translateUi("Flashcards", language)}
@@ -396,7 +396,7 @@ export default function Flashcards() {
                   </Card>
 
                   <Card
-                    className="absolute inset-0 overflow-hidden border-2 border-[#1E5EFF] bg-white p-8 [backface-visibility:hidden] dark:bg-slate-950"
+                    className="absolute inset-0 overflow-hidden border-2 border-[#1E5EFF] bg-white p-8 [backface-visibility:hidden] dark:bg-[#0B1628]"
                     style={{ transform: "rotateY(180deg)" }}
                   >
                     <div className="flex h-full flex-col justify-between pr-1">
@@ -411,7 +411,7 @@ export default function Flashcards() {
                               className={`rounded-lg p-3 text-slate-900 dark:text-slate-100 ${
                                 option.label === currentCard.correct_answer
                                   ? "border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30"
-                                  : "bg-slate-50 opacity-50 dark:bg-slate-900"
+                                  : "bg-slate-50 opacity-50 dark:bg-[#0D1E3A]"
                               }`}
                             >
                               <div className="flex items-start gap-2">
@@ -437,7 +437,7 @@ export default function Flashcards() {
                         </div>
 
                         {currentCard.explanation ? (
-                          <div className="space-y-3 rounded-lg bg-blue-50 p-4 dark:bg-slate-900">
+                          <div className="space-y-3 rounded-lg bg-blue-50 p-4 dark:bg-[#0D1E3A]">
                             <div className="mb-2 flex items-center justify-between gap-3">
                               <p className="text-xs font-semibold text-[#1E5EFF]">
                                 {translateUi("Explanation", language)}:
@@ -486,9 +486,9 @@ export default function Flashcards() {
           </div>
 
           <aside className="order-2 xl:sticky xl:top-24">
-            <div className="space-y-4 rounded-[2rem] border border-slate-200/80 bg-white/95 p-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-slate-800 dark:bg-slate-950/95">
+            <div className="space-y-4 rounded-[2rem] border border-slate-200/80 bg-white/95 p-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95">
               <div className="grid grid-cols-2 gap-3 xl:grid-cols-1">
-                <Card className="border-slate-200/80 p-4 dark:border-slate-800">
+                <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-slate-500">{translateUi("Total Cards", language)}</p>
@@ -499,7 +499,7 @@ export default function Flashcards() {
                     <Zap className="h-7 w-7 text-[#1E5EFF]" />
                   </div>
                 </Card>
-                <Card className="border-slate-200/80 p-4 dark:border-slate-800">
+                <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-slate-500">{translateUi("Mastered", language)}</p>
@@ -510,7 +510,7 @@ export default function Flashcards() {
                     <Trophy className="h-7 w-7 text-emerald-600" />
                   </div>
                 </Card>
-                <Card className="border-slate-200/80 p-4 dark:border-slate-800">
+                <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-slate-500">{translateUi("Current Session", language)}</p>
@@ -521,7 +521,7 @@ export default function Flashcards() {
                     <ThumbsUp className="h-7 w-7 text-[#1E5EFF]" />
                   </div>
                 </Card>
-                <Card className="border-slate-200/80 p-4 dark:border-slate-800">
+                <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-slate-500">{translateUi("Need Review", language)}</p>
@@ -613,7 +613,7 @@ export default function Flashcards() {
               Upgrade to Premium to unlock the full flashcard bank.
             </DialogDescription>
           </DialogHeader>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A] dark:text-slate-300">
             Premium removes flashcard session limits and also unlocks unlimited practice, full mock exams, and analytics.
           </div>
           <DialogFooter className="gap-2 sm:gap-0">

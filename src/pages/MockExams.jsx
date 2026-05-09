@@ -175,21 +175,21 @@ export default function MockExams() {
           </p>
         </div>
 
-        <div className="space-y-6 rounded-3xl border border-slate-200/70 bg-white/95 p-8 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+        <div className="space-y-6 rounded-3xl border border-slate-200/70 bg-white/95 p-8 shadow-sm dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="grid grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">
                 {TOTAL_QUESTIONS}
               </p>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{translateUi("Questions", language)}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">
                 {EXAM_DURATION_MINUTES}m
               </p>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{translateUi("Time Limit", language)}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">{PASS_SCORE}%</p>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{translateUi("Pass Score", language)}</p>
             </div>
