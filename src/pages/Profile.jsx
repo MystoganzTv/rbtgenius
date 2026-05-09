@@ -216,7 +216,6 @@ export default function Profile() {
       queryClient.invalidateQueries({ queryKey: ["analytics-data"] });
       queryClient.invalidateQueries({ queryKey: ["admin-members"] });
       setResetDialogOpen(false);
-      setClearTutorOnReset(false);
       toast({
         title: t("Study progress reset"),
         description: t("Your study metrics and saved session data were cleared."),
