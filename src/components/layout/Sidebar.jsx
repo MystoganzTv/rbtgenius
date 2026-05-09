@@ -23,7 +23,6 @@ const navItems = [
   { name: "Practice", icon: HelpCircle, page: "Practice" },
   { name: "Flashcards", icon: Sparkles, page: "Flashcards" },
   { name: "Mock Exams", icon: ClipboardCheck, page: "MockExams", premium: true },
-  { name: "AI Tutor", icon: Bot, page: "AITutor", badge: "AI" },
   { name: "Analytics", icon: BarChart3, page: "Analytics", premium: true },
   { name: "Pricing", icon: CreditCard, page: "Pricing" },
 ];

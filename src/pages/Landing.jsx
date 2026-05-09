@@ -80,7 +80,7 @@ const premiumPreviewPanels = [
         <div className="mt-4 flex flex-wrap gap-2">
           <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-[#2D6BFF]/14 text-[#8EB0FF]" : "bg-[#2D6BFF]/8 text-[#1E5EFF]"}`}>Practice</span>
           <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-emerald-500/10 text-emerald-300" : "bg-emerald-50 text-emerald-700"}`}>Flashcards</span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-violet-500/10 text-violet-300" : "bg-violet-50 text-violet-700"}`}>AI tutor</span>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-amber-500/10 text-amber-300" : "bg-amber-50 text-amber-700"}`}>Mock Exams</span>
         </div>
       </div>
     ),
@@ -121,8 +121,8 @@ const premiumPreviewPanels = [
           <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-emerald-400/20 bg-emerald-500/10 text-emerald-300" : "border-emerald-300/40 bg-emerald-50 text-emerald-700"}`}>
             Flashcards
           </div>
-          <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-violet-400/20 bg-violet-500/10 text-violet-300" : "border-violet-300/40 bg-violet-50 text-violet-700"}`}>
-            AI Tutor
+          <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-amber-400/20 bg-amber-500/10 text-amber-300" : "border-amber-300/40 bg-amber-50 text-amber-700"}`}>
+            Mock Exams
           </div>
         </div>
       </div>
@@ -293,14 +293,6 @@ const offeringCards = [
       "border-emerald-300/35 bg-emerald-50 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-300",
   },
   {
-    eyebrow: "Available now",
-    title: "AI Tutor",
-    description: "Ask for explanations, examples, study prompts, and one-question-at-a-time quiz help.",
-    Icon: MessageSquareMore,
-    className:
-      "border-violet-300/35 bg-violet-50 text-violet-700 dark:border-violet-400/20 dark:bg-violet-500/10 dark:text-violet-300",
-  },
-  {
     eyebrow: "Premium",
     title: "Mock Exams and Analytics",
     description: "Take timed 85-question mock exams and unlock readiness, coverage, and domain trends.",
@@ -448,7 +440,7 @@ export default function Landing() {
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-xl">
               {translateUi(
-                "RBT Genius helps future technicians practice consistently, review with flashcards, use the AI tutor, take realistic mock exams, and track progress across exam prep.",
+                "RBT Genius helps future technicians practice consistently, review with flashcards, take realistic mock exams, and track progress across exam prep.",
                 language,
               )}
             </p>
@@ -487,7 +479,7 @@ export default function Landing() {
                 Study Preview
               </div>
               <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400 sm:max-w-md">
-                A quick look at what exists today: shared-bank practice, flashcards, AI tutor,
+                A quick look at what exists today: shared-bank practice, flashcards,
                 premium mock exams, and readiness tracking.
               </p>
             </div>
@@ -773,7 +765,7 @@ export default function Landing() {
                   Study anywhere — even offline.
                 </h2>
                 <p className={`mt-3 text-base leading-7 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                  The RBT Genius native app gives you the full experience on your iPhone or Android device. Practice questions, flashcards, mock exams, and AI tutor — all in your pocket with the same account you use on the web.
+                  The RBT Genius native app gives you the full experience on your iPhone or Android device. Practice questions, flashcards, and mock exams — all in your pocket with the same account you use on the web.
                 </p>
 
                 <ul className="mt-6 space-y-3">
@@ -781,7 +773,6 @@ export default function Landing() {
                     "1,100+ practice questions available offline",
                     "85-question timed mock exams with pass/fail scoring",
                     "Tap-to-flip flashcards with topic filters",
-                    "AI Tutor powered by the same backend",
                     "Haptic feedback and native iOS feel",
                   ].map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
@@ -871,7 +862,7 @@ export default function Landing() {
             </h2>
             <p className="mt-3 max-w-3xl text-base leading-7 text-slate-500 dark:text-slate-400">
               Today RBT Genius sells a shared question bank across practice, flashcards, and
-              mock exams, plus AI tutoring and readiness analytics. The 40-hour course is not
+              mock exams, plus readiness analytics. The 40-hour course is not
               live yet, so it is shown here as a future release only.
             </p>
           </div>
@@ -962,7 +953,7 @@ export default function Landing() {
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Free</h3>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Build a daily routine with guided practice, flashcards, and a lighter version of the AI tutor.
+                Build a daily routine with guided practice and flashcards.
               </p>
             </div>
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
