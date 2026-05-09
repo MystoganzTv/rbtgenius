@@ -302,8 +302,20 @@ async function webApiHandler(req) {
         const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
         for (const u of mockNext.users) {
           const orig = allUsers.find(x => x.id === u.id);
-          if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id))
-            await db.updateUser(u.id, { plan: u.plan, stripe_customer_id: u.stripe_customer_id });
+          if (
+            orig &&
+            (
+              orig.plan !== u.plan ||
+              orig.stripe_customer_id !== u.stripe_customer_id ||
+              orig.stripe_subscription_id !== u.stripe_subscription_id
+            )
+          ) {
+            await db.updateUser(u.id, {
+              plan: u.plan,
+              stripe_customer_id: u.stripe_customer_id,
+              stripe_subscription_id: u.stripe_subscription_id,
+            });
+          }
         }
         for (const p of mockNext.payments) {
           if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p);
@@ -321,7 +333,11 @@ async function webApiHandler(req) {
         const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
         const user = await db.getUserByStripeCustomerId(customerId);
         if (user) {
-          await db.updateUser(user.id, { plan: 'free' });
+          await db.updateUser(user.id, {
+            plan: 'free',
+            stripe_customer_id: customerId || user.stripe_customer_id || null,
+            stripe_subscription_id: null,
+          });
           console.log(`[webhook] Subscription cancelled — downgraded ${user.email} to free`);
         }
       }
@@ -334,12 +350,20 @@ async function webApiHandler(req) {
           const priceId = sub.items?.data?.[0]?.price?.id;
           const plan = resolvePlanFromPriceId(priceId);
           if (plan && plan !== 'free') {
-            await db.updateUser(user.id, { plan });
+            await db.updateUser(user.id, {
+              plan,
+              stripe_customer_id: customerId || user.stripe_customer_id || null,
+              stripe_subscription_id: sub.id || user.stripe_subscription_id || null,
+            });
             console.log(`[webhook] Subscription updated — ${user.email} → ${plan}`);
           }
         }
         if (user && (sub.status === 'canceled' || sub.status === 'unpaid')) {
-          await db.updateUser(user.id, { plan: 'free' });
+          await db.updateUser(user.id, {
+            plan: 'free',
+            stripe_customer_id: customerId || user.stripe_customer_id || null,
+            stripe_subscription_id: sub.id || user.stripe_subscription_id || null,
+          });
           console.log(`[webhook] Subscription ${sub.status} — downgraded ${user.email} to free`);
         }
       }
@@ -728,8 +752,20 @@ async function webApiHandler(req) {
       const next = syncConfirmedCheckout(mockDb, mockEvent, createId);
       for (const u of next.users) {
         const orig = allUsers.find(x => x.id === u.id);
-        if (orig && (orig.plan !== u.plan || orig.stripe_customer_id !== u.stripe_customer_id))
-          await db.updateUser(u.id, { plan: u.plan, stripe_customer_id: u.stripe_customer_id });
+        if (
+          orig &&
+          (
+            orig.plan !== u.plan ||
+            orig.stripe_customer_id !== u.stripe_customer_id ||
+            orig.stripe_subscription_id !== u.stripe_subscription_id
+          )
+        ) {
+          await db.updateUser(u.id, {
+            plan: u.plan,
+            stripe_customer_id: u.stripe_customer_id,
+            stripe_subscription_id: u.stripe_subscription_id,
+          });
+        }
       }
       for (const p of next.payments) { if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p); }
       const freshUser = await db.getUserById(auth.user.id);

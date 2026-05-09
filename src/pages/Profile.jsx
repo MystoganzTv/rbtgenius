@@ -666,27 +666,6 @@ export default function Profile() {
                   </div>
                 ) : null}
 
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("Practice access")}</p>
-                    <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
-                      {t("Unlimited") }
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("Flashcards")}</p>
-                    <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
-                      {t("Unlimited") }
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4 dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{t("Mock Exams")}</p>
-                    <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
-                      {t("Included") }
-                    </p>
-                  </div>
-                </div>
-
                 <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={() => portalMutation.mutate()}
