@@ -2794,63 +2794,14 @@ export function localizeQuestion(question, language) {
       }
     }
   }
-  const spanishQuestionText = concept
-    ? questionKind === "definition"
-      ? `¿Qué concepto corresponde a esta definición: ${stripTrailingPeriod(translateQuestionSentence(concept.definition))}?`
-      : questionKind === "scenario"
-        ? `${translateQuestionSentence(concept.scenario)} ¿Qué concepto corresponde mejor?`
-        : questionKind === "purpose"
-          ? `¿Cuál es el objetivo principal de ${stripTrailingPeriod(translateQuestionSentence(concept.answer))}?`
-          : translateQuestionText(question.text)
-    : translateQuestionText(question.text);
-  const spanishExplanation = concept
-    ? questionKind === "purpose"
-      ? `${translateQuestionSentence(concept.explanation)} El objetivo principal es ${stripTrailingPeriod(stripLeadingPara(translatePurposeText(concept.purpose)))}.`
-      : translateQuestionSentence(concept.explanation)
-    : translateExplanationText(question.explanation);
-
-  const localizedText =
-    language === "es"
-      ? { primary: spanishQuestionText, secondary: "" }
-      : localizeText(question.text, language);
-  const localizedExplanation =
-    language === "es"
-      ? { primary: spanishExplanation, secondary: "" }
-      : localizeText(question.explanation, language);
+  // No proper Spanish translation available — show in English
+  // (Run scripts/translate-questions.mjs to generate translations)
+  const localizedText = localizeText(question.text, "en");
+  const localizedExplanation = localizeText(question.explanation, "en");
   const localizedOptions = (question.options || []).map((option) => ({
     ...option,
-    localizedText:
-      language === "es"
-        ? { primary: translateOptionText(option.text, question), secondary: "" }
-        : localizeText(option.text, language),
+    localizedText: localizeText(option.text, "en"),
   }));
-
-  const leakCounts =
-    language === "es"
-      ? [
-          spanishQuestionText,
-          spanishExplanation,
-          ...localizedOptions.map((option) => option.localizedText.primary),
-        ].map(countEnglishLeaks)
-      : [];
-
-  const totalLeakCount = leakCounts.reduce((sum, count) => sum + count, 0);
-  const shouldFallbackToEnglish =
-    language === "es" && (totalLeakCount >= 8 || leakCounts.some((count) => count >= 4));
-
-  if (shouldFallbackToEnglish) {
-    return {
-      ...question,
-      localizedTopic: translateTopic(question.topic, language),
-      localizedDifficulty: translateDifficulty(question.difficulty, language),
-      localizedText: localizeText(question.text, "en"),
-      localizedExplanation: localizeText(question.explanation, "en"),
-      options: (question.options || []).map((option) => ({
-        ...option,
-        localizedText: localizeText(option.text, "en"),
-      })),
-    };
-  }
 
   return {
     ...question,
