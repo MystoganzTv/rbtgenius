@@ -2467,6 +2467,31 @@ function translateConceptAnswerText(text) {
   return applyQuestionSentenceReplacements(translateToSpanish(trimmed));
 }
 
+export function buildReviewedSpanishConceptTranslation(concept) {
+  if (!concept) {
+    return null;
+  }
+
+  const answer = translateConceptAnswerText(concept.answer || "");
+  const definition = stripTrailingPeriod(translateQuestionSentence(concept.definition || ""));
+  const scenario = translateQuestionSentence(concept.scenario || "");
+  const purpose = translatePurposeText(concept.purpose || "");
+  const explanation = translateExplanationText(concept.explanation || "");
+
+  return {
+    status: "reviewed",
+    answer,
+    definition,
+    scenario,
+    purpose,
+    explanation,
+    options_es: {
+      answer,
+      purpose,
+    },
+  };
+}
+
 function translateQuestionSentence(text) {
   const trimmed = String(text || "").trim();
   const directMap = EXACT_SPANISH_TEXT[trimmed] || UI_TRANSLATIONS[trimmed];
