@@ -95,6 +95,33 @@ export default function Profile() {
     queryFn: api.getProfile,
   });
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const billingReturn = searchParams.get("billing");
+
+    if (billingReturn !== "return") {
+      return;
+    }
+
+    refetchProfile();
+    queryClient.invalidateQueries({ queryKey: ["profile-data"] });
+    navigate(createPageUrl("Profile"), { replace: true });
+  }, [location.search, navigate, queryClient, refetchProfile]);
+
+  useEffect(() => {
+    const handleReturnFocus = () => {
+      refetchProfile();
+    };
+
+    window.addEventListener("focus", handleReturnFocus);
+    document.addEventListener("visibilitychange", handleReturnFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleReturnFocus);
+      document.removeEventListener("visibilitychange", handleReturnFocus);
+    };
+  }, [refetchProfile]);
+
   const currentUser = profileData?.user || authUser;
   const progress = profileData?.progress;
   const payments = profileData?.payments || [];

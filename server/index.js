@@ -1088,7 +1088,7 @@ app.patch('/api/profile', requireUser, (req, res) => {
   res.json(safeUser);
 });
 
-app.post('/api/profile/reset-progress', requireUser, (req, res) => {
+app.post('/api/profile/reset-progress', requireUser, async (req, res) => {
   const clearTutor = Boolean(req.body?.clear_tutor);
 
   updateDb(current => {
@@ -1116,7 +1116,7 @@ app.post('/api/profile/reset-progress', requireUser, (req, res) => {
   const db = readDb();
   const nextUser =
     db.users.find(user => user.id === req.currentUser.id) || req.currentUser;
-  res.json(buildProfilePayload(db, nextUser));
+  res.json(await buildProfilePayloadAsync(db, nextUser));
 });
 
 app.post('/api/billing/checkout', requireUser, async (req, res) => {

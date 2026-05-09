@@ -235,7 +235,7 @@ export async function confirmStripeCheckoutSession(sessionId) {
 export async function createStripePortalSession({
   customerId,
   origin,
-  returnPath = "/profile",
+  returnPath = "/profile?billing=return",
 }) {
   if (!customerId) {
     throw new Error("No Stripe customer is linked to this account yet.");
