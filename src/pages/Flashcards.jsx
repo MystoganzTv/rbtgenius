@@ -316,85 +316,98 @@ export default function Flashcards() {
             </div>
 
             <div className="xl:hidden">
-              <Card className="border-slate-200/80 bg-white/95 p-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.2)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95">
+              <Card className="border-slate-200/80 bg-white/90 p-3 shadow-[0_14px_40px_-34px_rgba(15,23,42,0.18)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/90">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF]">
-                      {translateUi("Flashcard Review", language)}
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                      {translateUi("Overview", language)}
                     </p>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                       {availableQuestions.length} {translateUi("cards", language)} · {Math.round(progress)}% {translateUi("complete", language)}
                     </p>
                   </div>
                   <Button
-                    variant="outline"
-                    className="gap-2 rounded-xl"
+                    variant="ghost"
+                    size="sm"
+                    className="gap-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/5 dark:hover:text-slate-100"
                     onClick={() => setRailCollapsedOpen((current) => !current)}
                   >
-                    {translateUi("Overview", language)}
+                    <span className="text-xs font-medium">
+                      {railCollapsedOpen
+                        ? translateUi("Hide", language)
+                        : translateUi("Overview", language)}
+                    </span>
                     <ChevronDown className={`h-4 w-4 transition-transform ${railCollapsedOpen ? "rotate-180" : ""}`} />
                   </Button>
                 </div>
 
-                {railCollapsedOpen ? (
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs text-slate-500">{translateUi("Total Cards", language)}</p>
-                          <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-                            {availableQuestions.length}
-                          </p>
+                <div
+                  className={`grid overflow-hidden transition-all duration-300 ease-out ${
+                    railCollapsedOpen
+                      ? "mt-4 grid-rows-[1fr] opacity-100"
+                      : "mt-0 grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="min-h-0">
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-slate-500">{translateUi("Total Cards", language)}</p>
+                            <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+                              {availableQuestions.length}
+                            </p>
+                          </div>
+                          <Zap className="h-7 w-7 text-[#1E5EFF]" />
                         </div>
-                        <Zap className="h-7 w-7 text-[#1E5EFF]" />
-                      </div>
-                    </Card>
-                    <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs text-slate-500">{translateUi("Mastered", language)}</p>
-                          <p className="text-2xl font-bold text-emerald-600">
-                            {masteredCards.length}
-                          </p>
+                      </Card>
+                      <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-slate-500">{translateUi("Mastered", language)}</p>
+                            <p className="text-2xl font-bold text-emerald-600">
+                              {masteredCards.length}
+                            </p>
+                          </div>
+                          <Trophy className="h-7 w-7 text-emerald-600" />
                         </div>
-                        <Trophy className="h-7 w-7 text-emerald-600" />
-                      </div>
-                    </Card>
-                    <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs text-slate-500">{translateUi("Current Session", language)}</p>
-                          <p className="text-2xl font-bold text-[#1E5EFF]">
-                            {sessionStats.correct}
-                          </p>
+                      </Card>
+                      <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-slate-500">{translateUi("Current Session", language)}</p>
+                            <p className="text-2xl font-bold text-[#1E5EFF]">
+                              {sessionStats.correct}
+                            </p>
+                          </div>
+                          <ThumbsUp className="h-7 w-7 text-[#1E5EFF]" />
                         </div>
-                        <ThumbsUp className="h-7 w-7 text-[#1E5EFF]" />
-                      </div>
-                    </Card>
-                    <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs text-slate-500">{translateUi("Need Review", language)}</p>
-                          <p className="text-2xl font-bold text-amber-600">
-                            {reviewCards.length}
-                          </p>
+                      </Card>
+                      <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-slate-500">{translateUi("Need Review", language)}</p>
+                            <p className="text-2xl font-bold text-amber-600">
+                              {reviewCards.length}
+                            </p>
+                          </div>
+                          <ThumbsDown className="h-7 w-7 text-amber-600" />
                         </div>
-                        <ThumbsDown className="h-7 w-7 text-amber-600" />
+                      </Card>
+                      <div className="sm:col-span-2 rounded-2xl border border-[#1E5EFF]/10 bg-[#1E5EFF]/5 p-4">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                            {translateUi("Overall Progress", language)}
+                          </span>
+                          <span className="text-sm font-bold text-[#1E5EFF]">
+                            {Math.round(progress)}%
+                          </span>
+                        </div>
+                        <Progress value={progress} className="h-2" />
                       </div>
-                    </Card>
-                    <div className="sm:col-span-2 rounded-2xl border border-[#1E5EFF]/10 bg-[#1E5EFF]/5 p-4">
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                          {translateUi("Overall Progress", language)}
-                        </span>
-                        <span className="text-sm font-bold text-[#1E5EFF]">
-                          {Math.round(progress)}%
-                        </span>
-                      </div>
-                      <Progress value={progress} className="h-2" />
                     </div>
                   </div>
-                ) : null}
+                </div>
               </Card>
             </div>
 
