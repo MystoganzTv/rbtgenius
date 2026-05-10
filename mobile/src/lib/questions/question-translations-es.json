@@ -3214,5 +3214,149 @@
       "answer": "Reporte de riesgos ambientales",
       "purpose": "Para proteger al aprendiz y al RBT de daños prevenibles causados por condiciones inseguras."
     }
+  },
+  "measurement_interresponse_time": {
+    "status": "reviewed",
+    "answer": "Tiempo entre respuestas",
+    "definition": "el RBT mide la cantidad de tiempo entre el final de una respuesta y el inicio de la siguiente.",
+    "scenario": "Un supervisor quiere saber cuánto tiempo pasa entre un episodio de aleteo de manos y el siguiente durante la observación.",
+    "purpose": "Para medir el intervalo entre respuestas consecutivas.",
+    "explanation": "El tiempo entre respuestas es útil cuando el equipo necesita saber qué tan espaciadas están las respuestas repetidas.",
+    "options_es": {
+      "answer": "Tiempo entre respuestas",
+      "purpose": "Para medir el intervalo entre respuestas consecutivas."
+    }
+  },
+  "measurement_mean_duration": {
+    "status": "reviewed",
+    "answer": "Duración promedio",
+    "definition": "el RBT calcula el promedio de la duración de varios episodios de respuesta.",
+    "scenario": "Un aprendiz presenta rabietas de distinta duración y el BCBA pide la duración promedio de los últimos cinco episodios.",
+    "purpose": "Para resumir la duración promedio de los episodios de respuesta.",
+    "explanation": "La duración promedio ayuda a resumir cuánto suele durar una respuesta a lo largo de múltiples ocurrencias.",
+    "options_es": {
+      "answer": "Duración promedio",
+      "purpose": "Para resumir la duración promedio de los episodios de respuesta."
+    }
+  },
+  "measurement_percentage_correct": {
+    "status": "reviewed",
+    "answer": "Porcentaje de respuestas correctas",
+    "definition": "el RBT informa cuántas respuestas fueron correctas de entre el total de oportunidades.",
+    "scenario": "Durante entrenamiento de tactos, un aprendiz responde correctamente 8 de 10 ítems y el equipo quiere resumir el resultado como porcentaje.",
+    "purpose": "Para expresar las respuestas correctas en relación con el total de oportunidades.",
+    "explanation": "El porcentaje de respuestas correctas convierte el desempeño en una proporción fácil de leer de respuestas correctas.",
+    "options_es": {
+      "answer": "Porcentaje de respuestas correctas",
+      "purpose": "Para expresar las respuestas correctas en relación con el total de oportunidades."
+    }
+  },
+  "measurement_percentage_opportunities": {
+    "status": "reviewed",
+    "answer": "Porcentaje de oportunidades",
+    "definition": "el RBT registra si una conducta ocurrió en cada oportunidad y calcula el porcentaje.",
+    "scenario": "Un aprendiz tuvo 12 oportunidades para pedir ayuda y usó la respuesta enseñada en 9 de ellas.",
+    "purpose": "Para resumir con qué frecuencia ocurrió una respuesta cuando podía haber ocurrido.",
+    "explanation": "El porcentaje de oportunidades es útil cuando la cantidad de ocasiones para responder cambia entre sesiones.",
+    "options_es": {
+      "answer": "Porcentaje de oportunidades",
+      "purpose": "Para resumir con qué frecuencia ocurrió una respuesta cuando podía haber ocurrido."
+    }
+  },
+  "measurement_graph_trend": {
+    "status": "reviewed",
+    "answer": "Tendencia",
+    "definition": "la dirección general de los datos en una gráfica se describe como ascendente, descendente o estable a lo largo del tiempo.",
+    "scenario": "Un BCBA revisa una gráfica y pregunta si las respuestas independientes, en general, están aumentando en las sesiones recientes.",
+    "purpose": "Para describir la dirección general del desempeño a lo largo del tiempo.",
+    "explanation": "La tendencia le dice al equipo si el desempeño, en general, está mejorando, empeorando o manteniéndose estable.",
+    "options_es": {
+      "answer": "Tendencia",
+      "purpose": "Para describir la dirección general del desempeño a lo largo del tiempo."
+    }
+  },
+  "measurement_graph_level": {
+    "status": "reviewed",
+    "answer": "Nivel",
+    "definition": "el equipo observa la altura relativa del trayecto de datos en una gráfica.",
+    "scenario": "Dos fases de intervención muestran patrones similares, pero una fase presenta consistentemente niveles de respuesta mucho más altos en general.",
+    "purpose": "Para describir la magnitud relativa de los datos dentro de una fase.",
+    "explanation": "El nivel se refiere a qué tan altos o bajos están los datos en la gráfica, no a la dirección del cambio.",
+    "options_es": {
+      "answer": "Nivel",
+      "purpose": "Para describir la magnitud relativa de los datos dentro de una fase."
+    }
+  },
+  "measurement_graph_variability": {
+    "status": "reviewed",
+    "answer": "Variabilidad",
+    "definition": "se describe la cantidad de fluctuación de los puntos de datos entre observaciones.",
+    "scenario": "Las respuestas correctas de un aprendiz suben y bajan de forma drástica entre sesiones consecutivas y el BCBA quiere nombrar ese patrón.",
+    "purpose": "Para describir cuánto fluctúan los datos.",
+    "explanation": "La variabilidad importa porque los datos muy inestables son más difíciles de interpretar con confianza.",
+    "options_es": {
+      "answer": "Variabilidad",
+      "purpose": "Para describir cuánto fluctúan los datos."
+    }
+  },
+  "measurement_graph_immediacy": {
+    "status": "reviewed",
+    "answer": "Inmediatez del cambio",
+    "definition": "el equipo examina qué tan rápido cambió la conducta cuando comenzó una nueva condición.",
+    "scenario": "Comienza un nuevo procedimiento de ayudas y el BCBA observa si el desempeño cambió de inmediato en la línea de fase.",
+    "purpose": "Para evaluar qué tan rápido cambió la conducta después de iniciar una intervención.",
+    "explanation": "La inmediatez del cambio se enfoca en si el efecto apareció justo después de que cambió la condición.",
+    "options_es": {
+      "answer": "Inmediatez del cambio",
+      "purpose": "Para evaluar qué tan rápido cambió la conducta después de iniciar una intervención."
+    }
+  },
+  "measurement_visual_analysis": {
+    "status": "reviewed",
+    "answer": "Análisis visual",
+    "definition": "los datos graficados se interpretan examinando características como tendencia, nivel y variabilidad.",
+    "scenario": "Un supervisor revisa una gráfica para decidir si los datos apoyan continuar con la intervención actual.",
+    "purpose": "Para interpretar datos graficados y tomar decisiones.",
+    "explanation": "El análisis visual usa patrones en los datos graficados para guiar decisiones de tratamiento en lugar de depender de suposiciones.",
+    "options_es": {
+      "answer": "Análisis visual",
+      "purpose": "Para interpretar datos graficados y tomar decisiones."
+    }
+  },
+  "measurement_data_collection_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación para la toma de datos",
+    "definition": "antes de que comience la sesión se preparan materiales, definiciones, cronómetros y sistemas de registro.",
+    "scenario": "Antes de la sesión, el RBT reúne la hoja de datos, las definiciones operacionales, el cronómetro y los materiales para graficar.",
+    "purpose": "Para asegurar que los datos puedan recogerse con precisión desde el inicio de la sesión.",
+    "explanation": "Prepararse para la toma de datos reduce observaciones perdidas y hace que el sistema de medición sea más fácil de usar correctamente.",
+    "options_es": {
+      "answer": "Preparación para la toma de datos",
+      "purpose": "Para asegurar que los datos puedan recogerse con precisión desde el inicio de la sesión."
+    }
+  },
+  "measurement_observable_terms": {
+    "status": "reviewed",
+    "answer": "Términos observables",
+    "definition": "la conducta se describe usando acciones que pueden verse u oírse, en lugar de suposiciones sobre sentimientos o intenciones.",
+    "scenario": "Un equipo cambia \"estaba molesto\" por \"lloró, gritó y se tiró al piso\" en el sistema de datos.",
+    "purpose": "Para describir la conducta en términos directamente observables o audibles.",
+    "explanation": "Los términos observables mejoran la consistencia porque el personal puede estar de acuerdo sobre lo que realmente vio ocurrir.",
+    "options_es": {
+      "answer": "Términos observables",
+      "purpose": "Para describir la conducta en términos directamente observables o audibles."
+    }
+  },
+  "measurement_measurable_terms": {
+    "status": "reviewed",
+    "answer": "Términos medibles",
+    "definition": "la conducta y los eventos ambientales se describen de una manera que pueda contarse, cronometrarse o cuantificarse de otra forma.",
+    "scenario": "Un supervisor pide al personal que reemplace \"se distrae a menudo\" por una redacción que pueda medirse de manera consistente entre observadores.",
+    "purpose": "Para hacer cuantificables la conducta y el contexto.",
+    "explanation": "Los términos medibles favorecen la recolección confiable de datos porque pueden contarse o cronometrarse objetivamente.",
+    "options_es": {
+      "answer": "Términos medibles",
+      "purpose": "Para hacer cuantificables la conducta y el contexto."
+    }
   }
 }
