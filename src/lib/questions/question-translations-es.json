@@ -2878,5 +2878,197 @@
       "answer": "Comunicación con el supervisor entre sesiones",
       "purpose": "Para atender las preocupaciones de manera oportuna en lugar de esperar al próximo contacto programado."
     }
+  },
+  "documentation_objective_language": {
+    "status": "reviewed",
+    "answer": "Lenguaje objetivo",
+    "definition": "las notas de sesión describen eventos y respuestas observables sin opiniones ni etiquetas emocionales.",
+    "scenario": "Un RBT escribe \"el cliente lloró durante 2 minutos y se tiró al piso\" en lugar de \"el cliente estaba muy molesto y fue manipulador\".",
+    "purpose": "Para documentar la conducta y los hechos del tratamiento sin juicios subjetivos.",
+    "explanation": "El lenguaje objetivo mejora la claridad y mantiene la documentación centrada en información observable.",
+    "options_es": {
+      "answer": "Lenguaje objetivo",
+      "purpose": "Para documentar la conducta y los hechos del tratamiento sin juicios subjetivos."
+    }
+  },
+  "documentation_subjective_statement": {
+    "status": "reviewed",
+    "answer": "Afirmación subjetiva",
+    "definition": "una nota incluye opiniones personales, suposiciones o interpretaciones no observables en lugar de hechos observables.",
+    "scenario": "Una nota de sesión dice que el aprendiz \"no quería trabajar hoy\" en lugar de describir lo que el aprendiz realmente hizo.",
+    "purpose": "Para identificar redacción que debe evitarse en la documentación profesional.",
+    "explanation": "Las afirmaciones subjetivas deben evitarse porque son más difíciles de verificar y pueden distorsionar lo ocurrido en la sesión.",
+    "options_es": {
+      "answer": "Afirmación subjetiva",
+      "purpose": "Para identificar redacción que debe evitarse en la documentación profesional."
+    }
+  },
+  "documentation_relevant_variables": {
+    "status": "reviewed",
+    "answer": "Documentación de variables relevantes",
+    "definition": "el RBT registra eventos que razonablemente pudieron haber afectado el desempeño del aprendiz durante la sesión.",
+    "scenario": "El aprendiz durmió mal y no desayunó, y el supervisor quiere que esos factores relevantes se documenten de manera objetiva.",
+    "purpose": "Para documentar variables del contexto que pudieron influir en los resultados de la sesión.",
+    "explanation": "Las variables relevantes ayudan al equipo a interpretar un desempeño inusual sin tener que depender después de suposiciones.",
+    "options_es": {
+      "answer": "Documentación de variables relevantes",
+      "purpose": "Para documentar variables del contexto que pudieron influir en los resultados de la sesión."
+    }
+  },
+  "documentation_plan_deviation_note": {
+    "status": "reviewed",
+    "answer": "Nota de desviación del plan",
+    "definition": "el RBT documenta cuando una parte del procedimiento planificado no pudo implementarse tal como estaba escrita.",
+    "scenario": "Una salida comunitaria planificada se cancela por mal tiempo severo, así que el RBT registra que el programa no se realizó según lo programado.",
+    "purpose": "Para documentar cuándo el plan escrito no pudo seguirse exactamente.",
+    "explanation": "Las notas de desviación del plan aclaran qué se implementó y qué no durante la sesión.",
+    "options_es": {
+      "answer": "Nota de desviación del plan",
+      "purpose": "Para documentar cuándo el plan escrito no pudo seguirse exactamente."
+    }
+  },
+  "documentation_health_status_change": {
+    "status": "reviewed",
+    "answer": "Cambio en el estado de salud",
+    "definition": "el RBT documenta signos visibles de enfermedad, lesión o síntomas físicos que puedan afectar el desempeño en sesión.",
+    "scenario": "Un aprendiz llega tosiendo, fatigado y pidiendo acostarse varias veces durante la sesión.",
+    "purpose": "Para registrar factores de salud que puedan afectar el tratamiento o el desempeño.",
+    "explanation": "Los cambios en el estado de salud son relevantes porque pueden alterar la conducta, la participación y las necesidades de seguridad.",
+    "options_es": {
+      "answer": "Cambio en el estado de salud",
+      "purpose": "Para registrar factores de salud que puedan afectar el tratamiento o el desempeño."
+    }
+  },
+  "documentation_medication_change_report": {
+    "status": "reviewed",
+    "answer": "Registro de cambio de medicación",
+    "definition": "el RBT documenta y comunica cambios reportados en la medicación cuando pueden afectar la conducta o el desempeño del aprendiz.",
+    "scenario": "Un cuidador informa una nueva dosis de medicación antes de la sesión y el RBT registra esa actualización para revisión del supervisor.",
+    "purpose": "Para documentar variables relacionadas con la medicación que puedan ser relevantes para el tratamiento.",
+    "explanation": "Los cambios de medicación pueden afectar la conducta y deben documentarse y comunicarse de acuerdo con el plan.",
+    "options_es": {
+      "answer": "Registro de cambio de medicación",
+      "purpose": "Para documentar variables relacionadas con la medicación que puedan ser relevantes para el tratamiento."
+    }
+  },
+  "documentation_injury_report": {
+    "status": "reviewed",
+    "answer": "Reporte de lesión",
+    "definition": "el RBT completa la documentación requerida cuando un aprendiz u otra persona se lesiona durante la prestación del servicio.",
+    "scenario": "Un aprendiz se cae y presenta una lesión visible durante la sesión, lo que activa los procedimientos de reporte del lugar de trabajo y del supervisor.",
+    "purpose": "Para documentar lesiones de acuerdo con los procedimientos de reporte requeridos.",
+    "explanation": "Los reportes de lesión respaldan el seguimiento de seguridad, la rendición de cuentas y el cumplimiento de los requisitos del lugar de trabajo.",
+    "options_es": {
+      "answer": "Reporte de lesión",
+      "purpose": "Para documentar lesiones de acuerdo con los procedimientos de reporte requeridos."
+    }
+  },
+  "documentation_caregiver_update_note": {
+    "status": "reviewed",
+    "answer": "Nota de actualización al cuidador",
+    "definition": "el RBT documenta un resumen breve y profesional de la información comunicada al cuidador sobre la sesión.",
+    "scenario": "Al recoger al aprendiz, el RBT informa que completó objetivos, necesitó más ayudas en las transiciones y tuvo un episodio leve de conducta.",
+    "purpose": "Para registrar lo que se comunicó al cuidador sobre la sesión.",
+    "explanation": "Una nota de actualización al cuidador ayuda a conservar un registro preciso de la comunicación importante de la sesión.",
+    "options_es": {
+      "answer": "Nota de actualización al cuidador",
+      "purpose": "Para registrar lo que se comunicó al cuidador sobre la sesión."
+    }
+  },
+  "documentation_supervisor_concern_report": {
+    "status": "reviewed",
+    "answer": "Reporte de preocupación al supervisor",
+    "definition": "el RBT documenta y comunica una preocupación que requiere atención del supervisor.",
+    "scenario": "El patrón de conducta del aprendiz cambia bruscamente a lo largo de varias sesiones y el RBT reporta la preocupación con detalles de apoyo.",
+    "purpose": "Para comunicar al supervisor preocupaciones clínicamente relevantes con prontitud.",
+    "explanation": "Reportar preocupaciones con detalles objetivos ayuda al supervisor a evaluar si se necesitan cambios en el plan.",
+    "options_es": {
+      "answer": "Reporte de preocupación al supervisor",
+      "purpose": "Para comunicar al supervisor preocupaciones clínicamente relevantes con prontitud."
+    }
+  },
+  "documentation_graph_annotation": {
+    "status": "reviewed",
+    "answer": "Anotación en la gráfica",
+    "definition": "se marcan en la gráfica eventos importantes que afectan la interpretación de los datos para revisarlos después.",
+    "scenario": "Ocurrió un cambio de medicación o de horario, y el BCBA quiere que se anote directamente en la gráfica del aprendiz.",
+    "purpose": "Para mostrar eventos relevantes junto al desempeño graficado.",
+    "explanation": "Las anotaciones en la gráfica ayudan al equipo a interpretar cambios en los datos a la luz de eventos contextuales importantes.",
+    "options_es": {
+      "answer": "Anotación en la gráfica",
+      "purpose": "Para mostrar eventos relevantes junto al desempeño graficado."
+    }
+  },
+  "documentation_baseline_data_entry": {
+    "status": "reviewed",
+    "answer": "Registro de datos de línea base",
+    "definition": "los datos previos a la intervención se ingresan y etiquetan claramente antes de que cambie el plan.",
+    "scenario": "Antes de comenzar un programa nuevo, el RBT ingresa varias sesiones de desempeño de línea base en el registro.",
+    "purpose": "Para documentar el desempeño antes de que inicie la intervención.",
+    "explanation": "El registro de datos de línea base conserva el punto de partida del aprendiz para comparaciones posteriores.",
+    "options_es": {
+      "answer": "Registro de datos de línea base",
+      "purpose": "Para documentar el desempeño antes de que inicie la intervención."
+    }
+  },
+  "documentation_data_transcription_check": {
+    "status": "reviewed",
+    "answer": "Verificación de transcripción de datos",
+    "definition": "el RBT verifica que los datos se transfirieron con precisión de la hoja de registro a la gráfica o al sistema.",
+    "scenario": "Después de la sesión, el RBT compara la hoja de datos en papel con la gráfica electrónica para asegurarse de que ningún valor se copió incorrectamente.",
+    "purpose": "Para asegurar que los datos registrados coincidan con el registro final documentado.",
+    "explanation": "Las verificaciones de transcripción ayudan a evitar errores administrativos que podrían distorsionar los registros de progreso.",
+    "options_es": {
+      "answer": "Verificación de transcripción de datos",
+      "purpose": "Para asegurar que los datos registrados coincidan con el registro final documentado."
+    }
+  },
+  "documentation_late_entry_addendum": {
+    "status": "reviewed",
+    "answer": "Anexo de registro tardío",
+    "definition": "la información añadida después de la nota original se marca claramente como una adición posterior en lugar de insertarse sin indicarlo.",
+    "scenario": "Un RBT se da cuenta de que ayer omitió un detalle importante en la nota y lo añade usando el proceso aprobado de anexo de la agencia.",
+    "purpose": "Para documentar de forma transparente la información añadida después del registro original.",
+    "explanation": "Los anexos de registro tardío preservan la exactitud de la documentación sin volver engañoso el registro.",
+    "options_es": {
+      "answer": "Anexo de registro tardío",
+      "purpose": "Para documentar de forma transparente la información añadida después del registro original."
+    }
+  },
+  "documentation_cancellation_note": {
+    "status": "reviewed",
+    "answer": "Nota de cancelación",
+    "definition": "el RBT documenta que una sesión fue cancelada y registra la razón de acuerdo con la política.",
+    "scenario": "Una sesión no ocurre porque el aprendiz está ausente, y el registro del servicio aún requiere documentación de ese resultado.",
+    "purpose": "Para documentar cuándo un servicio programado no ocurrió.",
+    "explanation": "Las notas de cancelación ayudan a mantener registros precisos del servicio y del historial de programación.",
+    "options_es": {
+      "answer": "Nota de cancelación",
+      "purpose": "Para documentar cuándo un servicio programado no ocurrió."
+    }
+  },
+  "documentation_partial_session_note": {
+    "status": "reviewed",
+    "answer": "Nota de sesión parcial",
+    "definition": "el RBT documenta cuando solo ocurrió una parte de la sesión planificada y explica qué sucedió.",
+    "scenario": "Un aprendiz se enferma a mitad del servicio, y el RBT registra qué se completó antes de que la sesión terminara temprano.",
+    "purpose": "Para documentar con precisión las sesiones acortadas.",
+    "explanation": "Las notas de sesión parcial aclaran la cantidad de servicio prestado y la razón por la que la sesión terminó antes.",
+    "options_es": {
+      "answer": "Nota de sesión parcial",
+      "purpose": "Para documentar con precisión las sesiones acortadas."
+    }
+  },
+  "documentation_behavior_trend_summary": {
+    "status": "reviewed",
+    "answer": "Resumen de tendencia de conducta",
+    "definition": "el RBT documenta un resumen objetivo de cómo la conducta ha ido cambiando a lo largo de varias sesiones.",
+    "scenario": "Un supervisor pide un breve resumen escrito indicando que la agresión ha disminuido mientras que los mandos independientes han aumentado durante la última semana.",
+    "purpose": "Para resumir cambios significativos en los patrones de conducta a lo largo del tiempo.",
+    "explanation": "Los resúmenes de tendencia ayudan a comunicar patrones clínicamente útiles sin reemplazar los datos subyacentes.",
+    "options_es": {
+      "answer": "Resumen de tendencia de conducta",
+      "purpose": "Para resumir cambios significativos en los patrones de conducta a lo largo del tiempo."
+    }
   }
 }
