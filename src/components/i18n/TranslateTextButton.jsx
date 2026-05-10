@@ -121,6 +121,10 @@ export default function TranslateTextButton({
     return null;
   }
 
+  if (!hasSpanish) {
+    return null;
+  }
+
   const stopSpeaking = () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();

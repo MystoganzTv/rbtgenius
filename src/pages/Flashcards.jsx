@@ -34,7 +34,7 @@ import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { useLanguage } from "@/hooks/use-language";
 import { localizeQuestion, translateDifficulty, translateTopic, translateUi } from "@/lib/i18n";
 import { FREE_FLASHCARD_LIMIT, isPremiumPlan } from "@/lib/plan-access";
-import { OFFICIAL_CONCEPT_COUNT } from "@/lib/questions";
+import { OFFICIAL_CONCEPT_COUNT } from "@/lib/questions/index.js";
 import { createPageUrl } from "@/utils";
 
 async function loadQuestions() {
@@ -58,6 +58,7 @@ export default function Flashcards() {
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
   const frontContentRef = useRef(null);
   const backContentRef = useRef(null);
+  const pendingScrollRestoreRef = useRef(null);
   const queryClient = useQueryClient();
 
   const { data: profileData } = useQuery({
@@ -142,7 +143,29 @@ export default function Flashcards() {
     return () => window.removeEventListener("resize", measureHeight);
   }, [currentCard]);
 
+  useLayoutEffect(() => {
+    if (pendingScrollRestoreRef.current == null) {
+      return;
+    }
+
+    const nextScrollY = pendingScrollRestoreRef.current;
+    pendingScrollRestoreRef.current = null;
+
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: nextScrollY, behavior: "auto" });
+      });
+    }
+  }, [currentCard?.id, isFlipped]);
+
+  const preserveScrollForCardChange = () => {
+    if (typeof window !== "undefined") {
+      pendingScrollRestoreRef.current = window.scrollY;
+    }
+  };
+
   const nextCard = () => {
+    preserveScrollForCardChange();
     setIsFlipped(false);
     setCurrentIndex((current) =>
       filteredQuestions.length > 0 && current < filteredQuestions.length - 1
@@ -224,6 +247,7 @@ export default function Flashcards() {
       return;
     }
 
+    preserveScrollForCardChange();
     setCurrentIndex(Math.floor(Math.random() * filteredQuestions.length));
     setIsFlipped(false);
   };
