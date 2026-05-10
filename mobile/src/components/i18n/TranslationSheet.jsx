@@ -38,7 +38,7 @@ export default function TranslationSheet({
   title = 'Translation',
   englishText = '',
   spanishText = '',
-  unavailableLabel = 'Spanish translation unavailable yet.',
+  unavailableLabel = 'La revisión en español de este bloque aún está pendiente.',
 }) {
   if (!visible) return null;
 

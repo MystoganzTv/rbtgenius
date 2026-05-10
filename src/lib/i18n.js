@@ -1,4 +1,4 @@
-import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./questions";
+import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./questions/index.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {
@@ -49,7 +49,7 @@ const UI_TRANSLATIONS = {
   "Ask AI": "Preguntar a la IA",
   "Translation": "Traducción",
   "View translation": "Ver traducción",
-  "Spanish translation unavailable.": "Traducción al español no disponible.",
+  "Spanish translation unavailable.": "La revisión en español de este bloque aún está pendiente.",
   "Interface language": "Idioma de la interfaz",
   "This only changes the app interface. Study questions keep their original wording.": "Esto solo cambia la interfaz de la app. Las preguntas de estudio mantienen su redacción original.",
   "Show AI Reply": "Mostrar respuesta de IA",
