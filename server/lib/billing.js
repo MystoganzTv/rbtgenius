@@ -4,7 +4,7 @@ import {
   PLAN_LABELS,
   isPremiumPlan,
   normalizePlan,
-} from "../../src/lib/plan-access.js";
+} from "../../shared/plan-access.js";
 
 const STRIPE_PRICE_ENV = {
   [PLAN_IDS.PREMIUM_MONTHLY]: "STRIPE_PRICE_PREMIUM_MONTHLY",
