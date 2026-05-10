@@ -56,6 +56,7 @@ export default function Flashcards() {
   const [sessionStats, setSessionStats] = useState({ correct: 0, incorrect: 0 });
   const [cardHeight, setCardHeight] = useState(420);
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const frontContentRef = useRef(null);
   const backContentRef = useRef(null);
   const pendingScrollRestoreRef = useRef(null);
@@ -277,75 +278,40 @@ export default function Flashcards() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
-      <div className="flex flex-col gap-3 rounded-[2rem] border border-slate-200/80 bg-white/95 px-5 py-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-            {translateUi("Flashcards", language)}
-          </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            {translateUi(
-              `Review ${allQuestions.length} active questions across ${OFFICIAL_CONCEPT_COUNT} concepts in memorization mode with quick answer explanations.`,
-              language,
-            )}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button onClick={handleShuffle} variant="outline" className="gap-2 rounded-xl">
-            <Shuffle className="h-4 w-4" />
-            {translateUi("Shuffle", language)}
-          </Button>
-          <Button onClick={handleReset} variant="outline" className="gap-2 rounded-xl">
-            <RotateCcw className="h-4 w-4" />
-            {translateUi("Reset", language)}
-          </Button>
-        </div>
-      </div>
-
+    <div className="mx-auto max-w-[1400px] space-y-4">
       {currentCard ? (
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px] xl:items-start">
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-start">
           <div className="order-1 space-y-4">
-            <Card className="border-[#1E5EFF]/10 p-4 shadow-[0_18px_55px_-40px_rgba(30,94,255,0.25)]">
-              <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-                  <Filter className="h-4 w-4 text-slate-500" />
-                  <span className="font-medium text-slate-700 dark:text-slate-200">
-                    {translateUi("Filters:", language)}
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-2 sm:flex-row">
-                  <Select value={filterTopic} onValueChange={setFilterTopic}>
-                    <SelectTrigger className="w-full sm:w-48">
-                      <SelectValue placeholder={translateUi("Topic", language)} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">{translateUi("All Topics", language)}</SelectItem>
-                      <SelectItem value="measurement">{translateTopic("measurement", language)}</SelectItem>
-                      <SelectItem value="assessment">{translateTopic("assessment", language)}</SelectItem>
-                      <SelectItem value="skill_acquisition">{translateTopic("skill_acquisition", language)}</SelectItem>
-                      <SelectItem value="behavior_reduction">{translateTopic("behavior_reduction", language)}</SelectItem>
-                      <SelectItem value="documentation">{translateTopic("documentation", language)}</SelectItem>
-                      <SelectItem value="professional_conduct">
-                        {translateTopic("professional_conduct", language)}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={filterDifficulty} onValueChange={setFilterDifficulty}>
-                    <SelectTrigger className="w-full sm:w-40">
-                      <SelectValue placeholder={translateUi("Difficulty", language)} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">{translateUi("All", language)}</SelectItem>
-                      <SelectItem value="beginner">{translateDifficulty("beginner", language)}</SelectItem>
-                      <SelectItem value="intermediate">{translateDifficulty("intermediate", language)}</SelectItem>
-                      <SelectItem value="advanced">{translateDifficulty("advanced", language)}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.75rem] border border-slate-200/80 bg-white/95 px-4 py-3 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.2)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="text-xs">
+                  {translateUi("Card", language)} {currentIndex + 1} / {filteredQuestions.length}
+                </Badge>
+                <Badge className="bg-[#1E5EFF]/10 text-[#1E5EFF]">
+                  {translateTopic(currentCard.topic, language)}
+                </Badge>
+                <Badge variant="outline">{translateDifficulty(currentCard.difficulty, language)}</Badge>
               </div>
-            </Card>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  onClick={() => setFilterDialogOpen(true)}
+                  variant="outline"
+                  className="gap-2 rounded-xl"
+                >
+                  <Filter className="h-4 w-4" />
+                  {translateUi("Filters", language)}
+                </Button>
+                <Button onClick={handleShuffle} variant="outline" className="gap-2 rounded-xl">
+                  <Shuffle className="h-4 w-4" />
+                  {translateUi("Shuffle", language)}
+                </Button>
+                <Button onClick={handleReset} variant="outline" className="gap-2 rounded-xl">
+                  <RotateCcw className="h-4 w-4" />
+                  {translateUi("Reset", language)}
+                </Button>
+              </div>
+            </div>
 
             {!isPremium ? (
               <Card className="border-[#1E5EFF]/15 bg-[#1E5EFF]/5 p-4">
@@ -372,18 +338,6 @@ export default function Flashcards() {
             ) : null}
 
             <div className="w-full">
-              <div className="mb-3 flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">
-                  {translateUi("Card", language)} {currentIndex + 1} / {filteredQuestions.length}
-                </Badge>
-                <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-[#1E5EFF]/10 text-[#1E5EFF]">
-                    {translateTopic(currentCard.topic, language)}
-                  </Badge>
-                  <Badge variant="outline">{translateDifficulty(currentCard.difficulty, language)}</Badge>
-                </div>
-              </div>
-
               <div
                 className="relative cursor-pointer [perspective:1000px]"
                 style={{ height: `${cardHeight}px` }}
@@ -517,6 +471,21 @@ export default function Flashcards() {
 
           <aside className="order-2 xl:sticky xl:top-24">
             <div className="space-y-4 rounded-[2rem] border border-slate-200/80 bg-white/95 p-4 shadow-[0_18px_55px_-40px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/95">
+              <Card className="border-[#1E5EFF]/10 bg-gradient-to-br from-white to-[#F5F8FF] p-5 dark:border-[#1E5EFF]/15 dark:from-[#0B1628] dark:to-[#10213D]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF]">
+                  {translateUi("Flashcard Review", language)}
+                </p>
+                <h1 className="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-50">
+                  {translateUi("Flashcards", language)}
+                </h1>
+                <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  {translateUi(
+                    `Review ${allQuestions.length} active questions across ${OFFICIAL_CONCEPT_COUNT} concepts in memorization mode with quick answer explanations.`,
+                    language,
+                  )}
+                </p>
+              </Card>
+
               <div className="grid grid-cols-2 gap-3 xl:grid-cols-1">
                 <Card className="border-slate-200/80 p-4 dark:border-[#1E5EFF]/15">
                   <div className="flex items-center justify-between">
@@ -633,6 +602,77 @@ export default function Flashcards() {
           </Card>
         </>
       )}
+
+      <Dialog open={filterDialogOpen} onOpenChange={setFilterDialogOpen}>
+        <DialogContent className="rounded-3xl sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle>{translateUi("Filters", language)}</DialogTitle>
+            <DialogDescription>
+              {translateUi("Focus the deck without pushing the flashcard down the page.", language)}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                {translateUi("Topic", language)}
+              </p>
+              <Select value={filterTopic} onValueChange={setFilterTopic}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={translateUi("Topic", language)} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{translateUi("All Topics", language)}</SelectItem>
+                  <SelectItem value="measurement">{translateTopic("measurement", language)}</SelectItem>
+                  <SelectItem value="assessment">{translateTopic("assessment", language)}</SelectItem>
+                  <SelectItem value="skill_acquisition">{translateTopic("skill_acquisition", language)}</SelectItem>
+                  <SelectItem value="behavior_reduction">{translateTopic("behavior_reduction", language)}</SelectItem>
+                  <SelectItem value="documentation">{translateTopic("documentation", language)}</SelectItem>
+                  <SelectItem value="professional_conduct">
+                    {translateTopic("professional_conduct", language)}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                {translateUi("Difficulty", language)}
+              </p>
+              <Select value={filterDifficulty} onValueChange={setFilterDifficulty}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={translateUi("Difficulty", language)} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{translateUi("All", language)}</SelectItem>
+                  <SelectItem value="beginner">{translateDifficulty("beginner", language)}</SelectItem>
+                  <SelectItem value="intermediate">{translateDifficulty("intermediate", language)}</SelectItem>
+                  <SelectItem value="advanced">{translateDifficulty("advanced", language)}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              className="rounded-xl"
+              onClick={() => {
+                setFilterTopic("all");
+                setFilterDifficulty("all");
+              }}
+            >
+              {translateUi("Reset", language)}
+            </Button>
+            <Button
+              className="rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
+              onClick={() => setFilterDialogOpen(false)}
+            >
+              {translateUi("Apply Filters", language)}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
         <DialogContent className="rounded-3xl sm:max-w-lg">
