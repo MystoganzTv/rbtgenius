@@ -958,5 +958,221 @@
       "answer": "Jerarquía de ayudas",
       "purpose": "Para usar ayudas de forma sistemática mientras se apoya la independencia."
     }
+  },
+  "documentation_concern_reporting": {
+    "status": "reviewed",
+    "answer": "Comunicar preocupaciones al supervisor",
+    "definition": "el RBT informa al BCBA supervisor cualquier preocupación, incluida la eficacia del programa, el bienestar del aprendiz, asuntos con los cuidadores o preocupaciones de seguridad.",
+    "scenario": "El RBT observa moretones en el brazo del aprendiz durante la sesión y notifica de inmediato al supervisor antes de continuar con la sesión.",
+    "purpose": "Para asegurar que el supervisor esté al tanto de cualquier situación que pueda afectar la seguridad del aprendiz o la integridad de los servicios.",
+    "explanation": "Reportar preocupaciones con prontitud protege al aprendiz y permite que el supervisor cumpla con sus responsabilidades clínicas y legales.",
+    "options_es": {
+      "answer": "Comunicar preocupaciones al supervisor",
+      "purpose": "Para asegurar que el supervisor esté al tanto de cualquier situación que pueda afectar la seguridad del aprendiz o la integridad de los servicios."
+    }
+  },
+  "measurement_percentage": {
+    "status": "reviewed",
+    "answer": "Porcentaje de oportunidades",
+    "definition": "el desempeño se resume dividiendo las respuestas correctas entre el total de oportunidades y convirtiendo el resultado en porcentaje.",
+    "scenario": "Un aprendiz respondió correctamente en 8 de 10 ensayos receptivos y el equipo informa el desempeño como un porcentaje.",
+    "purpose": "Para resumir el desempeño a lo largo de un número fijo de oportunidades.",
+    "explanation": "El porcentaje de oportunidades es útil cuando el equipo quiere expresar el éxito en relación con el total de oportunidades, y no solo con un conteo bruto.",
+    "options_es": {
+      "answer": "Porcentaje de oportunidades",
+      "purpose": "Para resumir el desempeño a lo largo de un número fijo de oportunidades."
+    }
+  },
+  "measurement_response_ratio": {
+    "status": "reviewed",
+    "answer": "Razón de respuestas",
+    "definition": "se comparan dos conteos de conductas relacionadas entre sí, en lugar de analizarlos por separado.",
+    "scenario": "Un equipo compara la cantidad de peticiones independientes con la de peticiones con ayuda para ver si la independencia está mejorando.",
+    "purpose": "Para comparar directamente dos tipos de respuesta relacionados.",
+    "explanation": "La razón de respuestas puede mostrar cambios en el equilibrio entre clases de respuesta, como el desempeño independiente frente al desempeño con ayuda.",
+    "options_es": {
+      "answer": "Razón de respuestas",
+      "purpose": "Para comparar directamente dos tipos de respuesta relacionados."
+    }
+  },
+  "measurement_sampling_limitations": {
+    "status": "reviewed",
+    "answer": "Reconocimiento de limitaciones del muestreo",
+    "definition": "el equipo reconoce que las medidas por intervalos y por momentos estiman la conducta y pueden sobre- o subrepresentar lo que realmente ocurrió.",
+    "scenario": "Un supervisor recuerda al personal que los datos por intervalos pueden no reflejar con exactitud la verdadera duración de la conducta fuera de tarea en clase.",
+    "purpose": "Para interpretar los datos de conducta muestreada con la cautela adecuada.",
+    "explanation": "Conocer las limitaciones del muestreo ayuda a evitar conclusiones demasiado seguras cuando el método solo ofrece una estimación de la conducta real.",
+    "options_es": {
+      "answer": "Reconocimiento de limitaciones del muestreo",
+      "purpose": "Para interpretar los datos de conducta muestreada con la cautela adecuada."
+    }
+  },
+  "measurement_standard_celeration_chart": {
+    "status": "reviewed",
+    "answer": "Gráfico estándar de celeración",
+    "definition": "los datos de conducta se muestran en una gráfica diseñada para representar cambios en la frecuencia a lo largo del tiempo en una escala estándar.",
+    "scenario": "Un supervisor quiere comparar tendencias de aceleración y desaceleración de respuestas durante varias semanas usando un formato visual estandarizado.",
+    "purpose": "Para mostrar cambios en la frecuencia a lo largo del tiempo en un formato gráfico estándar.",
+    "explanation": "El gráfico estándar de celeración se usa cuando el equipo quiere un análisis visual consistente de cómo cambian las tasas de respuesta con el tiempo.",
+    "options_es": {
+      "answer": "Gráfico estándar de celeración",
+      "purpose": "Para mostrar cambios en la frecuencia a lo largo del tiempo en un formato gráfico estándar."
+    }
+  },
+  "measurement_topography": {
+    "status": "reviewed",
+    "answer": "Descripción topográfica",
+    "definition": "la conducta se identifica por su forma o apariencia observable y no por la función que se le supone.",
+    "scenario": "El equipo define el aleteo de manos según el patrón visible del movimiento, en lugar de suponer por qué el aprendiz lo hace.",
+    "purpose": "Para describir la conducta según cómo se ve de manera observable.",
+    "explanation": "La topografía se centra en la forma física de la respuesta y evita hacer suposiciones sobre la motivación o la función.",
+    "options_es": {
+      "answer": "Descripción topográfica",
+      "purpose": "Para describir la conducta según cómo se ve de manera observable."
+    }
+  },
+  "professional_private_information_security": {
+    "status": "reviewed",
+    "answer": "Seguridad de la información privada",
+    "definition": "los registros, dispositivos y mensajes del cliente se mantienen seguros para que personas no autorizadas no puedan acceder a ellos.",
+    "scenario": "El RBT bloquea una tableta con datos del cliente, cierra sesión en dispositivos compartidos y evita dejar registros impresos sin supervisión.",
+    "purpose": "Para proteger la información privada contra accesos no autorizados.",
+    "explanation": "La seguridad de la información es parte de la confidencialidad e incluye tanto resguardos físicos como digitales.",
+    "options_es": {
+      "answer": "Seguridad de la información privada",
+      "purpose": "Para proteger la información privada contra accesos no autorizados."
+    }
+  },
+  "professional_professionalism_under_stress": {
+    "status": "reviewed",
+    "answer": "Compostura profesional",
+    "definition": "el RBT mantiene una conducta calmada, respetuosa y apropiada para su rol incluso durante interacciones estresantes.",
+    "scenario": "Un cuidador critica el progreso de la sesión con frustración, y el RBT se mantiene calmado, responde con respeto y comparte solo información objetiva.",
+    "purpose": "Para mantener el profesionalismo durante interacciones difíciles o estresantes.",
+    "explanation": "La compostura profesional ayuda a proteger el rapport, mantiene productiva la comunicación y apoya una conducta ética.",
+    "options_es": {
+      "answer": "Compostura profesional",
+      "purpose": "Para mantener el profesionalismo durante interacciones difíciles o estresantes."
+    }
+  },
+  "professional_record_honesty": {
+    "status": "reviewed",
+    "answer": "Registro honesto y preciso",
+    "definition": "el RBT documenta lo que realmente ocurrió en lugar de completar detalles faltantes con memoria o suposiciones.",
+    "scenario": "Un miembro del personal sugiere adivinar los últimos puntajes de ensayo después de una sesión ocupada, pero el RBT registra solo lo que realmente observó.",
+    "purpose": "Para mantener registros veraces y precisos.",
+    "explanation": "Llevar registros honestos y precisos es esencial porque las decisiones de tratamiento dependen de documentación confiable.",
+    "options_es": {
+      "answer": "Registro honesto y preciso",
+      "purpose": "Para mantener registros veraces y precisos."
+    }
+  },
+  "professional_scope_refusal": {
+    "status": "reviewed",
+    "answer": "Negativa adecuada fuera del alcance del rol",
+    "definition": "el RBT rechaza solicitudes que están fuera de los límites de su rol y las redirige al supervisor o al profesional correspondiente.",
+    "scenario": "Una familia le pide al RBT que diagnostique por qué el aprendiz está ansioso, y el RBT explica que las decisiones diagnósticas están fuera de su rol.",
+    "purpose": "Para mantener límites de rol cuando se pide al RBT que haga trabajo fuera de su alcance.",
+    "explanation": "Una negativa adecuada protege al aprendiz y mantiene las responsabilidades dentro del rol profesional correcto.",
+    "options_es": {
+      "answer": "Negativa adecuada fuera del alcance del rol",
+      "purpose": "Para mantener límites de rol cuando se pide al RBT que haga trabajo fuera de su alcance."
+    }
+  },
+  "professional_social_media": {
+    "status": "reviewed",
+    "answer": "Profesionalismo en redes sociales",
+    "definition": "el RBT evita publicar información relacionada con clientes o interactuar en línea de formas que desdibujen los límites profesionales.",
+    "scenario": "Un RBT rechaza una solicitud de amistad de un cuidador en redes sociales y nunca publica fotos o historias que puedan identificar a un cliente.",
+    "purpose": "Para proteger la confidencialidad y los límites en espacios en línea.",
+    "explanation": "La conducta profesional también se aplica en redes sociales, donde siguen vigentes la confidencialidad y los límites profesionales.",
+    "options_es": {
+      "answer": "Profesionalismo en redes sociales",
+      "purpose": "Para proteger la confidencialidad y los límites en espacios en línea."
+    }
+  },
+  "professional_supervisor_notification": {
+    "status": "reviewed",
+    "answer": "Notificación al supervisor",
+    "definition": "las cuestiones clínicas, éticas o de seguridad importantes se comunican al supervisor con prontitud.",
+    "scenario": "Un aprendiz comienza un medicamento nuevo y muestra cambios de conducta inusuales, así que el RBT informa al supervisor ese mismo día.",
+    "purpose": "Para mantener informado al supervisor sobre eventos importantes que afectan el tratamiento o la seguridad.",
+    "explanation": "La notificación rápida al supervisor favorece la toma de decisiones segura y mantiene al equipo alineado.",
+    "options_es": {
+      "answer": "Notificación al supervisor",
+      "purpose": "Para mantener informado al supervisor sobre eventos importantes que afectan el tratamiento o la seguridad."
+    }
+  },
+  "skill_reinforcer_pairing": {
+    "status": "reviewed",
+    "answer": "Emparejamiento con reforzadores",
+    "definition": "elementos o personas inicialmente neutros se asocian repetidamente con eventos preferidos para que adquieran valor para el aprendiz.",
+    "scenario": "Un terapeuta nuevo participa constantemente en el juego preferido y entrega objetos favoritos para que el aprendiz empiece a acercarse a él con mayor facilidad.",
+    "purpose": "Para dar valor a una persona, estímulo u objeto al emparejarlo con eventos preferidos.",
+    "explanation": "El emparejamiento puede ayudar a establecer nuevos reforzadores condicionados o a fortalecer el rapport al inicio de la enseñanza.",
+    "options_es": {
+      "answer": "Emparejamiento con reforzadores",
+      "purpose": "Para dar valor a una persona, estímulo u objeto al emparejarlo con eventos preferidos."
+    }
+  },
+  "skill_response_generalization": {
+    "status": "reviewed",
+    "answer": "Generalización de respuestas",
+    "definition": "una habilidad entrenada conduce a la aparición de respuestas apropiadas relacionadas que no fueron enseñadas directamente.",
+    "scenario": "Después de aprender a pedir ayuda verbalmente, un aprendiz también comienza a pedir asistencia de forma apropiada con materiales nuevos que nunca se entrenaron de manera directa.",
+    "purpose": "Para favorecer la aparición de respuestas apropiadas relacionadas más allá del entrenamiento directo.",
+    "explanation": "La generalización de respuestas ocurre cuando enseñar una respuesta produce otras conductas apropiadas nuevas pero relacionadas.",
+    "options_es": {
+      "answer": "Generalización de respuestas",
+      "purpose": "Para favorecer la aparición de respuestas apropiadas relacionadas más allá del entrenamiento directo."
+    }
+  },
+  "skill_stimulus_fading": {
+    "status": "reviewed",
+    "answer": "Desvanecimiento del estímulo",
+    "definition": "una pista adicional incorporada en los materiales se reduce gradualmente hasta que el estímulo natural controle la respuesta.",
+    "scenario": "Primero se resalta una imagen para que destaque, y luego ese resaltado se va reduciendo poco a poco mientras el aprendiz sigue respondiendo correctamente.",
+    "purpose": "Para transferir el control desde una pista añadida hacia el estímulo natural.",
+    "explanation": "El desvanecimiento del estímulo retira ayudas incorporadas en los materiales, en lugar de limitarse a retrasar o reducir ayudas físicas.",
+    "options_es": {
+      "answer": "Desvanecimiento del estímulo",
+      "purpose": "Para transferir el control desde una pista añadida hacia el estímulo natural."
+    }
+  },
+  "skill_time_delay": {
+    "status": "reviewed",
+    "answer": "Demora temporal",
+    "definition": "el RBT aumenta de forma sistemática la pausa antes de dar una ayuda para que el aprendiz tenga oportunidad de responder de manera independiente.",
+    "scenario": "Al principio se da la ayuda inmediatamente después de la instrucción, pero más adelante el RBT espera unos segundos antes de intervenir.",
+    "purpose": "Para transferir la respuesta a la señal natural retrasando las ayudas con el tiempo.",
+    "explanation": "La demora temporal crea gradualmente espacio para que aparezca una respuesta independiente antes de que se entregue la ayuda.",
+    "options_es": {
+      "answer": "Demora temporal",
+      "purpose": "Para transferir la respuesta a la señal natural retrasando las ayudas con el tiempo."
+    }
+  },
+  "skill_transfer_trial": {
+    "status": "reviewed",
+    "answer": "Ensayo de transferencia",
+    "definition": "después de una respuesta correcta con ayuda, una oportunidad rápida de seguimiento verifica si el control se transfiere a un ensayo con menos ayuda.",
+    "scenario": "Un aprendiz responde correctamente después de una ayuda de modelado, y el RBT presenta de inmediato otro ensayo con menos ayuda para comprobar la independencia.",
+    "purpose": "Para comprobar si el control del estímulo se está desplazando hacia una respuesta con menos ayuda.",
+    "explanation": "Los ensayos de transferencia ayudan a confirmar que las ayudas están conduciendo a respuestas independientes y no a dependencia de la ayuda.",
+    "options_es": {
+      "answer": "Ensayo de transferencia",
+      "purpose": "Para comprobar si el control del estímulo se está desplazando hacia una respuesta con menos ayuda."
+    }
+  },
+  "skill_verbal_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda verbal",
+    "definition": "el instructor proporciona apoyo hablado para aumentar la probabilidad de una respuesta correcta.",
+    "scenario": "Después de pedirle al aprendiz que nombre un objeto, el RBT dice el primer sonido de la palabra para ayudar.",
+    "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal.",
+    "explanation": "Las ayudas verbales pueden ir desde la respuesta completa hasta pistas parciales y deben desvanecerse para evitar dependencia.",
+    "options_es": {
+      "answer": "Ayuda verbal",
+      "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal."
+    }
   }
 }
