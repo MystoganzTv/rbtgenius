@@ -2794,5 +2794,89 @@
       "answer": "Ayuda verbal",
       "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal."
     }
+  },
+  "measurement_frequency_vs_rate": {
+    "status": "reviewed",
+    "answer": "Frecuencia frente a tasa",
+    "definition": "la frecuencia es el conteo bruto de respuestas, mientras que la tasa divide ese conteo por el tiempo de observación para permitir comparaciones entre sesiones de distinta duración.",
+    "scenario": "Un RBT registra 12 veces que un aprendiz levanta la mano en una sesión de 30 minutos y 12 en una sesión de 15 minutos; la frecuencia es la misma, pero la tasa es diferente.",
+    "purpose": "Para comparar la conducta entre sesiones de distinta duración.",
+    "explanation": "La tasa es más informativa que la frecuencia bruta cuando la duración de la sesión varía, porque toma en cuenta la cantidad de tiempo observado.",
+    "options_es": {
+      "answer": "Frecuencia frente a tasa",
+      "purpose": "Para comparar la conducta entre sesiones de distinta duración."
+    }
+  },
+  "measurement_decreasing_trend": {
+    "status": "reviewed",
+    "answer": "Tendencia decreciente",
+    "definition": "una tendencia decreciente en una gráfica significa que los puntos de datos generalmente van bajando con el tiempo, lo que indica que la conducta objetivo ocurre con menos frecuencia o durante menos tiempo.",
+    "scenario": "Un RBT grafica la frecuencia de las rabietas de un aprendiz a lo largo de diez sesiones. Los datos empiezan altos y van bajando progresivamente. El supervisor le pide al RBT que describa lo que indica la gráfica.",
+    "purpose": "Para ayudar al RBT a identificar cuándo una intervención de reducción de conducta está produciendo resultados.",
+    "explanation": "Una tendencia decreciente es una señal positiva cuando la conducta objetivo es una conducta problema, y una señal de preocupación cuando la meta es una habilidad en adquisición. Leer correctamente la tendencia orienta las decisiones del supervisor.",
+    "options_es": {
+      "answer": "Tendencia decreciente",
+      "purpose": "Para ayudar al RBT a identificar cuándo una intervención de reducción de conducta está produciendo resultados."
+    }
+  },
+  "measurement_variable_trend": {
+    "status": "reviewed",
+    "answer": "Datos variables",
+    "definition": "los datos variables en una gráfica muestran puntos que suben y bajan con frecuencia sin una dirección clara, lo que indica desempeño inconsistente o cambios del ambiente que afectan la conducta.",
+    "scenario": "Un RBT grafica cuántas palabras dice un aprendiz en cada sesión. A lo largo de diez sesiones, los conteos son 5, 12, 4, 14, 3, 11, 6, 13, 5 y 10. El supervisor le pide al RBT que caracterice los datos.",
+    "purpose": "Para ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación.",
+    "explanation": "Los datos muy variables pueden sugerir implementación inconsistente, diferencias motivacionales o factores externos que afectan al aprendiz. Identificar la variabilidad ayuda al equipo a decidir los siguientes pasos.",
+    "options_es": {
+      "answer": "Datos variables",
+      "purpose": "Para ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación."
+    }
+  },
+  "measurement_stable_trend": {
+    "status": "reviewed",
+    "answer": "Datos estables",
+    "definition": "los datos estables muestran puntos agrupados alrededor de un nivel consistente con poca variabilidad, lo que significa que la conducta ocurre a una tasa predecible entre sesiones.",
+    "scenario": "Antes de iniciar una intervención nueva, el supervisor le indica al RBT que recoja línea base hasta que la gráfica muestre una tendencia estable. El RBT registra cinco sesiones con puntajes consistentes alrededor del 20%.",
+    "purpose": "Para establecer una línea base confiable antes de introducir una intervención, de modo que cualquier cambio futuro en los datos pueda atribuirse a la intervención.",
+    "explanation": "Los datos de línea base estables son esenciales porque permiten comparar con los datos de intervención. Sin estabilidad, es difícil determinar si un programa es efectivo.",
+    "options_es": {
+      "answer": "Datos estables",
+      "purpose": "Para establecer una línea base confiable antes de introducir una intervención, de modo que cualquier cambio futuro en los datos pueda atribuirse a la intervención."
+    }
+  },
+  "professional_proactive_consultation": {
+    "status": "reviewed",
+    "answer": "Consulta proactiva con el supervisor",
+    "definition": "el RBT busca orientación del supervisor antes de implementar una situación nueva —como un ambiente nuevo, un cuidador nuevo o una conducta nueva— en lugar de esperar a que surjan problemas.",
+    "scenario": "Antes de una sesión en la que participará un familiar nuevo, el RBT contacta al supervisor para preguntar cómo manejar las preguntas o solicitudes que esa persona pueda hacer.",
+    "purpose": "Para prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación difícil.",
+    "explanation": "La consulta proactiva reduce el riesgo de errores y demuestra responsabilidad profesional al anticipar situaciones difíciles.",
+    "options_es": {
+      "answer": "Consulta proactiva con el supervisor",
+      "purpose": "Para prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación difícil."
+    }
+  },
+  "professional_constructive_disagreement": {
+    "status": "reviewed",
+    "answer": "Expresar desacuerdo de manera profesional",
+    "definition": "si el RBT no está de acuerdo con una decisión del supervisor, expresa su preocupación con respeto por los canales apropiados en lugar de ignorar o desafiar abiertamente la indicación.",
+    "scenario": "El RBT cree que un cambio en el plan de conducta puede no ser efectivo, pero lo implementa como se indicó mientras lleva preocupaciones específicas basadas en datos al supervisor en el siguiente contacto.",
+    "purpose": "Para plantear preocupaciones legítimas sin violar la relación de supervisión ni la integridad de los servicios.",
+    "explanation": "El desacuerdo profesional se expresa mediante diálogo y datos, no actuando de forma independiente ni socavando las indicaciones del supervisor.",
+    "options_es": {
+      "answer": "Expresar desacuerdo de manera profesional",
+      "purpose": "Para plantear preocupaciones legítimas sin violar la relación de supervisión ni la integridad de los servicios."
+    }
+  },
+  "documentation_between_session_contact": {
+    "status": "reviewed",
+    "answer": "Comunicación con el supervisor entre sesiones",
+    "definition": "el RBT se comunica con el supervisor entre reuniones de supervisión programadas cuando surge un evento, preocupación o pregunta importante.",
+    "scenario": "El RBT nota un aumento repentino en una conducta que venía disminuyendo y envía un mensaje al supervisor ese mismo día en lugar de esperar a la reunión semanal.",
+    "purpose": "Para atender las preocupaciones de manera oportuna en lugar de esperar al próximo contacto programado.",
+    "explanation": "La comunicación entre sesiones asegura que los cambios clínicamente significativos se atiendan antes de que ocurran más sesiones bajo un plan desactualizado o ineficaz.",
+    "options_es": {
+      "answer": "Comunicación con el supervisor entre sesiones",
+      "purpose": "Para atender las preocupaciones de manera oportuna en lugar de esperar al próximo contacto programado."
+    }
   }
 }
