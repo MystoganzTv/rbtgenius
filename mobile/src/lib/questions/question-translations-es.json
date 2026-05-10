@@ -3070,5 +3070,149 @@
       "answer": "Resumen de tendencia de conducta",
       "purpose": "Para resumir cambios significativos en los patrones de conducta a lo largo del tiempo."
     }
+  },
+  "documentation_prompt_change_note": {
+    "status": "reviewed",
+    "answer": "Nota de cambio de ayudas",
+    "definition": "el RBT documenta cuando el tipo de ayuda usado difiere de sesiones previas debido a instrucciones actualizadas.",
+    "scenario": "Un supervisor cambia al aprendiz de ayudas físicas completas a ayudas de modelado, y el RBT registra ese cambio en la documentación de la sesión.",
+    "purpose": "Para documentar actualizaciones en los procedimientos de ayuda utilizados durante la sesión.",
+    "explanation": "Las notas de cambio de ayudas ayudan a que quienes revisen después entiendan por qué el desempeño puede verse diferente entre sesiones.",
+    "options_es": {
+      "answer": "Nota de cambio de ayudas",
+      "purpose": "Para documentar actualizaciones en los procedimientos de ayuda utilizados durante la sesión."
+    }
+  },
+  "documentation_reinforcer_change_note": {
+    "status": "reviewed",
+    "answer": "Nota de cambio de reforzador",
+    "definition": "el RBT documenta cuando los reforzadores usados durante la enseñanza cambian de manera significativa durante la sesión.",
+    "scenario": "El aprendiz deja de trabajar por pegatinas, así que el equipo cambia a reforzadores comestibles y el cambio se registra objetivamente.",
+    "purpose": "Para documentar cambios significativos en el reforzamiento usado durante la sesión.",
+    "explanation": "Las notas de cambio de reforzador ayudan al equipo a entender cambios en la motivación y en los resultados de enseñanza.",
+    "options_es": {
+      "answer": "Nota de cambio de reforzador",
+      "purpose": "Para documentar cambios significativos en el reforzamiento usado durante la sesión."
+    }
+  },
+  "documentation_environmental_change_report": {
+    "status": "reviewed",
+    "answer": "Reporte de cambio ambiental",
+    "definition": "el RBT registra cambios importantes en el entorno que pudieron haber afectado el desempeño.",
+    "scenario": "Durante una sesión ocurren ruido de construcción, un maestro sustituto y un cambio de salón.",
+    "purpose": "Para documentar cambios del entorno que puedan ayudar a explicar el desempeño en sesión.",
+    "explanation": "Los reportes de cambio ambiental ayudan al equipo a interpretar conductas inusuales dentro de su contexto.",
+    "options_es": {
+      "answer": "Reporte de cambio ambiental",
+      "purpose": "Para documentar cambios del entorno que puedan ayudar a explicar el desempeño en sesión."
+    }
+  },
+  "documentation_follow_up_communication_note": {
+    "status": "reviewed",
+    "answer": "Nota de comunicación de seguimiento",
+    "definition": "el RBT documenta comunicación adicional que ocurre después de la sesión sobre un asunto clínicamente relevante.",
+    "scenario": "Después de la sesión, el supervisor pide más detalles sobre un incidente y el RBT registra esa comunicación de seguimiento.",
+    "purpose": "Para conservar un registro preciso de la comunicación clínicamente relevante posterior a la sesión.",
+    "explanation": "Las notas de seguimiento ayudan a asegurar que intercambios importantes no se pierdan ni se recuerden mal más adelante.",
+    "options_es": {
+      "answer": "Nota de comunicación de seguimiento",
+      "purpose": "Para conservar un registro preciso de la comunicación clínicamente relevante posterior a la sesión."
+    }
+  },
+  "documentation_timely_reporting": {
+    "status": "reviewed",
+    "answer": "Reporte oportuno",
+    "definition": "la documentación y la comunicación requerida se completan sin demoras innecesarias.",
+    "scenario": "Un RBT termina la nota de sesión de inmediato en lugar de esperar mucho más tarde, cuando algunos detalles podrían olvidarse.",
+    "purpose": "Para asegurar que los registros y reportes se completen cuando los detalles aún son precisos.",
+    "explanation": "El reporte oportuno favorece la exactitud, la continuidad del cuidado y el cumplimiento de las expectativas del lugar de trabajo.",
+    "options_es": {
+      "answer": "Reporte oportuno",
+      "purpose": "Para asegurar que los registros y reportes se completen cuando los detalles aún son precisos."
+    }
+  },
+  "documentation_supervisor_update": {
+    "status": "reviewed",
+    "answer": "Actualización al supervisor",
+    "definition": "el RBT proporciona al BCBA supervisor información relevante sobre la sesión, el aprendiz o cualquier evento inesperado.",
+    "scenario": "Después de una sesión en la que el aprendiz se alteró y se identificó un nuevo antecedente, el RBT contacta al supervisor para compartir las observaciones antes de la siguiente cita.",
+    "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se tomen con información completa.",
+    "explanation": "La comunicación efectiva con el supervisor asegura que el equipo tenga información actual y precisa para guiar la programación y atender preocupaciones.",
+    "options_es": {
+      "answer": "Actualización al supervisor",
+      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se tomen con información completa."
+    }
+  },
+  "documentation_session_debrief": {
+    "status": "reviewed",
+    "answer": "Resumen posterior a la sesión con el supervisor",
+    "definition": "el RBT proporciona al BCBA supervisor un resumen de lo ocurrido durante la sesión, incluyendo progreso, preocupaciones y cualquier evento inusual.",
+    "scenario": "Después de la sesión, el RBT contacta al supervisor para informar que un programa no se completó porque el aprendiz se alteró y que ocurrieron dos incidentes durante las transiciones.",
+    "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se basen en información actual y completa.",
+    "explanation": "La comunicación regular después de la sesión permite al supervisor monitorear el progreso, identificar problemas emergentes y ajustar el plan cuando sea necesario.",
+    "options_es": {
+      "answer": "Resumen posterior a la sesión con el supervisor",
+      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se basen en información actual y completa."
+    }
+  },
+  "documentation_communication_format": {
+    "status": "reviewed",
+    "answer": "Formato de comunicación apropiado con el supervisor",
+    "definition": "el RBT usa el método de comunicación especificado por el lugar de trabajo —como una aplicación específica, llamada telefónica o nota escrita— para contactar al supervisor.",
+    "scenario": "La política del lugar de trabajo exige que las notas de sesión se envíen a través del sistema electrónico de datos y que los asuntos urgentes se reporten por teléfono; el RBT sigue este protocolo de manera consistente.",
+    "purpose": "Para usar canales que el supervisor y la organización han establecido como confiables y rastreables.",
+    "explanation": "Usar el formato correcto asegura que las comunicaciones se reciban, se documenten y sean apropiadas para el nivel de urgencia.",
+    "options_es": {
+      "answer": "Formato de comunicación apropiado con el supervisor",
+      "purpose": "Para usar canales que el supervisor y la organización han establecido como confiables y rastreables."
+    }
+  },
+  "documentation_progress_update": {
+    "status": "reviewed",
+    "answer": "Actualizaciones de progreso al supervisor",
+    "definition": "el RBT comparte con el supervisor datos y observaciones relevantes de la sesión para que pueda evaluar si los programas y planes actuales están funcionando.",
+    "scenario": "Durante la supervisión semanal, el RBT presenta gráficas de datos y comparte que el aprendiz alcanzó el criterio de dominio en dos objetivos pero no muestra progreso en un tercero a pesar de varias semanas de instrucción.",
+    "purpose": "Para darle al supervisor la información necesaria para tomar decisiones basadas en datos sobre el plan.",
+    "explanation": "Las actualizaciones regulares de progreso permiten al supervisor identificar tendencias, hacer ajustes y asegurar que los servicios sigan siendo efectivos y apropiados.",
+    "options_es": {
+      "answer": "Actualizaciones de progreso al supervisor",
+      "purpose": "Para darle al supervisor la información necesaria para tomar decisiones basadas en datos sobre el plan."
+    }
+  },
+  "documentation_urgent_contact": {
+    "status": "reviewed",
+    "answer": "Contacto urgente con el supervisor",
+    "definition": "el RBT contacta al supervisor de inmediato —en lugar de esperar— cuando una situación implica seguridad, un incidente significativo o una decisión fuera del alcance del RBT.",
+    "scenario": "Un aprendiz revela posible abuso durante la sesión, y el RBT interrumpe la sesión y contacta inmediatamente al supervisor en lugar de terminar primero la sesión.",
+    "purpose": "Para asegurar que los asuntos urgentes reciban una respuesta oportuna de la persona con la autoridad y la preparación para manejarlos.",
+    "explanation": "Algunas situaciones no pueden esperar al próximo contacto programado; el RBT debe reconocer cuándo se requiere notificación inmediata al supervisor.",
+    "options_es": {
+      "answer": "Contacto urgente con el supervisor",
+      "purpose": "Para asegurar que los asuntos urgentes reciban una respuesta oportuna de la persona con la autoridad y la preparación para manejarlos."
+    }
+  },
+  "documentation_illness_report": {
+    "status": "reviewed",
+    "answer": "Reporte de enfermedad o cambios médicos",
+    "definition": "el RBT reporta al BCBA supervisor cualquier signo de enfermedad, lesión o cambio médico significativo observado en el aprendiz.",
+    "scenario": "Durante una sesión, el RBT nota que el aprendiz está letárgico y tiene secreción nasal; el RBT contacta al supervisor para reportar la observación y preguntar sobre continuar la sesión.",
+    "purpose": "Para asegurar que el supervisor conozca condiciones de salud que puedan afectar la conducta, la seguridad o la prestación del servicio.",
+    "explanation": "La enfermedad y los cambios médicos pueden afectar drásticamente los datos de conducta; reportarlos permite que el equipo interprete la sesión con precisión y tome decisiones adecuadas.",
+    "options_es": {
+      "answer": "Reporte de enfermedad o cambios médicos",
+      "purpose": "Para asegurar que el supervisor conozca condiciones de salud que puedan afectar la conducta, la seguridad o la prestación del servicio."
+    }
+  },
+  "documentation_environmental_hazard": {
+    "status": "reviewed",
+    "answer": "Reporte de riesgos ambientales",
+    "definition": "el RBT reporta al supervisor cualquier condición ambiental insegura —como equipo dañado, materiales peligrosos o espacios inseguros.",
+    "scenario": "El RBT nota una pata rota de una silla y una tapa suelta en un tomacorriente del salón de sesión y reporta ambas cosas al supervisor antes de comenzar la sesión.",
+    "purpose": "Para proteger al aprendiz y al RBT de daños prevenibles causados por condiciones inseguras.",
+    "explanation": "Reportar riesgos ambientales forma parte de la responsabilidad del RBT de mantener un entorno de tratamiento seguro y proteger el bienestar del aprendiz.",
+    "options_es": {
+      "answer": "Reporte de riesgos ambientales",
+      "purpose": "Para proteger al aprendiz y al RBT de daños prevenibles causados por condiciones inseguras."
+    }
   }
 }
