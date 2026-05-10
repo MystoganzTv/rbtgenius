@@ -4066,5 +4066,329 @@
       "answer": "Revisión del programa antes de la sesión",
       "purpose": "Para implementar correctamente cada programa desde el primer ensayo sin tener que consultar el plan durante la instrucción."
     }
+  },
+  "skill_dtt_discriminative_stimulus": {
+    "status": "reviewed",
+    "answer": "Estímulo discriminativo (SD) en DTT",
+    "definition": "el estímulo discriminativo es la instrucción o señal que presenta el RBT y que indica que una respuesta específica será reforzada.",
+    "scenario": "El RBT muestra una tarjeta roja y pregunta '¿Qué color es?' Esta instrucción es el SD que señala que una respuesta identificando el color rojo será reforzada.",
+    "purpose": "Para señalar al cliente que existe una oportunidad de respuesta que puede ser reforzada.",
+    "explanation": "Un SD claro y consistente ayuda al cliente a discriminar cuándo y cómo responder, que es la base del control de estímulos.",
+    "options_es": {
+      "answer": "Estímulo discriminativo (SD) en DTT",
+      "purpose": "Para señalar al cliente que existe una oportunidad de respuesta que puede ser reforzada."
+    }
+  },
+  "skill_dtt_learner_response": {
+    "status": "reviewed",
+    "answer": "Respuesta del cliente en DTT",
+    "definition": "la respuesta del cliente es la conducta que el RBT está intentando enseñar y que ocurre después de presentar el SD.",
+    "scenario": "Después de que el RBT dice 'Tócate la nariz', el cliente se toca la nariz; esta es la respuesta objetivo que será reforzada o corregida.",
+    "purpose": "Para identificar la conducta que el ensayo está diseñado para fortalecer.",
+    "explanation": "La respuesta del cliente es el objetivo de la instrucción; que haya sido independiente, ayudada o incorrecta determina qué consecuencia sigue.",
+    "options_es": {
+      "answer": "Respuesta del cliente en DTT",
+      "purpose": "Para identificar la conducta que el ensayo está diseñado para fortalecer."
+    }
+  },
+  "skill_dtt_consequence_delivery": {
+    "status": "reviewed",
+    "answer": "Entrega de consecuencias en DTT",
+    "definition": "el RBT entrega reforzamiento inmediatamente después de una respuesta correcta y usa un procedimiento de corrección de errores predeterminado después de una respuesta incorrecta.",
+    "scenario": "Cuando el cliente etiqueta correctamente la imagen, el RBT dice de inmediato '¡Sí, muy bien!' y entrega una ficha; cuando el cliente responde mal, el RBT usa el procedimiento de corrección planificado.",
+    "purpose": "Para asegurar que las respuestas correctas se refuercen y los errores se atiendan de manera consistente.",
+    "explanation": "La entrega consistente de consecuencias enseña al cliente qué respuestas producen reforzamiento y cuáles requieren corrección.",
+    "options_es": {
+      "answer": "Entrega de consecuencias en DTT",
+      "purpose": "Para asegurar que las respuestas correctas se refuercen y los errores se atiendan de manera consistente."
+    }
+  },
+  "skill_dtt_intertrial_interval": {
+    "status": "reviewed",
+    "answer": "Intervalo entre ensayos (ITI)",
+    "definition": "el intervalo entre ensayos es la pausa breve entre el final de un ensayo y la presentación del siguiente SD.",
+    "scenario": "Después de entregar elogios por una respuesta correcta, el RBT espera 3 segundos antes de presentar la siguiente tarjeta e instrucción.",
+    "purpose": "Para permitir que el cliente procese la consecuencia antes de que comience el siguiente ensayo.",
+    "explanation": "Un intervalo entre ensayos consistente separa claramente los ensayos y ayuda a prevenir sesgos de posición o dependencia de ayudas que pueden desarrollarse sin una pausa.",
+    "options_es": {
+      "answer": "Intervalo entre ensayos (ITI)",
+      "purpose": "Para permitir que el cliente procese la consecuencia antes de que comience el siguiente ensayo."
+    }
+  },
+  "skill_dtt_trial_components": {
+    "status": "reviewed",
+    "answer": "Contingencia de tres términos en un ensayo DTT",
+    "definition": "cada ensayo discreto tiene tres partes: el estímulo discriminativo presentado por el RBT, la respuesta del cliente y la consecuencia.",
+    "scenario": "El RBT presenta una tarjeta (SD), el cliente dice 'manzana' (respuesta) y el RBT dice '¡Correcto!' y entrega una ficha (consecuencia).",
+    "purpose": "Para entender la estructura que hace que un ensayo sea discreto y enseñable.",
+    "explanation": "Reconocer los tres componentes ayuda al RBT a ejecutar ensayos limpios e identificar qué parte de la secuencia necesita ajustes cuando el aprendizaje es lento.",
+    "options_es": {
+      "answer": "Contingencia de tres términos en un ensayo DTT",
+      "purpose": "Para entender la estructura que hace que un ensayo sea discreto y enseñable."
+    }
+  },
+  "skill_dtt_massed_practice": {
+    "status": "reviewed",
+    "answer": "Práctica masiva vs. distribuida en DTT",
+    "definition": "la práctica masiva presenta muchos ensayos seguidos sobre el mismo objetivo, mientras que la práctica distribuida reparte los ensayos de ese objetivo a lo largo de la sesión entre otras tareas.",
+    "scenario": "Para un objetivo recién introducido, el RBT realiza 10 ensayos consecutivos sobre ese ítem; una vez parcialmente aprendido, mezcla ensayos de ese ítem con otros objetivos.",
+    "purpose": "Para seleccionar el formato de práctica que mejor se ajuste al nivel actual de adquisición del cliente.",
+    "explanation": "La práctica masiva construye rápidamente la respuesta inicial, pero puede generar respuestas mecánicas; la práctica distribuida favorece mejor retención y generalización.",
+    "options_es": {
+      "answer": "Práctica masiva vs. distribuida en DTT",
+      "purpose": "Para seleccionar el formato de práctica que mejor se ajuste al nivel actual de adquisición del cliente."
+    }
+  },
+  "skill_dtt_multiple_programs": {
+    "status": "reviewed",
+    "answer": "Ejecución de múltiples programas en una sesión DTT",
+    "definition": "el RBT implementa varios programas diferentes de adquisición de habilidades dentro de una misma sesión, rotando entre ellos según el plan.",
+    "scenario": "Durante una sesión de una hora, el RBT trabaja objetivos de tacto, identificación receptiva, imitación y respuesta de oyente en rotación, tal como se especifica en cada SAP.",
+    "purpose": "Para abordar múltiples áreas de habilidades dentro de una sola sesión de manera eficiente.",
+    "explanation": "Rotar programas dentro de una sesión mantiene al cliente involucrado, reduce la fatiga por una sola tarea y permite progreso en varias áreas del desarrollo.",
+    "options_es": {
+      "answer": "Ejecución de múltiples programas en una sesión DTT",
+      "purpose": "Para abordar múltiples áreas de habilidades dentro de una sola sesión de manera eficiente."
+    }
+  },
+  "skill_dtt_error_correction": {
+    "status": "reviewed",
+    "answer": "Corrección de errores en DTT",
+    "definition": "cuando el cliente responde incorrectamente, el RBT aplica un procedimiento de corrección de errores predeterminado, como modelar la respuesta correcta, ayudarla y volver a presentar el ensayo.",
+    "scenario": "Después de una respuesta incorrecta, el RBT dice 'mi turno', modela la respuesta correcta, hace que el cliente la imite, luego ejecuta un ensayo distractor antes de presentar nuevamente el SD original.",
+    "purpose": "Para responder a los errores de manera consistente de modo que el cliente contacte la respuesta correcta sin que el error se refuerce accidentalmente.",
+    "explanation": "La corrección consistente de errores reduce la probabilidad de que el cliente practique respuestas incorrectas y ayuda a establecer la respuesta correcta más rápidamente.",
+    "options_es": {
+      "answer": "Corrección de errores en DTT",
+      "purpose": "Para responder a los errores de manera consistente de modo que el cliente contacte la respuesta correcta sin que el error se refuerce accidentalmente."
+    }
+  },
+  "skill_dtt_trial_pacing": {
+    "status": "reviewed",
+    "answer": "Ritmo de ensayos en DTT",
+    "definition": "el RBT presenta los ensayos a un ritmo ágil pero consistente, normalmente presentando el siguiente SD dentro de unos pocos segundos después del final del ensayo anterior.",
+    "scenario": "El RBT mantiene los ensayos avanzando a un ritmo estable para que el cliente siga involucrado sin sentirse apurado ni quedar esperando demasiado entre instrucciones.",
+    "purpose": "Para mantener la atención del cliente y maximizar las oportunidades de aprendizaje dentro de la sesión.",
+    "explanation": "Un ritmo lento reduce el número de ensayos de aprendizaje y puede contribuir a conductas fuera de tarea; un ritmo demasiado rápido puede abrumar al cliente.",
+    "options_es": {
+      "answer": "Ritmo de ensayos en DTT",
+      "purpose": "Para mantener la atención del cliente y maximizar las oportunidades de aprendizaje dentro de la sesión."
+    }
+  },
+  "skill_net_contriving_opportunity": {
+    "status": "reviewed",
+    "answer": "Crear una oportunidad de aprendizaje en NET",
+    "definition": "el RBT organiza intencionalmente el entorno para crear un momento en el que el cliente tenga una razón para usar la habilidad objetivo.",
+    "scenario": "Para enseñar a pedir, el RBT coloca un juguete favorito fuera del alcance para que el cliente esté motivado a solicitarlo sin que se le indique.",
+    "purpose": "Para crear oportunidades naturales de práctica de habilidades objetivo sin depender de ensayos masivos en una mesa.",
+    "explanation": "Crear oportunidades en el entorno natural permite enseñar habilidades en el contexto donde realmente se usarán.",
+    "options_es": {
+      "answer": "Crear una oportunidad de aprendizaje en NET",
+      "purpose": "Para crear oportunidades naturales de práctica de habilidades objetivo sin depender de ensayos masivos en una mesa."
+    }
+  },
+  "skill_net_learner_motivation": {
+    "status": "reviewed",
+    "answer": "Seguir la motivación del cliente en NET",
+    "definition": "en la enseñanza naturalista, la instrucción se da alrededor de actividades y materiales que el cliente ha elegido o le interesan en ese momento.",
+    "scenario": "El cliente toma un rompecabezas y el RBT aprovecha ese momento para insertar objetivos de lenguaje y sociales relacionados con el rompecabezas, en lugar de redirigirlo a otra actividad.",
+    "purpose": "Para usar la motivación que ocurre de manera natural como contexto de enseñanza, haciendo el aprendizaje más significativo.",
+    "explanation": "Enseñar dentro de actividades que ya motivan al cliente aumenta la calidad y la durabilidad del aprendizaje.",
+    "options_es": {
+      "answer": "Seguir la motivación del cliente en NET",
+      "purpose": "Para usar la motivación que ocurre de manera natural como contexto de enseñanza, haciendo el aprendizaje más significativo."
+    }
+  },
+  "skill_net_dtt_comparison": {
+    "status": "reviewed",
+    "answer": "Enseñanza naturalista vs. DTT",
+    "definition": "DTT usa ensayos estructurados y repetidos en mesa, mientras que NET inserta la instrucción en actividades dirigidas por el niño dentro del entorno natural.",
+    "scenario": "Un cliente practica peticiones en una mesa con 20 ensayos idénticos en DTT y luego practica peticiones en el área de juego cuando está motivado de manera natural para obtener artículos.",
+    "purpose": "Para entender cuándo es más apropiado cada enfoque y cómo se complementan.",
+    "explanation": "DTT y NET no se excluyen mutuamente; muchos clientes se benefician de DTT para construir una habilidad inicialmente y de NET para generalizarla y usarla de manera natural.",
+    "options_es": {
+      "answer": "Enseñanza naturalista vs. DTT",
+      "purpose": "Para entender cuándo es más apropiado cada enfoque y cómo se complementan."
+    }
+  },
+  "skill_net_environment_use": {
+    "status": "reviewed",
+    "answer": "Uso del entorno natural para instrucción",
+    "definition": "las habilidades se enseñan en los mismos entornos y situaciones donde el cliente las usará finalmente, en lugar de solo en un escritorio estructurado.",
+    "scenario": "Las peticiones de snacks se practican en la cocina durante la merienda, en lugar de solo en una mesa de terapia con materiales artificiales.",
+    "purpose": "Para promover la generalización enseñando en los contextos donde la habilidad debe ocurrir.",
+    "explanation": "Enseñar en entornos naturales reduce la necesidad de entrenamiento formal de generalización, porque la instrucción ya ocurre en el contexto objetivo.",
+    "options_es": {
+      "answer": "Uso del entorno natural para instrucción",
+      "purpose": "Para promover la generalización enseñando en los contextos donde la habilidad debe ocurrir."
+    }
+  },
+  "skill_net_capture_vs_contrive": {
+    "status": "reviewed",
+    "answer": "Capturar vs. crear oportunidades",
+    "definition": "capturar una oportunidad significa aprovechar un momento espontáneo de motivación del cliente, mientras que crear significa diseñar deliberadamente una situación para evocar la conducta objetivo.",
+    "scenario": "Capturar: el cliente camina hacia el área de snacks y el RBT aprovecha el momento para evocar una petición. Crear: el RBT pone el snack en un recipiente cerrado para que el cliente necesite pedir ayuda.",
+    "purpose": "Para reconocer cómo dos estrategias distintas de NET pueden usarse de forma flexible según lo que ocurra de manera natural.",
+    "explanation": "Ambas estrategias son válidas; capturar es menos intrusiva, mientras que crear genera oportunidades predecibles de práctica cuando los momentos naturales son poco frecuentes.",
+    "options_es": {
+      "answer": "Capturar vs. crear oportunidades",
+      "purpose": "Para reconocer cómo dos estrategias distintas de NET pueden usarse de forma flexible según lo que ocurra de manera natural."
+    }
+  },
+  "skill_net_embedded_instruction": {
+    "status": "reviewed",
+    "answer": "Instrucción incrustada en NET",
+    "definition": "las oportunidades de enseñanza se integran en rutinas y actividades en curso, de modo que el aprendizaje sucede a lo largo del día y no solo durante sesiones formales.",
+    "scenario": "Durante el juego libre, el RBT pausa la actividad y evoca que el cliente nombre lo que está haciendo, y luego permite que el juego continúe inmediatamente como reforzador.",
+    "purpose": "Para aumentar el número de oportunidades de aprendizaje sin interrumpir el flujo de las actividades naturales.",
+    "explanation": "Incrustar la instrucción en las rutinas aumenta la densidad de ensayos a lo largo del día y reduce la sensación de que la enseñanza es algo separado de la vida real.",
+    "options_es": {
+      "answer": "Instrucción incrustada en NET",
+      "purpose": "Para aumentar el número de oportunidades de aprendizaje sin interrumpir el flujo de las actividades naturales."
+    }
+  },
+  "skill_generalization_programming": {
+    "status": "reviewed",
+    "answer": "Programación para la generalización",
+    "definition": "la generalización se planifica desde el principio variando instructores, entornos, materiales y formas de respuesta durante la instrucción.",
+    "scenario": "Desde el inicio de la enseñanza, el RBT varía las imágenes usadas, los cuartos donde ocurre la instrucción y las personas que enseñan para que la habilidad no quede atada a un solo contexto.",
+    "purpose": "Para incorporar desde el principio las condiciones que apoyan la transferencia del aprendizaje a situaciones nuevas.",
+    "explanation": "Sin una programación deliberada, las habilidades aprendidas en un entorno pueden no transferirse; planificar la generalización durante la instrucción la hace mucho más probable.",
+    "options_es": {
+      "answer": "Programación para la generalización",
+      "purpose": "Para incorporar desde el principio las condiciones que apoyan la transferencia del aprendizaje a situaciones nuevas."
+    }
+  },
+  "skill_multiple_exemplar_training": {
+    "status": "reviewed",
+    "answer": "Entrenamiento con múltiples ejemplares",
+    "definition": "la habilidad objetivo se enseña con muchos ejemplos distintos del mismo concepto para que el cliente responda a la clase de estímulos y no a un caso específico.",
+    "scenario": "Para enseñar el concepto 'grande', el RBT usa muchas parejas distintas de objetos: bloques grandes y pequeños, tazas, animales, en lugar de una sola pareja.",
+    "purpose": "Para ampliar la clase de estímulos que controla la respuesta, de modo que la habilidad se generalice a ejemplos nuevos.",
+    "explanation": "El entrenamiento con múltiples ejemplares evita que el cliente responda solo a los ítems específicos usados durante la instrucción.",
+    "options_es": {
+      "answer": "Entrenamiento con múltiples ejemplares",
+      "purpose": "Para ampliar la clase de estímulos que controla la respuesta, de modo que la habilidad se generalice a ejemplos nuevos."
+    }
+  },
+  "skill_maintenance_probe": {
+    "status": "reviewed",
+    "answer": "Prueba de mantenimiento",
+    "definition": "las habilidades dominadas se evalúan periódicamente sin instrucción ni ayudas para comprobar si se han mantenido con el tiempo.",
+    "scenario": "Una habilidad que alcanzó dominio hace dos meses se incluye en una sesión de prueba en la que el RBT presenta los objetivos sin ayudas y registra las respuestas del cliente.",
+    "purpose": "Para comprobar si las habilidades adquiridas previamente se han mantenido sin instrucción continua.",
+    "explanation": "Las pruebas de mantenimiento identifican habilidades que han decaído y necesitan instrucción de refuerzo antes de que el cliente las pierda por completo.",
+    "options_es": {
+      "answer": "Prueba de mantenimiento",
+      "purpose": "Para comprobar si las habilidades adquiridas previamente se han mantenido sin instrucción continua."
+    }
+  },
+  "skill_natural_reinforcers": {
+    "status": "reviewed",
+    "answer": "Reforzadores naturales para la generalización",
+    "definition": "la enseñanza se organiza para que las consecuencias naturales de la conducta en el entorno, y no solo reforzadores programados, mantengan la habilidad con el tiempo.",
+    "scenario": "En lugar de ofrecer siempre un snack por pedirlo, el RBT deja que la petición del cliente produzca el artículo real solicitado, de modo que esa consecuencia natural mantenga la conducta.",
+    "purpose": "Para ayudar a que la conducta persista en entornos naturales donde el reforzamiento programado no siempre está disponible.",
+    "explanation": "Las habilidades mantenidas por reforzadores naturales tienen más probabilidad de persistir después de que termina la instrucción formal, porque producen sus propias consecuencias.",
+    "options_es": {
+      "answer": "Reforzadores naturales para la generalización",
+      "purpose": "Para ayudar a que la conducta persista en entornos naturales donde el reforzamiento programado no siempre está disponible."
+    }
+  },
+  "skill_generalization_probe": {
+    "status": "reviewed",
+    "answer": "Prueba de generalización",
+    "definition": "el RBT evalúa la habilidad objetivo en entornos nuevos, con personas nuevas o con materiales nuevos que no se usaron durante la instrucción para medir hasta dónde se ha extendido la generalización.",
+    "scenario": "Después de dominar el nombramiento de colores en la clínica, se evalúa el desempeño del cliente en casa usando objetos de colores distintos para ver si ocurrió generalización.",
+    "purpose": "Para medir si las habilidades aprendidas en un contexto se transfieren a otros contextos relevantes sin enseñanza adicional.",
+    "explanation": "Las pruebas de generalización muestran si la programación para la generalización fue exitosa o si se necesita más entrenamiento en distintos contextos.",
+    "options_es": {
+      "answer": "Prueba de generalización",
+      "purpose": "Para medir si las habilidades aprendidas en un contexto se transfieren a otros contextos relevantes sin enseñanza adicional."
+    }
+  },
+  "skill_token_delivery_procedure": {
+    "status": "reviewed",
+    "answer": "Entrega de fichas",
+    "definition": "el RBT entrega una ficha de manera inmediata y contingente después de que ocurre la conducta objetivo, de acuerdo con el plan de adquisición de habilidades.",
+    "scenario": "Después de que el cliente completa un problema de matemáticas de forma independiente, el RBT coloca de inmediato una estrella en el tablero de fichas y dice '¡Muy bien, ganaste una estrella!'.",
+    "purpose": "Para emparejar un reforzador condicionado con la conducta que lo produjo, de modo que la ficha adquiera valor.",
+    "explanation": "La entrega inmediata y consistente de fichas asegura que la ficha se asocie con la conducta correcta y mantenga sus propiedades reforzantes condicionadas.",
+    "options_es": {
+      "answer": "Entrega de fichas",
+      "purpose": "Para emparejar un reforzador condicionado con la conducta que lo produjo, de modo que la ficha adquiera valor."
+    }
+  },
+  "skill_backup_reinforcer": {
+    "status": "reviewed",
+    "answer": "Reforzadores de apoyo en una economía de fichas",
+    "definition": "los reforzadores de apoyo son los artículos o actividades preferidos por los que se pueden intercambiar las fichas al final de un periodo de trabajo.",
+    "scenario": "Un cliente gana fichas durante una sesión y al final las cambia por 5 minutos de tablet, que es el reforzador de apoyo que da valor a esas fichas.",
+    "purpose": "Para dar a las fichas su valor reforzante mediante una conexión confiable con artículos o actividades preferidas.",
+    "explanation": "Sin reforzadores de apoyo atractivos, las fichas pierden su función motivadora; estos reforzadores deben actualizarse según las preferencias actuales.",
+    "options_es": {
+      "answer": "Reforzadores de apoyo en una economía de fichas",
+      "purpose": "Para dar a las fichas su valor reforzante mediante una conexión confiable con artículos o actividades preferidas."
+    }
+  },
+  "skill_token_board_use": {
+    "status": "reviewed",
+    "answer": "Uso del tablero de fichas",
+    "definition": "el tablero de fichas es una representación visual que muestra cuántas fichas se han ganado y cuántas se necesitan antes de un intercambio.",
+    "scenario": "Un cliente usa una tarjeta con 5 círculos vacíos; cada respuesta correcta gana una calcomanía en un círculo y, cuando los 5 están llenos, el cliente realiza el intercambio por una actividad preferida.",
+    "purpose": "Para darle al cliente una representación visible de su progreso hacia el reforzador de apoyo.",
+    "explanation": "Un tablero de fichas visible ayuda al cliente a entender la contingencia y proporciona motivación al mostrar qué tan cerca está del intercambio.",
+    "options_es": {
+      "answer": "Uso del tablero de fichas",
+      "purpose": "Para darle al cliente una representación visible de su progreso hacia el reforzador de apoyo."
+    }
+  },
+  "skill_token_backup_exchange": {
+    "status": "reviewed",
+    "answer": "Procedimiento de intercambio de fichas",
+    "definition": "al final de un periodo de trabajo, el cliente entrega las fichas ganadas a cambio del reforzador de apoyo seleccionado.",
+    "scenario": "Cuando el tablero de fichas del cliente está lleno, el RBT lo guía para entregárselo a un miembro del personal y elegir un reforzador de apoyo entre las opciones disponibles.",
+    "purpose": "Para completar la contingencia convirtiendo las fichas ganadas en la consecuencia preferida.",
+    "explanation": "Un procedimiento de intercambio claro y consistente ayuda al cliente a entender el valor de las fichas y refuerza el completar el trabajo requerido.",
+    "options_es": {
+      "answer": "Procedimiento de intercambio de fichas",
+      "purpose": "Para completar la contingencia convirtiendo las fichas ganadas en la consecuencia preferida."
+    }
+  },
+  "skill_token_ratio": {
+    "status": "reviewed",
+    "answer": "Relación fichas-reforzador",
+    "definition": "la cantidad de fichas requeridas antes de un intercambio se establece para que el cliente trabaje lo suficiente como para desarrollar persistencia sin perder motivación.",
+    "scenario": "Al principio, un cliente intercambia después de ganar 3 fichas, y la relación aumenta gradualmente hasta 10 fichas a medida que sus respuestas se vuelven más fluidas y consistentes.",
+    "purpose": "Para establecer un requisito de trabajo apropiado que mantenga la motivación mientras construye persistencia conductual.",
+    "explanation": "Una relación demasiado alta produce frustración; una demasiado baja reduce la productividad de la sesión. La relación debe ajustarse según evolucione el desempeño del cliente.",
+    "options_es": {
+      "answer": "Relación fichas-reforzador",
+      "purpose": "Para establecer un requisito de trabajo apropiado que mantenga la motivación mientras construye persistencia conductual."
+    }
+  },
+  "skill_token_system_fading": {
+    "status": "reviewed",
+    "answer": "Desvanecimiento del sistema de fichas",
+    "definition": "el sistema de fichas se retira gradualmente a medida que la conducta del cliente pasa a estar controlada por reforzadores y consecuencias más naturales.",
+    "scenario": "A medida que el cliente gana mayor fluidez y el entorno natural proporciona reforzamiento, el RBT incrementa gradualmente la relación y finalmente cambia a elogios solamente, según lo indique el supervisor.",
+    "purpose": "Para hacer la transición desde un sistema artificial de reforzamiento hacia consecuencias que ocurren de manera natural.",
+    "explanation": "Desvanecer la economía de fichas asegura que la conducta se mantenga por reforzadores naturales y no dependa permanentemente de un sistema artificial.",
+    "options_es": {
+      "answer": "Desvanecimiento del sistema de fichas",
+      "purpose": "Para hacer la transición desde un sistema artificial de reforzamiento hacia consecuencias que ocurren de manera natural."
+    }
+  },
+  "skill_maintenance_phase_definition": {
+    "status": "reviewed",
+    "answer": "Fase de mantenimiento",
+    "definition": "la fase de mantenimiento es la etapa en la que el cliente ya dominó una habilidad y la práctica continúa para asegurar que se conserve con el tiempo sin enseñanza intensiva.",
+    "scenario": "Un cliente dominó hace meses el nombramiento de 20 objetos del hogar. El RBT incluye algunos de esos ítems en cada sesión para comprobar que sigue respondiendo correctamente, aunque la instrucción activa ya terminó.",
+    "purpose": "Para conservar habilidades previamente dominadas a lo largo del tiempo y prevenir regresión una vez que la instrucción se ha desvanecido.",
+    "explanation": "Las habilidades pueden perderse si no se practican periódicamente. Las pruebas de mantenimiento y la práctica distribuida ayudan al cliente a conservarlas mucho después de la fase de adquisición.",
+    "options_es": {
+      "answer": "Fase de mantenimiento",
+      "purpose": "Para conservar habilidades previamente dominadas a lo largo del tiempo y prevenir regresión una vez que la instrucción se ha desvanecido."
+    }
   }
 }
