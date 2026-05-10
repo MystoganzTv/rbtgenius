@@ -1,4 +1,4 @@
-import { PLAN_IDS, isPremiumPlan, normalizePlan } from "../../src/lib/plan-access.js";
+import { PLAN_IDS, isPremiumPlan, normalizePlan } from "../../shared/plan-access.js";
 import { resolvePlanFromPriceId } from "./billing.js";
 
 function normalizeEmail(value) {

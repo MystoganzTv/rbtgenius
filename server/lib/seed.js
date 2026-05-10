@@ -1,4 +1,4 @@
-import { defaultUser, DEMO_USER_ID } from "../../src/lib/backend-core.js";
+import { defaultUser, DEMO_USER_ID } from "../../shared/backend-core.js";
 
 const LEGACY_DEMO_EMAIL = "alex.carter@example.com";
 const LEGACY_DEMO_EMAILS = [LEGACY_DEMO_EMAIL, "demo@rbtgenius.app"];

@@ -1,9 +1,9 @@
-import { computeProgress } from '../src/lib/backend-core.js';
+import { computeProgress } from '../shared/backend-core.js';
 import {
   baseQuestions, buildFlashcardBank, buildMockExamQuestionSet,
   buildPracticeQuestionBank, evaluateQuestionAnswer, sanitizeQuestions,
   TOTAL_PRACTICE_QUESTIONS, topicLabels,
-} from '../src/lib/questions/question-bank.js';
+} from '../shared/questions/question-bank.js';
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
@@ -11,7 +11,7 @@ import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripe
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
 import crypto from 'node:crypto';
-import { getEntitlements, isPremiumPlan } from '../src/lib/plan-access.js';
+import { getEntitlements, isPremiumPlan } from '../shared/plan-access.js';
 import { createTutorReply, isOpenAIConfigured, streamTutorReplyOpenAI } from '../server/lib/tutor.js';
 import * as db from './lib/db.js';
 
