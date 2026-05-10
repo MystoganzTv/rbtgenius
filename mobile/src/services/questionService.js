@@ -34,11 +34,11 @@ export function localizeQuestionSafe(rawQuestion, language) {
 
 export const TOPIC_KEYS = Object.keys(topicLabels);
 export const TOPICS = TOPIC_KEYS.map(key => ({ key, label: topicLabels[key] }));
+const diffMap = { beginner: 'Easy', intermediate: 'Medium', advanced: 'Hard' };
 
 export function adaptQuestion(q) {
   const optionTexts = q.options.map(o => o.text);
   const correctIndex = q.options.findIndex(o => o.label === q.correct_answer);
-  const diffMap = { beginner: 'Easy', intermediate: 'Medium', advanced: 'Hard' };
   return {
     id: q.id, concept_id: q.concept_id,
     prompt: q.text, options: optionTexts,
@@ -76,6 +76,8 @@ export function getFlashcards(limit = 120) {
       question: q.text,
       answer: q.options.find(o => o.label === q.correct_answer)?.text ?? '',
       explanation: q.explanation ?? '',
+      difficulty: diffMap[q.difficulty] ?? 'Medium',
+      _raw: q,
     }));
   }
   return _flashcardCache;

@@ -5,7 +5,9 @@ import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { Badge } from '../../components/ui';
-import { getPracticeByTopic, TOPICS, localizeQuestionSafe } from '../../services/questionService.js';
+import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
+import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
+import { buildQuestionTranslationContent } from '../../lib/reviewed-question-translations.js';
 import { useAuth } from '../../context/AuthContext';
 
 const API_BASE = 'https://rbtgenius.com';
@@ -21,6 +23,7 @@ export default function PracticeScreen({ navigation }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [answeredToday, setAnsweredToday] = useState(user?.questionsToday ?? 0);
+  const [translationPanel, setTranslationPanel] = useState(null);
   const submitting = useRef(false);
 
   const isPro = user?.isPremium ?? false;
@@ -31,20 +34,23 @@ export default function PracticeScreen({ navigation }) {
   const question = questions[questionIndex] ?? questions[0];
   const answered = selectedOption !== null;
 
-  const localized = useMemo(
-    () => question?._raw ? localizeQuestionSafe(question._raw, i18n.language) : null,
-    [question?.id, i18n.language],
+  const translationContent = useMemo(
+    () => question?._raw ? buildQuestionTranslationContent(question._raw) : null,
+    [question?.id],
   );
-  const questionText = localized?.localizedText?.primary || question?.prompt || '';
-  const questionOptions = localized
-    ? localized.options.map(o => o.localizedText?.primary || o.text)
-    : (question?.options ?? []);
-  const questionExplanation = localized?.localizedExplanation?.primary || question?.explanation || '';
+  const questionText = question?.prompt || '';
+  const questionOptions = question?.options ?? [];
+  const questionExplanation = question?.explanation || '';
 
   const handleTopicChange = (key) => {
     setSelectedTopic(key);
     setQuestionIndex(0);
     setSelectedOption(null);
+    setTranslationPanel(null);
+  };
+
+  const openTranslation = (payload) => {
+    setTranslationPanel(payload);
   };
 
   const submitAttempt = useCallback(async (q, chosenIndex) => {
@@ -82,6 +88,7 @@ export default function PracticeScreen({ navigation }) {
   const handleNext = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setSelectedOption(null);
+    setTranslationPanel(null);
     setQuestionIndex(idx => (idx + 1) % questions.length);
   };
 
@@ -144,7 +151,17 @@ export default function PracticeScreen({ navigation }) {
               <Badge label={t(`difficulties.${question.difficulty.toLowerCase()}`)} theme={theme} />
               <Badge label={`${question.timeEstimate} min`} tone="gold" theme={theme} />
             </View>
-            <Text style={s.questionText}>{questionText}</Text>
+            <View style={s.translateRow}>
+              <Text style={s.questionText}>{questionText}</Text>
+              <TranslationTrigger
+                theme={theme}
+                onPress={() => openTranslation({
+                  title: i18n.language === 'es' ? 'Traducción de la pregunta' : 'Question Translation',
+                  englishText: question?.prompt || '',
+                  spanishText: translationContent?.spanishText || '',
+                })}
+              />
+            </View>
             <View style={s.options}>
               {questionOptions.map((opt, i) => {
                 const isSelected = selectedOption === i;
@@ -162,6 +179,14 @@ export default function PracticeScreen({ navigation }) {
                     style={[s.option, { borderColor, backgroundColor: bgColor }]}>
                     <Text style={[s.optionLetter, { color: letterColor }]}>{String.fromCharCode(65 + i)}</Text>
                     <Text style={s.optionText}>{opt}</Text>
+                    <TranslationTrigger
+                      theme={theme}
+                      onPress={() => openTranslation({
+                        title: i18n.language === 'es' ? `Traducción de la opción ${String.fromCharCode(65 + i)}` : `Option ${String.fromCharCode(65 + i)} Translation`,
+                        englishText: question?.options?.[i] || '',
+                        spanishText: translationContent?.options?.[i]?.spanish || '',
+                      })}
+                    />
                   </Pressable>
                 );
               })}
@@ -169,11 +194,21 @@ export default function PracticeScreen({ navigation }) {
 
             {answered && (
               <View style={s.explanation}>
-                <Text style={s.explanationTitle}>
-                  {selectedOption === question.correctIndex
-                    ? t('practice.correct_label')
-                    : t('practice.incorrect_label')}
-                </Text>
+                <View style={s.explanationHeader}>
+                  <Text style={s.explanationTitle}>
+                    {selectedOption === question.correctIndex
+                      ? t('practice.correct_label')
+                      : t('practice.incorrect_label')}
+                  </Text>
+                  <TranslationTrigger
+                    theme={theme}
+                    onPress={() => openTranslation({
+                      title: i18n.language === 'es' ? 'Traducción de la explicación' : 'Explanation Translation',
+                      englishText: question?.explanation || '',
+                      spanishText: translationContent?.explanationSpanish || '',
+                    })}
+                  />
+                </View>
                 <Text style={s.explanationText}>{questionExplanation}</Text>
               </View>
             )}
@@ -186,6 +221,16 @@ export default function PracticeScreen({ navigation }) {
           </Pressable>
         )}
       </ScrollView>
+
+      <TranslationSheet
+        visible={Boolean(translationPanel)}
+        onClose={() => setTranslationPanel(null)}
+        theme={theme}
+        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        englishText={translationPanel?.englishText || ''}
+        spanishText={translationPanel?.spanishText || ''}
+        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+      />
     </SafeAreaView>
   );
 }
@@ -203,11 +248,13 @@ const styles = (theme) => StyleSheet.create({
   pillText: { color: theme.muted, fontSize: 13, fontWeight: '700' },
   card: { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1, borderRadius: 24, padding: 20, gap: 16, shadowColor: theme.shadow, shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.07, shadowRadius: 20 },
   cardHeader: { flexDirection: 'row', gap: 10 },
-  questionText: { color: theme.text, fontSize: 19, fontWeight: '800', lineHeight: 28 },
+  translateRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+  questionText: { color: theme.text, fontSize: 19, fontWeight: '800', lineHeight: 28, flex: 1 },
   options: { gap: 10 },
   option: { flexDirection: 'row', gap: 14, padding: 16, borderRadius: 20, borderWidth: 1.5, alignItems: 'flex-start' },
   optionLetter: { fontSize: 15, fontWeight: '800', width: 18 },
   optionText: { color: theme.text, flex: 1, fontSize: 15, fontWeight: '500', lineHeight: 22 },
+  explanationHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   explanation: { backgroundColor: alpha(theme.primary, 0.06), borderRadius: 16, padding: 16, gap: 8 },
   explanationTitle: { color: theme.text, fontSize: 15, fontWeight: '800' },
   explanationText: { color: theme.muted, fontSize: 14, lineHeight: 22 },

@@ -5,7 +5,8 @@ import * as Haptics from 'expo-haptics';
 import { isAvailableAsync, requestReview } from 'expo-store-review';
 
 import { useTranslation } from 'react-i18next';
-import { localizeQuestionSafe } from '../../services/questionService.js';
+import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
+import { buildQuestionTranslationContent } from '../../lib/reviewed-question-translations.js';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';
@@ -44,6 +45,7 @@ export default function MockExamScreen({ navigation }) {
   const [timeLeft,  setTimeLeft]  = useState(TIME_LIMIT);
   const [examResult, setExamResult] = useState(null); // server response
   const [saveError,  setSaveError]  = useState(false);
+  const [translationPanel, setTranslationPanel] = useState(null);
   const timerRef   = useRef(null);
   const startTime  = useRef(null);
 
@@ -57,6 +59,7 @@ export default function MockExamScreen({ navigation }) {
     setTimeLeft(TIME_LIMIT);
     setExamResult(null);
     setSaveError(false);
+    setTranslationPanel(null);
     startTime.current = Date.now();
     setPhase('running');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -91,6 +94,7 @@ export default function MockExamScreen({ navigation }) {
   const goTo = (i) => {
     setIndex(i);
     setSelected(answers[questions[i]?.id] ?? null);
+    setTranslationPanel(null);
   };
 
   const next = () => {
@@ -324,12 +328,12 @@ export default function MockExamScreen({ navigation }) {
   const answeredCnt = Object.keys(answers).length;
   const timerWarn   = timeLeft <= 600;
 
-  const localizedQ = useMemo(
-    () => q?._raw ? localizeQuestionSafe(q._raw, i18n.language) : null,
-    [q?.id, i18n.language],
+  const translationContent = useMemo(
+    () => q?._raw ? buildQuestionTranslationContent(q._raw) : null,
+    [q?.id],
   );
-  const qText    = localizedQ?.localizedText?.primary || q?.prompt || '';
-  const qOptions = localizedQ ? localizedQ.options.map(o => o.localizedText?.primary || o.text) : (q?.options ?? []);
+  const qText    = q?.prompt || '';
+  const qOptions = q?.options ?? [];
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
@@ -343,7 +347,17 @@ export default function MockExamScreen({ navigation }) {
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.qCard}>
-          <Text style={s.qDomain}>{q ? t(`domains.${q.topic}`) : ''}</Text>
+          <View style={s.translateRow}>
+            <Text style={s.qDomain}>{q ? t(`domains.${q.topic}`) : ''}</Text>
+            <TranslationTrigger
+              theme={theme}
+              onPress={() => setTranslationPanel({
+                title: i18n.language === 'es' ? 'Traducción de la pregunta' : 'Question Translation',
+                englishText: q?.prompt || '',
+                spanishText: translationContent?.spanishText || '',
+              })}
+            />
+          </View>
           <Text style={s.qText}>{qText}</Text>
         </View>
 
@@ -358,6 +372,14 @@ export default function MockExamScreen({ navigation }) {
                   <Text style={[s.optionLetter, isSelected && { color: '#fff' }]}>{letter}</Text>
                 </View>
                 <Text style={[s.optionText, isSelected && { color: theme.primary }]}>{opt}</Text>
+                <TranslationTrigger
+                  theme={theme}
+                  onPress={() => setTranslationPanel({
+                    title: i18n.language === 'es' ? `Traducción de la opción ${letter}` : `Option ${letter} Translation`,
+                    englishText: q?.options?.[i] || '',
+                    spanishText: translationContent?.options?.[i]?.spanish || '',
+                  })}
+                />
               </Pressable>
             );
           })}
@@ -378,6 +400,16 @@ export default function MockExamScreen({ navigation }) {
           <Text style={s.submitEarlyText}>Enviar examen</Text>
         </Pressable>
       </ScrollView>
+
+      <TranslationSheet
+        visible={Boolean(translationPanel)}
+        onClose={() => setTranslationPanel(null)}
+        theme={theme}
+        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        englishText={translationPanel?.englishText || ''}
+        spanishText={translationPanel?.spanishText || ''}
+        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+      />
     </SafeAreaView>
   );
 }
@@ -409,7 +441,8 @@ const styles = (theme) => StyleSheet.create({
   upgradeBtnText:  { color: '#fff', fontSize: 15, fontWeight: '800' },
   // Running
   qCard:           { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1, borderRadius: 24, padding: 22, gap: 10, shadowColor: theme.shadow, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.07, shadowRadius: 18 },
-  qDomain:         { color: theme.primary, fontSize: 11, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase' },
+  translateRow:    { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  qDomain:         { color: theme.primary, fontSize: 11, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase', flex: 1 },
   qText:           { color: theme.text, fontSize: 17, fontWeight: '700', lineHeight: 26 },
   optionsWrap:     { gap: 10 },
   optionBtn:       { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1.5, borderRadius: 18, padding: 16 },

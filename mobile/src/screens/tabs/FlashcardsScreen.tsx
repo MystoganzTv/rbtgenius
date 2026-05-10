@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 import {
   Pressable, ScrollView, StyleSheet, Text, View, useColorScheme,
 } from 'react-native';
@@ -7,6 +7,8 @@ import * as Haptics from 'expo-haptics';
 
 import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
+import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
+import { buildQuestionTranslationContent, getSpanishForOptionText } from '../../lib/reviewed-question-translations.js';
 import { ProgressBar } from '../../components/ui';
 import { getFlashcards, TOPICS } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
@@ -21,7 +23,7 @@ export default function FlashcardsScreen({ navigation }) {
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s      = styles(theme);
   const { user, token } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isPro        = user?.isPremium ?? false;
   const sessionLimit = isPro ? Infinity : (user?.flashcardLimit ?? 15);
@@ -33,6 +35,7 @@ export default function FlashcardsScreen({ navigation }) {
   const [mastered,    setMastered]    = useState(new Set());
   const [reviewing,   setReviewing]   = useState(new Set());
   const [sessionAnswered, setSessionAnswered] = useState(0);
+  const [translationPanel, setTranslationPanel] = useState(null);
   const submitting = useRef(false);
 
   const filtered = ALL_CARDS.filter(c => {
@@ -76,6 +79,7 @@ export default function FlashcardsScreen({ navigation }) {
 
   const advance = () => {
     setFlipped(false);
+    setTranslationPanel(null);
     setIndex(i => i % Math.max(filtered.length - 1, 1));
   };
 
@@ -101,8 +105,8 @@ export default function FlashcardsScreen({ navigation }) {
     advance();
   };
 
-  const next = () => { setFlipped(false); setIndex(i => (i + 1) % safeLen); };
-  const prev = () => { setFlipped(false); setIndex(i => (i - 1 + safeLen) % safeLen); };
+  const next = () => { setFlipped(false); setTranslationPanel(null); setIndex(i => (i + 1) % safeLen); };
+  const prev = () => { setFlipped(false); setTranslationPanel(null); setIndex(i => (i - 1 + safeLen) % safeLen); };
 
   const resetSession = () => {
     setMastered(new Set());
@@ -110,6 +114,7 @@ export default function FlashcardsScreen({ navigation }) {
     setSessionAnswered(0);
     setIndex(0);
     setFlipped(false);
+    setTranslationPanel(null);
   };
 
   const changeFilter = (type, val) => {
@@ -117,6 +122,7 @@ export default function FlashcardsScreen({ navigation }) {
     else setFilterDiff(val);
     setIndex(0);
     setFlipped(false);
+    setTranslationPanel(null);
   };
 
   // ── Limit reached ─────────────────────────────────────────────────────────
@@ -173,6 +179,10 @@ export default function FlashcardsScreen({ navigation }) {
   // ── Main ──────────────────────────────────────────────────────────────────
   const isCardMastered  = card ? mastered.has(card.id)  : false;
   const isCardReviewing = card ? reviewing.has(card.id) : false;
+  const translationContent = useMemo(
+    () => card?._raw ? buildQuestionTranslationContent(card._raw) : null,
+    [card?.id],
+  );
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
@@ -238,12 +248,34 @@ export default function FlashcardsScreen({ navigation }) {
                 </Text>
               </View>
             )}
-            <Text style={s.cardDomain}>{card.domain}</Text>
+            <View style={s.translateRow}>
+              <Text style={s.cardDomain}>{card.domain}</Text>
+              <TranslationTrigger
+                theme={theme}
+                onPress={() => setTranslationPanel({
+                  title: i18n.language === 'es' ? (flipped ? 'Traducción de la respuesta' : 'Traducción de la tarjeta') : (flipped ? 'Answer Translation' : 'Flashcard Translation'),
+                  englishText: flipped ? (card.answer || '') : (card.question || ''),
+                  spanishText: flipped
+                    ? (translationContent?.options?.find((option) => option.english === card.answer)?.spanish || getSpanishForOptionText(card.answer) || '')
+                    : (translationContent?.spanishText || ''),
+                })}
+              />
+            </View>
             <View style={s.cardBody}>
               <Text style={s.cardSide}>{flipped ? t('flashcard_ui.answer') : t('flashcard_ui.concept')}</Text>
               <Text style={s.cardText}>{flipped ? card.answer : card.question}</Text>
               {flipped && card.explanation ? (
-                <Text style={s.cardExplanation}>{card.explanation}</Text>
+                <View style={s.explanationWrap}>
+                  <Text style={s.cardExplanation}>{card.explanation}</Text>
+                  <TranslationTrigger
+                    theme={theme}
+                    onPress={() => setTranslationPanel({
+                      title: i18n.language === 'es' ? 'Traducción de la explicación' : 'Explanation Translation',
+                      englishText: card.explanation || '',
+                      spanishText: translationContent?.explanationSpanish || '',
+                    })}
+                  />
+                </View>
               ) : null}
             </View>
             <Text style={s.cardHint}>{flipped ? t('flashcard_ui.tap_for_concept') : t('flashcard_ui.tap_for_answer')}</Text>
@@ -275,6 +307,16 @@ export default function FlashcardsScreen({ navigation }) {
           <Text style={s.textBtnText}>{t('flashcards.restart_btn')}</Text>
         </Pressable>
       </ScrollView>
+
+      <TranslationSheet
+        visible={Boolean(translationPanel)}
+        onClose={() => setTranslationPanel(null)}
+        theme={theme}
+        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        englishText={translationPanel?.englishText || ''}
+        spanishText={translationPanel?.spanishText || ''}
+        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+      />
     </SafeAreaView>
   );
 }
@@ -298,11 +340,13 @@ const styles = (theme) => StyleSheet.create({
   card:             { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1.5, borderRadius: 28, padding: 26, minHeight: 260, gap: 14, shadowColor: theme.shadow, shadowOffset: { width: 0, height: 14 }, shadowOpacity: 0.1, shadowRadius: 24 },
   cardBadge:        { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 99 },
   cardBadgeText:    { fontSize: 11, fontWeight: '800' },
-  cardDomain:       { color: theme.primary, fontSize: 10, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase' },
+  translateRow:     { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  cardDomain:       { color: theme.primary, fontSize: 10, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase', flex: 1 },
   cardBody:         { flex: 1, gap: 8 },
   cardSide:         { color: theme.muted, fontSize: 12, fontWeight: '700' },
   cardText:         { color: theme.text, fontSize: 22, fontWeight: '900', lineHeight: 30 },
-  cardExplanation:  { color: theme.muted, fontSize: 13, lineHeight: 20, marginTop: 8 },
+  explanationWrap:  { flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginTop: 8 },
+  cardExplanation:  { color: theme.muted, fontSize: 13, lineHeight: 20, flex: 1 },
   cardHint:         { color: theme.muted, fontSize: 12, textAlign: 'center' },
   actionRow:        { flexDirection: 'row', gap: 12 },
   actionBtn:        { flex: 1, borderRadius: 18, paddingVertical: 18, alignItems: 'center', borderWidth: 1.5 },
