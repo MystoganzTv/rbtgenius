@@ -1,5 +1,4 @@
 import { AlertTriangle } from "lucide-react";
-import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/question-bank";
 import { useLanguage } from "@/hooks/use-language";
 import { translateUi } from "@/lib/i18n";
 

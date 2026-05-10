@@ -1,4 +1,4 @@
-import { questionConceptLookup } from "./question-bank.js";
+import { questionConceptLookup } from "./questions/question-bank.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {

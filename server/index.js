@@ -50,7 +50,7 @@ import {
   getEntitlements,
   isPremiumPlan,
 } from '../src/lib/plan-access.js';
-import { topicLabels } from '../src/lib/question-bank.js';
+import { topicLabels } from '../src/lib/questions/question-bank.js';
 import {
   createTutorReply,
   isOpenAIConfigured,

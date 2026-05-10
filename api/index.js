@@ -3,7 +3,7 @@ import {
   baseQuestions, buildFlashcardBank, buildMockExamQuestionSet,
   buildPracticeQuestionBank, evaluateQuestionAnswer, sanitizeQuestions,
   TOTAL_PRACTICE_QUESTIONS, topicLabels,
-} from '../src/lib/question-bank.js';
+} from '../src/lib/questions/question-bank.js';
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';

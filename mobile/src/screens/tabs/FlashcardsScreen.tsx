@@ -8,7 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
-import { buildQuestionTranslationContent, getSpanishForOptionText } from '../../lib/reviewed-question-translations.js';
+import { buildQuestionTranslationContent, getSpanishForOptionText } from '../../lib/questions/reviewed-question-translations.js';
 import { ProgressBar } from '../../components/ui';
 import { getFlashcards, TOPICS } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';

@@ -1,4 +1,4 @@
-import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "./question-bank.js";
+import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "./questions";
 
 export const PLAN_IDS = {
   GUEST: "guest",

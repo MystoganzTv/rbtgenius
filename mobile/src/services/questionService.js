@@ -2,7 +2,7 @@ import {
   buildFlashcardBank, buildMockExamQuestionSet, buildPracticeQuestionBank,
   evaluateQuestionAnswer, OFFICIAL_CONCEPT_COUNT, PRACTICE_BATCH_SIZE,
   topicLabels, TOTAL_PRACTICE_QUESTIONS,
-} from '../lib/question-bank.js';
+} from '../lib/questions/question-bank.js';
 import { localizeQuestion } from '../lib/i18n.js';
 
 export { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS, topicLabels };

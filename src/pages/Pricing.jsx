@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Check, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { api } from "@/lib/api";
 import { PLAN_IDS, isPremiumPlan } from "@/lib/plan-access";
-import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/question-bank";
+import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions";
 import { toast } from "@/components/ui/use-toast";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";

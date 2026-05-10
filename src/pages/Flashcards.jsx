@@ -34,7 +34,7 @@ import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { useLanguage } from "@/hooks/use-language";
 import { localizeQuestion, translateDifficulty, translateTopic, translateUi } from "@/lib/i18n";
 import { FREE_FLASHCARD_LIMIT, isPremiumPlan } from "@/lib/plan-access";
-import { OFFICIAL_CONCEPT_COUNT } from "@/lib/question-bank";
+import { OFFICIAL_CONCEPT_COUNT } from "@/lib/questions";
 import { createPageUrl } from "@/utils";
 
 async function loadQuestions() {

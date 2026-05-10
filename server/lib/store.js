@@ -11,7 +11,7 @@ import {
   PRACTICE_BATCH_SIZE,
   sanitizeQuestions,
   TOTAL_PRACTICE_QUESTIONS,
-} from "../../src/lib/question-bank.js";
+} from "../../src/lib/questions/question-bank.js";
 import {
   computeProgress,
 } from "../../src/lib/backend-core.js";

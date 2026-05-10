@@ -1,7 +1,7 @@
 import { MIN_DOMAIN_ATTEMPTS } from "@/lib/backend-core";
 import { useLanguage } from "@/hooks/use-language";
 import { translateTopic, translateUi } from "@/lib/i18n";
-import { PRACTICE_TOPIC_TOTALS } from "@/lib/question-bank";
+import { PRACTICE_TOPIC_TOTALS } from "@/lib/questions";
 
 const domains = [
   { key: "measurement", label: "Measurement", color: "#5E7CF7" },

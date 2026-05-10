@@ -18,7 +18,7 @@ import { useLanguage } from "@/hooks/use-language";
 import { api } from "@/lib/api";
 import { localizeQuestion, translateTopic, translateUi } from "@/lib/i18n";
 import { isPremiumPlan } from "@/lib/plan-access";
-import { topicLabels } from "@/lib/question-bank";
+import { topicLabels } from "@/lib/questions";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 

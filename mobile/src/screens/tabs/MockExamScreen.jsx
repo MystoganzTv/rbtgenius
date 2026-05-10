@@ -6,7 +6,7 @@ import { isAvailableAsync, requestReview } from 'expo-store-review';
 
 import { useTranslation } from 'react-i18next';
 import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
-import { buildQuestionTranslationContent } from '../../lib/reviewed-question-translations.js';
+import { buildQuestionTranslationContent } from '../../lib/questions/reviewed-question-translations.js';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';

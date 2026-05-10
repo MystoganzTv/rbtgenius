@@ -1,4 +1,4 @@
-import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./question-bank.js";
+import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./questions";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {

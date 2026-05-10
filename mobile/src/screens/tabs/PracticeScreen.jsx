@@ -7,7 +7,7 @@ import { alpha, getTheme } from '../../theme';
 import { Badge } from '../../components/ui';
 import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
 import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
-import { buildQuestionTranslationContent } from '../../lib/reviewed-question-translations.js';
+import { buildQuestionTranslationContent } from '../../lib/questions/reviewed-question-translations.js';
 import { useAuth } from '../../context/AuthContext';
 
 const API_BASE = 'https://rbtgenius.com';

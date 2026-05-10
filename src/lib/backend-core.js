@@ -1,5 +1,4 @@
-import { TOTAL_PRACTICE_QUESTIONS, topicLabels } from "./question-bank.js";
-import { TASK_LIST_SECTIONS } from "./task-list.js";
+import { TOTAL_PRACTICE_QUESTIONS, topicLabels, TASK_LIST_SECTIONS } from "./questions";
 
 // Topic buckets in question-bank.js map 1:1 to the current RBT exam domains.
 // Keep this in sync with question-bank.js -> topicLabels.
