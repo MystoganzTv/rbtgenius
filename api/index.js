@@ -1003,6 +1003,16 @@ async function webApiHandler(req) {
 // ── Node.js adapter for Vercel runtime ───────────────────────────────────────
 
 export default async function handler(nodeReq, nodeRes) {
+  // Support both Node-style req/res and Web Request runtimes.
+  if (nodeReq instanceof Request || !nodeRes) {
+    try {
+      return await webApiHandler(nodeReq);
+    } catch (err) {
+      console.error('[handler:web]', err);
+      return json({ message: err.message || 'Internal server error' }, { status: 500 });
+    }
+  }
+
   const proto = nodeReq.headers['x-forwarded-proto'] || 'https';
   const host  = nodeReq.headers.host || 'localhost';
   const url   = `${proto}://${host}${nodeReq.url}`;
@@ -1019,7 +1029,7 @@ export default async function handler(nodeReq, nodeRes) {
   try {
     webRes = await webApiHandler(webReq);
   } catch (err) {
-    console.error('[handler]', err);
+    console.error('[handler:node]', err);
     nodeRes.statusCode = 500;
     nodeRes.setHeader('Content-Type', 'application/json');
     nodeRes.setHeader('Access-Control-Allow-Origin', '*');
