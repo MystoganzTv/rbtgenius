@@ -1002,28 +1002,60 @@ async function webApiHandler(req) {
 
 // ── Node.js adapter for Vercel runtime ───────────────────────────────────────
 
+function getHeaderValue(headers, name) {
+  if (!headers) return undefined;
+  if (typeof headers.get === 'function') {
+    return headers.get(name) ?? undefined;
+  }
+  const direct = headers[name] ?? headers[name.toLowerCase()];
+  return Array.isArray(direct) ? direct[0] : direct;
+}
+
+async function toWebRequest(nodeReq) {
+  if (nodeReq instanceof Request) {
+    return nodeReq;
+  }
+
+  const method = nodeReq?.method || 'GET';
+  const proto = getHeaderValue(nodeReq?.headers, 'x-forwarded-proto') || 'https';
+  const host = getHeaderValue(nodeReq?.headers, 'host') || 'localhost';
+  const rawUrl = typeof nodeReq?.url === 'string' ? nodeReq.url : '/';
+  const url = rawUrl.startsWith('http://') || rawUrl.startsWith('https://')
+    ? rawUrl
+    : `${proto}://${host}${rawUrl}`;
+
+  let body;
+  if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+    if (typeof nodeReq?.arrayBuffer === 'function') {
+      body = Buffer.from(await nodeReq.arrayBuffer());
+    } else if (typeof nodeReq?.on === 'function') {
+      body = await readBody(nodeReq);
+    } else if (typeof nodeReq?.body === 'string' || nodeReq?.body instanceof Uint8Array || Buffer.isBuffer(nodeReq?.body)) {
+      body = nodeReq.body;
+    } else if (nodeReq?.body != null) {
+      body = JSON.stringify(nodeReq.body);
+    }
+  }
+
+  return new Request(url, {
+    method,
+    headers: new Headers(nodeReq?.headers || {}),
+    body,
+  });
+}
+
 export default async function handler(nodeReq, nodeRes) {
-  // Support both Node-style req/res and Web Request runtimes.
-  if (nodeReq instanceof Request || !nodeRes) {
+  if (!nodeRes) {
     try {
-      return await webApiHandler(nodeReq);
+      const webReq = await toWebRequest(nodeReq);
+      return await webApiHandler(webReq);
     } catch (err) {
       console.error('[handler:web]', err);
       return json({ message: err.message || 'Internal server error' }, { status: 500 });
     }
   }
 
-  const proto = nodeReq.headers['x-forwarded-proto'] || 'https';
-  const host  = nodeReq.headers.host || 'localhost';
-  const url   = `${proto}://${host}${nodeReq.url}`;
-
-  const body = await readBody(nodeReq);
-
-  const webReq = new Request(url, {
-    method: nodeReq.method,
-    headers: new Headers(nodeReq.headers),
-    body: ['GET', 'HEAD', 'OPTIONS'].includes(nodeReq.method) ? undefined : body,
-  });
+  const webReq = await toWebRequest(nodeReq);
 
   let webRes;
   try {
