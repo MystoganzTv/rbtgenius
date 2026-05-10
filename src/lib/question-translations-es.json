@@ -1174,5 +1174,185 @@
       "answer": "Ayuda verbal",
       "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal."
     }
+  },
+  "documentation_severity_rating": {
+    "status": "reviewed",
+    "answer": "Calificación de severidad",
+    "definition": "la intensidad o gravedad de una conducta o incidente se registra usando una escala definida por el equipo.",
+    "scenario": "Después de un episodio de agresión, el RBT registra si fue leve, moderado o grave según los criterios del programa.",
+    "purpose": "Para documentar con consistencia qué tan grave fue una conducta o incidente.",
+    "explanation": "La calificación de severidad ayuda al equipo a seguir cambios en la intensidad, no solo la frecuencia, de la conducta objetivo.",
+    "options_es": {
+      "answer": "Calificación de severidad",
+      "purpose": "Para documentar con consistencia qué tan grave fue una conducta o incidente."
+    }
+  },
+  "documentation_setting_event_note": {
+    "status": "reviewed",
+    "answer": "Nota de evento contextual",
+    "definition": "se documenta una condición del contexto que pudo influir en la conducta o en el desempeño de la sesión.",
+    "scenario": "El aprendiz durmió mal y llegó irritable, así que el RBT deja constancia de ese antecedente contextual en la nota.",
+    "purpose": "Para registrar eventos o condiciones del contexto que puedan afectar la interpretación de la sesión.",
+    "explanation": "Las notas de eventos contextuales ayudan al equipo a entender variables que podrían influir temporalmente en la conducta o el rendimiento.",
+    "options_es": {
+      "answer": "Nota de evento contextual",
+      "purpose": "Para registrar eventos o condiciones del contexto que puedan afectar la interpretación de la sesión."
+    }
+  },
+  "documentation_revision_note": {
+    "status": "reviewed",
+    "answer": "Nota de corrección del registro",
+    "definition": "si un registro necesita corrección, se añade una nota clara que explique la modificación sin ocultar la información original.",
+    "scenario": "El RBT detecta un error en una nota anterior y agrega una corrección con la fecha y la aclaración necesaria en lugar de borrar el registro.",
+    "purpose": "Para corregir documentación de manera transparente y profesional.",
+    "explanation": "Las notas de corrección preservan la integridad del registro y muestran con claridad qué se cambió y por qué.",
+    "options_es": {
+      "answer": "Nota de corrección del registro",
+      "purpose": "Para corregir documentación de manera transparente y profesional."
+    }
+  },
+  "documentation_program_change_alert": {
+    "status": "reviewed",
+    "answer": "Alerta de cambio de programa",
+    "definition": "el RBT comunica de inmediato cuando nota una necesidad clínica que podría requerir ajustar un programa o procedimiento.",
+    "scenario": "El desempeño cae de forma repentina durante varios días y el RBT avisa al supervisor para que revise si el programa necesita ajustes.",
+    "purpose": "Para alertar al supervisor cuando un programa puede requerir revisión o modificación.",
+    "explanation": "Una alerta de cambio de programa ayuda a que el equipo responda pronto cuando los datos sugieren que el plan actual ya no está funcionando como se esperaba.",
+    "options_es": {
+      "answer": "Alerta de cambio de programa",
+      "purpose": "Para alertar al supervisor cuando un programa puede requerir revisión o modificación."
+    }
+  },
+  "documentation_environmental_context": {
+    "status": "reviewed",
+    "answer": "Nota de contexto ambiental",
+    "definition": "el RBT documenta variables del ambiente que pudieron influir en la conducta o en el rendimiento del aprendiz.",
+    "scenario": "Hubo ruido fuerte por construcción cerca del salón y el RBT anota ese contexto para ayudar a interpretar los datos de la sesión.",
+    "purpose": "Para documentar condiciones ambientales inusuales que puedan afectar los resultados de la sesión.",
+    "explanation": "Las notas de contexto ambiental ayudan al supervisor a interpretar los datos con mayor precisión cuando el entorno no fue el habitual.",
+    "options_es": {
+      "answer": "Nota de contexto ambiental",
+      "purpose": "Para documentar condiciones ambientales inusuales que puedan afectar los resultados de la sesión."
+    }
+  },
+  "assessment_abc": {
+    "status": "reviewed",
+    "answer": "Datos ABC",
+    "definition": "el RBT registra lo que ocurrió antes de la conducta, la conducta misma y lo que ocurrió después.",
+    "scenario": "Un aprendiz se tira al piso y el equipo quiere identificar patrones sobre qué desencadena la conducta y qué ocurre después de ella.",
+    "purpose": "Para buscar patrones entre antecedentes, conducta y consecuencias.",
+    "explanation": "Los datos ABC ayudan al equipo a ver relaciones entre los desencadenantes, la conducta y la consecuencia que podría mantenerla.",
+    "options_es": {
+      "answer": "Datos ABC",
+      "purpose": "Para buscar patrones entre antecedentes, conducta y consecuencias."
+    }
+  },
+  "assessment_operational_definition": {
+    "status": "reviewed",
+    "answer": "Definición operacional",
+    "definition": "una conducta se describe en términos observables y medibles para que distintos miembros del equipo la identifiquen de la misma manera.",
+    "scenario": "Antes de recoger datos sobre agresión, el equipo redacta una descripción que incluya solo acciones que se puedan ver y contar.",
+    "purpose": "Para hacer que la descripción de la conducta sea objetiva y consistente.",
+    "explanation": "Las definiciones operacionales reducen las suposiciones y ayudan a que diferentes observadores recojan datos sobre la misma conducta de forma coherente.",
+    "options_es": {
+      "answer": "Definición operacional",
+      "purpose": "Para hacer que la descripción de la conducta sea objetiva y consistente."
+    }
+  },
+  "assessment_preference": {
+    "status": "reviewed",
+    "answer": "Evaluación de preferencias",
+    "definition": "se prueban de forma sistemática objetos o actividades para identificar posibles reforzadores.",
+    "scenario": "Un RBT rota juguetes y meriendas para ver qué elementos el aprendiz elige con mayor frecuencia.",
+    "purpose": "Para identificar objetos o actividades que puedan funcionar como reforzadores.",
+    "explanation": "Las evaluaciones de preferencias ayudan al equipo a identificar por qué cosas es más probable que el aprendiz trabaje durante la enseñanza.",
+    "options_es": {
+      "answer": "Evaluación de preferencias",
+      "purpose": "Para identificar objetos o actividades que puedan funcionar como reforzadores."
+    }
+  },
+  "assessment_baseline": {
+    "status": "reviewed",
+    "answer": "Datos de línea base",
+    "definition": "se recogen datos antes de comenzar una nueva intervención.",
+    "scenario": "Antes de introducir un nuevo plan de ayudas, el BCBA pide al RBT que mida el desempeño actual durante varias sesiones.",
+    "purpose": "Para entender el nivel actual de la conducta antes de cambiar el tratamiento.",
+    "explanation": "Los datos de línea base muestran el punto de partida del aprendiz y permiten interpretar con mayor precisión los cambios posteriores.",
+    "options_es": {
+      "answer": "Datos de línea base",
+      "purpose": "Para entender el nivel actual de la conducta antes de cambiar el tratamiento."
+    }
+  },
+  "assessment_scatterplot": {
+    "status": "reviewed",
+    "answer": "Gráfico de dispersión",
+    "definition": "los datos de conducta se representan según momentos del día para ver cuándo aparecen con mayor frecuencia ciertos patrones.",
+    "scenario": "Un equipo escolar ubica la agresión por hora para ver si ocurre más durante el almuerzo, el recreo o el trabajo en clase.",
+    "purpose": "Para detectar patrones de conducta relacionados con momentos del día.",
+    "explanation": "Un gráfico de dispersión es útil cuando el equipo sospecha que la conducta es más probable en horarios específicos.",
+    "options_es": {
+      "answer": "Gráfico de dispersión",
+      "purpose": "Para detectar patrones de conducta relacionados con momentos del día."
+    }
+  },
+  "assessment_indirect": {
+    "status": "reviewed",
+    "answer": "Evaluación indirecta",
+    "definition": "la información sobre la conducta se recopila mediante entrevistas, listas de cotejo o escalas de calificación.",
+    "scenario": "Antes de observar directamente, el equipo hace preguntas estructuradas a cuidadores y maestros sobre cuándo suele ocurrir la conducta problema.",
+    "purpose": "Para recopilar información sobre la conducta a través de entrevistas, formularios o escalas.",
+    "explanation": "La evaluación indirecta ofrece información de fondo útil, pero no sustituye la observación directa.",
+    "options_es": {
+      "answer": "Evaluación indirecta",
+      "purpose": "Para recopilar información sobre la conducta a través de entrevistas, formularios o escalas."
+    }
+  },
+  "assessment_interview": {
+    "status": "reviewed",
+    "answer": "Entrevista",
+    "definition": "se hacen preguntas estructuradas a personas que conocen al aprendiz para obtener información sobre la conducta y su contexto.",
+    "scenario": "El BCBA y el RBT entrevistan al cuidador para saber cuándo suele ocurrir la agresión y qué suele pasar después.",
+    "purpose": "Para obtener información contextual sobre la conducta a partir de quienes conocen al aprendiz.",
+    "explanation": "Las entrevistas ayudan a recopilar detalles importantes sobre antecedentes, consecuencias y rutinas, aunque luego se deban contrastar con datos directos.",
+    "options_es": {
+      "answer": "Entrevista",
+      "purpose": "Para obtener información contextual sobre la conducta a partir de quienes conocen al aprendiz."
+    }
+  },
+  "assessment_reinforcer": {
+    "status": "reviewed",
+    "answer": "Evaluación de reforzadores",
+    "definition": "el equipo confirma si un objeto o actividad preferida realmente aumenta la conducta objetivo cuando se usa como consecuencia.",
+    "scenario": "Después de identificar varios objetos preferidos, el equipo prueba si alguno de ellos realmente aumenta las respuestas correctas durante la enseñanza.",
+    "purpose": "Para confirmar si un elemento preferido funciona de verdad como reforzador.",
+    "explanation": "No todo lo que el aprendiz prefiere necesariamente funciona como reforzador; esta evaluación ayuda a comprobarlo.",
+    "options_es": {
+      "answer": "Evaluación de reforzadores",
+      "purpose": "Para confirmar si un elemento preferido funciona de verdad como reforzador."
+    }
+  },
+  "assessment_skill": {
+    "status": "reviewed",
+    "answer": "Evaluación de habilidades",
+    "definition": "el desempeño actual del aprendiz se revisa para identificar qué habilidades ya tiene y cuáles todavía necesita desarrollar.",
+    "scenario": "Antes de comenzar un nuevo programa, el equipo revisa qué respuestas ya puede hacer el aprendiz de manera independiente y cuáles requieren enseñanza.",
+    "purpose": "Para identificar fortalezas actuales y necesidades de aprendizaje.",
+    "explanation": "Las evaluaciones de habilidades ayudan al equipo a seleccionar objetivos de enseñanza relevantes y apropiados al nivel actual del aprendiz.",
+    "options_es": {
+      "answer": "Evaluación de habilidades",
+      "purpose": "Para identificar fortalezas actuales y necesidades de aprendizaje."
+    }
+  },
+  "assessment_functional_analysis": {
+    "status": "reviewed",
+    "answer": "Análisis funcional",
+    "definition": "se organizan condiciones de forma sistemática para comprobar qué consecuencias podrían estar manteniendo la conducta.",
+    "scenario": "Bajo supervisión del BCBA, se prueban distintas condiciones para ver si la conducta se mantiene por escape, atención o acceso a tangibles.",
+    "purpose": "Para comprobar bajo condiciones controladas qué consecuencia mantiene la conducta.",
+    "explanation": "Un análisis funcional evalúa experimentalmente la función de la conducta en lugar de inferirla solo a partir de observaciones descriptivas.",
+    "options_es": {
+      "answer": "Análisis funcional",
+      "purpose": "Para comprobar bajo condiciones controladas qué consecuencia mantiene la conducta."
+    }
   }
 }
