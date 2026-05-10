@@ -3454,5 +3454,341 @@
       "answer": "Revisión del plan conductual",
       "purpose": "Para asegurar que la toma de datos coincida con los procedimientos descritos en el plan."
     }
+  },
+  "professional_guardian_consent": {
+    "status": "reviewed",
+    "answer": "Consentimiento del tutor legal",
+    "definition": "el RBT confirma que existe consentimiento legalmente autorizado para los servicios y sigue los procedimientos de la agencia ante asuntos relacionados con el consentimiento.",
+    "scenario": "Un cuidador pregunta si un procedimiento nuevo ya fue aprobado y el RBT lleva la inquietud al supervisor en lugar de asumir que sí.",
+    "purpose": "Para apoyar la prestación de servicios dentro de los límites del consentimiento autorizado.",
+    "explanation": "Los asuntos de consentimiento se manejan conforme a la política y la guía del supervisor, no mediante decisiones legales independientes del RBT.",
+    "options_es": {
+      "answer": "Consentimiento del tutor legal",
+      "purpose": "Para apoyar la prestación de servicios dentro de los límites del consentimiento autorizado."
+    }
+  },
+  "professional_feedback_receptivity": {
+    "status": "reviewed",
+    "answer": "Receptividad a la retroalimentación",
+    "definition": "el RBT responde profesionalmente a la retroalimentación de supervisión y la utiliza para mejorar su desempeño.",
+    "scenario": "Un supervisor corrige errores en el uso de ayudas y el RBT le agradece y aplica el cambio en el siguiente bloque de enseñanza.",
+    "purpose": "Para mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión.",
+    "explanation": "Recibir retroalimentación de manera profesional es parte de una supervisión efectiva y del crecimiento de habilidades.",
+    "options_es": {
+      "answer": "Receptividad a la retroalimentación",
+      "purpose": "Para mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión."
+    }
+  },
+  "professional_clarification_request": {
+    "status": "reviewed",
+    "answer": "Solicitud de aclaración",
+    "definition": "el RBT pide orientación al supervisor cuando las instrucciones no están claras, en lugar de adivinar.",
+    "scenario": "Dos partes de un plan escrito parecen inconsistentes, así que el RBT se detiene y pide al supervisor que aclare antes de continuar.",
+    "purpose": "Para prevenir errores de implementación cuando las instrucciones no son claras.",
+    "explanation": "Pedir aclaración protege la integridad del tratamiento y mantiene al RBT dentro de su alcance profesional.",
+    "options_es": {
+      "answer": "Solicitud de aclaración",
+      "purpose": "Para prevenir errores de implementación cuando las instrucciones no son claras."
+    }
+  },
+  "professional_secure_record_storage": {
+    "status": "reviewed",
+    "answer": "Almacenamiento seguro de registros",
+    "definition": "los registros y datos del cliente se guardan en lugares seguros aprobados y no se dejan expuestos a personas no autorizadas.",
+    "scenario": "Un RBT guarda los datos en papel bajo llave en el gabinete designado y cierra sesión en el sistema electrónico antes de retirarse.",
+    "purpose": "Para proteger la confidencialidad del cliente en el manejo de registros.",
+    "explanation": "El almacenamiento seguro de registros ayuda a prevenir el acceso no autorizado a información protegida del cliente.",
+    "options_es": {
+      "answer": "Almacenamiento seguro de registros",
+      "purpose": "Para proteger la confidencialidad del cliente en el manejo de registros."
+    }
+  },
+  "professional_public_privacy_protection": {
+    "status": "reviewed",
+    "answer": "Protección de la privacidad en público",
+    "definition": "el RBT evita hablar de detalles confidenciales del cliente en lugares donde otras personas puedan oír o identificar al cliente.",
+    "scenario": "Mientras está en una sala de espera, un compañero le pregunta sobre la agresión reciente del cliente y el RBT pospone la conversación para un lugar privado.",
+    "purpose": "Para proteger la confidencialidad cuando hay otras personas presentes.",
+    "explanation": "La privacidad debe protegerse no solo en los registros, sino también en las conversaciones cotidianas.",
+    "options_es": {
+      "answer": "Protección de la privacidad en público",
+      "purpose": "Para proteger la confidencialidad cuando hay otras personas presentes."
+    }
+  },
+  "professional_gift_boundary": {
+    "status": "reviewed",
+    "answer": "Límite con los regalos",
+    "definition": "el RBT sigue la política y la guía del supervisor sobre aceptar regalos o favores especiales de clientes o familias.",
+    "scenario": "Un cuidador ofrece un regalo costoso al final de los servicios y el RBT revisa la política de la agencia y la guía del supervisor antes de aceptarlo.",
+    "purpose": "Para mantener límites profesionales alrededor de regalos y favores.",
+    "explanation": "Las decisiones relacionadas con regalos se manejan con cuidado porque pueden crear problemas de límites o conflictos de interés.",
+    "options_es": {
+      "answer": "Límite con los regalos",
+      "purpose": "Para mantener límites profesionales alrededor de regalos y favores."
+    }
+  },
+  "professional_multiple_relationship_risk": {
+    "status": "reviewed",
+    "answer": "Riesgo de relaciones múltiples",
+    "definition": "el RBT reconoce situaciones en las que otra relación personal, financiera o social podría interferir con su juicio profesional.",
+    "scenario": "A un RBT se le pide brindar servicios a un amigo cercano de la familia y reconoce el posible conflicto que esto crea.",
+    "purpose": "Para identificar situaciones que podrían difuminar los roles profesionales.",
+    "explanation": "Los riesgos de relaciones múltiples importan porque pueden afectar la objetividad y el profesionalismo.",
+    "options_es": {
+      "answer": "Riesgo de relaciones múltiples",
+      "purpose": "Para identificar situaciones que podrían difuminar los roles profesionales."
+    }
+  },
+  "professional_social_media_confidentiality": {
+    "status": "reviewed",
+    "answer": "Confidencialidad en redes sociales",
+    "definition": "el RBT no publica, comenta ni insinúa información del cliente en redes sociales.",
+    "scenario": "Después de una sesión difícil, el RBT quiere desahogarse en línea, pero se abstiene porque los detalles podrían identificar al cliente.",
+    "purpose": "Para proteger la confidencialidad del cliente en plataformas personales o públicas en línea.",
+    "explanation": "Las publicaciones en redes sociales pueden violar la confidencialidad incluso si se omiten nombres, si aun así otras personas pueden identificar al cliente.",
+    "options_es": {
+      "answer": "Confidencialidad en redes sociales",
+      "purpose": "Para proteger la confidencialidad del cliente en plataformas personales o públicas en línea."
+    }
+  },
+  "professional_workplace_policy_compliance": {
+    "status": "reviewed",
+    "answer": "Cumplimiento de políticas del lugar de trabajo",
+    "definition": "el RBT sigue los procedimientos del empleador que son consistentes con el rol profesional y el plan de tratamiento aprobado.",
+    "scenario": "Un RBT completa los controles de seguridad y los pasos de reporte requeridos porque la política de la agencia los exige en cada sesión.",
+    "purpose": "Para mantener un desempeño profesional consistente y conforme a las normas.",
+    "explanation": "Seguir las políticas del lugar de trabajo favorece la responsabilidad y la prestación segura de servicios.",
+    "options_es": {
+      "answer": "Cumplimiento de políticas del lugar de trabajo",
+      "purpose": "Para mantener un desempeño profesional consistente y conforme a las normas."
+    }
+  },
+  "professional_supervision_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación para la supervisión",
+    "definition": "el RBT llega a supervisión con preguntas actuales, datos e información relevante listos para revisar.",
+    "scenario": "Antes de una reunión de supervisión, el RBT organiza datos recientes, anota preocupaciones y prepara preguntas sobre los programas que está ejecutando.",
+    "purpose": "Para que la supervisión sea más precisa y productiva.",
+    "explanation": "Prepararse para la supervisión ayuda al supervisor a brindar una guía más clara y mejor apoyo.",
+    "options_es": {
+      "answer": "Preparación para la supervisión",
+      "purpose": "Para que la supervisión sea más precisa y productiva."
+    }
+  },
+  "professional_error_reporting": {
+    "status": "reviewed",
+    "answer": "Reporte de errores",
+    "definition": "el RBT informa de manera honesta y oportuna los errores de implementación o documentación.",
+    "scenario": "Después de notar que se usó la ayuda incorrecta en varios ensayos, el RBT informa al supervisor en lugar de ocultar el error.",
+    "purpose": "Para abordar los errores con transparencia y poder corregirlos.",
+    "explanation": "El reporte honesto y rápido de errores protege al cliente y favorece la integridad del tratamiento.",
+    "options_es": {
+      "answer": "Reporte de errores",
+      "purpose": "Para abordar los errores con transparencia y poder corregirlos."
+    }
+  },
+  "professional_respectful_language": {
+    "status": "reviewed",
+    "answer": "Lenguaje respetuoso",
+    "definition": "el RBT habla sobre y con los clientes de una manera que preserve la dignidad y evite palabras humillantes o estigmatizantes.",
+    "scenario": "Durante una conversación del equipo, el RBT usa lenguaje respetuoso hacia la persona en lugar de bromas o etiquetas sobre la conducta del cliente.",
+    "purpose": "Para mantener la dignidad del cliente en la comunicación.",
+    "explanation": "El lenguaje respetuoso forma parte de la conducta profesional y ayuda a preservar la dignidad del cliente.",
+    "options_es": {
+      "answer": "Lenguaje respetuoso",
+      "purpose": "Para mantener la dignidad del cliente en la comunicación."
+    }
+  },
+  "professional_referral_outside_scope": {
+    "status": "reviewed",
+    "answer": "Derivación fuera del alcance",
+    "definition": "el RBT busca la orientación del supervisor cuando una necesidad queda fuera del rol del RBT, en lugar de intentar resolverla por su cuenta.",
+    "scenario": "Un cuidador pide consejos de consejería que no están relacionados con el plan conductual y el RBT redirige la solicitud al profesional apropiado.",
+    "purpose": "Para evitar actuar más allá de los límites del rol del RBT.",
+    "explanation": "Derivar o escalar asuntos fuera del alcance protege tanto al cliente como al RBT.",
+    "options_es": {
+      "answer": "Derivación fuera del alcance",
+      "purpose": "Para evitar actuar más allá de los límites del rol del RBT."
+    }
+  },
+  "professional_interdisciplinary_collaboration": {
+    "status": "reviewed",
+    "answer": "Colaboración interdisciplinaria",
+    "definition": "el RBT comparte información relevante de manera profesional con otros miembros aprobados del equipo, manteniéndose dentro de su rol y de los límites de confidencialidad.",
+    "scenario": "Un terapeuta del habla pregunta por el desempeño reciente en comunicación, y el RBT comparte solo la información relevante y aprobada a través del canal correcto.",
+    "purpose": "Para apoyar una atención coordinada respetando el rol y las expectativas de confidencialidad.",
+    "explanation": "La colaboración interdisciplinaria debe ser profesional, relevante y consistente con las reglas de confidencialidad.",
+    "options_es": {
+      "answer": "Colaboración interdisciplinaria",
+      "purpose": "Para apoyar una atención coordinada respetando el rol y las expectativas de confidencialidad."
+    }
+  },
+  "professional_least_restrictive_support": {
+    "status": "reviewed",
+    "answer": "Apoyo menos restrictivo",
+    "definition": "el RBT usa el procedimiento aprobado menos restrictivo que sea eficaz y seguro.",
+    "scenario": "Cuando un cliente empieza a escalar, el RBT utiliza primero los pasos preventivos aprobados de baja intrusión en lugar de pasar directamente a opciones más restrictivas.",
+    "purpose": "Para apoyar la conducta de manera segura minimizando restricciones innecesarias.",
+    "explanation": "El apoyo menos restrictivo protege la dignidad y se alinea con el uso ético de los procedimientos conductuales.",
+    "options_es": {
+      "answer": "Apoyo menos restrictivo",
+      "purpose": "Para apoyar la conducta de manera segura minimizando restricciones innecesarias."
+    }
+  },
+  "professional_client_preference_respect": {
+    "status": "reviewed",
+    "answer": "Respeto por las preferencias del cliente",
+    "definition": "el RBT considera y responde adecuadamente a las elecciones y preferencias razonables del cliente dentro del plan de tratamiento.",
+    "scenario": "Un cliente muestra claramente preferencia por uno de dos materiales de trabajo disponibles y el RBT respeta esa elección porque encaja dentro del programa.",
+    "purpose": "Para apoyar la dignidad y la colaboración respetando las preferencias razonables del cliente.",
+    "explanation": "Respetar las preferencias del cliente puede mejorar el rapport y la participación mientras preserva la dignidad.",
+    "options_es": {
+      "answer": "Respeto por las preferencias del cliente",
+      "purpose": "Para apoyar la dignidad y la colaboración respetando las preferencias razonables del cliente."
+    }
+  },
+  "professional_emergency_reporting": {
+    "status": "reviewed",
+    "answer": "Reporte de emergencias",
+    "definition": "el RBT sigue los pasos requeridos para notificar a las personas apropiadas cuando ocurre un evento grave de seguridad o una emergencia.",
+    "scenario": "Ocurre un incidente severo durante la sesión y el RBT sigue sin demora los procedimientos de emergencia y los requisitos de reporte.",
+    "purpose": "Para asegurar que los eventos graves se escalen de inmediato por los canales requeridos.",
+    "explanation": "El reporte de emergencias protege la seguridad y garantiza que las personas correctas sean informadas rápidamente.",
+    "options_es": {
+      "answer": "Reporte de emergencias",
+      "purpose": "Para asegurar que los eventos graves se escalen de inmediato por los canales requeridos."
+    }
+  },
+  "professional_implement_feedback": {
+    "status": "reviewed",
+    "answer": "Implementación de la retroalimentación",
+    "definition": "el RBT cambia su práctica basándose en la orientación del supervisor, en lugar de solo reconocer verbalmente la retroalimentación.",
+    "scenario": "Después de recibir la indicación de esperar más antes de dar una ayuda, el RBT aplica ese cambio en la siguiente oportunidad de enseñanza.",
+    "purpose": "Para mejorar la calidad del servicio poniendo en práctica la retroalimentación de supervisión.",
+    "explanation": "Implementar la retroalimentación es lo que convierte la supervisión en un mejor desempeño del día a día.",
+    "options_es": {
+      "answer": "Implementación de la retroalimentación",
+      "purpose": "Para mejorar la calidad del servicio poniendo en práctica la retroalimentación de supervisión."
+    }
+  },
+  "professional_demeanor": {
+    "status": "reviewed",
+    "answer": "Comportamiento profesional",
+    "definition": "el RBT se comporta de manera calmada, respetuosa y apropiada durante la prestación de servicios, incluso cuando las situaciones son difíciles.",
+    "scenario": "Una sesión se vuelve estresante, pero el RBT mantiene un tono sereno y una conducta profesional durante toda la interacción.",
+    "purpose": "Para mantener el profesionalismo durante situaciones desafiantes.",
+    "explanation": "El comportamiento profesional favorece la seguridad, el rapport y la confianza incluso bajo estrés.",
+    "options_es": {
+      "answer": "Comportamiento profesional",
+      "purpose": "Para mantener el profesionalismo durante situaciones desafiantes."
+    }
+  },
+  "professional_role_appropriate_communication": {
+    "status": "reviewed",
+    "answer": "Comunicación apropiada al rol",
+    "definition": "el RBT se comunica dentro de los límites de su rol y evita presentar decisiones clínicas independientes como si fueran propias.",
+    "scenario": "Un cuidador pregunta si debe cambiarse un objetivo de tratamiento y el RBT explica que esa decisión la tomará el supervisor.",
+    "purpose": "Para comunicarse profesionalmente sin salir del alcance del rol.",
+    "explanation": "La comunicación apropiada al rol protege el alcance de práctica y al mismo tiempo favorece una colaboración clara.",
+    "options_es": {
+      "answer": "Comunicación apropiada al rol",
+      "purpose": "Para comunicarse profesionalmente sin salir del alcance del rol."
+    }
+  },
+  "professional_truthful_representation": {
+    "status": "reviewed",
+    "answer": "Representación veraz",
+    "definition": "el RBT representa con precisión sus credenciales, formación, rol y autoridad, sin exagerar ni inducir a error a otros.",
+    "scenario": "Una familia pregunta si el RBT puede rediseñar metas de tratamiento de manera independiente y el RBT explica los límites reales de su rol en lugar de presentarse como el clínico a cargo.",
+    "purpose": "Para asegurar que las afirmaciones sobre rol, formación y autoridad sean precisas.",
+    "explanation": "La representación veraz protege a los clientes de afirmaciones engañosas y mantiene al RBT dentro de los límites éticos de su rol.",
+    "options_es": {
+      "answer": "Representación veraz",
+      "purpose": "Para asegurar que las afirmaciones sobre rol, formación y autoridad sean precisas."
+    }
+  },
+  "professional_no_independent_program_changes": {
+    "status": "reviewed",
+    "answer": "Sin cambios independientes al programa",
+    "definition": "el RBT no cambia por su cuenta metas, procedimientos, estrategias de ayuda ni planes de reforzamiento sin la indicación del supervisor.",
+    "scenario": "Un objetivo parece demasiado difícil durante la sesión, así que el RBT toma datos y reporta la preocupación en lugar de reescribir por su cuenta los pasos de enseñanza.",
+    "purpose": "Para mantener las decisiones de tratamiento en manos del clínico supervisor.",
+    "explanation": "Los cambios al programa son decisiones clínicas y deben ser dirigidos por el supervisor, no tomados de forma independiente por el RBT.",
+    "options_es": {
+      "answer": "Sin cambios independientes al programa",
+      "purpose": "Para mantener las decisiones de tratamiento en manos del clínico supervisor."
+    }
+  },
+  "professional_minimum_necessary_disclosure": {
+    "status": "reviewed",
+    "answer": "Divulgación mínima necesaria",
+    "definition": "solo se comparte la información necesaria para el propósito aprobado y se omiten detalles innecesarios del cliente.",
+    "scenario": "Un miembro del personal pregunta por qué el cliente faltó a la sesión y el RBT comparte solo la información que exige la política en lugar de discutir detalles clínicos privados.",
+    "purpose": "Para proteger la confidencialidad limitando la divulgación a lo necesario.",
+    "explanation": "La confidencialidad ética incluye compartir solo la información mínima necesaria por los canales apropiados.",
+    "options_es": {
+      "answer": "Divulgación mínima necesaria",
+      "purpose": "Para proteger la confidencialidad limitando la divulgación a lo necesario."
+    }
+  },
+  "professional_required_supervision_participation": {
+    "status": "reviewed",
+    "answer": "Participación obligatoria en supervisión",
+    "definition": "el RBT participa en la supervisión requerida, responde a la retroalimentación y lleva datos o preocupaciones relevantes para su revisión.",
+    "scenario": "El supervisor programa una revisión y el RBT llega con datos actuales, preguntas y preocupaciones de implementación, en lugar de tratar la supervisión como algo opcional.",
+    "purpose": "Para mantener la calidad del servicio mediante una supervisión obligatoria activa.",
+    "explanation": "La supervisión es una parte obligatoria de la práctica segura del RBT y apoya la precisión, la retroalimentación y la competencia continua.",
+    "options_es": {
+      "answer": "Participación obligatoria en supervisión",
+      "purpose": "Para mantener la calidad del servicio mediante una supervisión obligatoria activa."
+    }
+  },
+  "professional_public_statement_accuracy": {
+    "status": "reviewed",
+    "answer": "Precisión en declaraciones públicas",
+    "definition": "las declaraciones públicas, en línea y verbales sobre servicios, resultados y credenciales son precisas y no engañosas.",
+    "scenario": "Un RBT actualiza un perfil profesional y elimina frases que implican autoridad independiente de BCBA o resultados garantizados de tratamiento.",
+    "purpose": "Para evitar declaraciones públicas engañosas sobre servicios, resultados o credenciales.",
+    "explanation": "Las declaraciones públicas éticas deben ser precisas porque las afirmaciones engañosas pueden confundir a las familias y tergiversar el rol del RBT.",
+    "options_es": {
+      "answer": "Precisión en declaraciones públicas",
+      "purpose": "Para evitar declaraciones públicas engañosas sobre servicios, resultados o credenciales."
+    }
+  },
+  "professional_client_rights_protection": {
+    "status": "reviewed",
+    "answer": "Protección de los derechos del cliente",
+    "definition": "el RBT actúa de maneras que protegen la privacidad, la dignidad, la elección y el trato humano durante los servicios.",
+    "scenario": "Durante una rutina de cuidado personal, el RBT cierra la puerta, explica cada paso con respeto y honra preferencias razonables del cliente cuando es posible.",
+    "purpose": "Para proteger los derechos del cliente durante toda la prestación del servicio.",
+    "explanation": "Los derechos del cliente se protegen cuando los servicios preservan la dignidad, la privacidad, el trato respetuoso y la elección razonable.",
+    "options_es": {
+      "answer": "Protección de los derechos del cliente",
+      "purpose": "Para proteger los derechos del cliente durante toda la prestación del servicio."
+    }
+  },
+  "professional_authorized_information_release": {
+    "status": "reviewed",
+    "answer": "Divulgación autorizada de información",
+    "definition": "la información del cliente solo se divulga mediante autorización aprobada, conforme a la política y por canales de necesidad de saber.",
+    "scenario": "Un maestro solicita registros detallados de conducta y el RBT primero verifica la autorización y la indicación del supervisor antes de compartir algo.",
+    "purpose": "Para asegurar que las divulgaciones cumplan los requisitos de autorización y confidencialidad.",
+    "explanation": "Incluso la información útil no debe divulgarse a menos que la autorización, la política y las expectativas del rol respalden esa divulgación.",
+    "options_es": {
+      "answer": "Divulgación autorizada de información",
+      "purpose": "Para asegurar que las divulgaciones cumplan los requisitos de autorización y confidencialidad."
+    }
+  },
+  "professional_post_service_boundaries": {
+    "status": "reviewed",
+    "answer": "Límites profesionales después del servicio",
+    "definition": "los límites profesionales se mantienen incluso cuando los servicios cambian, se pausan o terminan, y no se convierten automáticamente en relaciones personales.",
+    "scenario": "Después del alta, un ex cuidador le pide al RBT que se convierta en niñera regular del niño y el RBT consulta la política y la supervisión antes de responder.",
+    "purpose": "Para prevenir que los roles se vuelvan confusos después de que los servicios cambian o terminan.",
+    "explanation": "Los problemas de límites pueden continuar después de los servicios, por lo que el RBT no debe asumir que una relación profesional previa ahora está libre de riesgos.",
+    "options_es": {
+      "answer": "Límites profesionales después del servicio",
+      "purpose": "Para prevenir que los roles se vuelvan confusos después de que los servicios cambian o terminan."
+    }
   }
 }
