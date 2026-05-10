@@ -3358,5 +3358,101 @@
       "answer": "Términos medibles",
       "purpose": "Para hacer cuantificables la conducta y el contexto."
     }
+  },
+  "measurement_environment_description": {
+    "status": "reviewed",
+    "answer": "Descripción del entorno",
+    "definition": "se describen objetivamente los detalles relevantes del entorno, los materiales y las personas presentes.",
+    "scenario": "Durante la observación, el RBT anota que aumentaron las demandas de trabajo, entraron compañeros al salón y se retiraron artículos preferidos.",
+    "purpose": "Para describir variables contextuales que pueden afectar la conducta.",
+    "explanation": "Las descripciones objetivas del entorno ayudan al equipo a entender las condiciones relevantes de la sesión.",
+    "options_es": {
+      "answer": "Descripción del entorno",
+      "purpose": "Para describir variables contextuales que pueden afectar la conducta."
+    }
+  },
+  "measurement_graph_updating": {
+    "status": "reviewed",
+    "answer": "Actualización del gráfico",
+    "definition": "los datos nuevos se ingresan en el gráfico de forma oportuna después de recopilarlos.",
+    "scenario": "Al final de la sesión, el RBT añade el punto de datos más reciente al gráfico de progreso del cliente.",
+    "purpose": "Para mantener actualizada la información graficada para su revisión.",
+    "explanation": "Actualizar los gráficos a tiempo ayuda a los supervisores a detectar patrones y tomar decisiones sin demoras innecesarias.",
+    "options_es": {
+      "answer": "Actualización del gráfico",
+      "purpose": "Para mantener actualizada la información graficada para su revisión."
+    }
+  },
+  "measurement_unreliable_data_risk": {
+    "status": "reviewed",
+    "answer": "Riesgo de datos poco confiables",
+    "definition": "los datos recolectados de manera deficiente crean el riesgo de que el equipo juzgue mal el progreso o las necesidades del cliente.",
+    "scenario": "Dos miembros del personal registran la misma conducta de formas muy distintas y las decisiones de tratamiento empiezan a verse inconsistentes.",
+    "purpose": "Para reconocer el peligro de basar decisiones en datos de mala calidad.",
+    "explanation": "Los datos poco confiables pueden hacer que un tratamiento eficaz parezca ineficaz o pueden ocultar problemas reales en el desempeño.",
+    "options_es": {
+      "answer": "Riesgo de datos poco confiables",
+      "purpose": "Para reconocer el peligro de basar decisiones en datos de mala calidad."
+    }
+  },
+  "measurement_procedural_fidelity_risk": {
+    "status": "reviewed",
+    "answer": "Baja fidelidad procedimental",
+    "definition": "la intervención se implementa de manera inconsistente o incorrecta en distintas oportunidades.",
+    "scenario": "Un terapeuta entrega ayudas y reforzamiento exactamente como está escrito, pero otro omite con frecuencia pasos del plan.",
+    "purpose": "Para identificar la implementación inconsistente de un procedimiento escrito.",
+    "explanation": "La baja fidelidad procedimental dificulta saber si los cambios en los datos reflejan el plan o una aplicación inconsistente.",
+    "options_es": {
+      "answer": "Baja fidelidad procedimental",
+      "purpose": "Para identificar la implementación inconsistente de un procedimiento escrito."
+    }
+  },
+  "measurement_missing_data_impact": {
+    "status": "reviewed",
+    "answer": "Impacto de datos faltantes",
+    "definition": "observaciones importantes no se registran, lo que deja vacíos en el conjunto de datos.",
+    "scenario": "Un RBT olvida registrar varios ensayos con demandas durante la sesión, y la BCBA advierte que el gráfico puede resultar engañoso.",
+    "purpose": "Para reconocer cómo las observaciones no registradas debilitan la interpretación de los datos.",
+    "explanation": "Los datos faltantes reducen la confianza en las conclusiones porque el registro ya no representa la sesión completa.",
+    "options_es": {
+      "answer": "Impacto de datos faltantes",
+      "purpose": "Para reconocer cómo las observaciones no registradas debilitan la interpretación de los datos."
+    }
+  },
+  "measurement_timing_accuracy": {
+    "status": "reviewed",
+    "answer": "Cronometraje preciso",
+    "definition": "el temporizador se inicia y se detiene en los momentos correctos para que los datos basados en tiempo sean válidos.",
+    "scenario": "El RBT usa un temporizador para medir cuánto tarda el cliente en comenzar a responder después de una instrucción.",
+    "purpose": "Para recopilar medidas válidas basadas en tiempo, como latencia y duración.",
+    "explanation": "Un cronometraje preciso es necesario siempre que el sistema de medición dependa del tiempo transcurrido.",
+    "options_es": {
+      "answer": "Cronometraje preciso",
+      "purpose": "Para recopilar medidas válidas basadas en tiempo, como latencia y duración."
+    }
+  },
+  "measurement_data_summarization": {
+    "status": "reviewed",
+    "answer": "Resumen de datos",
+    "definition": "los datos en bruto se convierten en resúmenes útiles, como promedios, tasas o porcentajes.",
+    "scenario": "Un supervisor pide al RBT que convierta varios registros de conteos y duraciones en un resumen más simple para revisarlo.",
+    "purpose": "Para presentar el desempeño en un formato más fácil de interpretar.",
+    "explanation": "El resumen de datos ayuda al equipo a detectar patrones que son más difíciles de ver cuando solo se miran números en bruto.",
+    "options_es": {
+      "answer": "Resumen de datos",
+      "purpose": "Para presentar el desempeño en un formato más fácil de interpretar."
+    }
+  },
+  "measurement_behavior_plan_review": {
+    "status": "reviewed",
+    "answer": "Revisión del plan conductual",
+    "definition": "el RBT lee el plan conductual actual antes de que comience la sesión para saber qué medir y cómo hacerlo.",
+    "scenario": "Antes de entrar al salón, el RBT revisa el plan conductual escrito para confirmar cuáles conductas son objetivo y qué método de registro debe usar.",
+    "purpose": "Para asegurar que la toma de datos coincida con los procedimientos descritos en el plan.",
+    "explanation": "Revisar el plan conductual antes de cada sesión ayuda al RBT a recolectar datos con precisión y de forma consistente con las metas del equipo de tratamiento.",
+    "options_es": {
+      "answer": "Revisión del plan conductual",
+      "purpose": "Para asegurar que la toma de datos coincida con los procedimientos descritos en el plan."
+    }
   }
 }
