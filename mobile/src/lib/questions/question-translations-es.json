@@ -3790,5 +3790,281 @@
       "answer": "Límites profesionales después del servicio",
       "purpose": "Para prevenir que los roles se vuelvan confusos después de que los servicios cambian o terminan."
     }
+  },
+  "skill_positive_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento positivo",
+    "definition": "se entrega algo valioso después de una respuesta y esa respuesta se vuelve más probable en el futuro.",
+    "scenario": "Un cliente responde correctamente, recibe elogios y una ficha, y las respuestas correctas aumentan con el tiempo.",
+    "purpose": "Para aumentar una conducta añadiendo una consecuencia después de que ocurre.",
+    "explanation": "El reforzamiento positivo se define por un aumento de la conducta futura después de añadir una consecuencia.",
+    "options_es": {
+      "answer": "Reforzamiento positivo",
+      "purpose": "Para aumentar una conducta añadiendo una consecuencia después de que ocurre."
+    }
+  },
+  "skill_negative_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento negativo",
+    "definition": "se elimina un evento aversivo o que requiere esfuerzo después de una respuesta y esa respuesta se vuelve más probable en el futuro.",
+    "scenario": "Un cliente pide un descanso de manera apropiada, se pausa el trabajo y las solicitudes de descanso aumentan con el tiempo.",
+    "purpose": "Para aumentar una conducta eliminando un evento aversivo después de la respuesta.",
+    "explanation": "El reforzamiento negativo también fortalece la conducta; la diferencia clave es que se quita algo en lugar de añadirse.",
+    "options_es": {
+      "answer": "Reforzamiento negativo",
+      "purpose": "Para aumentar una conducta eliminando un evento aversivo después de la respuesta."
+    }
+  },
+  "skill_conditioned_reinforcer": {
+    "status": "reviewed",
+    "answer": "Reforzador condicionado",
+    "definition": "un estímulo se vuelve reforzante porque ha sido emparejado con otros reforzadores.",
+    "scenario": "Al principio una ficha no tiene valor por sí sola, pero después de emparejarla repetidamente con reforzadores de apoyo, el cliente trabaja para ganarla.",
+    "purpose": "Para fortalecer respuestas usando un reforzador aprendido.",
+    "explanation": "Los reforzadores condicionados adquieren valor mediante el emparejamiento con otros reforzadores ya establecidos.",
+    "options_es": {
+      "answer": "Reforzador condicionado",
+      "purpose": "Para fortalecer respuestas usando un reforzador aprendido."
+    }
+  },
+  "skill_continuous_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento continuo",
+    "definition": "el reforzamiento se entrega después de cada respuesta correcta.",
+    "scenario": "Durante la enseñanza inicial, el cliente recibe elogios y una ficha después de cada ensayo correcto.",
+    "purpose": "Para fortalecer una respuesta nueva reforzando cada ocurrencia.",
+    "explanation": "El reforzamiento continuo es común cuando una habilidad se está estableciendo por primera vez.",
+    "options_es": {
+      "answer": "Reforzamiento continuo",
+      "purpose": "Para fortalecer una respuesta nueva reforzando cada ocurrencia."
+    }
+  },
+  "skill_intermittent_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento intermitente",
+    "definition": "el reforzamiento se entrega solo en algunas ocurrencias de la respuesta objetivo.",
+    "scenario": "Una vez que el cliente responde con fiabilidad, el equipo deja de reforzar cada respuesta correcta.",
+    "purpose": "Para mantener la respuesta sin reforzar cada ocurrencia.",
+    "explanation": "El reforzamiento intermitente suele usarse después de que la respuesta ya está establecida y ayuda a hacer el desempeño más duradero.",
+    "options_es": {
+      "answer": "Reforzamiento intermitente",
+      "purpose": "Para mantener la respuesta sin reforzar cada ocurrencia."
+    }
+  },
+  "skill_fixed_ratio_schedule": {
+    "status": "reviewed",
+    "answer": "Programa de razón fija",
+    "definition": "el reforzamiento se entrega después de un número determinado de respuestas.",
+    "scenario": "Un cliente gana una ficha después de cada tercera respuesta correcta durante el trabajo en mesa.",
+    "purpose": "Para reforzar la conducta después de una cantidad específica de respuestas.",
+    "explanation": "Los programas de razón fija se basan en el conteo de respuestas y el requisito se mantiene igual.",
+    "options_es": {
+      "answer": "Programa de razón fija",
+      "purpose": "Para reforzar la conducta después de una cantidad específica de respuestas."
+    }
+  },
+  "skill_variable_ratio_schedule": {
+    "status": "reviewed",
+    "answer": "Programa de razón variable",
+    "definition": "el reforzamiento se entrega después de un número impredecible de respuestas alrededor de un promedio.",
+    "scenario": "Un cliente recibe reforzamiento después de distintos números de respuestas correctas, con un promedio de unas cuatro respuestas.",
+    "purpose": "Para reforzar la conducta después de una cantidad variable de respuestas.",
+    "explanation": "Los programas de razón variable se basan en respuestas, pero el requisito exacto cambia de un reforzador al siguiente.",
+    "options_es": {
+      "answer": "Programa de razón variable",
+      "purpose": "Para reforzar la conducta después de una cantidad variable de respuestas."
+    }
+  },
+  "skill_fixed_interval_schedule": {
+    "status": "reviewed",
+    "answer": "Programa de intervalo fijo",
+    "definition": "el reforzamiento está disponible después de que ha pasado una cantidad fija de tiempo y ocurre la respuesta.",
+    "scenario": "Un cliente puede ganar reforzamiento por conducta en tarea después de cada intervalo de 5 minutos si sigue trabajando apropiadamente.",
+    "purpose": "Para reforzar respuestas después de un intervalo fijo de tiempo.",
+    "explanation": "Los programas de intervalo fijo se basan en tiempo, porque debe transcurrir tiempo antes de que el reforzamiento esté disponible.",
+    "options_es": {
+      "answer": "Programa de intervalo fijo",
+      "purpose": "Para reforzar respuestas después de un intervalo fijo de tiempo."
+    }
+  },
+  "skill_variable_interval_schedule": {
+    "status": "reviewed",
+    "answer": "Programa de intervalo variable",
+    "definition": "el reforzamiento está disponible después de cantidades variables de tiempo alrededor de un promedio.",
+    "scenario": "La conducta apropiada se refuerza después de distintos intervalos de tiempo que promedian unos 3 minutos.",
+    "purpose": "Para reforzar respuestas después de intervalos de tiempo cambiantes.",
+    "explanation": "Los programas de intervalo variable se basan en tiempo y el intervalo exacto cambia de una oportunidad a la siguiente.",
+    "options_es": {
+      "answer": "Programa de intervalo variable",
+      "purpose": "Para reforzar respuestas después de intervalos de tiempo cambiantes."
+    }
+  },
+  "skill_most_to_least_prompting": {
+    "status": "reviewed",
+    "answer": "Ayudas de más a menos",
+    "definition": "el RBT comienza con una ayuda más intrusiva y la reduce a ayudas menos intrusivas a medida que el cliente mejora.",
+    "scenario": "Para enseñar una nueva rutina motora, el RBT empieza con guía física completa y reduce gradualmente la ayuda.",
+    "purpose": "Para asegurar respuestas correctas tempranas mientras se reduce sistemáticamente el apoyo.",
+    "explanation": "Las ayudas de más a menos suelen elegirse cuando el equipo quiere prevenir errores mientras emerge una habilidad nueva.",
+    "options_es": {
+      "answer": "Ayudas de más a menos",
+      "purpose": "Para asegurar respuestas correctas tempranas mientras se reduce sistemáticamente el apoyo."
+    }
+  },
+  "skill_physical_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda física",
+    "definition": "el RBT usa guía física para ayudar al cliente a completar la respuesta.",
+    "scenario": "Para enseñar un paso del lavado de manos, el RBT guía suavemente las manos del cliente a través del movimiento.",
+    "purpose": "Para asistir al cliente directamente durante la respuesta.",
+    "explanation": "Las ayudas físicas implican asistencia física directa y suelen estar entre los tipos de ayuda más intrusivos.",
+    "options_es": {
+      "answer": "Ayuda física",
+      "purpose": "Para asistir al cliente directamente durante la respuesta."
+    }
+  },
+  "skill_stimulus_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda de estímulo",
+    "definition": "se modifican características de los materiales o estímulos para hacer más probable la respuesta correcta.",
+    "scenario": "La respuesta correcta se resalta temporalmente para que el cliente tenga más probabilidad de responder con precisión.",
+    "purpose": "Para hacer más notorio el estímulo relevante durante la enseñanza.",
+    "explanation": "Las ayudas de estímulo cambian los materiales o las señales, no el cuerpo del cliente ni la instrucción hablada.",
+    "options_es": {
+      "answer": "Ayuda de estímulo",
+      "purpose": "Para hacer más notorio el estímulo relevante durante la enseñanza."
+    }
+  },
+  "skill_response_prompt": {
+    "status": "reviewed",
+    "answer": "Ayuda de respuesta",
+    "definition": "se proporciona asistencia directa para ayudar al cliente a emitir la respuesta objetivo.",
+    "scenario": "El RBT modela, hace un gesto o guía físicamente al cliente a través de la acción correcta.",
+    "purpose": "Para evocar directamente la respuesta correcta.",
+    "explanation": "Las ayudas de respuesta actúan sobre la conducta del cliente, mientras que las ayudas de estímulo modifican las claves.",
+    "options_es": {
+      "answer": "Ayuda de respuesta",
+      "purpose": "Para evocar directamente la respuesta correcta."
+    }
+  },
+  "skill_stimulus_control_transfer": {
+    "status": "reviewed",
+    "answer": "Transferencia de control del estímulo",
+    "definition": "el control de la respuesta pasa de una ayuda añadida a la señal natural.",
+    "scenario": "Al principio un cliente responde correctamente solo cuando se añade una ayuda, pero más tarde responde cuando solo está presente la instrucción de la tarea.",
+    "purpose": "Para mover la respuesta desde las ayudas hacia las señales naturales.",
+    "explanation": "La transferencia de control del estímulo es la meta del desvanecimiento efectivo de ayudas y de la construcción de independencia.",
+    "options_es": {
+      "answer": "Transferencia de control del estímulo",
+      "purpose": "Para mover la respuesta desde las ayudas hacia las señales naturales."
+    }
+  },
+  "skill_token_exchange": {
+    "status": "reviewed",
+    "answer": "Intercambio de fichas",
+    "definition": "las fichas ganadas se cambian por reforzadores de apoyo según las reglas del programa.",
+    "scenario": "Un cliente reúne fichas durante el trabajo y luego las cambia por actividades preferidas al final del bloque.",
+    "purpose": "Para conectar la ganancia de fichas con el acceso a reforzadores de apoyo.",
+    "explanation": "El componente de intercambio es esencial porque las fichas adquieren valor mediante el acceso a otros reforzadores.",
+    "options_es": {
+      "answer": "Intercambio de fichas",
+      "purpose": "Para conectar la ganancia de fichas con el acceso a reforzadores de apoyo."
+    }
+  },
+  "skill_session_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación de la sesión",
+    "definition": "se revisan materiales, reforzadores, hojas de datos y el plan escrito antes de que comience la enseñanza.",
+    "scenario": "Antes de que llegue el cliente, el RBT prepara objetivos, ayudas, reforzadores y herramientas de datos para la sesión.",
+    "purpose": "Para preparar el entorno y los materiales requeridos por el plan de enseñanza.",
+    "explanation": "Una buena preparación de la sesión ayuda a que la enseñanza fluya y reduce errores prevenibles durante la instrucción.",
+    "options_es": {
+      "answer": "Preparación de la sesión",
+      "purpose": "Para preparar el entorno y los materiales requeridos por el plan de enseñanza."
+    }
+  },
+  "skill_written_plan_components": {
+    "status": "reviewed",
+    "answer": "Plan escrito de adquisición de habilidades",
+    "definition": "el RBT sigue un plan que identifica objetivos, ayudas, reforzamiento, toma de datos y criterios de dominio.",
+    "scenario": "Un supervisor proporciona pasos de enseñanza por escrito, procedimientos de ayuda, reglas de reforzamiento y criterios de dominio para un programa nuevo.",
+    "purpose": "Para guiar una implementación consistente de la enseñanza de habilidades.",
+    "explanation": "Un plan escrito de adquisición de habilidades le indica al RBT exactamente cómo debe enseñarse y medirse el objetivo.",
+    "options_es": {
+      "answer": "Plan escrito de adquisición de habilidades",
+      "purpose": "Para guiar una implementación consistente de la enseñanza de habilidades."
+    }
+  },
+  "skill_material_gathering": {
+    "status": "reviewed",
+    "answer": "Recolección de materiales antes de la sesión",
+    "definition": "el RBT reúne todos los materiales de instrucción especificados en el plan de adquisición de habilidades antes de que llegue el cliente.",
+    "scenario": "Antes de la sesión, el RBT coloca las flashcards, manipulativos, tablero de fichas y artículos preferidos indicados en el SAP para que todo esté listo desde el inicio.",
+    "purpose": "Para prevenir retrasos o interrupciones durante la instrucción causados por materiales faltantes.",
+    "explanation": "Tener todos los materiales preparados antes de que comience la sesión permite al RBT concentrarse por completo en el cliente y enseñar sin pausas.",
+    "options_es": {
+      "answer": "Recolección de materiales antes de la sesión",
+      "purpose": "Para prevenir retrasos o interrupciones durante la instrucción causados por materiales faltantes."
+    }
+  },
+  "skill_environment_arrangement": {
+    "status": "reviewed",
+    "answer": "Organización del entorno para la sesión",
+    "definition": "el RBT prepara el espacio físico de acuerdo con lo que requiere el plan de adquisición de habilidades, por ejemplo una mesa sin distractores o un área de juego con artículos específicos.",
+    "scenario": "El RBT organiza una mesa pequeña con dos sillas, retira objetos distractores del cuarto y coloca los artículos preferidos del cliente al alcance pero no visibles de inmediato.",
+    "purpose": "Para crear las condiciones físicas que el plan requiere para una instrucción efectiva.",
+    "explanation": "El entorno afecta qué tan bien puede atender el cliente y qué tan fácilmente puede el RBT implementar los procedimientos planeados.",
+    "options_es": {
+      "answer": "Organización del entorno para la sesión",
+      "purpose": "Para crear las condiciones físicas que el plan requiere para una instrucción efectiva."
+    }
+  },
+  "skill_reinforcer_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación de reforzadores",
+    "definition": "el RBT se asegura de que los reforzadores identificados estén disponibles y listos para entregarse antes de que comience la sesión.",
+    "scenario": "Antes de la sesión, el RBT prepara porciones pequeñas del snack preferido del cliente y comprueba que la app de video preferida esté lista para entregar el reforzamiento sin demora.",
+    "purpose": "Para prevenir demoras en el reforzamiento que reduzcan la eficacia de su entrega contingente.",
+    "explanation": "Los reforzadores deben estar disponibles de inmediato para poder entregarse a los pocos segundos de una respuesta correcta.",
+    "options_es": {
+      "answer": "Preparación de reforzadores",
+      "purpose": "Para prevenir demoras en el reforzamiento que reduzcan la eficacia de su entrega contingente."
+    }
+  },
+  "skill_presession_data_review": {
+    "status": "reviewed",
+    "answer": "Revisión de datos previa a la sesión",
+    "definition": "el RBT revisa los datos de la sesión anterior antes de empezar para saber qué objetivos fueron dominados, cuáles siguen en progreso y qué dificultades surgieron.",
+    "scenario": "Antes de la sesión, el RBT revisa la última hoja de datos y ve que dos objetivos alcanzaron dominio y uno mostró una caída en el desempeño que debe comentarse al supervisor.",
+    "purpose": "Para entrar a cada sesión con una idea clara de dónde se quedó el cliente y qué priorizar.",
+    "explanation": "Revisar datos previos ayuda al RBT a organizar la sesión con eficiencia y a señalar preocupaciones al supervisor antes de empezar la instrucción.",
+    "options_es": {
+      "answer": "Revisión de datos previa a la sesión",
+      "purpose": "Para entrar a cada sesión con una idea clara de dónde se quedó el cliente y qué priorizar."
+    }
+  },
+  "skill_stimulus_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación de estímulos",
+    "definition": "el RBT prepara los estímulos instruccionales, como tarjetas con imágenes, objetos o palabras escritas, exactamente como lo especifica el plan de adquisición de habilidades.",
+    "scenario": "El SAP requiere que las imágenes objetivo se presenten en un tamaño específico y en orden aleatorio, así que el RBT imprime y baraja las tarjetas antes de la sesión.",
+    "purpose": "Para asegurar que los estímulos coincidan con las especificaciones del plan y que la instrucción sea consistente.",
+    "explanation": "Preparar correctamente los estímulos garantiza que las respuestas del cliente estén controladas por los estímulos previstos y no por características irrelevantes.",
+    "options_es": {
+      "answer": "Preparación de estímulos",
+      "purpose": "Para asegurar que los estímulos coincidan con las especificaciones del plan y que la instrucción sea consistente."
+    }
+  },
+  "skill_presession_program_review": {
+    "status": "reviewed",
+    "answer": "Revisión del programa antes de la sesión",
+    "definition": "el RBT lee los planes de adquisición de habilidades relevantes antes de la sesión para refrescar procedimientos, niveles de ayuda y objetivos actuales.",
+    "scenario": "Antes de una sesión que incluye tres programas distintos, el RBT revisa cada SAP para repasar objetivos actuales, niveles de ayuda y notas del supervisor de la sesión anterior.",
+    "purpose": "Para implementar correctamente cada programa desde el primer ensayo sin tener que consultar el plan durante la instrucción.",
+    "explanation": "Revisar los programas antes de la sesión reduce errores procedimentales y ayuda al RBT a enseñar con mayor fluidez.",
+    "options_es": {
+      "answer": "Revisión del programa antes de la sesión",
+      "purpose": "Para implementar correctamente cada programa desde el primer ensayo sin tener que consultar el plan durante la instrucción."
+    }
   }
 }
