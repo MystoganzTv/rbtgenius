@@ -331,7 +331,7 @@ export default function Store() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(79,124,255,0.08),_transparent_34%),linear-gradient(180deg,#f8fbff_0%,#f8fafc_45%,#ffffff_100%)] text-foreground dark:bg-background">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(79,124,255,0.08),_transparent_34%),linear-gradient(180deg,#f8fbff_0%,#f8fafc_45%,#ffffff_100%)] text-foreground dark:bg-[radial-gradient(circle_at_top,_rgba(79,124,255,0.14),_transparent_28%),linear-gradient(180deg,#08101f_0%,#091426_42%,#0b1628_100%)]">
       <header className="border-b border-slate-200/70 bg-white/90 backdrop-blur dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]/90">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 py-4 sm:px-6">
           <Link to="/" className="flex min-w-0 items-center gap-2.5">
@@ -378,10 +378,10 @@ export default function Store() {
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15">
                 <ShieldCheck className="h-4 w-4 text-[#4F7CFF]" /> Pago seguro con Stripe
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15">
                 <Sparkles className="h-4 w-4 text-[#4F7CFF]" /> Creado para RBTs, no para cualquier público
               </div>
             </div>
@@ -400,10 +400,10 @@ export default function Store() {
               <Truck className="h-8 w-8 text-[#1E5EFF]" />
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628] dark:text-slate-300">
+              <div className="rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:text-slate-300 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628]">
                 Compra como invitado si solo quieres pasar directo al checkout.
               </div>
-              <div className="rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628] dark:text-slate-300">
+              <div className="rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:text-slate-300 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628]">
                 {isAuthenticated
                   ? "Tus compras también quedan guardadas en tu historial dentro de la cuenta."
                   : "Si haces login primero, luego podremos guardar mejor tu compra en tu cuenta."}
@@ -439,15 +439,15 @@ export default function Store() {
             return (
               <div
                 key={item.title}
-                className="rounded-[1.6rem] border border-slate-200/80 bg-white px-5 py-4 shadow-[0_22px_55px_-42px_rgba(15,23,42,0.25)]"
+                className="rounded-[1.6rem] border border-slate-200/80 bg-white px-5 py-4 shadow-[0_22px_55px_-42px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628]"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#4F7CFF]/10 text-[#4F7CFF]">
                     <Icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900">{item.title}</p>
-                    <p className="mt-1 text-sm leading-6 text-slate-500">{item.subtitle}</p>
+                    <p className="font-semibold text-slate-900 dark:text-slate-50">{item.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-300">{item.subtitle}</p>
                   </div>
                 </div>
               </div>
@@ -456,16 +456,16 @@ export default function Store() {
         </section>
 
         {bundleProduct ? (
-          <section className="mt-8 overflow-hidden rounded-[2rem] border border-emerald-200/80 bg-gradient-to-r from-emerald-50 via-white to-sky-50 shadow-[0_30px_90px_-55px_rgba(15,23,42,0.28)]">
+          <section className="mt-8 overflow-hidden rounded-[2rem] border border-emerald-200/80 bg-gradient-to-r from-emerald-50 via-white to-sky-50 shadow-[0_30px_90px_-55px_rgba(15,23,42,0.28)] dark:border-[#34C38F]/18 dark:from-[#0B172B] dark:via-[#0E1A31] dark:to-[#0B1B2E]">
             <div className="grid gap-8 px-6 py-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-9">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-[#34C38F]/14 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#158A5E]">
                   <BadgePercent className="h-4 w-4" /> Oferta Especial
                 </div>
-                <h2 className="mt-4 text-3xl font-black leading-tight text-slate-900 sm:text-4xl">
+                <h2 className="mt-4 text-3xl font-black leading-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
                   Ahorra con nuestros Bundles
                 </h2>
-                <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg">
                   Combina libros, tarjetas de estudio y herramientas diarias en un solo paquete con descuento. Perfecto para quienes empiezan su camino como RBT.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -475,7 +475,7 @@ export default function Store() {
                   >
                     Ver Bundles <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-slate-500 dark:text-slate-300">
                     {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
                       <>
                         Antes <span className="line-through">{formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt)}</span>
@@ -487,7 +487,7 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className="relative rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur">
+              <div className="relative rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#1E5EFF]/15 dark:bg-[#0E1A31]/92">
                 <div className="absolute right-5 top-5 rounded-full bg-[#34C38F] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white">
                   Bundle
                 </div>
@@ -496,15 +496,15 @@ export default function Store() {
                     <Boxes className="h-10 w-10 text-[#1E5EFF]" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Producto destacado</p>
-                    <h3 className="mt-2 text-2xl font-black text-slate-900">{bundleProduct.name}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Producto destacado</p>
+                    <h3 className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-50">{bundleProduct.name}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.summary || bundleProduct.summary}
                     </p>
                     <div className="mt-4 flex items-end gap-2">
-                      <span className="text-3xl font-black text-slate-900">{formatStorePrice(bundleProduct.price_cents)}</span>
+                      <span className="text-3xl font-black text-slate-900 dark:text-slate-50">{formatStorePrice(bundleProduct.price_cents)}</span>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
-                        <span className="pb-1 text-sm text-slate-400 line-through">
+                        <span className="pb-1 text-sm text-slate-400 line-through dark:text-slate-500">
                           {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt)}
                         </span>
                       ) : null}
@@ -523,10 +523,10 @@ export default function Store() {
         ) : null}
 
         <section ref={productsRef} className="mt-10">
-          <div className="flex flex-col gap-5 rounded-[2rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_26px_80px_-50px_rgba(15,23,42,0.22)] lg:flex-row lg:items-center lg:justify-between lg:px-6">
+          <div className="flex flex-col gap-5 rounded-[2rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_26px_80px_-50px_rgba(15,23,42,0.22)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] lg:flex-row lg:items-center lg:justify-between lg:px-6">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 sm:text-[2.6rem]">Nuestros Productos</h2>
-              <p className="mt-2 text-base text-slate-500">{filteredProducts.length} productos disponibles</p>
+              <h2 className="text-3xl font-black text-slate-900 dark:text-slate-50 sm:text-[2.6rem]">Nuestros Productos</h2>
+              <p className="mt-2 text-base text-slate-500 dark:text-slate-300">{filteredProducts.length} productos disponibles</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {categoryTabs.map((tab) => {
@@ -540,7 +540,7 @@ export default function Store() {
                     className={`inline-flex items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition ${
                       isActive
                         ? "border-[#4F7CFF] bg-[#4F7CFF] text-white shadow-[0_18px_38px_-24px_rgba(79,124,255,0.85)]"
-                        : "border-slate-200 bg-white text-slate-600 hover:border-[#4F7CFF]/30 hover:text-[#1E5EFF]"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-[#4F7CFF]/30 hover:text-[#1E5EFF] dark:border-[#1E5EFF]/12 dark:bg-[#0E1A31] dark:text-slate-300 dark:hover:border-[#4F7CFF]/35 dark:hover:text-[#8EB0FF]"
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -560,9 +560,9 @@ export default function Store() {
               return (
                 <article
                   key={product.id}
-                  className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_24px_80px_-52px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-48px_rgba(15,23,42,0.28)]"
+                  className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_24px_80px_-52px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_-48px_rgba(15,23,42,0.28)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] dark:hover:border-[#1E5EFF]/20"
                 >
-                  <div className={`relative h-[260px] bg-gradient-to-br ${presentation.gradient || "from-slate-100 to-white"} p-4`}>
+                  <div className={`relative h-[260px] bg-gradient-to-br ${presentation.gradient || "from-slate-100 to-white"} p-4 dark:from-[#0F1C34] dark:via-[#0B1628] dark:to-[#091221]`}>
                     {presentation.badge ? (
                       <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white ${presentation.accent || "bg-[#4F7CFF]"}`}>
                         {presentation.badge}
@@ -575,10 +575,10 @@ export default function Store() {
                     <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#4F7CFF]">
                       {categoryMeta?.label || product.category}
                     </p>
-                    <h3 className="mt-2 text-[1.85rem] font-black leading-tight text-slate-900">
+                    <h3 className="mt-2 text-[1.85rem] font-black leading-tight text-slate-900 dark:text-slate-50">
                       {product.name}
                     </h3>
-                    <p className="mt-3 text-[1.02rem] leading-8 text-slate-500">
+                    <p className="mt-3 text-[1.02rem] leading-8 text-slate-500 dark:text-slate-300">
                       {presentation.summary || product.summary}
                     </p>
 
@@ -586,7 +586,7 @@ export default function Store() {
                       {(presentation.tags || product.bullets || []).map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-500"
+                          className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-500 dark:bg-[#101D36] dark:text-slate-300"
                         >
                           {tag}
                         </span>
@@ -594,15 +594,15 @@ export default function Store() {
                     </div>
 
                     <div className="mt-auto pt-6">
-                      <div className="h-px bg-slate-200" />
+                      <div className="h-px bg-slate-200 dark:bg-[#1E5EFF]/12" />
                       <div className="mt-5 flex items-end justify-between gap-4">
                         <div>
                           <div className="flex items-end gap-2">
-                            <span className="text-[2.25rem] font-black tracking-tight text-slate-900">
+                            <span className="text-[2.25rem] font-black tracking-tight text-slate-900 dark:text-slate-50">
                               {formatStorePrice(product.price_cents)}
                             </span>
                             {presentation.compareAt ? (
-                              <span className="pb-1 text-sm text-slate-400 line-through">
+                              <span className="pb-1 text-sm text-slate-400 line-through dark:text-slate-500">
                                 {formatStorePrice(presentation.compareAt)}
                               </span>
                             ) : null}
