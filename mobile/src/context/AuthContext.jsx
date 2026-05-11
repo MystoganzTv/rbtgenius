@@ -22,6 +22,7 @@ const AuthContext = createContext(null);
 
 const TOKEN_KEY = 'rbt_genius_auth_token';
 const API_BASE = 'https://rbtgenius.com';
+const DASHBOARD_TIMEOUT_MS = 6000;
 
 GoogleSignin.configure({
   webClientId:
@@ -32,15 +33,21 @@ GoogleSignin.configure({
 });
 
 async function fetchDashboard(token) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), DASHBOARD_TIMEOUT_MS);
+
   try {
     const res = await fetch(`${API_BASE}/api/dashboard`, {
       headers: { Authorization: `Bearer ${token}` },
+      signal: controller.signal,
     });
 
     if (!res.ok) return {};
     return await res.json();
   } catch {
     return {};
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -66,6 +73,13 @@ function buildUser(rawUser, dashboard = {}) {
   };
 }
 
+function hydrateDashboard(rawUser, authToken, setUser) {
+  fetchDashboard(authToken).then((dashboard) => {
+    if (!dashboard?.progress && !dashboard?.entitlements) return;
+    setUser((prev) => (prev ? buildUser(rawUser, dashboard) : prev));
+  });
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -81,12 +95,9 @@ export function AuthProvider({ children }) {
           return;
         }
 
-        const [meRes, dashboard] = await Promise.all([
-          fetch(`${API_BASE}/api/auth/me`, {
-            headers: { Authorization: `Bearer ${saved}` },
-          }),
-          fetchDashboard(saved),
-        ]);
+        const meRes = await fetch(`${API_BASE}/api/auth/me`, {
+          headers: { Authorization: `Bearer ${saved}` },
+        });
 
         if (!meRes.ok) {
           await AsyncStorage.removeItem(TOKEN_KEY);
@@ -97,8 +108,9 @@ export function AuthProvider({ children }) {
         const rawUser = await meRes.json();
 
         setToken(saved);
-        setUser(buildUser(rawUser, dashboard));
+        setUser(buildUser(rawUser));
         maybeInitRC(rawUser.id);
+        hydrateDashboard(rawUser, saved, setUser);
       } catch (error) {
         console.log('[Auth] Restore session error:', error);
       } finally {
@@ -124,11 +136,10 @@ export function AuthProvider({ children }) {
 
     await AsyncStorage.setItem(TOKEN_KEY, t);
 
-    const dashboard = await fetchDashboard(t);
-
     setToken(t);
-    setUser(buildUser(rawUser, dashboard));
+    setUser(buildUser(rawUser));
     maybeInitRC(rawUser.id);
+    hydrateDashboard(rawUser, t, setUser);
   };
 
   const register = async (fullName, email, password) => {
@@ -148,11 +159,10 @@ export function AuthProvider({ children }) {
 
     await AsyncStorage.setItem(TOKEN_KEY, t);
 
-    const dashboard = await fetchDashboard(t);
-
     setToken(t);
-    setUser(buildUser(rawUser, dashboard));
+    setUser(buildUser(rawUser));
     maybeInitRC(rawUser.id);
+    hydrateDashboard(rawUser, t, setUser);
   };
 
   const loginWithGoogle = async () => {
@@ -185,11 +195,10 @@ export function AuthProvider({ children }) {
 
       await AsyncStorage.setItem(TOKEN_KEY, t);
 
-      const dashboard = await fetchDashboard(t);
-
       setToken(t);
-      setUser(buildUser(rawUser, dashboard));
+      setUser(buildUser(rawUser));
       maybeInitRC(rawUser.id);
+      hydrateDashboard(rawUser, t, setUser);
     } catch (error) {
       if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('[Google] User cancelled sign-in');
