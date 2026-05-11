@@ -18,6 +18,7 @@ import PublicSiteFooter from "@/components/public/PublicSiteFooter";
 import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/hooks/use-theme";
 import { ACCESS_COMPARISON } from "@/lib/plan-access";
+import { translateUi } from "@/lib/i18n";
 import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions/index.js";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
@@ -44,7 +45,7 @@ const premiumPreviewPanels = [
   {
     label: "Study Preview",
     title: "Smarter exam prep",
-    subtitle: `Practice, flashcards, and mock exams built on the same ${TOTAL_PRACTICE_QUESTIONS}-question bank across ${OFFICIAL_CONCEPT_COUNT} concepts.`,
+    subtitle: `Practice, flashcards, mock exams, and AI support built on the same ${TOTAL_PRACTICE_QUESTIONS}-question bank across ${OFFICIAL_CONCEPT_COUNT} concepts.`,
     accentClassName:
       "bg-emerald-500/14 text-emerald-300",
     Icon: Brain,
@@ -216,18 +217,18 @@ const premiumPreviewPanels = [
   },
   {
     label: "Study Preview",
-    title: "Keep concepts fresh" ,
-    subtitle: "Use short prompts, review cues, and fast concept checks to keep the material active.",
+    title: "Ask the AI coach",
+    subtitle: "Get quick explanations, study prompts, and targeted help when you get stuck.",
     accentClassName:
       "bg-violet-500/14 text-violet-300",
     Icon: MessageSquareMore,
     renderMobileContent: (isDark) => (
       <div>
         <div className={`max-w-[85%] rounded-2xl rounded-bl-md px-3 py-2 text-xs ${isDark ? "bg-white/8 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
-          What makes variable ratio schedules so powerful on exams?
+          Why is differential reinforcement better than just saying “no”?
         </div>
         <div className="mt-3 ml-auto max-w-[82%] rounded-2xl rounded-br-md bg-[#2D6BFF] px-3 py-2 text-xs text-white">
-          Because the reinforcement is unpredictable, responding tends to stay strong for longer.
+          It teaches what to do instead, so the learner has a replacement behavior to reinforce.
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-violet-500/10 text-violet-300" : "bg-violet-50 text-violet-700"}`}>Concepts</span>
@@ -246,14 +247,15 @@ const premiumPreviewPanels = [
           }`}
         >
           <div className={`max-w-[85%] rounded-2xl rounded-bl-md px-4 py-3 text-sm ${isDark ? "bg-white/8 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
-            What makes variable ratio schedules so powerful on exams?
+            Why is differential reinforcement better than just saying “no”?
           </div>
           <div className="ml-auto max-w-[88%] rounded-2xl rounded-br-md bg-[#2D6BFF] px-4 py-3 text-sm text-white">
-            Because the reinforcement is unpredictable, the response pattern tends to be more persistent and easier to remember on test day.
+            Because it teaches what to do instead, not only what to stop. That makes the
+            replacement behavior easier to reinforce consistently.
           </div>
           <div className={`flex items-center gap-2 pt-2 text-xs font-medium ${isDark ? "text-slate-400" : "text-slate-500"}`}>
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            Quick concept review
+            Unlimited premium AI support
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
@@ -437,125 +439,145 @@ export default function Landing() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-        <section className="relative overflow-hidden rounded-[2.6rem] border border-[#1E5EFF]/12 bg-[linear-gradient(180deg,#142456_0%,#172B64_45%,#12214F_100%)] px-5 py-6 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.55)] dark:border-[#4F7CFF]/16 dark:bg-[linear-gradient(180deg,#0B1432_0%,#10204A_45%,#0A1534_100%)] sm:px-7 sm:py-8 lg:px-8 lg:py-10">
-          <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:48px_48px]" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-[46%] bg-[radial-gradient(circle_at_center,rgba(100,149,255,0.26),transparent_62%)] blur-2xl" />
-          <div className="relative grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-8">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 py-2 text-xs font-medium text-[#AFC3FF] backdrop-blur sm:text-sm">
-                <Sparkles className="h-4 w-4" />
-                {language === 'es' ? 'Preparación real para el examen RBT' : 'Real preparation for the RBT exam'}
-              </div>
-              <h1 className="mt-5 max-w-5xl text-[3.45rem] font-black leading-[0.9] tracking-[-0.05em] text-white sm:mt-6 sm:text-[5.1rem] lg:text-[6.6rem]">
-                {language === 'es' ? (
-                  <>
-                    Aprueba el
-                    <br />
-                    <span className="bg-gradient-to-r from-[#66A8FF] via-[#7D8FFF] to-[#B08CFF] bg-clip-text text-transparent">examen RBT</span>{' '}
-                    <span className="relative inline-block">
-                      con
-                      <span className="absolute left-0 top-[92%] h-[8px] w-full rounded-full bg-gradient-to-r from-[#66A8FF] via-[#7D8FFF] to-[#B08CFF] opacity-95" />
-                    </span>
-                    <br />
-                    estructura, no
-                    <br />
-                    con suerte.
-                  </>
-                ) : (
-                  <>
-                    Pass the
-                    <br />
-                    <span className="bg-gradient-to-r from-[#66A8FF] via-[#7D8FFF] to-[#B08CFF] bg-clip-text text-transparent">RBT exam</span>{' '}
-                    <span className="relative inline-block">
-                      with
-                      <span className="absolute left-0 top-[92%] h-[8px] w-full rounded-full bg-gradient-to-r from-[#66A8FF] via-[#7D8FFF] to-[#B08CFF] opacity-95" />
-                    </span>
-                    <br />
-                    structure, not
-                    <br />
-                    luck.
-                  </>
-                )}
-              </h1>
-              <p className="mt-7 max-w-4xl text-lg leading-relaxed text-[#B9C7EA] sm:text-[1.65rem] sm:leading-[1.45]">
-                {language === 'es'
-                  ? `RBT Genius combina más de ${TOTAL_PRACTICE_QUESTIONS.toLocaleString('en-US')} preguntas de práctica, flashcards, exámenes simulados y analíticas claras para que llegues al examen listo y confiado.`
-                  : `RBT Genius combines more than ${TOTAL_PRACTICE_QUESTIONS.toLocaleString('en-US')} practice questions, flashcards, realistic mock exams, and clear analytics so you reach test day ready and confident.`}
-              </p>
+        <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#1E5EFF]/15 bg-[#1E5EFF]/8 px-4 py-2 text-xs font-medium text-[#1E5EFF] dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10 dark:text-[#8EB0FF] sm:text-sm">
+              <Sparkles className="h-4 w-4" />
+              {translateUi("Built for RBT exam prep", language)}
+            </div>
+            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[0.96] text-slate-900 dark:text-slate-50 sm:mt-6 sm:text-5xl lg:text-6xl">
+              {translateUi("Study with structure, not guesswork.", language)}
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-xl">
+              {translateUi(
+                "RBT Genius helps future technicians practice consistently, review with flashcards, take realistic mock exams, and track progress across exam prep.",
+                language,
+              )}
+            </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                {isAuthenticated ? (
-                  <Link to={createPageUrl("Dashboard")}>
-                    <Button className="h-12 w-full rounded-2xl bg-white px-6 text-base font-semibold text-[#17306D] shadow-[0_24px_50px_-30px_rgba(255,255,255,0.65)] hover:bg-white/95 sm:w-auto">
-                      {language === 'es' ? 'Ir al panel' : 'Continue to Dashboard'}
+            <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+              {isAuthenticated ? (
+                <Link to={createPageUrl("Dashboard")}>
+                  <Button className="h-12 w-full rounded-2xl bg-[#1E5EFF] px-6 text-base shadow-lg shadow-[#1E5EFF]/20 hover:bg-[#1E5EFF]/90 sm:w-auto">
+                    Continue to Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login?mode=register">
+                    <Button className="h-12 w-full rounded-2xl bg-[#1E5EFF] px-6 text-base shadow-lg shadow-[#1E5EFF]/20 hover:bg-[#1E5EFF]/90 sm:w-auto">
+                      Start Free
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
-                ) : (
-                  <>
-                    <Link to="/login?mode=register">
-                      <Button className="h-12 w-full rounded-2xl bg-white px-6 text-base font-semibold text-[#17306D] shadow-[0_24px_50px_-30px_rgba(255,255,255,0.65)] hover:bg-white/95 sm:w-auto">
-                        {language === 'es' ? 'Empieza gratis' : 'Start Free'}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <Link to="/login">
-                      <Button variant="outline" className="h-12 w-full rounded-2xl border-white/16 bg-white/6 px-6 text-base text-white backdrop-blur hover:bg-white/10 hover:text-white sm:w-auto">
-                        {language === 'es' ? 'Ya tengo cuenta' : 'I already have an account'}
-                      </Button>
-                    </Link>
-                  </>
-                )}
-              </div>
+                  <Link to="/login">
+                    <Button variant="outline" className="h-12 w-full rounded-2xl px-6 text-base sm:w-auto">
+                      I already have an account
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
+          </div>
 
-            <div className="relative min-h-[380px] px-0 py-2 sm:min-h-[520px] sm:px-2 sm:py-6 lg:px-2">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_28%,rgba(45,107,255,0.16),transparent_23%),radial-gradient(circle_at_34%_74%,rgba(139,92,246,0.12),transparent_22%)] blur-3xl" />
-              <div className="mx-auto mb-3 hidden max-w-[22rem] text-center sm:mb-4 sm:max-w-[34rem] sm:text-left">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 py-2 text-[11px] font-medium text-[#D6DEFF] sm:text-sm">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  {language === 'es' ? 'Vista de estudio' : 'Study Preview'}
-                </div>
-                <p className="mt-1 text-sm leading-6 text-[#AEBDE2] sm:max-w-md">
-                  {language === 'es'
-                    ? 'Una vista rápida de lo que ya existe hoy: práctica, flashcards, exámenes simulados y seguimiento de progreso.'
-                    : 'A quick look at what exists today: practice, flashcards, mock exams, and progress tracking.'}
-                </p>
+          <div className="relative min-h-[380px] px-0 py-2 sm:min-h-[520px] sm:px-2 sm:py-6 lg:px-4">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_28%,rgba(45,107,255,0.10),transparent_23%),radial-gradient(circle_at_34%_74%,rgba(139,92,246,0.08),transparent_22%)] blur-3xl" />
+            <div className="mx-auto mb-3 hidden max-w-[22rem] text-center sm:mb-4 sm:max-w-[34rem] sm:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#FFB800]/20 bg-[#FFB800]/10 px-4 py-2 text-[11px] font-medium text-[#C88700] dark:border-[#FFB800]/25 dark:bg-[#FFB800]/12 dark:text-[#FFD36B] sm:text-sm">
+                <Sparkles className="h-3.5 w-3.5" />
+                Study Preview
               </div>
-              <div className="relative mx-auto max-w-[22rem] sm:hidden">
-                {(() => {
-                  const activePanel = premiumPreviewPanels[activePreviewIndex];
+              <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400 sm:max-w-md">
+                A quick look at what exists today: shared-bank practice, flashcards,
+                premium mock exams, and readiness tracking.
+              </p>
+            </div>
+            <div className="relative mx-auto max-w-[22rem] sm:hidden">
+              {(() => {
+                const activePanel = premiumPreviewPanels[activePreviewIndex];
 
-                  return (
-                    <div className="overflow-hidden rounded-[1.9rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.05))] text-white shadow-[0_30px_70px_-46px_rgba(2,8,23,0.8)] backdrop-blur-xl">
-                      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-                        <div className="flex items-center gap-1.5">
-                          <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
-                          <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
-                          <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
-                        </div>
-                        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#C6D3FB]">
-                          RBT Genius
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <div className="flex items-start gap-3">
-                          <div className={`mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl ${activePanel.accentClassName}`}>
-                            <activePanel.Icon className="h-4 w-4" />
+                return (
+                  <div
+                    className={`rounded-[2rem] border p-3 ${
+                      isDark
+                        ? "border-slate-800 bg-[linear-gradient(180deg,#0b1224,#0a1020)]"
+                        : "border-slate-200/80 bg-[linear-gradient(180deg,#ffffff,#f8fafc)] shadow-[0_30px_80px_-50px_rgba(15,23,42,0.18)]"
+                    }`}
+                  >
+                    <div className="mb-3 flex justify-start">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-[#FFB800]/20 bg-[#FFB800]/10 px-4 py-2 text-[11px] font-medium text-[#C88700] dark:border-[#FFB800]/25 dark:bg-[#FFB800]/12 dark:text-[#FFD36B]">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        Study Preview
+                      </span>
+                    </div>
+                    <div
+                      className={`overflow-hidden rounded-[1.75rem] ${
+                        isDark
+                          ? "bg-[linear-gradient(180deg,#0f1930,#0b1427)] shadow-[0_30px_80px_-50px_rgba(15,23,42,0.9)]"
+                          : "bg-[linear-gradient(180deg,#ffffff,#f8fafc)] shadow-[0_24px_60px_-42px_rgba(15,23,42,0.16)]"
+                      }`}
+                    >
+                      <div
+                        className={`rounded-[1.75rem] ${
+                          isDark
+                            ? "bg-[linear-gradient(180deg,rgba(18,31,58,0.94),rgba(10,18,35,0.9))] text-white backdrop-blur-xl"
+                            : "bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.94))] text-slate-900 backdrop-blur-xl"
+                        }`}
+                        style={{
+                          animation:
+                            "landing-preview-mobile-enter 560ms cubic-bezier(0.19, 1, 0.22, 1) both",
+                        }}
+                      >
+                        <div
+                          className={`flex items-center justify-between border-b px-4 py-3 ${
+                            isDark ? "border-white/8" : "border-slate-200/80"
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
                           </div>
-                          <div className="min-w-0">
-                            <p className="text-sm font-semibold leading-tight text-white">{activePanel.title}</p>
-                            <p className="text-xs leading-5 text-[#B9C7EA]">{activePanel.subtitle}</p>
+                          <div className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                            RBT Genius
                           </div>
                         </div>
-                        <div className="mt-4 flex-1">
-                          {(activePanel.renderMobileContent ?? activePanel.renderContent)(isDark)}
+                        <div className="flex min-h-[246px] flex-col p-4 pb-4">
+                          <div className="flex items-start gap-3">
+                            <div
+                              className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl ${activePanel.accentClassName}`}
+                            >
+                              <activePanel.Icon className="h-4 w-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <p
+                                className={`text-sm font-semibold leading-tight ${
+                                  isDark ? "text-white" : "text-slate-900"
+                                }`}
+                              >
+                                {activePanel.title}
+                              </p>
+                              <p
+                                className={`text-xs leading-5 ${
+                                  isDark ? "text-slate-300" : "text-slate-500"
+                                }`}
+                              >
+                                {activePanel.subtitle}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="mt-4 flex-1">
+                            {(activePanel.renderMobileContent ?? activePanel.renderContent)(isDark)}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  );
-                })()}
-              </div>
+                  </div>
+                );
+              })()}
+            </div>
 
             <div className="relative mx-auto hidden h-[470px] max-w-[34rem] sm:block">
               {premiumPreviewPanels.map(
@@ -720,8 +742,7 @@ export default function Landing() {
               ) : null}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         <section className="mt-14 grid gap-4 md:mt-16 md:gap-5 md:grid-cols-3">
           {featureCards.map(({ title, description, Icon }) => (
@@ -948,7 +969,7 @@ export default function Landing() {
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Premium</h3>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Unlock full mock exams, analytics, and the complete prep experience.
+                Unlock full mock exams, analytics, unlimited study support, and the complete prep experience.
               </p>
             </div>
           </div>
