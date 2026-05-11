@@ -19,7 +19,7 @@
     "slide1_sub": "Comprehensive prep built around the BACB Task List 3rd Edition",
     "slide2_title": "Practice. Track. Improve.",
     "slide2_sub": "Real questions, domain mastery tracking, and instant feedback on every answer",
-    "slide3_title": "AI Tutor Available 24/7",
+    "slide3_title": "Flashcards and active review",
     "slide3_sub": "Ask anything about ABA concepts and get clear, exam-focused explanations",
     "slide4_title": "Ready to Start?",
     "slide4_sub": "Join thousands of RBTs studying smarter every day",
@@ -64,7 +64,7 @@
     "upgrade_banner": "Unlock unlimited questions with Pro",
     "upgrade_btn": "Upgrade",
     "pro_banner_title": "You're on Pro 👑",
-    "pro_banner_sub": "Unlimited questions, exams & AI Tutor messages",
+    "pro_banner_sub": "Unlimited questions, exams, and focused study tools",
     "pro_banner_cta": "View your benefits",
     "go_pro": "Go Pro 👑",
     "your_stats": "Your Stats",
@@ -279,7 +279,7 @@
     "profile": "Profile",
     "profile_sub": "Account, plan, and preferences",
     "upgrade": "Upgrade to Pro",
-    "upgrade_sub": "Unlimited questions, flashcards and AI Tutor",
+    "upgrade_sub": "Unlimited questions, flashcards, and mock exams",
     "upgrade_banner_sub": "Unlock mock exams, analytics & unlimited practice"
   },
   "upgrade": {

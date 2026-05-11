@@ -21,7 +21,6 @@ const API_BASE = 'https://www.rbtgenius.com';
 const FEATURES = [
   { icon: '∞',  label: 'Unlimited practice questions', sub: 'No daily cap — study as much as you want' },
   { icon: '🃏', label: 'Unlimited flashcard sessions',  sub: 'All topics, all difficulty levels' },
-  { icon: '🤖', label: '150 AI Tutor messages/day',    sub: 'Instant explanations for any ABA concept' },
   { icon: '📋', label: 'Full 85-question mock exams',  sub: 'Simulate the real BACB RBT exam' },
   { icon: '📊', label: 'Advanced analytics',            sub: 'Domain mastery, exam history & weekly trends' },
 ];
@@ -107,7 +106,7 @@ export default function UpgradeScreen({ navigation }) {
       <View style={s.proWrap}>
         <Text style={s.proEmoji}>🎉</Text>
         <Text style={s.proTitle}>You're Pro!</Text>
-        <Text style={s.proSub}>All features unlocked. Go study!</Text>
+        <Text style={s.proSub}>All premium study features unlocked. Go study!</Text>
         <Pressable style={s.manageBtn} onPress={() => Linking.openURL(`${API_BASE}/profile`)}>
           <Text style={s.manageTxt}>Manage Subscription</Text>
         </Pressable>

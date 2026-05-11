@@ -17,7 +17,6 @@ import OnboardingScreen, { ONBOARDING_KEY } from '../screens/auth/OnboardingScre
 import DashboardScreen from '../screens/tabs/DashboardScreen';
 import PracticeScreen from '../screens/tabs/PracticeScreen';
 import MockExamScreen from '../screens/tabs/MockExamScreen';
-import AITutorScreen from '../screens/tabs/AITutorScreen';
 import MoreScreen from '../screens/tabs/MoreScreen';
 import FlashcardsScreen from '../screens/tabs/FlashcardsScreen';
 import AnalyticsScreen from '../screens/tabs/AnalyticsScreen';
@@ -79,11 +78,6 @@ function MainTabs() {
         name="MockExams"
         component={MockExamScreen}
         options={{ tabBarLabel: 'Exams', tabBarIcon: ({ color, size }) => <Ionicons name="clipboard-outline" color={color} size={size} /> }}
-      />
-      <Tab.Screen
-        name="AITutor"
-        component={AITutorScreen}
-        options={{ tabBarLabel: 'Tutor', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="robot-outline" color={color} size={size} /> }}
       />
       <Tab.Screen
         name="More"

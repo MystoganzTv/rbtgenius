@@ -42,7 +42,7 @@ export const PLAN_CATALOG = [
     name: "Premium Monthly",
     price: "$19.99",
     period: "/month",
-    description: "Unlimited prep with mock exams, analytics, and a full AI study coach.",
+    description: "Unlimited prep with mock exams, analytics, and the full study system.",
     cta: "Upgrade Monthly",
     popular: true,
     badge: "Most Popular",
@@ -64,7 +64,7 @@ export const ACCESS_COMPARISON = [
     id: "access",
     label: "App access",
     guest: "Landing page and pricing",
-    free: "Dashboard, practice, flashcards, AI tutor",
+    free: "Dashboard, practice, flashcards",
     premium: "Everything unlocked",
   },
   {

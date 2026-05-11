@@ -29,7 +29,7 @@ export const pricingPlans = [
   {
     id: 'monthly', title: 'Pro Monthly', price: '$9.99 / month', featured: false,
     description: 'Full access billed monthly.',
-    features: ['Unlimited practice questions', 'All mock exams', 'AI Tutor (150 msgs/day)', 'Full analytics'],
+    features: ['Unlimited practice questions', 'All mock exams', 'Full flashcards access', 'Full analytics'],
   },
   {
     id: 'yearly', title: 'Pro Annual', price: '$59.99 / year', featured: true,

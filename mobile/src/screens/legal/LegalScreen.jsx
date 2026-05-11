@@ -8,7 +8,7 @@ const CONTENT = {
     title: 'Terms of Service',
     intro: 'These terms explain how RBT Genius can be used, what we provide, and the responsibilities of members using the platform.',
     sections: [
-      { h: '1. About RBT Genius', b: 'RBT Genius is an educational platform designed to help users prepare for the Registered Behavior Technician exam through practice questions, flashcards, mock exams, analytics, and tutoring features. The platform is intended for study support and does not replace formal supervision, clinical judgment, or BACB guidance.' },
+      { h: '1. About RBT Genius', b: 'RBT Genius is an educational platform designed to help users prepare for the Registered Behavior Technician exam through practice questions, flashcards, mock exams, and analytics. The platform is intended for study support and does not replace formal supervision, clinical judgment, or BACB guidance.' },
       { h: '2. Accounts and access', b: 'You are responsible for keeping your login credentials secure and for the activity that occurs under your account. You must provide accurate account information and use the service only for lawful and educational purposes.' },
       { h: '3. Membership plans', b: 'RBT Genius may offer free and premium access levels. Premium features may include expanded question access, mock exams, analytics, and billing tools. Plan details, pricing, and feature availability may change over time.' },
       { h: '4. Educational use only', b: 'Content inside RBT Genius is provided for study and review. It should not be treated as legal, medical, psychological, or supervisory advice. Users remain responsible for following the standards and requirements of the BACB, their employers, and their supervisors.' },

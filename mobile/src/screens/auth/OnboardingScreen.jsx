@@ -25,8 +25,8 @@ const SLIDES = [
   },
   {
     icon: '🤖',
-    title: 'Tutor AI\ndisponible 24/7',
-    body: 'Haz preguntas en lenguaje natural y recibe explicaciones claras sobre cualquier concepto del RBT.',
+    title: 'Tarjetas y\nrepaso activo',
+    body: 'Repasa conceptos clave con flashcards, explicaciones rápidas y sesiones enfocadas en memoria activa.',
     accent: '#059669',
   },
   {
