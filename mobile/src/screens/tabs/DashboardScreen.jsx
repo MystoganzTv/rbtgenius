@@ -8,7 +8,7 @@ import { alpha, getTheme } from '../../theme';
 import { Badge, MetricCard, ProgressBar, SectionTitle, toneColor } from '../../components/ui';
 import { TOTAL_PRACTICE_QUESTIONS } from '../../services/questionService.js';
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 
 const DOMAIN_KEYS = [
   { key: 'measurement',          accent: 'primary'  },

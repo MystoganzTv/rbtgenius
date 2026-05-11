@@ -8,7 +8,7 @@ import { ProgressBar, SectionTitle, toneColor } from '../../components/ui';
 import { TOTAL_PRACTICE_QUESTIONS } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 
 const DOMAIN_CONFIG = [
   { key: 'measurement',          label: 'Measurement',        accent: 'primary'  },

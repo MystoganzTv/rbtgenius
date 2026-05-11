@@ -2,7 +2,7 @@ import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
-const API_BASE    = 'https://rbtgenius.com';
+const API_BASE    = 'https://www.rbtgenius.com';
 const HOUR_KEY    = 'rbt_notif_hour';   // stored reminder hour (default 19)
 const NOTIF_KEY   = 'rbt_notifications_enabled';
 

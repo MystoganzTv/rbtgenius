@@ -18,7 +18,7 @@ import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 
 const QUICK_PROMPTS = [
   'Explain positive reinforcement',

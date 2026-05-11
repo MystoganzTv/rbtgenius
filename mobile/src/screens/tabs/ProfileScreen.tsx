@@ -26,7 +26,7 @@ import { MetricCard } from '../../components/ui';
 import { setupNotifications } from '../../services/NotificationService';
 import { changeLanguage } from '../../i18n';
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 const NOTIF_KEY = 'rbt_notifications_enabled';
 const LANG_KEY = 'rbt_language';
 const EXAM_DATE_KEY = 'rbt_exam_date';
@@ -224,7 +224,7 @@ export default function ProfileScreen({ navigation }) {
     if (available) {
       requestReview();
     } else {
-      Linking.openURL('https://rbtgenius.com');
+      Linking.openURL('https://www.rbtgenius.com');
     }
   };
 

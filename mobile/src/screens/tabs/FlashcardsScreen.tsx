@@ -13,7 +13,7 @@ import { ProgressBar } from '../../components/ui';
 import { getFlashcards, TOPICS } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
 
-const API_BASE  = 'https://rbtgenius.com';
+const API_BASE  = 'https://www.rbtgenius.com';
 const ALL_CARDS = getFlashcards(120);
 
 const DIFFICULTY_KEYS = ['all', 'Easy', 'Medium', 'Hard'] as const;

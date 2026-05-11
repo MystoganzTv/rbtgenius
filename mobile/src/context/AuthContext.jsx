@@ -21,7 +21,7 @@ async function maybeInitRC(userId) {
 const AuthContext = createContext(null);
 
 const TOKEN_KEY = 'rbt_genius_auth_token';
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 const DASHBOARD_TIMEOUT_MS = 6000;
 
 GoogleSignin.configure({

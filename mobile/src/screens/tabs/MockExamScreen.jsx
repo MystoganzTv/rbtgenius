@@ -12,7 +12,7 @@ import { ProgressBar, toneColor } from '../../components/ui';
 import { getMockExamQuestions } from '../../services/questionService.js';
 import { useAuth } from '../../context/AuthContext';
 
-const API_BASE   = 'https://rbtgenius.com';
+const API_BASE   = 'https://www.rbtgenius.com';
 const EXAM_SIZE  = 85;
 const TIME_LIMIT = 90 * 60;
 const PASS_SCORE = 80;

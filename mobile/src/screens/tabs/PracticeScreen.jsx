@@ -10,7 +10,7 @@ import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
 import { buildQuestionTranslationContent } from '../../lib/questions/reviewed-question-translations.js';
 import { useAuth } from '../../context/AuthContext';
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 
 export default function PracticeScreen({ navigation }) {
   const scheme = useColorScheme();

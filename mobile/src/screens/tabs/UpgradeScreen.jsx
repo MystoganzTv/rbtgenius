@@ -16,7 +16,7 @@ try {
   restorePurchases = rc.restorePurchases; rcAvailable = true;
 } catch { rcAvailable = false; }
 
-const API_BASE = 'https://rbtgenius.com';
+const API_BASE = 'https://www.rbtgenius.com';
 
 const FEATURES = [
   { icon: '∞',  label: 'Unlimited practice questions', sub: 'No daily cap — study as much as you want' },
