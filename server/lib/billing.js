@@ -5,6 +5,7 @@ import {
   isPremiumPlan,
   normalizePlan,
 } from "../../shared/plan-access.js";
+import { getStoreProductById } from "../../src/lib/store-catalog.js";
 
 const STRIPE_PRICE_ENV = {
   [PLAN_IDS.PREMIUM_MONTHLY]: "STRIPE_PRICE_PREMIUM_MONTHLY",
@@ -327,5 +328,108 @@ export async function createStripePortalSession({
 
   return {
     url: portal.url,
+  };
+}
+
+
+export async function createStripeStoreCheckoutSession({
+  productId,
+  user = null,
+  origin,
+  successPath = "/store",
+  cancelPath = "/store",
+  successUrl = null,
+  cancelUrl = null,
+}) {
+  const product = getStoreProductById(productId);
+  if (!product) {
+    throw new Error("Store product not found.");
+  }
+
+  const stripe = ensureStripeReady();
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    success_url: successUrl
+      ? buildReturnUrl(successUrl, {
+          store: "success",
+          session_id: "{CHECKOUT_SESSION_ID}",
+        })
+      : buildAbsoluteUrl(origin, successPath, {
+          store: "success",
+          session_id: "{CHECKOUT_SESSION_ID}",
+        }),
+    cancel_url: cancelUrl
+      ? buildReturnUrl(cancelUrl, { store: "cancelled" })
+      : buildAbsoluteUrl(origin, cancelPath, { store: "cancelled" }),
+    client_reference_id: user?.id || undefined,
+    billing_address_collection: "required",
+    phone_number_collection: { enabled: true },
+    shipping_address_collection: { allowed_countries: ["US"] },
+    allow_promotion_codes: true,
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          unit_amount: product.price_cents,
+          product_data: {
+            name: product.name,
+            description: product.checkout_description || product.summary,
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    metadata: {
+      payment_type: "store_purchase",
+      product_id: product.id,
+      product_name: product.name,
+      product_category: product.category,
+      product_format: product.format,
+      user_id: user?.id || "",
+      user_email: user?.email || "",
+    },
+    ...(user?.stripe_customer_id
+      ? { customer: user.stripe_customer_id }
+      : user?.email
+      ? { customer_email: user.email }
+      : {}),
+  });
+
+  return {
+    id: session.id,
+    url: session.url,
+  };
+}
+
+export async function confirmStripeStoreCheckoutSession(sessionId) {
+  const stripe = ensureStripeReady();
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (session.mode !== "payment") {
+    throw new Error("This checkout session is not a store purchase.");
+  }
+
+  if (session.status !== "complete" && session.payment_status !== "paid") {
+    throw new Error("This checkout session has not completed yet.");
+  }
+
+  if (session.metadata?.payment_type !== "store_purchase") {
+    throw new Error("This checkout session is not a store order.");
+  }
+
+  return {
+    session_id: session.id,
+    status: session.status,
+    payment_status: session.payment_status,
+    amount_total: session.amount_total ?? 0,
+    currency: session.currency || "usd",
+    customer_id:
+      typeof session.customer === "string" ? session.customer : session.customer?.id || null,
+    customer_email: session.customer_details?.email || session.customer_email || null,
+    client_reference_id: session.client_reference_id || null,
+    metadata: session.metadata || {},
+    completed_at: new Date(
+      (session.created || Math.floor(Date.now() / 1000)) * 1000,
+    ).toISOString(),
   };
 }

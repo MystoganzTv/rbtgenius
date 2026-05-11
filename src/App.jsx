@@ -33,6 +33,7 @@ const PUBLIC_PAGES = new Set([
   "RefundPolicy",
   "Contact",
   "Support",
+  "Store",
 ]);
 
 function LayoutWrapper({ children, currentPageName }) {

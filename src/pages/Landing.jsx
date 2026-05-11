@@ -401,14 +401,26 @@ export default function Landing() {
               {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </Button>
             {isAuthenticated ? (
-              <Link to={createPageUrl("Dashboard")}>
-                <Button className="rounded-xl bg-[#1E5EFF] px-3 text-sm hover:bg-[#1E5EFF]/90 sm:px-4 sm:text-base">
-                  <span className="hidden sm:inline">Go to Dashboard</span>
-                  <span className="sm:hidden">Dashboard</span>
-                </Button>
-              </Link>
+              <>
+                <Link to={createPageUrl("Store")} className="hidden sm:block">
+                  <Button variant="ghost" className="rounded-xl">
+                    Store
+                  </Button>
+                </Link>
+                <Link to={createPageUrl("Dashboard")}>
+                  <Button className="rounded-xl bg-[#1E5EFF] px-3 text-sm hover:bg-[#1E5EFF]/90 sm:px-4 sm:text-base">
+                    <span className="hidden sm:inline">Go to Dashboard</span>
+                    <span className="sm:hidden">Dashboard</span>
+                  </Button>
+                </Link>
+              </>
             ) : (
               <>
+                <Link to={createPageUrl("Store")} className="hidden sm:block">
+                  <Button variant="ghost" className="rounded-xl">
+                    Store
+                  </Button>
+                </Link>
                 <Link to="/login" className="hidden sm:block">
                   <Button variant="ghost" className="rounded-xl">
                     Log In
@@ -979,6 +991,11 @@ export default function Landing() {
             <Link to={createPageUrl("Pricing")}>
               <Button variant="outline" className="w-full rounded-2xl px-6 sm:w-auto">
                 View Full Pricing
+              </Button>
+            </Link>
+            <Link to={createPageUrl("Store")}>
+              <Button variant="outline" className="w-full rounded-2xl px-6 sm:w-auto">
+                Visit Store
               </Button>
             </Link>
           </div>

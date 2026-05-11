@@ -4,10 +4,21 @@ import {
   buildPracticeQuestionBank, evaluateQuestionAnswer, sanitizeQuestions,
   TOTAL_PRACTICE_QUESTIONS, topicLabels,
 } from '../shared/questions/question-bank.js';
+import { STORE_PRODUCTS } from '../src/lib/store-catalog.js';
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
 import { resolveUserRole, ADMIN_EMAILS, HARDCODED_TEST_ACCOUNT } from '../server/lib/seed.js';
-import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, getStripeSubscriptionSummary, resolvePlanFromPriceId } from '../server/lib/billing.js';
+import {
+  confirmStripeCheckoutSession,
+  confirmStripeStoreCheckoutSession,
+  constructStripeWebhookEvent,
+  createStripeCheckoutSession,
+  createStripePortalSession,
+  createStripeStoreCheckoutSession,
+  getBillingConfig,
+  getStripeSubscriptionSummary,
+  resolvePlanFromPriceId,
+} from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
 import crypto from 'node:crypto';
@@ -159,6 +170,14 @@ async function requireAdmin(req) {
   return auth;
 }
 
+async function getOptionalUser(req) {
+  const token = getToken(req);
+  if (!token) return null;
+  const user = await db.getUserByToken(token);
+  if (!user || isSessionExpired(user)) return null;
+  return user;
+}
+
 function rateLimited(decision, feature) {
   return json({ message: 'Too many attempts. Please wait and try again.', code: 'rate_limited', feature, retry_after_seconds: decision.retryAfterSeconds },
     { status: 429, headers: { 'Retry-After': String(decision.retryAfterSeconds) } });
@@ -174,6 +193,68 @@ function sendPlanLimitReached(feature, limit, remaining) {
 
 function getCheckoutOrigin(req) {
   return normalizeOrigin(req.headers.get('origin'), parseUrl(req).origin);
+}
+
+function buildStorePaymentRecord(user, checkout) {
+  if (!user) return null;
+
+  return {
+    id: `pay_store_${checkout.session_id}`,
+    user_id: user.id,
+    status: checkout.payment_status === 'paid' ? 'completed' : checkout.status || 'complete',
+    amount: Number((((checkout.amount_total || 0) / 100) || 0).toFixed(2)),
+    payment_date: checkout.completed_at || new Date().toISOString(),
+    created_at: checkout.completed_at || new Date().toISOString(),
+    metadata: {
+      payment_type: 'store_purchase',
+      product_id: checkout.metadata?.product_id || null,
+      product_name: checkout.metadata?.product_name || null,
+      product_category: checkout.metadata?.product_category || null,
+      product_format: checkout.metadata?.product_format || null,
+      currency: String(checkout.currency || 'usd').toUpperCase(),
+      stripe_session_id: checkout.session_id,
+      stripe_customer_id: checkout.customer_id || null,
+    },
+  };
+}
+
+async function recordStorePurchase(checkout) {
+  const normalizedEmail = String(
+    checkout.customer_email || checkout.metadata?.user_email || '',
+  )
+    .trim()
+    .toLowerCase();
+
+  let user = null;
+  if (checkout.client_reference_id) {
+    user = await db.getUserById(checkout.client_reference_id);
+  }
+
+  if (!user && checkout.customer_id) {
+    user = await db.getUserByStripeCustomerId(checkout.customer_id);
+  }
+
+  if (!user && normalizedEmail) {
+    user = await db.getUserByEmail(normalizedEmail);
+  }
+
+  if (!user) return null;
+
+  const payment = buildStorePaymentRecord(user, checkout);
+  if (payment) {
+    await db.createPayment(payment);
+  }
+
+  const needsCustomerIdUpdate =
+    checkout.customer_id && checkout.customer_id !== user.stripe_customer_id;
+
+  if (needsCustomerIdUpdate) {
+    user = await db.updateUser(user.id, {
+      stripe_customer_id: checkout.customer_id,
+    });
+  }
+
+  return user;
 }
 
 // Rate limit helpers that work with Postgres instead of the JSON blob
@@ -332,36 +413,55 @@ async function webApiHandler(req) {
 
       if (event.type === 'checkout.session.completed') {
         const checkout = event.data?.object || {};
-        const allUsers = await db.getAllUsers();
-        const allPayments = await db.getAllPayments();
-        const mockCurrentDb = { users: allUsers, payments: allPayments };
-        const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
-        for (const u of mockNext.users) {
-          const orig = allUsers.find(x => x.id === u.id);
-          if (
-            orig &&
-            (
-              orig.plan !== u.plan ||
-              orig.stripe_customer_id !== u.stripe_customer_id ||
-              orig.stripe_subscription_id !== u.stripe_subscription_id
-            )
-          ) {
-            await db.updateUser(u.id, {
-              plan: u.plan,
-              stripe_customer_id: u.stripe_customer_id,
-              stripe_subscription_id: u.stripe_subscription_id,
-            });
+
+        if (checkout.metadata?.payment_type === 'store_purchase') {
+          await recordStorePurchase({
+            session_id: checkout.id,
+            status: checkout.status,
+            payment_status: checkout.payment_status,
+            amount_total: checkout.amount_total ?? 0,
+            currency: checkout.currency || 'usd',
+            customer_id:
+              typeof checkout.customer === 'string' ? checkout.customer : checkout.customer?.id || null,
+            customer_email: checkout.customer_details?.email || checkout.customer_email || null,
+            client_reference_id: checkout.client_reference_id || null,
+            metadata: checkout.metadata || {},
+            completed_at: new Date(
+              (checkout.created || Math.floor(Date.now() / 1000)) * 1000,
+            ).toISOString(),
+          });
+        } else {
+          const allUsers = await db.getAllUsers();
+          const allPayments = await db.getAllPayments();
+          const mockCurrentDb = { users: allUsers, payments: allPayments };
+          const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
+          for (const u of mockNext.users) {
+            const orig = allUsers.find(x => x.id === u.id);
+            if (
+              orig &&
+              (
+                orig.plan !== u.plan ||
+                orig.stripe_customer_id !== u.stripe_customer_id ||
+                orig.stripe_subscription_id !== u.stripe_subscription_id
+              )
+            ) {
+              await db.updateUser(u.id, {
+                plan: u.plan,
+                stripe_customer_id: u.stripe_customer_id,
+                stripe_subscription_id: u.stripe_subscription_id,
+              });
+            }
           }
+          for (const p of mockNext.payments) {
+            if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p);
+          }
+          const user = findUserForBilling({ users: mockNext.users, payments: mockNext.payments }, {
+            userId: checkout.client_reference_id,
+            customerId: typeof checkout.customer === 'string' ? checkout.customer : checkout.customer?.id,
+            email: checkout.customer_details?.email || checkout.customer_email,
+          });
+          if (user) await notifyNewSubscription({ user, plan: checkout.metadata?.plan || user.plan, checkout });
         }
-        for (const p of mockNext.payments) {
-          if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p);
-        }
-        const user = findUserForBilling({ users: mockNext.users, payments: mockNext.payments }, {
-          userId: checkout.client_reference_id,
-          customerId: typeof checkout.customer === 'string' ? checkout.customer : checkout.customer?.id,
-          email: checkout.customer_details?.email || checkout.customer_email,
-        });
-        if (user) await notifyNewSubscription({ user, plan: checkout.metadata?.plan || user.plan, checkout });
       }
 
       if (event.type === 'customer.subscription.deleted') {
@@ -449,6 +549,12 @@ async function webApiHandler(req) {
   if (apiPath === '/health' && req.method === 'GET') return json({ ok: true });
   if (apiPath === '/public-settings' && req.method === 'GET') return json({ auth_required: true, app_name: 'RBT Genius', billing: getBillingConfig() });
   if (apiPath === '/auth/providers' && req.method === 'GET') return json({ providers: listOAuthProviders() });
+  if (apiPath === '/store/products' && req.method === 'GET') {
+    return json({
+      products: STORE_PRODUCTS,
+      stripe_enabled: getBillingConfig().stripe_enabled,
+    });
+  }
 
   // ── OAuth start ─────────────────────────────────────────────────────────────
   if (req.method === 'GET' && /^\/auth\/oauth\/[^/]+\/start$/.test(apiPath)) {
@@ -829,6 +935,44 @@ async function webApiHandler(req) {
       });
       return json(session);
     } catch (err) { return json({ message: err.message || 'Unable to open billing portal' }, { status: 400 }); }
+  }
+
+  if (apiPath === '/store/checkout' && req.method === 'POST') {
+    try {
+      const body = await req.json();
+      const user = await getOptionalUser(req);
+      const session = await createStripeStoreCheckoutSession({
+        productId: String(body?.product_id || '').trim(),
+        user,
+        origin: getCheckoutOrigin(req),
+        successUrl: body?.success_url || null,
+        cancelUrl: body?.cancel_url || null,
+      });
+      return json(session, { status: 201 });
+    } catch (err) {
+      return json({ message: err.message || 'Unable to start store checkout' }, { status: 400 });
+    }
+  }
+
+  if (apiPath === '/store/confirm' && req.method === 'POST') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    try {
+      const { session_id: sessionId } = await req.json();
+      if (!sessionId) return json({ message: 'Checkout session is required' }, { status: 400 });
+      const checkout = await confirmStripeStoreCheckoutSession(sessionId);
+      const ownsSession =
+        checkout.client_reference_id === auth.user.id ||
+        String(checkout.customer_email || '').toLowerCase() ===
+          String(auth.user.email || '').toLowerCase();
+      if (!ownsSession) {
+        return json({ message: 'This store checkout does not belong to you' }, { status: 403 });
+      }
+      const freshUser = await recordStorePurchase(checkout);
+      return json(await buildProfilePayloadAsync(freshUser || auth.user));
+    } catch (err) {
+      return json({ message: err.message || 'Unable to confirm store order' }, { status: 400 });
+    }
   }
 
   // ── Admin ────────────────────────────────────────────────────────────────────

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Shield,
   BarChart3,
+  BookOpen,
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
@@ -25,6 +26,7 @@ const navItems = [
   { name: "Mock Exams", icon: ClipboardCheck, page: "MockExams", premium: true },
   { name: "Analytics", icon: BarChart3, page: "Analytics", premium: true },
   { name: "Pricing", icon: CreditCard, page: "Pricing" },
+  { name: "Store", icon: BookOpen, page: "Store" },
 ];
 
 const secondaryItems = [

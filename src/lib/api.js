@@ -70,9 +70,31 @@ function createQuery(params = {}) {
 }
 
 export const api = {
-  getPublicSettings() {
-    return request("/api/public-settings");
-  },
+
+getPublicSettings() {
+  return request("/api/public-settings");
+},
+listStoreProducts() {
+  return request("/api/store/products");
+},
+createStoreCheckout(productId, options = {}) {
+  return request("/api/store/checkout", {
+    method: "POST",
+    body: {
+      product_id: productId,
+      success_url:
+        options.successUrl || (typeof window !== "undefined" ? `${window.location.origin}/store` : undefined),
+      cancel_url:
+        options.cancelUrl || (typeof window !== "undefined" ? `${window.location.origin}/store` : undefined),
+    },
+  });
+},
+confirmStoreCheckout(sessionId) {
+  return request("/api/store/confirm", {
+    method: "POST",
+    body: { session_id: sessionId },
+  });
+},
   getAuthProviders(options = {}) {
     return request("/api/auth/providers", options);
   },

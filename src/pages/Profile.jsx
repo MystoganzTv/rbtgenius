@@ -79,6 +79,16 @@ function formatPaymentDate(value) {
   }
 }
 
+function getPaymentTitle(payment, t) {
+  if (payment?.metadata?.payment_type === "store_purchase") {
+    return payment.metadata.product_name || t("Store purchase");
+  }
+
+  return payment.plan === PLAN_IDS.PREMIUM_YEARLY
+    ? t("Premium Yearly")
+    : t("Premium Monthly");
+}
+
 export default function Profile() {
   const { user: authUser, login } = useAuth();
   const { language } = useLanguage();
@@ -755,9 +765,7 @@ export default function Profile() {
                       </div>
                       <div>
                         <p className="font-medium text-[#0F172A] dark:text-slate-50">
-                          {payment.plan === PLAN_IDS.PREMIUM_YEARLY
-                            ? t("Premium Yearly")
-                            : t("Premium Monthly")}
+                          {getPaymentTitle(payment, t)}
                         </p>
                         <p className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                           <Calendar className="h-3 w-3" />
@@ -768,14 +776,16 @@ export default function Profile() {
 
                     <div className="text-right">
                       <p className="font-bold text-[#0F172A] dark:text-slate-50">
-                        ${Number(payment.amount || 0).toFixed(2)} {payment.currency || "USD"}
+                        ${Number(payment.amount || 0).toFixed(2)} {payment.currency || payment.metadata?.currency || "USD"}
                       </p>
                       <div className="space-y-1">
                         <p className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
                           {payment.status}
                         </p>
                         <p className="text-xs text-slate-400 dark:text-slate-500">
-                          {t(payment.provider_label || payment.provider || "Billing")}
+                          {payment.metadata?.payment_type === "store_purchase"
+                            ? t(payment.metadata?.product_category || "Store")
+                            : t(payment.provider_label || payment.provider || "Billing")}
                         </p>
                       </div>
                     </div>

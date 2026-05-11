@@ -30,11 +30,14 @@ import {
   normalizeRedirectPath,
 } from './lib/oauth.js';
 import { resolveUserRole } from './lib/seed.js';
+import { STORE_PRODUCTS } from '../src/lib/store-catalog.js';
 import {
   confirmStripeCheckoutSession,
+  confirmStripeStoreCheckoutSession,
   constructStripeWebhookEvent,
   createStripeCheckoutSession,
   createStripePortalSession,
+  createStripeStoreCheckoutSession,
   getBillingConfig,
   getStripeSubscriptionSummary,
 } from './lib/billing.js';
@@ -101,26 +104,47 @@ app.post(
       writeDb(next);
 
       if (event.type === 'checkout.session.completed') {
-        const user = findUserForBilling(next, {
-          userId: eventObject.client_reference_id,
-          customerId:
-            typeof eventObject.customer === 'string'
-              ? eventObject.customer
-              : eventObject.customer?.id,
-          subscriptionId:
-            typeof eventObject.subscription === 'string'
-              ? eventObject.subscription
-              : eventObject.subscription?.id,
-          email:
-            eventObject.customer_email || eventObject.customer_details?.email,
-        });
-
-        if (user) {
-          void notifyNewSubscription({
-            user,
-            plan: eventObject.metadata?.plan || user.plan,
-            checkout: eventObject,
+        if (eventObject.metadata?.payment_type === 'store_purchase') {
+          recordStorePurchaseLocally({
+            session_id: eventObject.id,
+            status: eventObject.status,
+            payment_status: eventObject.payment_status,
+            amount_total: eventObject.amount_total ?? 0,
+            currency: eventObject.currency || 'usd',
+            customer_id:
+              typeof eventObject.customer === 'string'
+                ? eventObject.customer
+                : eventObject.customer?.id || null,
+            customer_email:
+              eventObject.customer_details?.email || eventObject.customer_email || null,
+            client_reference_id: eventObject.client_reference_id || null,
+            metadata: eventObject.metadata || {},
+            completed_at: new Date(
+              (eventObject.created || Math.floor(Date.now() / 1000)) * 1000,
+            ).toISOString(),
           });
+        } else {
+          const user = findUserForBilling(next, {
+            userId: eventObject.client_reference_id,
+            customerId:
+              typeof eventObject.customer === 'string'
+                ? eventObject.customer
+                : eventObject.customer?.id,
+            subscriptionId:
+              typeof eventObject.subscription === 'string'
+                ? eventObject.subscription
+                : eventObject.subscription?.id,
+            email:
+              eventObject.customer_email || eventObject.customer_details?.email,
+          });
+
+          if (user) {
+            void notifyNewSubscription({
+              user,
+              plan: eventObject.metadata?.plan || user.plan,
+              checkout: eventObject,
+            });
+          }
         }
       }
 
@@ -341,6 +365,76 @@ async function buildProfilePayloadAsync(db, user) {
   };
 }
 
+function buildStorePaymentRecord(user, checkout) {
+  if (!user) return null;
+
+  return {
+    id: `pay_store_${checkout.session_id}`,
+    user_id: user.id,
+    created_at: checkout.completed_at || new Date().toISOString(),
+    status: checkout.payment_status === 'paid' ? 'completed' : checkout.status || 'complete',
+    amount: Number((((checkout.amount_total || 0) / 100) || 0).toFixed(2)),
+    payment_date: checkout.completed_at || new Date().toISOString(),
+    metadata: {
+      payment_type: 'store_purchase',
+      product_id: checkout.metadata?.product_id || null,
+      product_name: checkout.metadata?.product_name || null,
+      product_category: checkout.metadata?.product_category || null,
+      product_format: checkout.metadata?.product_format || null,
+      currency: String(checkout.currency || 'usd').toUpperCase(),
+      stripe_session_id: checkout.session_id,
+      stripe_customer_id: checkout.customer_id || null,
+    },
+  };
+}
+
+function recordStorePurchaseLocally(checkout) {
+  let matchedUser = null;
+
+  updateDb(current => {
+    const normalizedEmail = String(
+      checkout.customer_email || checkout.metadata?.user_email || '',
+    )
+      .trim()
+      .toLowerCase();
+
+    matchedUser =
+      current.users.find(user => user.id === checkout.client_reference_id) ||
+      current.users.find(user => user.stripe_customer_id && user.stripe_customer_id === checkout.customer_id) ||
+      current.users.find(user => String(user.email || '').trim().toLowerCase() === normalizedEmail) ||
+      null;
+
+    if (!matchedUser) {
+      return current;
+    }
+
+    const payment = buildStorePaymentRecord(matchedUser, checkout);
+
+    return {
+      ...current,
+      users: current.users.map(user =>
+        user.id === matchedUser.id
+          ? {
+              ...user,
+              stripe_customer_id: checkout.customer_id || user.stripe_customer_id || null,
+            }
+          : user,
+      ),
+      payments: payment
+        ? [
+            payment,
+            ...current.payments.filter(existing => existing.id !== payment.id),
+          ]
+        : current.payments,
+    };
+  });
+
+  if (!matchedUser) return null;
+
+  const nextDb = readDb();
+  return nextDb.users.find(user => user.id === matchedUser.id) || matchedUser;
+}
+
 function sendPremiumRequired(res, feature) {
   res.status(403).json({
     message: 'Premium membership required',
@@ -496,6 +590,13 @@ app.get('/api/public-settings', (_req, res) => {
     auth_required: true,
     app_name: 'RBT Genius',
     billing: getBillingConfig(),
+  });
+});
+
+app.get('/api/store/products', (_req, res) => {
+  res.json({
+    products: STORE_PRODUCTS,
+    stripe_enabled: getBillingConfig().stripe_enabled,
   });
 });
 
@@ -1206,6 +1307,58 @@ app.post('/api/billing/portal', requireUser, async (req, res) => {
     res
       .status(400)
       .json({ message: error.message || 'Unable to open billing portal' });
+  }
+});
+
+app.post('/api/store/checkout', async (req, res) => {
+  const optionalUser = getCurrentUser(req);
+
+  try {
+    const session = await createStripeStoreCheckoutSession({
+      productId: String(req.body?.product_id || '').trim(),
+      user: optionalUser,
+      origin: getCheckoutOrigin(req),
+      successUrl: req.body?.success_url || null,
+      cancelUrl: req.body?.cancel_url || null,
+    });
+
+    res.status(201).json(session);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: error.message || 'Unable to start store checkout' });
+  }
+});
+
+app.post('/api/store/confirm', requireUser, async (req, res) => {
+  const sessionId = String(req.body?.session_id || '').trim();
+
+  if (!sessionId) {
+    res.status(400).json({ message: 'Checkout session is required' });
+    return;
+  }
+
+  try {
+    const checkout = await confirmStripeStoreCheckoutSession(sessionId);
+    const ownsSession =
+      checkout.client_reference_id === req.currentUser.id ||
+      String(checkout.customer_email || '').toLowerCase() ===
+        String(req.currentUser.email || '').toLowerCase();
+
+    if (!ownsSession) {
+      res
+        .status(403)
+        .json({ message: 'This store checkout does not belong to you' });
+      return;
+    }
+
+    const nextUser = recordStorePurchaseLocally(checkout) || req.currentUser;
+    const db = readDb();
+    res.json(await buildProfilePayloadAsync(db, nextUser));
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: error.message || 'Unable to confirm store order' });
   }
 });
 
