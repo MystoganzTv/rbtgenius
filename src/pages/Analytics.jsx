@@ -22,8 +22,8 @@ import { api } from "@/lib/api";
 import { translateTopic, translateUi } from "@/lib/i18n";
 import { isPremiumPlan } from "@/lib/plan-access";
 import { MIN_DOMAIN_ATTEMPTS } from "@/lib/backend-core";
-import { PRACTICE_TOPIC_TOTALS, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions";
-import { TASK_LIST_SECTIONS } from "@/lib/questions";
+import { PRACTICE_TOPIC_TOTALS, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions/index.js";
+import { TASK_LIST_SECTIONS } from "@/lib/questions/index.js";
 
 const topicLabels = {
   measurement: "Measurement",

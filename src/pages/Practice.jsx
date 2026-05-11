@@ -49,7 +49,7 @@ import {
   RBT_ALLOWED_DIFFICULTIES,
   topicLabels,
   TOTAL_PRACTICE_QUESTIONS,
-} from "@/lib/questions";
+} from "@/lib/questions/index.js";
 import { translateDifficulty, translateTopic, translateUi } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { createPageUrl } from "@/utils";

@@ -19,9 +19,9 @@ import { useLanguage } from "@/hooks/use-language";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
 import { translateUi } from "@/lib/i18n";
-import { OFFICIAL_CONCEPT_COUNT } from "@/lib/questions";
+import { OFFICIAL_CONCEPT_COUNT } from "@/lib/questions/index.js";
 import { createPageUrl } from "@/utils";
-import { TASK_LIST_SECTIONS } from "@/lib/questions";
+import { TASK_LIST_SECTIONS } from "@/lib/questions/index.js";
 
 const emptyProgress = {
   total_questions_completed: 0,

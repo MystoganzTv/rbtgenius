@@ -19,7 +19,7 @@ import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/hooks/use-theme";
 import { ACCESS_COMPARISON } from "@/lib/plan-access";
 import { translateUi } from "@/lib/i18n";
-import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions";
+import { OFFICIAL_CONCEPT_COUNT, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions/index.js";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
 
