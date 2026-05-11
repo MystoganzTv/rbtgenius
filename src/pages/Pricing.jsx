@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Check, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { api } from "@/lib/api";
 import { PLAN_IDS, isPremiumPlan } from "@/lib/plan-access";
-import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions";
+import { TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions/index.js";
 import { toast } from "@/components/ui/use-toast";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
@@ -140,8 +140,8 @@ export default function Pricing() {
       </div>
 
       {/* Cards */}
-      <div className="mx-auto max-w-3xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="mx-auto max-w-6xl px-6 pb-24">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isCurrent = isAuthenticated && currentPlan === plan.id;
             const isYearly = plan.id === PLAN_IDS.PREMIUM_YEARLY;
@@ -152,24 +152,31 @@ export default function Pricing() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex min-h-[38rem] flex-col rounded-[2rem] border bg-white p-8 shadow-[0_24px_70px_-36px_rgba(15,23,42,0.22)] transition-all dark:bg-[#0D1E3A] ${
+                className={`relative flex min-h-[36rem] flex-col overflow-visible rounded-[2rem] border bg-white p-10 shadow-[0_28px_80px_-42px_rgba(15,23,42,0.24)] transition-all dark:bg-[#0D1E3A] ${
                   isCurrent
                     ? "border-[#1E5EFF]/35 ring-2 ring-[#1E5EFF]/12 dark:border-[#1E5EFF]/35"
                     : "border-slate-200 dark:border-[#1E5EFF]/15"
                 }`}
               >
-                <div className="mb-8 flex min-h-[3rem] items-start justify-between gap-4">
+                {isYearly ? (
+                  <div className="absolute right-8 top-0 z-10 -translate-y-1/2">
+                    <div className="rounded-2xl border border-[#1E5EFF]/15 bg-white/96 px-4 py-2 shadow-[0_20px_45px_-28px_rgba(15,23,42,0.45)] backdrop-blur-sm dark:border-[#1E5EFF]/20 dark:bg-[#10244A]/95">
+                      <div className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#1E5EFF]/65">
+                        Best Value
+                      </div>
+                      <div className="mt-1 text-sm font-bold text-[#1E5EFF]">
+                        Save 10%
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="mb-10 flex min-h-[3rem] items-start justify-between gap-4">
                   {isCurrent ? (
                     <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
                       ✓ Current
                     </span>
                   ) : <span />}
-
-                  {isYearly ? (
-                    <span className="relative -mt-12 mr-2 inline-flex rounded-full bg-[#1E5EFF] px-4 py-2 text-xs font-semibold text-white shadow-[0_18px_34px_-18px_rgba(30,94,255,0.65)] before:absolute before:-bottom-2 before:left-6 before:h-4 before:w-4 before:rotate-45 before:rounded-[0.35rem] before:bg-[#1E5EFF] before:content-['']">
-                      Save 10%
-                    </span>
-                  ) : null}
                 </div>
 
                 <div>
@@ -178,7 +185,7 @@ export default function Pricing() {
                     <span className="text-5xl font-black tracking-tight text-slate-900 dark:text-slate-50">{plan.price}</span>
                     <span className="mb-1.5 text-base text-slate-400">{plan.period}</span>
                   </div>
-                  <p className="mt-3 min-h-[3rem] text-sm font-medium leading-6 text-slate-500 dark:text-slate-400">
+                  <p className="mt-4 min-h-[3.5rem] max-w-[28rem] text-base font-medium leading-7 text-slate-500 dark:text-slate-400">
                     {isYearly
                       ? "10% less than paying monthly for a full year."
                       : "Full premium access billed month to month."}
@@ -203,16 +210,16 @@ export default function Pricing() {
                   )}
                 </button>
 
-                <ul className="mt-8 space-y-4">
+                <ul className="mt-10 space-y-4">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
-                      <span className="text-sm leading-6 text-slate-600 dark:text-slate-300">{feature}</span>
+                      <span className="text-base leading-7 text-slate-600 dark:text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="mt-auto pt-8 text-xs text-slate-400 dark:text-slate-500">
+                <p className="mt-auto pt-10 text-sm leading-6 text-slate-400 dark:text-slate-500">
                   {isCurrent
                     ? "You are already on this plan. Billing changes and cancellation live inside Manage Plan."
                     : isAnyPremium
