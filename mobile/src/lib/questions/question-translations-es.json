@@ -4390,5 +4390,233 @@
       "answer": "Fase de mantenimiento",
       "purpose": "Para conservar habilidades previamente dominadas a lo largo del tiempo y prevenir regresión una vez que la instrucción se ha desvanecido."
     }
+  },
+  "skill_sap_behavioral_objective": {
+    "status": "reviewed",
+    "answer": "Objetivo conductual en un SAP",
+    "definition": "el plan de adquisición de habilidades establece un objetivo conductual específico y medible que describe qué hará el cliente, bajo qué condiciones y a qué nivel.",
+    "scenario": "El RBT lee el SAP y encuentra el objetivo: 'Dada una instrucción verbal, el cliente nombrará correctamente cinco colores en 8 de 10 ensayos durante tres sesiones'.",
+    "purpose": "Para definir exactamente qué se espera que el cliente aprenda, en términos medibles.",
+    "explanation": "Un objetivo conductual claro guía la instrucción y le dice a todo el equipo cómo se verá el éxito para esa habilidad.",
+    "options_es": {
+      "answer": "Objetivo conductual en un SAP",
+      "purpose": "Para definir exactamente qué se espera que el cliente aprenda, en términos medibles."
+    }
+  },
+  "skill_sap_reinforcement_plan": {
+    "status": "reviewed",
+    "answer": "Plan de reforzamiento en un SAP",
+    "definition": "el plan de adquisición de habilidades identifica qué reforzadores usar, cuándo entregarlos y bajo qué programa.",
+    "scenario": "El RBT revisa el SAP y ve que se deben entregar elogios y un pequeño comestible inmediatamente después de cada respuesta independiente correcta bajo un programa de razón fija 1.",
+    "purpose": "Para guiar al RBT en el reforzamiento consistente de la conducta objetivo según el plan.",
+    "explanation": "Seguir el plan de reforzamiento asegura que las respuestas correctas contacten la consecuencia diseñada para fortalecerlas.",
+    "options_es": {
+      "answer": "Plan de reforzamiento en un SAP",
+      "purpose": "Para guiar al RBT en el reforzamiento consistente de la conducta objetivo según el plan."
+    }
+  },
+  "skill_sap_data_system": {
+    "status": "reviewed",
+    "answer": "Sistema de toma de datos en un SAP",
+    "definition": "el plan de adquisición de habilidades especifica cómo deben tomarse los datos, por ejemplo registro ensayo por ensayo, porcentaje correcto o frecuencia, y en qué formato.",
+    "scenario": "El SAP indica al RBT que use la hoja de datos ensayo por ensayo y marque un signo más o menos por cada respuesta durante el programa de ensayo discreto.",
+    "purpose": "Para estandarizar cómo se registra el desempeño entre todos los miembros del personal que trabajan con el cliente.",
+    "explanation": "Usar el método de toma de datos especificado en el SAP asegura que los datos de distintas sesiones sean comparables.",
+    "options_es": {
+      "answer": "Sistema de toma de datos en un SAP",
+      "purpose": "Para estandarizar cómo se registra el desempeño entre todos los miembros del personal que trabajan con el cliente."
+    }
+  },
+  "skill_sap_mastery_criteria": {
+    "status": "reviewed",
+    "answer": "Criterios de dominio en un SAP",
+    "definition": "el plan de adquisición de habilidades define el nivel de desempeño que el cliente debe alcanzar antes de considerar dominado el objetivo y avanzar en la instrucción.",
+    "scenario": "El SAP indica que un objetivo se domina cuando el cliente responde correctamente en el 90% de los ensayos durante tres sesiones consecutivas con dos terapeutas diferentes.",
+    "purpose": "Para establecer un estándar objetivo de cuándo una habilidad ha sido adquirida de manera confiable.",
+    "explanation": "Los criterios de dominio evitan avanzar demasiado pronto y aseguran que las habilidades se generalicen en distintas condiciones antes de pasar a lo siguiente.",
+    "options_es": {
+      "answer": "Criterios de dominio en un SAP",
+      "purpose": "Para establecer un estándar objetivo de cuándo una habilidad ha sido adquirida de manera confiable."
+    }
+  },
+  "skill_sap_generalization_plan": {
+    "status": "reviewed",
+    "answer": "Plan de generalización en un SAP",
+    "definition": "el plan de adquisición de habilidades incluye procedimientos para enseñar la habilidad con distintas personas, en diferentes entornos o con materiales variados, para que no quede limitada a un solo contexto.",
+    "scenario": "Después de dominar una habilidad en la clínica, el SAP indica al RBT que la practique en la casa del cliente y con un familiar presente.",
+    "purpose": "Para planificar desde el principio cómo la habilidad se mantendrá y se usará en contextos de la vida real.",
+    "explanation": "Incluir un plan de generalización asegura que las habilidades dominadas se transfieran a entornos naturales donde resultan más útiles.",
+    "options_es": {
+      "answer": "Plan de generalización en un SAP",
+      "purpose": "Para planificar desde el principio cómo la habilidad se mantendrá y se usará en contextos de la vida real."
+    }
+  },
+  "skill_sap_teaching_procedure": {
+    "status": "reviewed",
+    "answer": "Procedimiento de enseñanza en un SAP",
+    "definition": "el plan de adquisición de habilidades describe el método instruccional específico que el RBT debe usar, como enseñanza en ensayos discretos, enseñanza naturalista o encadenamiento.",
+    "scenario": "El SAP especifica que el RBT debe usar ayudas de más a menos con un retraso de 3 segundos antes de ayudar y corrección de errores después de cada respuesta incorrecta.",
+    "purpose": "Para asegurar que todo el personal enseñe de la misma manera y el cliente reciba una instrucción consistente.",
+    "explanation": "Seguir el procedimiento de enseñanza especificado asegura la integridad del tratamiento y permite al supervisor identificar qué está funcionando.",
+    "options_es": {
+      "answer": "Procedimiento de enseñanza en un SAP",
+      "purpose": "Para asegurar que todo el personal enseñe de la misma manera y el cliente reciba una instrucción consistente."
+    }
+  },
+  "skill_sap_target_behavior": {
+    "status": "reviewed",
+    "answer": "Conducta objetivo en un SAP",
+    "definition": "el plan de adquisición de habilidades nombra la conducta específica que se está enseñando y ofrece una definición operacional para que pueda medirse consistentemente.",
+    "scenario": "El SAP define la conducta objetivo 'peticiones' como cualquier petición verbal o con señas, no ayudada, de un artículo preferido dirigida a un compañero de comunicación.",
+    "purpose": "Para identificar claramente qué se espera que haga el cliente y poder enseñarlo y medirlo de manera consistente.",
+    "explanation": "Una conducta objetivo definida operacionalmente en el SAP permite que varios miembros del personal estén de acuerdo sobre cuándo la habilidad ocurrió.",
+    "options_es": {
+      "answer": "Conducta objetivo en un SAP",
+      "purpose": "Para identificar claramente qué se espera que haga el cliente y poder enseñarlo y medirlo de manera consistente."
+    }
+  },
+  "skill_presession_supervisor_contact": {
+    "status": "reviewed",
+    "answer": "Contacto con el supervisor antes de la sesión",
+    "definition": "el RBT se comunica con la BCBA supervisora antes o al inicio de una sesión cuando hay preguntas sin resolver o cambios respecto a la sesión anterior.",
+    "scenario": "El RBT envía un mensaje breve al supervisor antes de una sesión para preguntar si debe continuar un programa que mostró una caída inesperada en el desempeño.",
+    "purpose": "Para recibir guía clínica antes de iniciar la instrucción cuando existe incertidumbre sobre el plan.",
+    "explanation": "Contactar al supervisor antes de una sesión cuando hay dudas evita que el RBT implemente un procedimiento incorrecto durante toda la sesión.",
+    "options_es": {
+      "answer": "Contacto con el supervisor antes de la sesión",
+      "purpose": "Para recibir guía clínica antes de iniciar la instrucción cuando existe incertidumbre sobre el plan."
+    }
+  },
+  "skill_stimulus_prompt_fading": {
+    "status": "reviewed",
+    "answer": "Desvanecimiento de ayudas de estímulo",
+    "definition": "una característica del propio estímulo, como tamaño, color o posición, se altera para guiar la respuesta y luego se reduce gradualmente hasta que el estímulo natural controla la conducta.",
+    "scenario": "Una tarjeta objetivo se presenta más grande que los distractores, y la diferencia de tamaño se reduce gradualmente en los ensayos hasta que todas las tarjetas tienen el mismo tamaño y el cliente sigue seleccionando correctamente.",
+    "purpose": "Para usar una característica destacada del estímulo para establecer la respuesta inicial antes de retirar la ayuda adicional.",
+    "explanation": "El desvanecimiento de estímulos mantiene el foco en el estímulo natural desde el principio, lo que puede reducir la dependencia de ayudas en comparación con las ayudas de respuesta.",
+    "options_es": {
+      "answer": "Desvanecimiento de ayudas de estímulo",
+      "purpose": "Para usar una característica destacada del estímulo para establecer la respuesta inicial antes de retirar la ayuda adicional."
+    }
+  },
+  "skill_response_prompt_types": {
+    "status": "reviewed",
+    "answer": "Tipos de ayudas de respuesta",
+    "definition": "las ayudas de respuesta son proporcionadas por el RBT e incluyen ayudas físicas, de modelo, verbales y gestuales.",
+    "scenario": "El RBT usa una ayuda física para guiar la mano del cliente durante una tarea motora nueva, una ayuda de modelo para demostrar un saludo social y una ayuda gestual para dirigir la mirada del cliente hacia la respuesta correcta.",
+    "purpose": "Para saber qué tipo de ayuda suplementaria proporcionar según el cliente y la habilidad.",
+    "explanation": "Seleccionar el tipo adecuado de ayuda asegura que el cliente reciba suficiente apoyo para tener éxito sin recibir más asistencia de la necesaria.",
+    "options_es": {
+      "answer": "Tipos de ayudas de respuesta",
+      "purpose": "Para saber qué tipo de ayuda suplementaria proporcionar según el cliente y la habilidad."
+    }
+  },
+  "skill_prompt_dependency_avoidance": {
+    "status": "reviewed",
+    "answer": "Prevención de dependencia de ayudas",
+    "definition": "la dependencia de ayudas ocurre cuando el cliente solo responde en presencia de una ayuda y no ante el SD natural, y se previene desvaneciendo las ayudas de manera sistemática.",
+    "scenario": "Un cliente solo toca la tarjeta correcta cuando el RBT la señala, lo que sugiere dependencia de la ayuda gestual y que esta debe desvanecerse.",
+    "purpose": "Para asegurar que la respuesta del cliente se transfiera al estímulo natural en lugar de depender de claves suplementarias.",
+    "explanation": "La dependencia de ayudas se previene planificando de antemano el programa de desvanecimiento y reforzando las respuestas independientes con más entusiasmo que las ayudadas.",
+    "options_es": {
+      "answer": "Prevención de dependencia de ayudas",
+      "purpose": "Para asegurar que la respuesta del cliente se transfiera al estímulo natural en lugar de depender de claves suplementarias."
+    }
+  },
+  "skill_time_delay_types": {
+    "status": "reviewed",
+    "answer": "Retraso constante vs. progresivo",
+    "definition": "el retraso constante siempre usa la misma pausa antes de presentar una ayuda, mientras que el retraso progresivo aumenta la pausa gradualmente a través de los ensayos.",
+    "scenario": "En el retraso constante, el RBT siempre espera 5 segundos antes de ayudar; en el retraso progresivo, la espera empieza en 0 segundos y aumenta 1 segundo en cada sesión.",
+    "purpose": "Para entender cómo distintos procedimientos de retraso transfieren el control del estímulo desde la ayuda hacia el SD natural.",
+    "explanation": "Ambos procedimientos permiten que el cliente responda de manera independiente dentro del intervalo de espera; la elección entre ellos depende de la historia del cliente y de la preferencia del supervisor.",
+    "options_es": {
+      "answer": "Retraso constante vs. progresivo",
+      "purpose": "Para entender cómo distintos procedimientos de retraso transfieren el control del estímulo desde la ayuda hacia el SD natural."
+    }
+  },
+  "skill_successive_approximations": {
+    "status": "reviewed",
+    "answer": "Aproximaciones sucesivas en shaping",
+    "definition": "se refuerzan en secuencia conductas que se parecen cada vez más a la respuesta final, y cada paso construye hacia la respuesta deseada.",
+    "scenario": "Para enseñar a un cliente a decir 'bola', el RBT primero refuerza cualquier vocalización, luego solo sonidos vocálicos, después 'bo' y finalmente 'bola'.",
+    "purpose": "Para construir una conducta nueva reforzando versiones cada vez más cercanas al objetivo.",
+    "explanation": "El shaping mediante aproximaciones sucesivas permite desarrollar respuestas que el cliente todavía no puede producir, comenzando desde lo que ya puede hacer.",
+    "options_es": {
+      "answer": "Aproximaciones sucesivas en shaping",
+      "purpose": "Para construir una conducta nueva reforzando versiones cada vez más cercanas al objetivo."
+    }
+  },
+  "skill_shaping_step_advancement": {
+    "status": "reviewed",
+    "answer": "Avance de pasos en shaping",
+    "definition": "un paso de shaping avanza cuando el nivel actual de desempeño del cliente es consistente y se espera que la siguiente aproximación ocurra con reforzamiento.",
+    "scenario": "Una vez que el cliente produce 'bo' de manera confiable en 8 de 10 oportunidades, el RBT deja de reforzar 'bo' y solo refuerza 'bol' o aproximaciones más cercanas.",
+    "purpose": "Para mover al cliente hacia adelante en shaping al ritmo correcto, ni demasiado rápido ni demasiado lento.",
+    "explanation": "Avanzar demasiado rápido hace que el cliente falle; quedarse demasiado tiempo en un paso reduce la motivación. El RBT monitorea el desempeño para decidir cuándo avanzar.",
+    "options_es": {
+      "answer": "Avance de pasos en shaping",
+      "purpose": "Para mover al cliente hacia adelante en shaping al ritmo correcto, ni demasiado rápido ni demasiado lento."
+    }
+  },
+  "skill_shaping_vs_prompt_fading": {
+    "status": "reviewed",
+    "answer": "Shaping vs. desvanecimiento de ayudas",
+    "definition": "el shaping desarrolla una conducta nueva mediante el reforzamiento de aproximaciones sin claves externas, mientras que las ayudas usan estímulos suplementarios para evocar la respuesta.",
+    "scenario": "Las ayudas se usan cuando el cliente puede realizar la conducta si recibe asistencia; el shaping se usa cuando la conducta aún no forma parte del repertorio del cliente.",
+    "purpose": "Para elegir el procedimiento correcto al enseñar una conducta que el cliente todavía no puede realizar.",
+    "explanation": "Entender la diferencia ayuda al RBT a aplicar la estrategia adecuada: shaping para conductas nuevas y ayudas para conductas que el cliente puede hacer, pero no de manera independiente.",
+    "options_es": {
+      "answer": "Shaping vs. desvanecimiento de ayudas",
+      "purpose": "Para elegir el procedimiento correcto al enseñar una conducta que el cliente todavía no puede realizar."
+    }
+  },
+  "skill_shaping_step_size": {
+    "status": "reviewed",
+    "answer": "Tamaño de paso en shaping",
+    "definition": "el tamaño de cada paso en un programa de shaping determina cuán diferente es cada aproximación con respecto a la anterior.",
+    "scenario": "Si el tamaño de paso es demasiado grande, por ejemplo pasar de una sola sílaba a una palabra completa de cinco sílabas, el cliente no cumple el nuevo criterio y pierde el reforzamiento.",
+    "purpose": "Para calibrar la progresión de modo que cada paso sea alcanzable y aun así acerque a la conducta terminal.",
+    "explanation": "Los pasos pequeños hacen que el shaping sea más lento pero reducen el fracaso; los pasos grandes avanzan más rápido, pero corren el riesgo de fallar si el cliente no puede cerrar la brecha.",
+    "options_es": {
+      "answer": "Tamaño de paso en shaping",
+      "purpose": "Para calibrar la progresión de modo que cada paso sea alcanzable y aun así acerque a la conducta terminal."
+    }
+  },
+  "skill_shaping_topography": {
+    "status": "reviewed",
+    "answer": "Topografía conductual en shaping",
+    "definition": "el shaping cambia la forma de una conducta reforzando versiones que se parecen cada vez más a la respuesta objetivo.",
+    "scenario": "Los garabatos de un cliente se moldean hacia la formación de letras reforzando primero cualquier marca, luego líneas y después formas de letras reconocibles.",
+    "purpose": "Para desarrollar una nueva forma conductual reforzando versiones progresivamente más precisas del objetivo.",
+    "explanation": "La topografía en shaping se usa cuando la forma física exacta de la respuesta importa, como en escritura, articulación del habla o habilidades motoras.",
+    "options_es": {
+      "answer": "Topografía conductual en shaping",
+      "purpose": "Para desarrollar una nueva forma conductual reforzando versiones progresivamente más precisas del objetivo."
+    }
+  },
+  "skill_shaping_regression": {
+    "status": "reviewed",
+    "answer": "Retroceder un paso en shaping",
+    "definition": "si el cliente falla consistentemente en cumplir el criterio actual, el RBT regresa al paso anterior para restablecer respuestas exitosas antes de avanzar de nuevo.",
+    "scenario": "El cliente dejó de producir de manera confiable la aproximación más cercana, por lo que el RBT vuelve a reforzar la forma más fácil hasta que sea estable y luego intenta avanzar más gradualmente.",
+    "purpose": "Para prevenir frustración y pérdida de respuestas cuando un paso de shaping es demasiado difícil.",
+    "explanation": "Retroceder un paso no es un fracaso; permite que el cliente recupere impulso y éxito antes de intentar de nuevo la aproximación más difícil.",
+    "options_es": {
+      "answer": "Retroceder un paso en shaping",
+      "purpose": "Para prevenir frustración y pérdida de respuestas cuando un paso de shaping es demasiado difícil."
+    }
+  },
+  "skill_shaping_new_behavior": {
+    "status": "reviewed",
+    "answer": "Uso del shaping para construir una conducta nueva",
+    "definition": "el shaping se usa cuando la conducta deseada aún no existe en el repertorio del cliente y no puede evocarse directamente con instrucciones o ayudas.",
+    "scenario": "A un cliente que aún no vocaliza se le enseña a producir sonidos mediante shaping: primero cualquier movimiento de la boca, luego sonidos de aire y después aproximaciones a una vocal.",
+    "purpose": "Para enseñar conductas que no pueden evocarse directamente porque el cliente nunca las ha producido.",
+    "explanation": "El shaping es la herramienta principal para construir conductas completamente nuevas cuando la respuesta terminal no está actualmente en el repertorio del cliente.",
+    "options_es": {
+      "answer": "Uso del shaping para construir una conducta nueva",
+      "purpose": "Para enseñar conductas que no pueden evocarse directamente porque el cliente nunca las ha producido."
+    }
   }
 }
