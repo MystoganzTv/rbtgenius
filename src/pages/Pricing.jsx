@@ -140,8 +140,8 @@ export default function Pricing() {
       </div>
 
       {/* Cards */}
-      <div className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mx-auto max-w-5xl px-6 pb-24">
+        <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isCurrent = isAuthenticated && currentPlan === plan.id;
             const isYearly = plan.id === PLAN_IDS.PREMIUM_YEARLY;
@@ -152,26 +152,28 @@ export default function Pricing() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex min-h-[36rem] flex-col overflow-visible rounded-[2rem] border bg-white p-10 shadow-[0_28px_80px_-42px_rgba(15,23,42,0.24)] transition-all dark:bg-[#0D1E3A] ${
+                className={`relative flex min-h-[34rem] flex-col overflow-hidden rounded-[2rem] border bg-white p-8 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.22)] transition-all dark:bg-[#0D1E3A] ${
                   isCurrent
-                    ? "border-[#1E5EFF]/35 ring-2 ring-[#1E5EFF]/12 dark:border-[#1E5EFF]/35"
+                    ? "border-[#1E5EFF]/35 ring-2 ring-[#1E5EFF]/10 dark:border-[#1E5EFF]/35"
+                    : isYearly
+                    ? "border-[#A5B4FC]/55 bg-gradient-to-b from-[#F5F7FF] via-white to-white dark:border-[#7C8BFF]/35 dark:from-[#101C36] dark:via-[#0D1E3A] dark:to-[#0D1E3A]"
                     : "border-slate-200 dark:border-[#1E5EFF]/15"
                 }`}
               >
                 {isYearly ? (
-                  <div className="absolute right-8 top-0 z-10 -translate-y-1/2">
-                    <div className="rounded-2xl border border-[#1E5EFF]/15 bg-white/96 px-4 py-2 shadow-[0_20px_45px_-28px_rgba(15,23,42,0.45)] backdrop-blur-sm dark:border-[#1E5EFF]/20 dark:bg-[#10244A]/95">
-                      <div className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#1E5EFF]/65">
-                        Best Value
-                      </div>
-                      <div className="mt-1 text-sm font-bold text-[#1E5EFF]">
+                  <div className="-mx-8 -mt-8 mb-7 border-b border-[#C7D2FE]/55 bg-gradient-to-r from-[#C4B5FD] via-[#A5B4FC] to-[#7C8BFF] px-8 py-3 text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.2)] dark:border-[#7C8BFF]/30">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/85">
+                        Best value
+                      </span>
+                      <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-[0.02em] text-white backdrop-blur-sm">
                         Save 10%
-                      </div>
+                      </span>
                     </div>
                   </div>
                 ) : null}
 
-                <div className="mb-10 flex min-h-[3rem] items-start justify-between gap-4">
+                <div className="mb-8 flex min-h-[3rem] items-start justify-between gap-4">
                   {isCurrent ? (
                     <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
                       ✓ Current
@@ -185,7 +187,7 @@ export default function Pricing() {
                     <span className="text-5xl font-black tracking-tight text-slate-900 dark:text-slate-50">{plan.price}</span>
                     <span className="mb-1.5 text-base text-slate-400">{plan.period}</span>
                   </div>
-                  <p className="mt-4 min-h-[3.5rem] max-w-[28rem] text-base font-medium leading-7 text-slate-500 dark:text-slate-400">
+                  <p className="mt-3 min-h-[3rem] max-w-[24rem] text-sm font-medium leading-6 text-slate-500 dark:text-slate-400">
                     {isYearly
                       ? "10% less than paying monthly for a full year."
                       : "Full premium access billed month to month."}
@@ -210,16 +212,16 @@ export default function Pricing() {
                   )}
                 </button>
 
-                <ul className="mt-10 space-y-4">
+                <ul className="mt-8 space-y-3.5">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
-                      <span className="text-base leading-7 text-slate-600 dark:text-slate-300">{feature}</span>
+                      <span className="text-[0.98rem] leading-7 text-slate-600 dark:text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="mt-auto pt-10 text-sm leading-6 text-slate-400 dark:text-slate-500">
+                <p className="mt-auto pt-8 text-xs leading-6 text-slate-400 dark:text-slate-500">
                   {isCurrent
                     ? "You are already on this plan. Billing changes and cancellation live inside Manage Plan."
                     : isAnyPremium
