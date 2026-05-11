@@ -42,10 +42,8 @@ const PRODUCT_PRESENTATION = {
     tags: ['Checklist incluido', 'Formato diario', 'Portátil'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
-    visual: 'clipboard',
     image: '/1.png',
   },
-
   'reinforcer-pouch-essentials': {
     badge: 'Nuevo',
     summary:
@@ -53,10 +51,8 @@ const PRODUCT_PRESENTATION = {
     tags: ['Tokens incluidos', 'Compacta', 'Fácil de llevar'],
     gradient: 'from-rose-50 via-white to-sky-50',
     accent: 'bg-[#4F7CFF]',
-    visual: 'pouch',
     image: '/2.png',
   },
-
   'rbt-rapid-review-book': {
     badge: 'Popular',
     summary:
@@ -64,10 +60,8 @@ const PRODUCT_PRESENTATION = {
     tags: ['Conceptos clave', 'Bilingüe', 'Explicaciones claras'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
-    visual: 'book',
     image: '/3.png',
   },
-
   'mock-exam-workbook': {
     badge: 'Nuevo',
     summary:
@@ -75,10 +69,8 @@ const PRODUCT_PRESENTATION = {
     tags: ['Exámenes simulados', 'Notas de revisión', 'Prep completa'],
     gradient: 'from-indigo-50 via-white to-slate-100',
     accent: 'bg-[#4F7CFF]',
-    visual: 'workbook',
     image: '/4.png',
   },
-
   'visual-study-card-bundle': {
     badge: 'Popular',
     summary:
@@ -86,10 +78,8 @@ const PRODUCT_PRESENTATION = {
     tags: ['170+ tarjetas', 'Memorización rápida', 'Repaso final'],
     gradient: 'from-sky-50 via-white to-slate-100',
     accent: 'bg-[#F59E0B]',
-    visual: 'cards',
     image: '/5.png',
   },
-
   'rbt-starter-study-pack': {
     badge: 'Oferta',
     summary:
@@ -98,191 +88,10 @@ const PRODUCT_PRESENTATION = {
     compareAt: 5500,
     gradient: 'from-emerald-50 via-white to-sky-50',
     accent: 'bg-[#34C38F]',
-    visual: 'bundle',
     image: '/6.png',
-  },
-
-  'reinforcer-pouch-essentials': {
-    badge: 'Nuevo',
-    summary:
-      'Bolsa compacta con tokens, visuales, timer y mini herramientas para cada sesión terapéutica.',
-    tags: ['Tokens incluidos', 'Compacta', 'Fácil de llevar'],
-    gradient: 'from-rose-50 via-white to-sky-50',
-    accent: 'bg-[#4F7CFF]',
-    visual: 'pouch',
-  },
-  'rbt-rapid-review-book': {
-    badge: 'Popular',
-    summary:
-      'Libro de repaso enfocado en conceptos clave del RBT con explicaciones claras y prompts de estudio.',
-    tags: ['Conceptos clave', 'Bilingüe', 'Explicaciones claras'],
-    gradient: 'from-slate-100 via-white to-slate-200',
-    accent: 'bg-[#F59E0B]',
-    visual: 'book',
-  },
-  'mock-exam-workbook': {
-    badge: 'Nuevo',
-    summary:
-      'Cuaderno de práctica con exámenes simulados, revisión de respuestas y ejercicios de confianza.',
-    tags: ['Exámenes simulados', 'Notas de revisión', 'Prep completa'],
-    gradient: 'from-indigo-50 via-white to-slate-100',
-    accent: 'bg-[#4F7CFF]',
-    visual: 'workbook',
-  },
-  'visual-study-card-bundle': {
-    badge: 'Popular',
-    summary:
-      'Tarjetas de memoria con conceptos clave y ayudas visuales para memorizar más rápido antes del examen.',
-    tags: ['170+ tarjetas', 'Memorización rápida', 'Repaso final'],
-    gradient: 'from-sky-50 via-white to-slate-100',
-    accent: 'bg-[#F59E0B]',
-    visual: 'cards',
-  },
-  'rbt-starter-study-pack': {
-    badge: 'Oferta',
-    summary:
-      'Bundle completo que combina herramientas prácticas y material de estudio en un solo paquete con descuento.',
-    tags: ['Todo incluido', 'Para principiantes', 'Ahorra $13'],
-    compareAt: 5500,
-    gradient: 'from-emerald-50 via-white to-sky-50',
-    accent: 'bg-[#34C38F]',
-    visual: 'bundle',
   },
 };
 
-function ProductVisual({ product }) {
-  const presentation = PRODUCT_PRESENTATION[product.id] || {};
-
-  if (presentation.visual === 'clipboard') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-white via-slate-50 to-slate-200'>
-        <div className='absolute left-10 top-10 h-16 w-16 rounded-full bg-[#4F7CFF]/10 blur-2xl' />
-        <div className='absolute bottom-10 right-10 h-16 w-16 rounded-full bg-[#F59E0B]/10 blur-2xl' />
-        <div className='relative h-48 w-36 rounded-[1.6rem] border border-slate-300 bg-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.35)]'>
-          <div className='absolute left-1/2 top-4 h-4 w-16 -translate-x-1/2 rounded-full bg-slate-300' />
-          <div className='space-y-3 px-5 pt-10'>
-            <div className='h-3 rounded-full bg-sky-100' />
-            <div className='h-3 rounded-full bg-emerald-100' />
-            <div className='h-3 rounded-full bg-amber-100' />
-            <div className='h-3 rounded-full bg-rose-100' />
-            <div className='h-3 rounded-full bg-slate-100' />
-          </div>
-        </div>
-        <div className='absolute right-12 top-16 h-16 w-16 rounded-2xl border border-slate-200 bg-white/90 shadow-sm' />
-        <div className='absolute bottom-12 left-16 h-10 w-24 rounded-xl border border-slate-200 bg-[#FFF7ED] shadow-sm' />
-      </div>
-    );
-  }
-
-  if (presentation.visual === 'pouch') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-rose-50 via-white to-sky-50'>
-        <div className='relative h-40 w-52 rounded-[2rem] bg-[#244BC5] p-4 shadow-[0_30px_80px_-42px_rgba(36,75,197,0.5)]'>
-          <div className='h-full rounded-[1.6rem] bg-gradient-to-br from-[#5A85FF] to-[#244BC5] p-4'>
-            <div className='flex flex-wrap gap-2'>
-              {[
-                'bg-amber-300',
-                'bg-pink-300',
-                'bg-emerald-300',
-                'bg-sky-300',
-                'bg-indigo-300',
-                'bg-orange-300',
-              ].map(color => (
-                <span key={color} className={`h-7 w-7 rounded-full ${color}`} />
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className='absolute bottom-14 right-16 h-14 w-14 rounded-full border-4 border-white bg-[#F59E0B]/80' />
-      </div>
-    );
-  }
-
-  if (presentation.visual === 'book') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-slate-100 via-white to-slate-200'>
-        <div className='relative h-44 w-36 -rotate-6 rounded-l-[0.9rem] rounded-r-[1.4rem] bg-[#173D77] shadow-[0_34px_90px_-48px_rgba(23,61,119,0.7)]'>
-          <div className='absolute inset-y-0 left-0 w-5 rounded-l-[0.9rem] bg-[#0B264F]' />
-          <div className='absolute inset-4 rounded-[1rem] border border-white/20 bg-gradient-to-br from-[#3D6FC5] to-[#163D76] p-4 text-white'>
-            <p className='text-xs uppercase tracking-[0.2em] text-white/70'>
-              RBT
-            </p>
-            <p className='mt-3 text-2xl font-black leading-none'>Review</p>
-          </div>
-        </div>
-        <div className='absolute bottom-16 right-16 h-20 w-20 rounded-full bg-white/70 blur-xl' />
-      </div>
-    );
-  }
-
-  if (presentation.visual === 'workbook') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-indigo-50 via-white to-slate-100'>
-        <div className='relative h-44 w-36 -rotate-6 rounded-[1rem] bg-[#204EAA] shadow-[0_34px_90px_-48px_rgba(32,78,170,0.7)]'>
-          <div className='absolute inset-4 rounded-[0.8rem] border border-white/25 bg-gradient-to-br from-[#3F78FF] to-[#1D3F84] p-4 text-white'>
-            <p className='text-[10px] uppercase tracking-[0.2em] text-white/70'>
-              Mock
-            </p>
-            <p className='mt-3 text-xl font-black leading-tight'>
-              Exam Workbook
-            </p>
-          </div>
-        </div>
-        <div className='absolute right-10 top-12 h-20 w-28 rounded-[1.2rem] border border-slate-200 bg-white/90 shadow-sm' />
-      </div>
-    );
-  }
-
-  if (presentation.visual === 'cards') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-sky-50 via-white to-slate-100'>
-        <div className='relative h-40 w-44'>
-          {[0, 1, 2, 3].map(index => (
-            <div
-              key={index}
-              className='absolute h-24 w-36 rounded-[1rem] border border-slate-200 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)]'
-              style={{
-                top: `${index * 16}px`,
-                left: `${index % 2 === 0 ? 8 : 28}px`,
-                transform: `rotate(${index % 2 === 0 ? -8 : 8}deg)`,
-              }}>
-              <div className='mx-4 mt-5 h-2 rounded-full bg-[#4F7CFF]/20' />
-              <div className='mx-4 mt-3 h-2 rounded-full bg-slate-100' />
-              <div className='mx-4 mt-3 h-2 rounded-full bg-slate-100' />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (presentation.visual === 'bundle') {
-    return (
-      <div className='relative flex h-full items-center justify-center overflow-hidden rounded-[1.8rem] bg-gradient-to-br from-emerald-50 via-white to-sky-50'>
-        <div className='absolute left-12 top-12 h-24 w-24 rounded-full bg-emerald-100 blur-2xl' />
-        <div className='absolute bottom-10 right-10 h-24 w-24 rounded-full bg-sky-100 blur-2xl' />
-        <div className='grid grid-cols-2 gap-4'>
-          <div className='h-28 w-24 rounded-[1rem] bg-[#2148A6] p-3 text-white shadow-[0_24px_60px_-30px_rgba(33,72,166,0.55)]'>
-            <p className='text-[10px] uppercase tracking-[0.2em] text-white/70'>
-              Prep
-            </p>
-            <p className='mt-3 text-base font-black leading-tight'>Exam Pack</p>
-          </div>
-          <div className='space-y-3 pt-3'>
-            <div className='h-16 w-16 rounded-2xl border border-slate-200 bg-white shadow-sm' />
-            <div className='h-16 w-16 rounded-full bg-[#34C38F]/15' />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className='flex h-full items-center justify-center rounded-[1.8rem] bg-gradient-to-br from-slate-100 to-white'>
-      <ShoppingBag className='h-14 w-14 text-[#4F7CFF]' />
-    </div>
-  );
-}
 
 export default function Store() {
   const { isDark, toggleTheme } = useTheme();
