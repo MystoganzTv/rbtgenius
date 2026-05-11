@@ -160,25 +160,28 @@ export default function Pricing() {
                     : "border-slate-200 dark:border-[#1E5EFF]/15"
                 }`}
               >
-                {isYearly ? (
-                  <div className="-mx-8 -mt-8 mb-7 border-b border-[#C7D2FE]/55 bg-gradient-to-r from-[#C4B5FD] via-[#A5B4FC] to-[#7C8BFF] px-8 py-3 text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.2)] dark:border-[#7C8BFF]/30">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/85">
-                        Best value
-                      </span>
-                      <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-[0.02em] text-white backdrop-blur-sm">
-                        Save 10%
-                      </span>
-                    </div>
-                  </div>
-                ) : null}
+                <div className="mb-8 flex min-h-[3rem] items-center justify-between gap-4">
+                  <span
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                      isCurrent
+                        ? "border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300"
+                        : isYearly
+                        ? "border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] dark:border-[#7C8BFF]/25 dark:bg-[#7C8BFF]/10 dark:text-[#C7D2FE]"
+                        : "border border-transparent text-transparent"
+                    }`}
+                  >
+                    {isCurrent ? "✓ Current" : isYearly ? "Best value" : "Placeholder"}
+                  </span>
 
-                <div className="mb-8 flex min-h-[3rem] items-start justify-between gap-4">
-                  {isCurrent ? (
-                    <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
-                      ✓ Current
-                    </span>
-                  ) : <span />}
+                  <span
+                    className={`inline-flex min-w-[6.5rem] items-center justify-center rounded-full px-3 py-1 text-xs font-semibold tracking-[0.02em] ${
+                      isYearly
+                        ? "bg-[#1E5EFF] text-white shadow-[0_10px_24px_-14px_rgba(30,94,255,0.55)]"
+                        : "invisible"
+                    }`}
+                  >
+                    Save 10%
+                  </span>
                 </div>
 
                 <div>
