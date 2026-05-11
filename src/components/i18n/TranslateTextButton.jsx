@@ -1,5 +1,6 @@
 import { Languages, Volume2, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { resolveInlineSpanishText, translateUi } from "@/lib/i18n";
 
@@ -204,71 +205,74 @@ export default function TranslateTextButton({
         <Languages className="h-4 w-4" />
       </Button>
 
-      {isOpen ? (
-        <div className="fixed right-4 top-4 z-[90] w-[min(24rem,calc(100vw-2rem))]" onClick={stopPropagation}>
-          <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_28px_90px_-36px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-950">
-            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
-                  {translateUi(title, language)}
-                </p>
+      {isOpen && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed right-4 top-4 z-[140] w-[min(24rem,calc(100vw-2rem))]" onClick={stopPropagation}>
+              <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_28px_90px_-36px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-950">
+                <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                      {translateUi(title, language)}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-slate-50"
+                    aria-label={translateUi("Close", language)}
+                    onClick={handleClosePanel}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <div className="max-h-[calc(100vh-7rem)] space-y-3 overflow-y-auto p-4">
+                  <section className="rounded-2xl border border-slate-200 bg-slate-50/90 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                        EN
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                        aria-label="Play English audio"
+                        onClick={() => speakText(english, "en")}
+                      >
+                        <Volume2 className={`h-4 w-4 ${speaking === "en" ? "text-[#1E5EFF]" : ""}`} />
+                      </Button>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
+                      {english || "—"}
+                    </p>
+                  </section>
+
+                  <section className="rounded-2xl border border-[#1E5EFF]/15 bg-[#1E5EFF]/5 p-4 dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF]">
+                        ES
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-full text-[#1E5EFF] hover:bg-[#1E5EFF]/10 hover:text-[#1E5EFF] dark:hover:bg-[#1E5EFF]/15"
+                        aria-label="Play Spanish audio"
+                        disabled={!hasSpanish}
+                        onClick={() => speakText(spanish, "es")}
+                      >
+                        <Volume2 className={`h-4 w-4 ${speaking === "es" ? "text-[#1E5EFF]" : ""}`} />
+                      </Button>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
+                      {hasSpanish ? spanish : translateUi("Spanish translation unavailable.", language)}
+                    </p>
+                  </section>
+                </div>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-slate-50"
-                aria-label={translateUi("Close", language)}
-                onClick={handleClosePanel}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <div className="max-h-[calc(100vh-7rem)] space-y-3 overflow-y-auto p-4">
-              <section className="rounded-2xl border border-slate-200 bg-slate-50/90 p-4 dark:border-slate-800 dark:bg-slate-900/70">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
-                    EN
-                  </p>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
-                    aria-label="Play English audio"
-                    onClick={() => speakText(english, "en")}
-                  >
-                    <Volume2 className={`h-4 w-4 ${speaking === "en" ? "text-[#1E5EFF]" : ""}`} />
-                  </Button>
-                </div>
-                <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
-                  {english || "—"}
-                </p>
-              </section>
-
-              <section className="rounded-2xl border border-[#1E5EFF]/15 bg-[#1E5EFF]/5 p-4 dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1E5EFF]">
-                    ES
-                  </p>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full text-[#1E5EFF] hover:bg-[#1E5EFF]/10 hover:text-[#1E5EFF] dark:hover:bg-[#1E5EFF]/15"
-                    aria-label="Play Spanish audio"
-                    disabled={!hasSpanish}
-                    onClick={() => speakText(spanish, "es")}
-                  >
-                    <Volume2 className={`h-4 w-4 ${speaking === "es" ? "text-[#1E5EFF]" : ""}`} />
-                  </Button>
-                </div>
-                <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
-                  {hasSpanish ? spanish : translateUi("Spanish translation unavailable.", language)}
-                </p>
-              </section>
-            </div>
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
