@@ -181,6 +181,14 @@ export default function MockExamScreen({ navigation }) {
     setPhase('results');
   }, [questions, answers, token]);
 
+  const q = questions[index];
+  const translationContent = useMemo(
+    () => q?._raw ? buildQuestionTranslationContent(q._raw) : null,
+    [q?._raw],
+  );
+  const qText = q?.prompt || '';
+  const qOptions = q?.options ?? [];
+
   // ─── Saving spinner ────────────────────────────────────────────────────────
   if (phase === 'saving') {
     return (
@@ -324,16 +332,8 @@ export default function MockExamScreen({ navigation }) {
   }
 
   // ─── Running ──────────────────────────────────────────────────────────────
-  const q           = questions[index];
   const answeredCnt = Object.keys(answers).length;
   const timerWarn   = timeLeft <= 600;
-
-  const translationContent = useMemo(
-    () => q?._raw ? buildQuestionTranslationContent(q._raw) : null,
-    [q?.id],
-  );
-  const qText    = q?.prompt || '';
-  const qOptions = q?.options ?? [];
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
