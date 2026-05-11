@@ -6,7 +6,7 @@ import {
 } from '../shared/questions/question-bank.js';
 import { buildSession, hashPassword, isSessionExpired, shouldRotateSession, verifyPassword } from '../server/lib/auth.js';
 import { buildOAuthAuthorizationUrl, createOAuthState, exchangeOAuthCodeForProfile, listOAuthProviders, normalizeOrigin, normalizeRedirectPath } from '../server/lib/oauth.js';
-import { resolveUserRole, ADMIN_EMAILS } from '../server/lib/seed.js';
+import { resolveUserRole, ADMIN_EMAILS, HARDCODED_TEST_ACCOUNT } from '../server/lib/seed.js';
 import { confirmStripeCheckoutSession, constructStripeWebhookEvent, createStripeCheckoutSession, createStripePortalSession, getBillingConfig, getStripeSubscriptionSummary, resolvePlanFromPriceId } from '../server/lib/billing.js';
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
@@ -67,6 +67,42 @@ function getClientIp(req) {
 function getApiPath(url) {
   const p = new URL(url).pathname;
   return p.replace(/^\/api/, '') || '/';
+}
+
+const HARDCODED_TEST_PASSWORD = hashPassword(
+  HARDCODED_TEST_ACCOUNT.password,
+  'rbtgenius_test_account_salt',
+);
+
+async function ensureHardcodedTestAccount() {
+  const existing = await db.getUserByEmail(HARDCODED_TEST_ACCOUNT.email);
+
+  if (!existing) {
+    return db.createUser({
+      id: HARDCODED_TEST_ACCOUNT.id,
+      full_name: HARDCODED_TEST_ACCOUNT.full_name,
+      email: HARDCODED_TEST_ACCOUNT.email,
+      created_at: new Date().toISOString(),
+      role: resolveUserRole(HARDCODED_TEST_ACCOUNT.email),
+      plan: 'free',
+      token: null,
+      token_issued_at: null,
+      token_expires_at: null,
+      auth_provider: 'password',
+      oauth_accounts: {},
+      password_hash: HARDCODED_TEST_PASSWORD.hash,
+      password_salt: HARDCODED_TEST_PASSWORD.salt,
+    });
+  }
+
+  return db.updateUser(existing.id, {
+    full_name: HARDCODED_TEST_ACCOUNT.full_name,
+    role: resolveUserRole(HARDCODED_TEST_ACCOUNT.email, existing.role),
+    password_hash: HARDCODED_TEST_PASSWORD.hash,
+    password_salt: HARDCODED_TEST_PASSWORD.salt,
+    email_verified: true,
+    email_verification_token: null,
+  });
 }
 
 async function buildUserAccessState(user) {
@@ -486,6 +522,7 @@ async function webApiHandler(req) {
 
   // ── Register ────────────────────────────────────────────────────────────────
   if (apiPath === '/auth/register' && req.method === 'POST') {
+    await ensureHardcodedTestAccount();
     const body = await req.json();
     const email = String(body?.email || '').trim().toLowerCase();
     const password = String(body?.password || '');
@@ -514,6 +551,7 @@ async function webApiHandler(req) {
 
   // ── Login ───────────────────────────────────────────────────────────────────
   if (apiPath === '/auth/login' && req.method === 'POST') {
+    await ensureHardcodedTestAccount();
     const body = await req.json();
     const email = String(body?.email || '').trim().toLowerCase();
     const password = String(body?.password || '');
