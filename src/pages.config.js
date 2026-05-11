@@ -60,6 +60,7 @@ import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import Contact from "./pages/Contact";
+import Support from "./pages/Support";
 import __Layout from "./Layout.jsx";
 
 export const PAGES = {
@@ -76,6 +77,7 @@ export const PAGES = {
   PrivacyPolicy,
   RefundPolicy,
   Contact,
+  Support,
 };
 
 export const pagesConfig = {
