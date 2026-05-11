@@ -4618,5 +4618,101 @@
       "answer": "Uso del shaping para construir una conducta nueva",
       "purpose": "Para enseñar conductas que no pueden evocarse directamente porque el cliente nunca las ha producido."
     }
+  },
+  "assessment_barrier_review": {
+    "status": "reviewed",
+    "answer": "Evaluación de barreras",
+    "definition": "el equipo examina variables que pueden interferir con el aprendizaje, como dependencia de ayudas o motivación débil.",
+    "scenario": "Un cliente tiene muchos objetivos dominados pero todavía le cuesta generalizar e inicia poco, así que la BCBA revisa barreras al progreso.",
+    "purpose": "Para identificar variables que pueden estar interfiriendo con el progreso del aprendizaje.",
+    "explanation": "La evaluación de barreras ayuda a explicar por qué el progreso puede ser lento aun cuando la instrucción está en marcha.",
+    "options_es": {
+      "answer": "Evaluación de barreras",
+      "purpose": "Para identificar variables que pueden estar interfiriendo con el progreso del aprendizaje."
+    }
+  },
+  "assessment_data_based_decision": {
+    "status": "reviewed",
+    "answer": "Toma de decisiones de evaluación basada en datos",
+    "definition": "las conclusiones de la evaluación se basan en patrones de datos registrados y no solo en impresiones.",
+    "scenario": "Aunque el personal siente que la conducta empeora por la tarde, la BCBA revisa los conteos reales a lo largo del día antes de decidir.",
+    "purpose": "Para basar las conclusiones de la evaluación en evidencia registrada y no solo en impresiones.",
+    "explanation": "Las decisiones de evaluación deben apoyarse en patrones de datos y no en la memoria, la intuición o incidentes aislados.",
+    "options_es": {
+      "answer": "Toma de decisiones de evaluación basada en datos",
+      "purpose": "Para basar las conclusiones de la evaluación en evidencia registrada y no solo en impresiones."
+    }
+  },
+  "assessment_ecological_review": {
+    "status": "reviewed",
+    "answer": "Evaluación ecológica",
+    "definition": "se revisan el entorno más amplio, las rutinas, los materiales y el contexto social para comprender las necesidades de apoyo.",
+    "scenario": "Antes de cambiar un plan, el equipo revisa el nivel de ruido en el salón, la disposición de los asientos, los apoyos disponibles y las interacciones del personal alrededor del cliente.",
+    "purpose": "Para entender cómo el contexto ambiental puede influir en la conducta y en las necesidades de apoyo.",
+    "explanation": "La evaluación ecológica mira más allá del cliente y examina cómo el entorno que lo rodea puede afectar su desempeño.",
+    "options_es": {
+      "answer": "Evaluación ecológica",
+      "purpose": "Para entender cómo el contexto ambiental puede influir en la conducta y en las necesidades de apoyo."
+    }
+  },
+  "assessment_medical_rule_out": {
+    "status": "reviewed",
+    "answer": "Consideración de descarte médico",
+    "definition": "el equipo considera si el dolor, la enfermedad u otros problemas médicos pueden estar afectando la conducta antes de asumir únicamente una función conductual.",
+    "scenario": "Un cliente empieza de repente con autolesión severa tras una larga historia sin ella, por lo que el equipo recomienda revisar posibles factores médicos contribuyentes.",
+    "purpose": "Para considerar si los problemas médicos pueden estar contribuyendo al cambio de conducta.",
+    "explanation": "El descarte médico es importante cuando un cambio de conducta brusco o inusual puede reflejar factores de salud además de contingencias ambientales.",
+    "options_es": {
+      "answer": "Consideración de descarte médico",
+      "purpose": "Para considerar si los problemas médicos pueden estar contribuyendo al cambio de conducta."
+    }
+  },
+  "assessment_observation_sampling": {
+    "status": "reviewed",
+    "answer": "Muestreo de observación en distintos contextos",
+    "definition": "el cliente es observado en más de un entorno o rutina para comparar patrones.",
+    "scenario": "El personal recoge datos de observación durante trabajo en mesa, recreo y transiciones para ver si la conducta problema se concentra en un contexto.",
+    "purpose": "Para comparar patrones de conducta en diferentes entornos o rutinas.",
+    "explanation": "El muestreo de observación en distintos contextos ayuda al equipo a evitar conclusiones basadas en una sola situación estrecha.",
+    "options_es": {
+      "answer": "Muestreo de observación en distintos contextos",
+      "purpose": "Para comparar patrones de conducta en diferentes entornos o rutinas."
+    }
+  },
+  "behavior_behavioral_momentum": {
+    "status": "reviewed",
+    "answer": "Momento conductual",
+    "definition": "el cumplimiento con respuestas más fáciles se utiliza para aumentar la probabilidad de cumplimiento con una respuesta más difícil.",
+    "scenario": "Después de que un cliente sigue rápidamente varias instrucciones simples, el RBT presenta una demanda de limpieza más difícil.",
+    "purpose": "Para generar impulso a partir de respuestas fáciles antes de una tarea más difícil.",
+    "explanation": "El momento conductual se apoya en una serie de respuestas con alta probabilidad para aumentar el cumplimiento posterior.",
+    "options_es": {
+      "answer": "Momento conductual",
+      "purpose": "Para generar impulso a partir de respuestas fáciles antes de una tarea más difícil."
+    }
+  },
+  "behavior_reduction": {
+    "status": "reviewed",
+    "answer": "Reducción de conducta",
+    "definition": "se aplican procedimientos para disminuir conductas problemáticas y al mismo tiempo apoyar respuestas más seguras y funcionales.",
+    "scenario": "El equipo implementa estrategias basadas en la función, ajustes antecedentes y enseñanza de conductas de reemplazo para disminuir agresión durante la sesión.",
+    "purpose": "Para reducir conductas problemáticas mediante procedimientos planificados y éticos.",
+    "explanation": "La reducción de conducta en ABA se centra en comprender por qué ocurre la conducta y en aplicar apoyos que la reduzcan de forma segura y funcional.",
+    "options_es": {
+      "answer": "Reducción de conducta",
+      "purpose": "Para reducir conductas problemáticas mediante procedimientos planificados y éticos."
+    }
+  },
+  "behavior_satiation_awareness": {
+    "status": "reviewed",
+    "answer": "Conciencia de saciación",
+    "definition": "el equipo monitorea si un reforzador puede estar perdiendo valor porque el cliente ha tenido acceso excesivo reciente a él.",
+    "scenario": "Un cliente deja de trabajar por galletas al final de la sesión después de haber recibido muchas, por lo que el personal considera si la motivación ha disminuido.",
+    "purpose": "Para reconocer cuándo el acceso repetido puede reducir la eficacia de un reforzador.",
+    "explanation": "La saciación puede hacer que los reforzadores sean menos eficaces y puede cambiar qué tan bien funcionan los planes conductuales a lo largo de la sesión.",
+    "options_es": {
+      "answer": "Conciencia de saciación",
+      "purpose": "Para reconocer cuándo el acceso repetido puede reducir la eficacia de un reforzador."
+    }
   }
 }
