@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Animated, ActivityIndicator, Linking, Pressable,
   ScrollView, StyleSheet, Text, View, Alert,
@@ -17,6 +17,18 @@ try {
 } catch { rcAvailable = false; }
 
 const API_BASE = 'https://www.rbtgenius.com';
+const APP_RETURN_SCHEME = 'exp+rbt-genius';
+const APP_RETURN_HOST = 'billing';
+
+function buildAppReturnUrl(params = {}) {
+  const url = new URL(`${APP_RETURN_SCHEME}://${APP_RETURN_HOST}`);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      url.searchParams.set(key, String(value));
+    }
+  });
+  return url.toString();
+}
 
 const FEATURES = [
   { icon: '∞',  label: 'Unlimited practice questions', sub: 'No daily cap — study as much as you want' },
@@ -33,13 +45,14 @@ const FALLBACK = [
 export default function UpgradeScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
-  const { user, token } = useAuth();
+  const { user, token, refreshSession } = useAuth();
   const s = styles(theme);
   const [planId,   setPlanId]   = useState('premium_yearly');
   const [loading,  setLoading]  = useState(false);
   const [offering, setOffering] = useState(null);
   const fade  = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(24)).current;
+  const handlingReturnRef = useRef(false);
 
   useEffect(() => {
     Animated.parallel([
@@ -62,6 +75,114 @@ export default function UpgradeScreen({ navigation }) {
     : FALLBACK;
   const sel = plans.find(p => p.id === planId) ?? plans[plans.length - 1];
 
+  const handleBillingReturn = useCallback(async (incomingUrl) => {
+    if (!incomingUrl) return false;
+
+    let parsed;
+    try {
+      parsed = new URL(incomingUrl);
+    } catch {
+      return false;
+    }
+
+    if (parsed.protocol !== `${APP_RETURN_SCHEME}:` || parsed.hostname !== APP_RETURN_HOST) {
+      return false;
+    }
+
+    const checkoutState = parsed.searchParams.get('checkout');
+    const portalState = parsed.searchParams.get('portal');
+    const sessionId = parsed.searchParams.get('session_id');
+
+    if (portalState === 'return') {
+      setLoading(false);
+      await refreshSession?.().catch(() => null);
+      navigation.goBack?.();
+      return true;
+    }
+
+    if (checkoutState === 'cancelled') {
+      setLoading(false);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Alert.alert('Checkout canceled', 'No charge was made and you are back in the app.');
+      navigation.goBack?.();
+      return true;
+    }
+
+    if (checkoutState === 'success' && sessionId) {
+      if (handlingReturnRef.current) return true;
+      handlingReturnRef.current = true;
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/api/billing/confirm`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ session_id: sessionId }),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          throw new Error(data.message || 'Unable to confirm checkout');
+        }
+
+        await refreshSession?.().catch(() => null);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        Alert.alert('Welcome to Pro!', 'Your subscription is active and the app is ready to continue.');
+        navigation.goBack?.();
+      } catch (error) {
+        Alert.alert('Error', error?.message || 'Unable to confirm checkout.');
+      } finally {
+        handlingReturnRef.current = false;
+        setLoading(false);
+      }
+      return true;
+    }
+
+    return false;
+  }, [navigation, refreshSession, token]);
+
+  useEffect(() => {
+    const subscription = Linking.addEventListener('url', ({ url }) => {
+      handleBillingReturn(url).catch(() => {});
+    });
+
+    Linking.getInitialURL().then((initialUrl) => {
+      if (initialUrl) {
+        handleBillingReturn(initialUrl).catch(() => {});
+      }
+    }).catch(() => {});
+
+    return () => subscription.remove();
+  }, [handleBillingReturn]);
+
+  const handleManageSubscription = async () => {
+    if (!token) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/billing/portal`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ return_url: buildAppReturnUrl({ portal: 'return' }) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.url) {
+        await Linking.openURL(data.url);
+      } else {
+        Alert.alert('Error', data.message || 'Could not open billing portal.');
+        setLoading(false);
+      }
+    } catch {
+      setLoading(false);
+      Alert.alert('Error', 'Network error. Check your connection.');
+    }
+  };
+
   const handleUpgrade = async () => {
     if (!token) { Alert.alert('Not signed in', 'Sign in first to upgrade.'); return; }
     setLoading(true);
@@ -81,7 +202,11 @@ export default function UpgradeScreen({ navigation }) {
         const res  = await fetch(`${API_BASE}/api/billing/checkout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ plan: planId }),
+          body: JSON.stringify({
+            plan: planId,
+            success_url: buildAppReturnUrl(),
+            cancel_url: buildAppReturnUrl(),
+          }),
         });
         const data = await res.json();
         if (data.url) await Linking.openURL(data.url);
@@ -107,7 +232,7 @@ export default function UpgradeScreen({ navigation }) {
         <Text style={s.proEmoji}>🎉</Text>
         <Text style={s.proTitle}>You're Pro!</Text>
         <Text style={s.proSub}>All premium study features unlocked. Go study!</Text>
-        <Pressable style={s.manageBtn} onPress={() => Linking.openURL(`${API_BASE}/profile`)}>
+        <Pressable style={s.manageBtn} onPress={handleManageSubscription}>
           <Text style={s.manageTxt}>Manage Subscription</Text>
         </Pressable>
       </View>

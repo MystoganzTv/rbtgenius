@@ -193,12 +193,24 @@ function buildAbsoluteUrl(origin, pathname, params = {}) {
   return url.toString();
 }
 
+function buildReturnUrl(baseUrl, params = {}) {
+  const url = new URL(baseUrl);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, String(value));
+    }
+  });
+  return url.toString();
+}
+
 export async function createStripeCheckoutSession({
   plan,
   user,
   origin,
   successPath = "/profile",
   cancelPath = "/pricing",
+  successUrl = null,
+  cancelUrl = null,
 }) {
   const normalizedPlan = normalizePlan(plan);
   if (!isPremiumPlan(normalizedPlan)) {
@@ -208,13 +220,22 @@ export async function createStripeCheckoutSession({
   const stripe = ensureStripeReady(normalizedPlan);
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
-    success_url: buildAbsoluteUrl(origin, successPath, {
-      checkout: "success",
-      session_id: "{CHECKOUT_SESSION_ID}",
-    }),
-    cancel_url: buildAbsoluteUrl(origin, cancelPath, {
-      checkout: "cancelled",
-    }),
+    success_url: successUrl
+      ? buildReturnUrl(successUrl, {
+          checkout: "success",
+          session_id: "{CHECKOUT_SESSION_ID}",
+        })
+      : buildAbsoluteUrl(origin, successPath, {
+          checkout: "success",
+          session_id: "{CHECKOUT_SESSION_ID}",
+        }),
+    cancel_url: cancelUrl
+      ? buildReturnUrl(cancelUrl, {
+          checkout: "cancelled",
+        })
+      : buildAbsoluteUrl(origin, cancelPath, {
+          checkout: "cancelled",
+        }),
     client_reference_id: user.id,
     line_items: [
       {
@@ -292,6 +313,7 @@ export async function createStripePortalSession({
   customerId,
   origin,
   returnPath = "/profile?billing=return",
+  returnUrl = null,
 }) {
   if (!customerId) {
     throw new Error("No Stripe customer is linked to this account yet.");
@@ -300,7 +322,7 @@ export async function createStripePortalSession({
   const stripe = ensureStripeReady();
   const portal = await stripe.billingPortal.sessions.create({
     customer: customerId,
-    return_url: buildAbsoluteUrl(origin, returnPath),
+    return_url: returnUrl || buildAbsoluteUrl(origin, returnPath),
   });
 
   return {

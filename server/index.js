@@ -1127,6 +1127,8 @@ app.post('/api/billing/checkout', requireUser, async (req, res) => {
       plan: selectedPlan,
       user: req.currentUser,
       origin: getCheckoutOrigin(req),
+      successUrl: req.body?.success_url || null,
+      cancelUrl: req.body?.cancel_url || null,
     });
 
     res.status(201).json(session);
@@ -1197,6 +1199,7 @@ app.post('/api/billing/portal', requireUser, async (req, res) => {
     const session = await createStripePortalSession({
       customerId: req.currentUser.stripe_customer_id,
       origin: getCheckoutOrigin(req),
+      returnUrl: req.body?.return_url || null,
     });
     res.json(session);
   } catch (error) {

@@ -731,7 +731,13 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     try {
       const body = await req.json();
-      const session = await createStripeCheckoutSession({ plan: body?.plan, user: auth.user, origin: getCheckoutOrigin(req) });
+      const session = await createStripeCheckoutSession({
+        plan: body?.plan,
+        user: auth.user,
+        origin: getCheckoutOrigin(req),
+        successUrl: body?.success_url || null,
+        cancelUrl: body?.cancel_url || null,
+      });
       return json(session, { status: 201 });
     } catch (err) { return json({ message: err.message || 'Unable to start checkout' }, { status: 400 }); }
   }
@@ -777,7 +783,12 @@ async function webApiHandler(req) {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
     try {
-      const session = await createStripePortalSession({ customerId: auth.user.stripe_customer_id, origin: getCheckoutOrigin(req) });
+      const body = await req.json().catch(() => ({}));
+      const session = await createStripePortalSession({
+        customerId: auth.user.stripe_customer_id,
+        origin: getCheckoutOrigin(req),
+        returnUrl: body?.return_url || null,
+      });
       return json(session);
     } catch (err) { return json({ message: err.message || 'Unable to open billing portal' }, { status: 400 }); }
   }

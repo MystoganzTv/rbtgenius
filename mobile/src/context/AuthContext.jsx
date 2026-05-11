@@ -273,6 +273,29 @@ export function AuthProvider({ children }) {
     );
   };
 
+  const refreshSession = async () => {
+    if (!token) return null;
+
+    const meRes = await fetch(`${API_BASE}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!meRes.ok) return null;
+
+    const rawUser = await meRes.json();
+    const nextToken = rawUser?.token || token;
+
+    if (nextToken !== token) {
+      await AsyncStorage.setItem(TOKEN_KEY, nextToken);
+      setToken(nextToken);
+    }
+
+    setUser(buildUser(rawUser));
+    maybeInitRC(rawUser.id);
+    hydrateDashboard(rawUser, nextToken, setUser);
+    return rawUser;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -284,6 +307,7 @@ export function AuthProvider({ children }) {
         loginWithGoogle,
         logout,
         refreshDashboard,
+        refreshSession,
       }}>
       {children}
     </AuthContext.Provider>
