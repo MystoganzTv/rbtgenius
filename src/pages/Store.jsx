@@ -253,104 +253,42 @@ export default function Store() {
       </header>
 
       <main className='mx-auto max-w-[1280px] px-4 py-8 sm:px-6 sm:py-12'>
-        <section className='grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end'>
+        <section className='grid gap-8'>
           <div>
             <div className='inline-flex items-center gap-2 rounded-full border border-[#1E5EFF]/15 bg-[#1E5EFF]/8 px-4 py-2 text-xs font-medium text-[#1E5EFF] dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10 dark:text-[#8EB0FF] sm:text-sm'>
               <ShoppingBag className='h-4 w-4' />
               RBT Store
             </div>
-            <h1 className='mt-5 max-w-4xl text-4xl font-black leading-[0.95] text-slate-900 dark:text-slate-50 sm:text-5xl lg:text-[5rem]'>
+            <h1 className='mt-5 max-w-4xl font-jakarta text-4xl font-black leading-[1.05] text-slate-900 dark:text-slate-50 sm:text-5xl lg:text-[5rem]'>
               Todo lo que necesitas{' '}
-              <span className='text-[#4F7CFF]'>para tu carrera RBT.</span>
+              <span className='relative inline-block pb-3'>
+                <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400'>
+                  para tu carrera RBT.
+                </span>
+                <svg className='absolute -bottom-1 left-0 w-full' viewBox='0 0 300 12' fill='none'>
+                  <path d='M2 9 Q75 2 150 7 Q225 12 298 5' stroke='url(#gStore)' strokeWidth='3' strokeLinecap='round' fill='none'/>
+                  <defs>
+                    <linearGradient id='gStore' x1='0' y1='0' x2='300' y2='0' gradientUnits='userSpaceOnUse'>
+                      <stop stopColor='#60a5fa'/>
+                      <stop offset='1' stopColor='#a78bfa'/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
             </h1>
-            <p className='mt-5 max-w-3xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-[1.3rem]'>
-              Libros de estudio, tarjetas de memoria, herramientas diarias y
-              bundles pensados para ayudarte en sesión y en el examen. Compra
-              como invitado o guarda tu compra dentro de tu cuenta si ya eres
-              member.
+            <p className='mt-5 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xl'>
+              Herramientas, libros y bundles diseñados para RBTs — compra como invitado o con tu cuenta.
             </p>
 
             <div className='mt-7 flex flex-wrap gap-3'>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Pago seguro
-                con Stripe
+                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Pago seguro con Stripe
               </div>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <Sparkles className='h-4 w-4 text-[#4F7CFF]' /> Creado para
-                RBTs, no para cualquier público
+                <ShoppingBag className='h-4 w-4 text-[#4F7CFF]' /> Sin membresía obligatoria
               </div>
             </div>
           </div>
-
-          <div className='rounded-[2rem] border border-slate-200/80 bg-white p-6 shadow-[0_28px_80px_-48px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]'>
-            <div className='flex items-center justify-between gap-3'>
-              <div>
-                <p className='text-xs font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500'>
-                  Compra flexible
-                </p>
-                <h2 className='mt-2 text-2xl font-black text-slate-900 dark:text-slate-50'>
-                  Compra con o sin membresía
-                </h2>
-              </div>
-              <Truck className='h-8 w-8 text-[#1E5EFF]' />
-            </div>
-            <div className='mt-5 grid gap-3 sm:grid-cols-2'>
-              <div className='rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:text-slate-300 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628]'>
-                Compra como invitado si solo quieres pasar directo al checkout.
-              </div>
-              <div className='rounded-[1.3rem] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-600 dark:text-slate-300 dark:border-[#1E5EFF]/15 dark:bg-[#0D1628]'>
-                {isAuthenticated
-                  ? 'Tus compras también quedan guardadas en tu historial dentro de la cuenta.'
-                  : 'Si haces login primero, luego podremos guardar mejor tu compra en tu cuenta.'}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className='mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-          {[
-            {
-              title: 'Pago Seguro',
-              subtitle: 'Encriptación y checkout con Stripe',
-              icon: ShieldCheck,
-            },
-            {
-              title: 'Envío rápido',
-              subtitle: 'Listo para salir sin complicarte',
-              icon: Truck,
-            },
-            {
-              title: 'Sin membresía',
-              subtitle: 'Compra como invitado cuando quieras',
-              icon: ShoppingBag,
-            },
-            {
-              title: 'Cuenta conectada',
-              subtitle: 'Si haces login, tu orden queda registrada',
-              icon: CheckCircle2,
-            },
-          ].map(item => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.title}
-                className='rounded-[1.6rem] border border-slate-200/80 bg-white px-5 py-4 shadow-[0_22px_55px_-42px_rgba(15,23,42,0.25)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628]'>
-                <div className='flex items-start gap-4'>
-                  <div className='flex h-11 w-11 items-center justify-center rounded-2xl bg-[#4F7CFF]/10 text-[#4F7CFF]'>
-                    <Icon className='h-5 w-5' />
-                  </div>
-                  <div>
-                    <p className='font-semibold text-slate-900 dark:text-slate-50'>
-                      {item.title}
-                    </p>
-                    <p className='mt-1 text-sm leading-6 text-slate-500 dark:text-slate-300'>
-                      {item.subtitle}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </section>
 
         {bundleProduct ? (
