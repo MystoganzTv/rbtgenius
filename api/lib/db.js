@@ -101,7 +101,8 @@ export async function deleteUser(id) {
 // ── Attempts ──────────────────────────────────────────────────────────────────
 
 export async function getAttemptsByUser(userId) {
-  return sql`SELECT * FROM attempts WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  // Limit to last 1000 — enough for all progress calculations, avoids huge fetches
+  return sql`SELECT * FROM attempts WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT 1000`;
 }
 
 export async function getPracticeAttemptIdsByUser(userId) {
@@ -146,6 +147,7 @@ function parseJsonbField(value) {
   try { return JSON.parse(value); } catch { return value; }
 }
 
+// Full fetch — only use when answers are actually needed (mock exam history page)
 export async function getMockExamsByUser(userId) {
   const rows = await sql`SELECT * FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC`;
   return rows.map(r => ({
@@ -153,6 +155,34 @@ export async function getMockExamsByUser(userId) {
     answers: parseJsonbField(r.answers),
     domain_scores: parseJsonbField(r.domain_scores),
   }));
+}
+
+// Lightweight fetch — no answers column. Use for progress/entitlements computation.
+// Avoids downloading 85 answers × N exams on every authenticated request.
+export async function getMockExamsMetaByUser(userId) {
+  const rows = await sql`
+    SELECT id, user_id, score, total_questions, correct_answers,
+           time_taken_minutes, status, passed, domain_scores, created_at
+    FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC
+  `;
+  return rows.map(r => ({
+    ...r,
+    domain_scores: parseJsonbField(r.domain_scores),
+  }));
+}
+
+// Get answered question IDs from mock exams using SQL — avoids loading full answers in JS
+export async function getMockAttemptIdsByUserDirect(userId) {
+  const rows = await sql`
+    SELECT DISTINCT elem->>'question_id' AS question_id
+    FROM mock_exams,
+         jsonb_array_elements(
+           CASE WHEN jsonb_typeof(answers) = 'array' THEN answers ELSE '[]'::jsonb END
+         ) AS elem
+    WHERE user_id = ${userId}
+      AND elem->>'question_id' IS NOT NULL
+  `;
+  return rows.map(r => r.question_id).filter(Boolean);
 }
 
 export async function createMockExam(exam) {
