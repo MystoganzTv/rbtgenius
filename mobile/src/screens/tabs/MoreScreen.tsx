@@ -39,7 +39,7 @@ export default function MoreScreen({ navigation }) {
     },
   ];
 
-  const isPro = user?.plan === 'premium' || user?.plan === 'premium_monthly' || user?.plan === 'premium_yearly';
+  const isPro = user?.isPremium ?? false;
 
   const accentColor = (accent) => {
     if (accent === 'gold') return theme.gold;

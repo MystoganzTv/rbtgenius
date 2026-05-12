@@ -225,7 +225,7 @@ export default function UpgradeScreen({ navigation }) {
     else Alert.alert('Nothing found', 'No active subscription found for this Apple ID.');
   };
 
-  const isPro = ['premium','premium_monthly','premium_yearly'].includes(user?.plan);
+  const isPro = user?.isPremium ?? false;
   if (isPro) return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.proWrap}>

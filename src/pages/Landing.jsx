@@ -445,7 +445,7 @@ export default function Landing() {
               <Sparkles className="h-4 w-4" />
               {translateUi("Built for RBT exam prep", language)}
             </div>
-            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[0.96] text-slate-900 dark:text-slate-50 sm:mt-6 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 max-w-3xl font-display text-4xl font-black leading-[0.94] tracking-tight text-slate-900 dark:text-slate-50 sm:mt-6 sm:text-5xl lg:text-6xl">
               {translateUi("Study with structure, not guesswork.", language)}
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-xl">
@@ -771,7 +771,7 @@ export default function Landing() {
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                   Native iOS &amp; Android App
                 </div>
-                <h2 className={`mt-5 text-2xl font-black tracking-tight sm:text-3xl ${isDark ? "text-slate-50" : "text-slate-900"}`}>
+                <h2 className={`mt-5 font-display text-2xl font-black tracking-tight sm:text-3xl ${isDark ? "text-slate-50" : "text-slate-900"}`}>
                   Study anywhere — even offline.
                 </h2>
                 <p className={`mt-3 text-base leading-7 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
@@ -867,7 +867,7 @@ export default function Landing() {
               <Sparkles className="h-4 w-4" />
               What you get today
             </div>
-            <h2 className="mt-5 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
+            <h2 className="mt-5 font-display text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
               The current offer, without padding.
             </h2>
             <p className="mt-3 max-w-3xl text-base leading-7 text-slate-500 dark:text-slate-400">
@@ -902,7 +902,7 @@ export default function Landing() {
               <Crown className="h-4 w-4" />
               Guest, Free, and Premium
             </div>
-            <h2 className="mt-5 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
+            <h2 className="mt-5 font-display text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
               See what changes when you upgrade.
             </h2>
             <p className="mt-3 text-base leading-7 text-slate-500 dark:text-slate-400">
