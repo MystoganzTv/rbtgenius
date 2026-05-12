@@ -229,7 +229,7 @@ export default function MockExams() {
           <div
             className={cn(
               "mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full",
-              examResult.passed ? "bg-emerald-50" : "bg-red-50",
+              examResult.passed ? "bg-emerald-50 dark:bg-emerald-500/10" : "bg-red-50 dark:bg-red-500/10",
             )}
           >
             {examResult.passed ? (
@@ -238,7 +238,7 @@ export default function MockExams() {
               <XCircle className="h-10 w-10 text-red-500" />
             )}
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
             {translateUi(examResult.passed ? "Congratulations!" : "Keep Practicing", language)}
           </h2>
           <p className="mt-1 text-sm text-slate-500">
@@ -248,7 +248,7 @@ export default function MockExams() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-white p-6">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
           <div className="mb-6 text-center">
             <div
               className="text-6xl font-bold"
@@ -289,7 +289,7 @@ export default function MockExams() {
                     {value}%
                   </span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-[#0D1E3A]">
                   <div
                     className="h-full rounded-full transition-all"
                     style={{
@@ -336,7 +336,7 @@ export default function MockExams() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <div className="sticky top-20 z-30 flex items-center justify-between rounded-2xl border border-slate-100 bg-white px-5 py-3">
+      <div className="sticky top-20 z-30 flex items-center justify-between rounded-2xl border border-slate-100 bg-white px-5 py-3 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
         <div className="flex items-center gap-4">
           <Badge variant="secondary" className="text-xs">
             {currentIndex + 1}/{questions.length}
@@ -350,8 +350,8 @@ export default function MockExams() {
             className={cn(
               "flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium",
               timeLeft < 300
-                ? "bg-red-50 text-red-600"
-                : "bg-slate-50 text-slate-600",
+                ? "bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-300"
+                : "bg-slate-50 text-slate-600 dark:bg-[#0D1E3A] dark:text-slate-300",
             )}
           >
             <Clock className="h-4 w-4" />
@@ -368,13 +368,13 @@ export default function MockExams() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-100 bg-white p-6">
+      <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
         <div className="mb-6 flex items-start gap-3">
           <BilingualText
             content={localizedCurrentQuestion?.localizedText}
             className="flex-1"
-            primaryClassName="text-base font-medium leading-relaxed text-slate-900"
-            secondaryClassName="leading-relaxed text-slate-500"
+            primaryClassName="text-base font-medium leading-relaxed text-slate-900 dark:text-slate-50"
+            secondaryClassName="leading-relaxed text-slate-500 dark:text-slate-400"
           />
           <TranslateTextButton
             title="Question"
@@ -403,8 +403,8 @@ export default function MockExams() {
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl border-2 p-4 text-left transition-all",
                   isSelected
-                    ? "border-[#1E5EFF] bg-[#1E5EFF]/5"
-                    : "border-slate-200 hover:border-slate-300",
+                    ? "border-[#1E5EFF] bg-[#1E5EFF]/5 dark:bg-[#1E5EFF]/10"
+                    : "border-slate-200 hover:border-slate-300 dark:border-[#1E5EFF]/15 dark:hover:border-[#1E5EFF]/30",
                 )}
               >
                 <span
@@ -412,7 +412,7 @@ export default function MockExams() {
                     "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
                     isSelected
                       ? "bg-[#1E5EFF] text-white"
-                      : "bg-slate-100 text-slate-500",
+                      : "bg-slate-100 text-slate-500 dark:bg-[#0D1E3A] dark:text-slate-400",
                   )}
                 >
                   {option.label}
@@ -421,8 +421,8 @@ export default function MockExams() {
                   <BilingualText
                     content={option.localizedText}
                     className="flex-1"
-                    primaryClassName="text-sm text-slate-900"
-                    secondaryClassName="text-slate-500"
+                    primaryClassName="text-sm text-slate-900 dark:text-slate-100"
+                    secondaryClassName="text-slate-500 dark:text-slate-400"
                   />
                   <TranslateTextButton
                     title="Translation"
