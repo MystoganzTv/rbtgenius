@@ -290,16 +290,19 @@ export default function Store() {
         </section>
 
         {bundleProduct ? (
-          <section className='mt-8 overflow-hidden rounded-[2rem] border border-emerald-200/80 bg-gradient-to-r from-emerald-50 via-white to-sky-50 shadow-[0_30px_90px_-55px_rgba(15,23,42,0.28)] dark:border-[#34C38F]/18 dark:from-[#0B172B] dark:via-[#0E1A31] dark:to-[#0B1B2E]'>
-            <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-9'>
+          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-emerald-200/70 bg-[linear-gradient(135deg,#f3fff9_0%,#ffffff_48%,#f1f7ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.28)] dark:border-[#243657] dark:bg-[radial-gradient(circle_at_top_right,rgba(79,124,255,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(52,195,143,0.08),transparent_24%),linear-gradient(180deg,rgba(9,18,34,1),rgba(11,21,39,1))]'>
+            <div className='pointer-events-none absolute inset-0 hidden dark:block'>
+              <div className='absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent' />
+            </div>
+            <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-9'>
               <div>
-                <div className='inline-flex items-center gap-2 rounded-full bg-[#34C38F]/14 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#158A5E]'>
+                <div className='inline-flex items-center gap-2 rounded-full bg-[#34C38F]/14 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#158A5E] dark:border dark:border-[#34C38F]/18 dark:bg-[#34C38F]/10 dark:text-[#8DDDBA]'>
                   <BadgePercent className='h-4 w-4' /> Oferta Especial
                 </div>
                 <h2 className='mt-4 text-3xl font-black leading-tight text-slate-900 dark:text-slate-50 sm:text-4xl'>
                   Ahorra con nuestros Bundles
                 </h2>
-                <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg'>
+                <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#C6D1E6] sm:text-lg'>
                   Combina libros, tarjetas de estudio y herramientas diarias en
                   un solo paquete con descuento. Perfecto para quienes empiezan
                   su camino como RBT.
@@ -310,7 +313,7 @@ export default function Store() {
                     onClick={() => handleCategorySelect('Bundles')}>
                     Ver Bundles <ArrowRight className='ml-2 h-4 w-4' />
                   </Button>
-                  <div className='text-sm text-slate-500 dark:text-slate-300'>
+                  <div className='text-sm text-slate-500 dark:text-[#A8B7D4]'>
                     {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
                       <>
                         Antes{' '}
@@ -327,44 +330,50 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className='relative overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#8BCFB7]/18 dark:bg-[linear-gradient(180deg,rgba(14,23,43,0.98),rgba(10,18,35,0.97))] dark:shadow-[0_32px_90px_-55px_rgba(2,8,23,0.9)]'>
+              <div className='relative overflow-hidden rounded-[1.9rem] border border-slate-200/80 bg-white/88 p-6 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-[0_28px_80px_-50px_rgba(0,0,0,0.75)]'>
                 <div className='pointer-events-none absolute inset-0 hidden dark:block'>
-                  <div className='absolute -right-12 top-0 h-40 w-40 rounded-full bg-[#4F7CFF]/14 blur-3xl' />
-                  <div className='absolute bottom-0 left-0 h-32 w-40 rounded-full bg-[#34C38F]/10 blur-3xl' />
-                  <div className='absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent' />
+                  <div className='absolute right-0 top-0 h-36 w-36 rounded-full bg-[#4F7CFF]/12 blur-3xl' />
+                  <div className='absolute bottom-0 left-0 h-28 w-32 rounded-full bg-[#34C38F]/8 blur-3xl' />
                 </div>
-                <div className='absolute right-5 top-5 rounded-full border border-[#8BCFB7]/30 bg-[#34C38F]/18 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#B7F2DA] dark:backdrop-blur'>
-                  Bundle
+                <div className='relative flex items-center justify-between gap-3'>
+                  <p className='text-xs font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-[#8EA3D1]'>
+                    Producto destacado
+                  </p>
+                  <div className='rounded-full border border-[#8BCFB7]/28 bg-[#34C38F]/14 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#1B8F61] dark:text-[#B7F2DA]'>
+                    Bundle
+                  </div>
                 </div>
-                <div className='relative grid grid-cols-[118px_1fr] items-center gap-4'>
-                  <div className='overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-gradient-to-br from-emerald-50 to-sky-50 shadow-[0_18px_35px_-24px_rgba(15,23,42,0.38)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,29,54,0.98),rgba(11,21,39,0.95))] dark:shadow-[0_24px_44px_-28px_rgba(0,0,0,0.65)]'>
+                <div className='relative mt-5 flex flex-col gap-5 sm:flex-row sm:items-center'>
+                  <div className='flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-gradient-to-br from-white to-sky-50 shadow-[0_18px_35px_-24px_rgba(15,23,42,0.3)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(20,35,63,0.95),rgba(12,22,39,0.95))]'>
                     <img
                       src={PRODUCT_PRESENTATION[bundleProduct.id]?.image}
                       alt={bundleProduct.name}
-                      className='h-28 w-full object-cover'
+                      className='h-full w-full object-cover'
                     />
                   </div>
-                  <div>
-                    <p className='text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-[#8EA3D1]'>
-                      Producto destacado
-                    </p>
-                    <h3 className='mt-2 text-2xl font-black text-slate-900 dark:text-white'>
+                  <div className='min-w-0'>
+                    <h3 className='text-2xl font-black text-slate-900 dark:text-white'>
                       {bundleProduct.name}
                     </h3>
                     <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-[#C5D1E7]'>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.summary ||
                         bundleProduct.summary}
                     </p>
-                    <div className='mt-4 flex items-end gap-2'>
+                    <div className='mt-4 flex flex-wrap items-end gap-x-3 gap-y-2'>
                       <span className='text-3xl font-black text-slate-900 dark:text-white'>
                         {formatStorePrice(bundleProduct.price_cents)}
                       </span>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
-                        <span className='pb-1 text-sm text-slate-400 line-through dark:text-slate-500'>
-                          {formatStorePrice(
-                            PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
-                          )}
-                        </span>
+                        <>
+                          <span className='pb-1 text-sm text-slate-400 line-through dark:text-slate-500'>
+                            {formatStorePrice(
+                              PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
+                            )}
+                          </span>
+                          <span className='rounded-full bg-[#1E5EFF]/10 px-3 py-1 text-xs font-semibold text-[#1E5EFF] dark:bg-[#4F7CFF]/14 dark:text-[#9CB6FF]'>
+                            Ahorra {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt - bundleProduct.price_cents)}
+                          </span>
+                        </>
                       ) : null}
                     </div>
                   </div>
