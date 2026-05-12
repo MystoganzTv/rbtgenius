@@ -6,7 +6,6 @@ import {
   BadgePercent,
   BookOpen,
   Boxes,
-  CheckCircle2,
   GraduationCap,
   Loader2,
   Moon,
@@ -15,7 +14,6 @@ import {
   ShoppingBag,
   Sparkles,
   Sun,
-  Truck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PublicSiteFooter from '@/components/public/PublicSiteFooter';
@@ -329,19 +327,26 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className='relative rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#1E5EFF]/15 dark:bg-[#0E1A31]/92'>
+              <div className='relative overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#4F7CFF]/18 dark:bg-[linear-gradient(180deg,rgba(15,28,54,0.98),rgba(10,20,39,0.96))] dark:shadow-[0_32px_90px_-55px_rgba(2,8,23,0.9)]'>
+                <div className='pointer-events-none absolute inset-0 hidden dark:block'>
+                  <div className='absolute inset-y-0 right-0 w-[58%] bg-[radial-gradient(circle_at_center,rgba(79,124,255,0.18),transparent_62%)] blur-2xl' />
+                </div>
                 <div className='absolute right-5 top-5 rounded-full bg-[#34C38F] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white'>
                   Bundle
                 </div>
-                <div className='grid grid-cols-[110px_1fr] items-center gap-4'>
-                  <div className='flex h-28 w-full items-center justify-center rounded-[1.6rem] bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-[#0E2235] dark:to-[#0B1B2E]'>
-                    <Boxes className='h-10 w-10 text-[#1E5EFF]' />
+                <div className='relative grid grid-cols-[118px_1fr] items-center gap-4'>
+                  <div className='overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-gradient-to-br from-emerald-50 to-sky-50 dark:border-[#4F7CFF]/12 dark:from-[#11213B] dark:to-[#0C162B]'>
+                    <img
+                      src={PRODUCT_PRESENTATION[bundleProduct.id]?.image}
+                      alt={bundleProduct.name}
+                      className='h-28 w-full object-cover'
+                    />
                   </div>
                   <div>
-                    <p className='text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500'>
+                    <p className='text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-[#8EA3D1]'>
                       Producto destacado
                     </p>
-                    <h3 className='mt-2 text-2xl font-black text-slate-900 dark:text-slate-50'>
+                    <h3 className='mt-2 text-2xl font-black text-slate-900 dark:text-white'>
                       {bundleProduct.name}
                     </h3>
                     <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300'>
@@ -349,7 +354,7 @@ export default function Store() {
                         bundleProduct.summary}
                     </p>
                     <div className='mt-4 flex items-end gap-2'>
-                      <span className='text-3xl font-black text-slate-900 dark:text-slate-50'>
+                      <span className='text-3xl font-black text-slate-900 dark:text-white'>
                         {formatStorePrice(bundleProduct.price_cents)}
                       </span>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
