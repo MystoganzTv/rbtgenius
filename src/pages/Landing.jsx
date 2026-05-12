@@ -26,17 +26,23 @@ import { createPageUrl } from "@/utils";
 const featureCards = [
   {
     title: "Practice With the Full Bank",
+    titleEs: "Practica con el banco completo",
     description: `Work through ${TOTAL_PRACTICE_QUESTIONS} active practice questions organized across ${OFFICIAL_CONCEPT_COUNT} core concepts.`,
+    descriptionEs: `Trabaja con ${TOTAL_PRACTICE_QUESTIONS} preguntas activas organizadas en ${OFFICIAL_CONCEPT_COUNT} conceptos clave.`,
     Icon: Target,
   },
   {
     title: "Take Realistic Mock Exams",
+    titleEs: "Realiza exámenes simulados reales",
     description: `Simulate the exam experience with timed tests pulled from the same ${TOTAL_PRACTICE_QUESTIONS}-question bank.`,
+    descriptionEs: `Simula la experiencia del examen con pruebas cronometradas del mismo banco de ${TOTAL_PRACTICE_QUESTIONS} preguntas.`,
     Icon: ClipboardCheck,
   },
   {
     title: "Track Meaningful Progress",
+    titleEs: "Rastrea tu progreso real",
     description: "See overall progress, streaks, readiness, and domain performance without noisy session swings.",
+    descriptionEs: "Ve el progreso general, rachas, preparación y rendimiento por dominio sin variaciones de sesión.",
     Icon: LayoutDashboard,
   },
 ];
@@ -44,12 +50,15 @@ const featureCards = [
 const premiumPreviewPanels = [
   {
     label: "Study Preview",
+    labelEs: "Vista previa",
     title: "Smarter exam prep",
-    subtitle: `Practice, flashcards, mock exams, and AI support built on the same ${TOTAL_PRACTICE_QUESTIONS}-question bank across ${OFFICIAL_CONCEPT_COUNT} concepts.`,
+    titleEs: "Preparación más inteligente",
+    subtitle: `Practice, flashcards, and mock exams built on the same ${TOTAL_PRACTICE_QUESTIONS}-question bank across ${OFFICIAL_CONCEPT_COUNT} concepts.`,
+    subtitleEs: `Práctica, tarjetas y exámenes simulados en el mismo banco de ${TOTAL_PRACTICE_QUESTIONS} preguntas en ${OFFICIAL_CONCEPT_COUNT} conceptos.`,
     accentClassName:
       "bg-emerald-500/14 text-emerald-300",
     Icon: Brain,
-    renderMobileContent: (isDark) => (
+    renderMobileContent: (isDark, isEs) => (
       <div>
         <div className="grid grid-cols-2 gap-4">
           <div
@@ -58,10 +67,10 @@ const premiumPreviewPanels = [
             }`}
           >
             <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Question bank
+              {isEs ? "Banco de preguntas" : "Question bank"}
             </p>
             <p className={`mt-2 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>{TOTAL_PRACTICE_QUESTIONS}</p>
-            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>active questions</p>
+            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "preguntas activas" : "active questions"}</p>
           </div>
           <div
             className={`rounded-[1.15rem] p-3 ${
@@ -69,21 +78,21 @@ const premiumPreviewPanels = [
             }`}
           >
             <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Concepts
+              {isEs ? "Conceptos" : "Concepts"}
             </p>
             <p className={`mt-2 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>{OFFICIAL_CONCEPT_COUNT}</p>
-            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>tracked concepts</p>
+            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "conceptos rastreados" : "tracked concepts"}</p>
           </div>
         </div>
         <div className={`mt-4 h-px ${isDark ? "bg-white/10" : "bg-slate-200"}`} />
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-[#2D6BFF]/14 text-[#8EB0FF]" : "bg-[#2D6BFF]/8 text-[#1E5EFF]"}`}>Practice</span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-emerald-500/10 text-emerald-300" : "bg-emerald-50 text-emerald-700"}`}>Flashcards</span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-amber-500/10 text-amber-300" : "bg-amber-50 text-amber-700"}`}>Mock Exams</span>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-[#2D6BFF]/14 text-[#8EB0FF]" : "bg-[#2D6BFF]/8 text-[#1E5EFF]"}`}>{isEs ? "Práctica" : "Practice"}</span>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-emerald-500/10 text-emerald-300" : "bg-emerald-50 text-emerald-700"}`}>{isEs ? "Tarjetas" : "Flashcards"}</span>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-amber-500/10 text-amber-300" : "bg-amber-50 text-amber-700"}`}>{isEs ? "Exámenes simulados" : "Mock Exams"}</span>
         </div>
       </div>
     ),
-    renderContent: (isDark) => (
+    renderContent: (isDark, isEs) => (
       <div className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <div
@@ -94,10 +103,10 @@ const premiumPreviewPanels = [
             }`}
           >
             <p className={`text-[11px] font-semibold uppercase tracking-[0.22em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Question Bank
+              {isEs ? "Banco de preguntas" : "Question Bank"}
             </p>
             <p className={`mt-3 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>{TOTAL_PRACTICE_QUESTIONS}</p>
-            <p className={`mt-1 text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>active questions</p>
+            <p className={`mt-1 text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "preguntas activas" : "active questions"}</p>
           </div>
           <div
             className={`rounded-[1.4rem] border p-4 backdrop-blur-sm ${
@@ -107,166 +116,112 @@ const premiumPreviewPanels = [
             }`}
           >
             <p className={`text-[11px] font-semibold uppercase tracking-[0.22em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Concepts
+              {isEs ? "Conceptos" : "Concepts"}
             </p>
             <p className={`mt-3 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>{OFFICIAL_CONCEPT_COUNT}</p>
-            <p className={`mt-1 text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>tracked concepts</p>
+            <p className={`mt-1 text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "conceptos rastreados" : "tracked concepts"}</p>
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-[#2D6BFF]/30 bg-[#2D6BFF]/14 text-[#8EB0FF]" : "border-[#2D6BFF]/18 bg-[#2D6BFF]/8 text-[#1E5EFF]"}`}>
-            Practice
+            {isEs ? "Práctica" : "Practice"}
           </div>
           <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-emerald-400/20 bg-emerald-500/10 text-emerald-300" : "border-emerald-300/40 bg-emerald-50 text-emerald-700"}`}>
-            Flashcards
+            {isEs ? "Tarjetas" : "Flashcards"}
           </div>
           <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-amber-400/20 bg-amber-500/10 text-amber-300" : "border-amber-300/40 bg-amber-50 text-amber-700"}`}>
-            Mock Exams
+            {isEs ? “Exámenes simulados” : “Mock Exams”}
           </div>
         </div>
       </div>
     ),
   },
   {
-    label: "Premium Preview",
-    title: "Mock exam confidence",
-    subtitle: "Timed exams with clearer signals on whether you are ready to test.",
+    label: “Premium Preview”,
+    labelEs: “Vista premium”,
+    title: “Mock exam confidence”,
+    titleEs: “Confianza en el simulacro”,
+    subtitle: “Timed exams with clearer signals on whether you are ready to test.”,
+    subtitleEs: “Exámenes cronometrados con señales claras sobre si estás listo para el examen.”,
     accentClassName:
-      "bg-[#2D6BFF]/14 text-[#8EB0FF]",
+      “bg-[#2D6BFF]/14 text-[#8EB0FF]”,
     Icon: ClipboardCheck,
-    renderMobileContent: (isDark) => (
+    renderMobileContent: (isDark, isEs) => (
       <div>
-        <div className="flex items-center justify-between gap-3">
+        <div className=”flex items-center justify-between gap-3”>
           <div>
-            <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Mock readiness
+            <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
+              {isEs ? “Preparación” : “Mock readiness”}
             </p>
-            <p className={`mt-2 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>212</p>
-            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>average scaled score</p>
+            <p className={`mt-2 text-3xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>212</p>
+            <p className={`mt-1 text-xs ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “puntuación escalada promedio” : “average scaled score”}</p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold ${isDark ? "bg-amber-500/16 text-amber-300" : "bg-amber-100 text-amber-700"}`}>
-            Keep practicing
+          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold ${isDark ? “bg-amber-500/16 text-amber-300” : “bg-amber-100 text-amber-700”}`}>
+            {isEs ? “Sigue practicando” : “Keep practicing”}
           </span>
         </div>
-        <div className={`mt-4 h-3 rounded-full p-0.5 ${isDark ? "bg-white/8" : "bg-slate-100"}`}>
-          <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400" />
+        <div className={`mt-4 h-3 rounded-full p-0.5 ${isDark ? “bg-white/8” : “bg-slate-100”}`}>
+          <div className=”h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400” />
         </div>
-        <div className="mt-4 grid grid-cols-3 gap-3">
-          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
-            <p className="text-2xl font-black text-emerald-300">2</p>
-            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>passed</p>
+        <div className=”mt-4 grid grid-cols-3 gap-3”>
+          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
+            <p className=”text-2xl font-black text-emerald-300”>2</p>
+            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “aprobados” : “passed”}</p>
           </div>
-          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
-            <p className={`text-2xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>6</p>
-            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>taken</p>
+          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
+            <p className={`text-2xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>6</p>
+            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “realizados” : “taken”}</p>
           </div>
-          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
-            <p className="text-2xl font-black text-amber-300">4</p>
-            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>review</p>
+          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
+            <p className=”text-2xl font-black text-amber-300”>4</p>
+            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “a revisar” : “review”}</p>
           </div>
         </div>
       </div>
     ),
-    renderContent: (isDark) => (
-      <div className="space-y-4">
+    renderContent: (isDark, isEs) => (
+      <div className=”space-y-4”>
         <div
           className={`rounded-[1.4rem] border p-5 backdrop-blur-sm ${
             isDark
-              ? "border-white/10 bg-white/5"
-              : "border-slate-200 bg-white/88 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.25)]"
+              ? “border-white/10 bg-white/5”
+              : “border-slate-200 bg-white/88 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.25)]”
           }`}
         >
-          <div className="flex items-center justify-between text-sm">
-            <span className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>Average mock score</span>
-            <span className={`rounded-full px-3 py-1 font-semibold ${isDark ? "bg-amber-500/16 text-amber-300" : "bg-amber-100 text-amber-700"}`}>
-              Keep practicing
+          <div className=”flex items-center justify-between text-sm”>
+            <span className={`font-semibold ${isDark ? “text-white” : “text-slate-900”}`}>{isEs ? “Puntuación promedio” : “Average mock score”}</span>
+            <span className={`rounded-full px-3 py-1 font-semibold ${isDark ? “bg-amber-500/16 text-amber-300” : “bg-amber-100 text-amber-700”}`}>
+              {isEs ? “Sigue practicando” : “Keep practicing”}
             </span>
           </div>
-          <div className="mt-5">
-            <div className={`h-4 rounded-full p-1 ${isDark ? "bg-white/8" : "bg-slate-100"}`}>
-              <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400" />
+          <div className=”mt-5”>
+            <div className={`h-4 rounded-full p-1 ${isDark ? “bg-white/8” : “bg-slate-100”}`}>
+              <div className=”h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400” />
             </div>
-            <div className="mt-3 flex items-end justify-between gap-4">
+            <div className=”mt-3 flex items-end justify-between gap-4”>
               <div>
-                <p className={`text-4xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>212</p>
-                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>scaled average score</p>
+                <p className={`text-4xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>212</p>
+                <p className={`text-sm ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “puntuación escalada promedio” : “scaled average score”}</p>
               </div>
-              <div className={`text-right text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                <p>6 mock exams taken</p>
-                <p>2 passed, 4 to review</p>
+              <div className={`text-right text-sm ${isDark ? “text-slate-400” : “text-slate-500”}`}>
+                <p>{isEs ? “6 simulacros realizados” : “6 mock exams taken”}</p>
+                <p>{isEs ? “2 aprobados, 4 a revisar” : “2 passed, 4 to review”}</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? "border-emerald-400/18 bg-emerald-500/8" : "border-emerald-300/40 bg-emerald-50"}`}>
-            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Passed
+        <div className=”grid gap-3 sm:grid-cols-2”>
+          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? “border-emerald-400/18 bg-emerald-500/8” : “border-emerald-300/40 bg-emerald-50”}`}>
+            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
+              {isEs ? “Aprobados” : “Passed”}
             </p>
-            <p className="mt-2 text-2xl font-black text-emerald-300">2</p>
+            <p className=”mt-2 text-2xl font-black text-emerald-300”>2</p>
           </div>
-          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? "border-amber-400/18 bg-amber-500/8" : "border-amber-300/40 bg-amber-50"}`}>
-            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-              Need review
+          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? “border-amber-400/18 bg-amber-500/8” : “border-amber-300/40 bg-amber-50”}`}>
+            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
+              {isEs ? “A revisar” : “Need review”}
             </p>
-            <p className="mt-2 text-2xl font-black text-amber-300">4</p>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    label: "Study Preview",
-    title: "Ask the AI coach",
-    subtitle: "Get quick explanations, study prompts, and targeted help when you get stuck.",
-    accentClassName:
-      "bg-violet-500/14 text-violet-300",
-    Icon: MessageSquareMore,
-    renderMobileContent: (isDark) => (
-      <div>
-        <div className={`max-w-[85%] rounded-2xl rounded-bl-md px-3 py-2 text-xs ${isDark ? "bg-white/8 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
-          Why is differential reinforcement better than just saying “no”?
-        </div>
-        <div className="mt-3 ml-auto max-w-[82%] rounded-2xl rounded-br-md bg-[#2D6BFF] px-3 py-2 text-xs text-white">
-          It teaches what to do instead, so the learner has a replacement behavior to reinforce.
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-violet-500/10 text-violet-300" : "bg-violet-50 text-violet-700"}`}>Concepts</span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-white/6 text-slate-300" : "bg-slate-100 text-slate-600"}`}>Explain</span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-medium ${isDark ? "bg-white/6 text-slate-300" : "bg-slate-100 text-slate-600"}`}>Prompts</span>
-        </div>
-      </div>
-    ),
-    renderContent: (isDark) => (
-      <div className="space-y-4">
-        <div
-          className={`space-y-3 rounded-[1.4rem] border p-5 backdrop-blur-sm ${
-            isDark
-              ? "border-white/10 bg-white/5"
-              : "border-slate-200 bg-white/88 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.25)]"
-          }`}
-        >
-          <div className={`max-w-[85%] rounded-2xl rounded-bl-md px-4 py-3 text-sm ${isDark ? "bg-white/8 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
-            Why is differential reinforcement better than just saying “no”?
-          </div>
-          <div className="ml-auto max-w-[88%] rounded-2xl rounded-br-md bg-[#2D6BFF] px-4 py-3 text-sm text-white">
-            Because it teaches what to do instead, not only what to stop. That makes the
-            replacement behavior easier to reinforce consistently.
-          </div>
-          <div className={`flex items-center gap-2 pt-2 text-xs font-medium ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            Unlimited premium AI support
-          </div>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-violet-400/20 bg-violet-500/10 text-violet-300" : "border-violet-300/40 bg-violet-50 text-violet-700"}`}>
-            RBT concepts
-          </div>
-          <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-white/10 bg-white/5 text-slate-300" : "border-slate-200 bg-white text-slate-600"}`}>
-            Quick explanations
-          </div>
-          <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-white/10 bg-white/5 text-slate-300" : "border-slate-200 bg-white text-slate-600"}`}>
-            Study prompts
+            <p className=”mt-2 text-2xl font-black text-amber-300”>4</p>
           </div>
         </div>
       </div>
@@ -277,32 +232,44 @@ const premiumPreviewPanels = [
 const offeringCards = [
   {
     eyebrow: "Available now",
+    eyebrowEs: "Disponible ahora",
     title: "Practice",
+    titleEs: "Práctica",
     description: `Work through the shared ${TOTAL_PRACTICE_QUESTIONS}-question bank with topic and difficulty filters.`,
+    descriptionEs: `Trabaja con el banco compartido de ${TOTAL_PRACTICE_QUESTIONS} preguntas con filtros por tema y dificultad.`,
     Icon: Target,
     className:
       "border-[#2D6BFF]/16 bg-[#2D6BFF]/7 text-[#1E5EFF] dark:border-[#2D6BFF]/24 dark:bg-[#2D6BFF]/10 dark:text-[#8EB0FF]",
   },
   {
     eyebrow: "Available now",
+    eyebrowEs: "Disponible ahora",
     title: "Flashcards",
+    titleEs: "Tarjetas",
     description: "Study the same shared bank in memory mode with quick answer explanations.",
+    descriptionEs: "Estudia el mismo banco compartido en modo memoria con explicaciones rápidas.",
     Icon: Brain,
     className:
       "border-emerald-300/35 bg-emerald-50 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-300",
   },
   {
     eyebrow: "Premium",
+    eyebrowEs: "Premium",
     title: "Mock Exams and Analytics",
+    titleEs: "Exámenes y Analíticas",
     description: "Take timed 85-question mock exams and unlock readiness, coverage, and domain trends.",
+    descriptionEs: "Realiza exámenes de 85 preguntas y desbloquea preparación, cobertura y tendencias por dominio.",
     Icon: LayoutDashboard,
     className:
       "border-amber-300/40 bg-amber-50 text-amber-700 dark:border-amber-400/20 dark:bg-amber-500/10 dark:text-amber-300",
   },
   {
     eyebrow: "Coming soon",
+    eyebrowEs: "Próximamente",
     title: "40-Hour Course",
+    titleEs: "Curso de 40 Horas",
     description: "Planned for a future release. It is not included in the current membership yet.",
+    descriptionEs: "Planificado para una versión futura. No está incluido en la membresía actual.",
     Icon: GraduationCap,
     className:
       "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300",
@@ -488,17 +455,16 @@ export default function Landing() {
               )}
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-xl">
-              {translateUi(
-                "RBT Genius helps future technicians practice consistently, review with flashcards, take realistic mock exams, and track progress across exam prep.",
-                language,
-              )}
+              {isEs
+                ? `RBT Genius combina más de ${TOTAL_PRACTICE_QUESTIONS} preguntas de práctica, tarjetas y exámenes simulados — todo diseñado para que llegues al examen listo y confiado.`
+                : `RBT Genius combines ${TOTAL_PRACTICE_QUESTIONS}+ practice questions, flashcards, and mock exams — all designed to get you to exam day ready and confident.`}
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
               {isAuthenticated ? (
                 <Link to={createPageUrl("Dashboard")}>
                   <Button className="h-12 w-full rounded-2xl bg-[#1E5EFF] px-6 text-base shadow-lg shadow-[#1E5EFF]/20 hover:bg-[#1E5EFF]/90 sm:w-auto">
-                    Continue to Dashboard
+                    {isEs ? "Ir al panel" : "Continue to Dashboard"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -506,13 +472,13 @@ export default function Landing() {
                 <>
                   <Link to="/login?mode=register">
                     <Button className="h-12 w-full rounded-2xl bg-[#1E5EFF] px-6 text-base shadow-lg shadow-[#1E5EFF]/20 hover:bg-[#1E5EFF]/90 sm:w-auto">
-                      Start Free
+                      {isEs ? "Empezar gratis" : "Start Free"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link to="/login">
                     <Button variant="outline" className="h-12 w-full rounded-2xl px-6 text-base sm:w-auto">
-                      I already have an account
+                      {isEs ? "Ya tengo una cuenta" : "I already have an account"}
                     </Button>
                   </Link>
                 </>
@@ -528,8 +494,9 @@ export default function Landing() {
                 Study Preview
               </div>
               <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400 sm:max-w-md">
-                A quick look at what exists today: shared-bank practice, flashcards,
-                premium mock exams, and readiness tracking.
+                {isEs
+                  ? "Un vistazo a lo que existe hoy: práctica, tarjetas, exámenes simulados y seguimiento de preparación."
+                  : "A quick look at what exists today: shared-bank practice, flashcards, premium mock exams, and readiness tracking."}
               </p>
             </div>
             <div className="relative mx-auto max-w-[22rem] sm:hidden">
@@ -547,7 +514,7 @@ export default function Landing() {
                     <div className="mb-3 flex justify-start">
                       <span className="inline-flex items-center gap-2 rounded-full border border-[#FFB800]/20 bg-[#FFB800]/10 px-4 py-2 text-[11px] font-medium text-[#C88700] dark:border-[#FFB800]/25 dark:bg-[#FFB800]/12 dark:text-[#FFD36B]">
                         <Sparkles className="h-3.5 w-3.5" />
-                        Study Preview
+                        {isEs ? "Vista previa" : "Study Preview"}
                       </span>
                     </div>
                     <div
@@ -595,20 +562,20 @@ export default function Landing() {
                                   isDark ? "text-white" : "text-slate-900"
                                 }`}
                               >
-                                {activePanel.title}
+                                {isEs && activePanel.titleEs ? activePanel.titleEs : activePanel.title}
                               </p>
                               <p
                                 className={`text-xs leading-5 ${
                                   isDark ? "text-slate-300" : "text-slate-500"
                                 }`}
                               >
-                                {activePanel.subtitle}
+                                {isEs && activePanel.subtitleEs ? activePanel.subtitleEs : activePanel.subtitle}
                               </p>
                             </div>
                           </div>
 
                           <div className="mt-4 flex-1">
-                            {(activePanel.renderMobileContent ?? activePanel.renderContent)(isDark)}
+                            {(activePanel.renderMobileContent ?? activePanel.renderContent)(isDark, isEs)}
                           </div>
                         </div>
                       </div>
@@ -620,7 +587,8 @@ export default function Landing() {
 
             <div className="relative mx-auto hidden h-[470px] max-w-[34rem] sm:block">
               {premiumPreviewPanels.map(
-                ({ label, title, subtitle, accentClassName, Icon, renderContent }, index) => {
+                (panel, index) => {
+                  const { label, title, subtitle, accentClassName, Icon, renderContent } = panel;
                   if (index === outgoingPreviewIndex) {
                     return null;
                   }
@@ -635,6 +603,10 @@ export default function Landing() {
                     "z-20 translate-x-4 translate-y-1 rotate-[3.5deg] scale-[0.98] opacity-[0.45] sm:translate-x-9 sm:rotate-[5.5deg] sm:scale-[0.972] sm:opacity-[0.58]",
                     "z-10 translate-x-8 translate-y-8 rotate-[6deg] scale-[0.955] opacity-[0.18] sm:translate-x-16 sm:translate-y-12 sm:rotate-[9deg] sm:scale-[0.94] sm:opacity-[0.34]",
                   ];
+
+                  const displayTitle = isEs && panel.titleEs ? panel.titleEs : title;
+                  const displayLabel = isEs && panel.labelEs ? panel.labelEs : label;
+                  const displaySubtitle = isEs && panel.subtitleEs ? panel.subtitleEs : subtitle;
 
                   return (
                     <button
@@ -657,7 +629,7 @@ export default function Landing() {
                       }}
                     >
                       <div className="overflow-hidden rounded-[1.9rem] sm:rounded-[2.1rem]">
-                        {renderDesktopWindowBar(title, order === 0 ? "Now" : order === 1 ? "Next" : "Then")}
+                        {renderDesktopWindowBar(displayTitle, order === 0 ? "Now" : order === 1 ? "Next" : "Then")}
                         <div
                           className="flex min-h-[290px] flex-col p-5 pb-5 sm:min-h-[390px] sm:p-6 sm:pb-7"
                           style={{
@@ -676,20 +648,20 @@ export default function Landing() {
                             </div>
                             <div className="min-w-0">
                               <p className={`text-[10px] font-semibold uppercase tracking-[0.22em] sm:text-[11px] sm:tracking-[0.24em] ${isDark ? "text-slate-500/90" : "text-slate-400"}`}>
-                                {label}
+                                {displayLabel}
                               </p>
                               <p className={`text-sm font-semibold leading-tight sm:text-base ${isDark ? "text-white" : "text-slate-900"}`}>
-                                {title}
+                                {displayTitle}
                               </p>
                               <p className={`max-w-md text-xs leading-5 sm:text-sm ${isDark ? "text-slate-300" : "text-slate-500"}`}>
-                                {subtitle}
+                                {displaySubtitle}
                               </p>
                             </div>
                           </div>
 
                           <div className="mt-4 flex-1">
                             {isFrontCard ? (
-                              renderContent(isDark)
+                              renderContent(isDark, isEs)
                             ) : (
                               <div className="space-y-4">
                                 <div className={`rounded-[1.3rem] p-4 sm:rounded-[1.55rem] sm:p-5 ${isDark ? "bg-white/[0.03]" : "bg-white/65"}`}>
@@ -784,7 +756,7 @@ export default function Landing() {
         </section>
 
         <section className="mt-14 grid gap-4 md:mt-16 md:gap-5 md:grid-cols-3">
-          {featureCards.map(({ title, description, Icon }) => (
+          {featureCards.map(({ title, titleEs, description, descriptionEs, Icon }) => (
             <div
               key={title}
               className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-950"
@@ -792,8 +764,8 @@ export default function Landing() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1E5EFF]/10 text-[#1E5EFF] dark:bg-[#1E5EFF]/12 dark:text-[#8EB0FF]">
                 <Icon className="h-5 w-5" />
               </div>
-              <h2 className="mt-5 text-lg font-bold text-slate-900 dark:text-slate-100">{title}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{description}</p>
+              <h2 className="mt-5 text-lg font-bold text-slate-900 dark:text-slate-100">{isEs ? titleEs : title}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{isEs ? descriptionEs : description}</p>
             </div>
           ))}
         </section>
@@ -808,22 +780,29 @@ export default function Landing() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/40 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-300">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                  Native iOS &amp; Android App
+                  {isEs ? "App nativa iOS y Android" : "Native iOS & Android App"}
                 </div>
                 <h2 className={`mt-5 font-jakarta text-2xl font-black tracking-tight sm:text-3xl ${isDark ? "text-slate-50" : "text-slate-900"}`}>
-                  Study anywhere — even offline.
+                  {isEs ? "Estudia en cualquier lugar, incluso sin conexión." : "Study anywhere — even offline."}
                 </h2>
                 <p className={`mt-3 text-base leading-7 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                  The RBT Genius native app gives you the full experience on your iPhone or Android device. Practice questions, flashcards, and mock exams — all in your pocket with the same account you use on the web.
+                  {isEs
+                    ? "La app nativa de RBT Genius te da la experiencia completa en tu iPhone o Android. Preguntas de práctica, tarjetas y exámenes simulados, todo en tu bolsillo con la misma cuenta que usas en la web."
+                    : "The RBT Genius native app gives you the full experience on your iPhone or Android device. Practice questions, flashcards, and mock exams — all in your pocket with the same account you use on the web."}
                 </p>
 
                 <ul className="mt-6 space-y-3">
-                  {[
+                  {(isEs ? [
+                    "Más de 1,100 preguntas disponibles sin conexión",
+                    "Exámenes simulados de 85 preguntas con calificación",
+                    "Tarjetas con filtros por tema",
+                    "Retroalimentación háptica y experiencia nativa iOS",
+                  ] : [
                     "1,100+ practice questions available offline",
                     "85-question timed mock exams with pass/fail scoring",
                     "Tap-to-flip flashcards with topic filters",
                     "Haptic feedback and native iOS feel",
-                  ].map((feature) => (
+                  ]).map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" /></svg>
@@ -842,7 +821,7 @@ export default function Landing() {
                   >
                     <svg className={`h-7 w-7 ${isDark ? "text-white" : "text-slate-900"}`} viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     <div>
-                      <p className={`text-[10px] font-medium uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>Download on the</p>
+                      <p className={`text-[10px] font-medium uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "Descarga en" : "Download on the"}</p>
                       <p className={`text-sm font-bold ${isDark ? "text-white" : "text-slate-900"}`}>App Store</p>
                     </div>
                   </a>
@@ -854,7 +833,7 @@ export default function Landing() {
                   >
                     <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none"><path d="M3.18 23.76a2 2 0 01-.68-.62V.86a2 2 0 01.68-.62l.1-.05L13.37 12l-10.09 11.8-.1-.04z" fill="#EA4335"/><path d="M17.31 15.93L13.73 12.3l3.58-3.63 4.24 2.43a1.42 1.42 0 010 2.4l-4.24 2.43z" fill="#FBBC04"/><path d="M3.18.24l10.55 10.56-3.58 3.63L3.18.86V.24z" fill="#4285F4"/><path d="M3.18 23.76V23.14l7.01-7.01 3.54 3.55L3.18 23.76z" fill="#34A853"/></svg>
                     <div>
-                      <p className={`text-[10px] font-medium uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>Get it on</p>
+                      <p className={`text-[10px] font-medium uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "Disponible en" : "Get it on"}</p>
                       <p className={`text-sm font-bold ${isDark ? "text-white" : "text-slate-900"}`}>Google Play</p>
                     </div>
                   </a>
@@ -904,20 +883,20 @@ export default function Landing() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#1E5EFF]/15 bg-[#1E5EFF]/8 px-4 py-2 text-sm font-medium text-[#1E5EFF] dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10 dark:text-[#8EB0FF]">
               <Sparkles className="h-4 w-4" />
-              What you get today
+              {isEs ? "Lo que obtienes hoy" : "What you get today"}
             </div>
             <h2 className="mt-5 font-jakarta text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
-              The current offer, without padding.
+              {isEs ? "La oferta actual, sin relleno." : "The current offer, without padding."}
             </h2>
             <p className="mt-3 max-w-3xl text-base leading-7 text-slate-500 dark:text-slate-400">
-              Today RBT Genius sells a shared question bank across practice, flashcards, and
-              mock exams, plus readiness analytics. The 40-hour course is not
-              live yet, so it is shown here as a future release only.
+              {isEs
+                ? `Hoy RBT Genius ofrece un banco compartido de preguntas entre práctica, tarjetas y exámenes simulados, más analíticas de preparación. El curso de 40 horas aún no está disponible y aparece aquí solo como lanzamiento futuro.`
+                : `Today RBT Genius sells a shared question bank across practice, flashcards, and mock exams, plus readiness analytics. The 40-hour course is not live yet, so it is shown here as a future release only.`}
             </p>
           </div>
 
           <div className="mt-8 grid gap-4 lg:grid-cols-5">
-            {offeringCards.map(({ eyebrow, title, description, Icon, className }) => (
+            {offeringCards.map(({ eyebrow, eyebrowEs, title, titleEs, description, descriptionEs, Icon, className }) => (
               <div
                 key={title}
                 className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50/70 p-5 dark:border-slate-800 dark:bg-slate-900/60"
@@ -926,10 +905,10 @@ export default function Landing() {
                   <Icon className="h-5 w-5" />
                 </div>
                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">
-                  {eyebrow}
+                  {isEs ? eyebrowEs : eyebrow}
                 </p>
-                <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{description}</p>
+                <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">{isEs ? titleEs : title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{isEs ? descriptionEs : description}</p>
               </div>
             ))}
           </div>
@@ -939,14 +918,15 @@ export default function Landing() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#FFB800]/20 bg-[#FFB800]/10 px-4 py-2 text-sm font-medium text-[#C88700] dark:border-[#FFB800]/25 dark:bg-[#FFB800]/12 dark:text-[#FFD36B]">
               <Crown className="h-4 w-4" />
-              Guest, Free, and Premium
+              {isEs ? "Invitado, Gratis y Premium" : "Guest, Free, and Premium"}
             </div>
             <h2 className="mt-5 font-jakarta text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
-              See what changes when you upgrade.
+              {isEs ? "Ve qué cambia al actualizar." : "See what changes when you upgrade."}
             </h2>
             <p className="mt-3 text-base leading-7 text-slate-500 dark:text-slate-400">
-              Guests can review the landing and pricing, free members get guided daily study tools,
-              and Premium unlocks unlimited prep with full analytics and mock exams.
+              {isEs
+                ? "Los invitados pueden explorar el producto y los precios; las cuentas gratuitas reciben herramientas de estudio diario guiadas; y Premium desbloquea preparación ilimitada con analíticas completas y exámenes simulados."
+                : "Guests can review the landing and pricing, free members get guided daily study tools, and Premium unlocks unlimited prep with full analytics and mock exams."}
             </p>
           </div>
 
@@ -955,13 +935,13 @@ export default function Landing() {
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-800">
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-                    Feature
+                    {isEs ? "Característica" : "Feature"}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-                    Guest
+                    {isEs ? "Invitado" : "Guest"}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-                    Free
+                    {isEs ? "Gratis" : "Free"}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                     Premium
@@ -975,16 +955,16 @@ export default function Landing() {
                     className="border-b border-slate-100 last:border-b-0 dark:border-slate-900"
                   >
                     <td className="px-4 py-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {row.label}
+                      {translateUi(row.label, language)}
                     </td>
                     <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
-                      {row.guest}
+                      {translateUi(row.guest, language)}
                     </td>
                     <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
-                      {row.free}
+                      {translateUi(row.free, language)}
                     </td>
                     <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
-                      {row.premium}
+                      {translateUi(row.premium, language)}
                     </td>
                   </tr>
                 ))}
@@ -994,21 +974,21 @@ export default function Landing() {
 
           <div className="mt-8 space-y-4 md:hidden">
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Guest</h3>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{isEs ? "Invitado" : "Guest"}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Explore the product, preview pricing, and see how the study flow works before signing up.
+                {isEs ? "Explora el producto, previsualiza los precios y ve cómo funciona el flujo de estudio antes de registrarte." : "Explore the product, preview pricing, and see how the study flow works before signing up."}
               </p>
             </div>
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Free</h3>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{isEs ? "Gratis" : "Free"}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Build a daily routine with guided practice and flashcards.
+                {isEs ? "Crea una rutina diaria con práctica guiada y tarjetas." : "Build a daily routine with guided practice and flashcards."}
               </p>
             </div>
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/50">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Premium</h3>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Unlock full mock exams, analytics, unlimited study support, and the complete prep experience.
+                {isEs ? "Desbloquea exámenes completos, analíticas, soporte ilimitado y la experiencia completa de preparación." : "Unlock full mock exams, analytics, unlimited study support, and the complete prep experience."}
               </p>
             </div>
           </div>
@@ -1017,24 +997,24 @@ export default function Landing() {
             {isAuthenticated ? (
               <Link to={createPageUrl("Dashboard")}>
                 <Button className="w-full rounded-2xl bg-[#1E5EFF] px-6 hover:bg-[#1E5EFF]/90 sm:w-auto">
-                  Go to Dashboard
+                  {isEs ? "Ir al panel" : "Go to Dashboard"}
                 </Button>
               </Link>
             ) : (
               <Link to="/login?mode=register">
                 <Button className="w-full rounded-2xl bg-[#1E5EFF] px-6 hover:bg-[#1E5EFF]/90 sm:w-auto">
-                  Start Free
+                  {isEs ? "Empezar gratis" : "Start Free"}
                 </Button>
               </Link>
             )}
             <Link to={createPageUrl("Pricing")}>
               <Button variant="outline" className="w-full rounded-2xl px-6 sm:w-auto">
-                View Full Pricing
+                {isEs ? "Ver precios completos" : "View Full Pricing"}
               </Button>
             </Link>
             <Link to={createPageUrl("Store")}>
               <Button variant="outline" className="w-full rounded-2xl px-6 sm:w-auto">
-                Visit Store
+                {isEs ? "Visitar tienda" : "Visit Store"}
               </Button>
             </Link>
           </div>
