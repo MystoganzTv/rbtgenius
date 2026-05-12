@@ -130,98 +130,98 @@ const premiumPreviewPanels = [
             {isEs ? "Tarjetas" : "Flashcards"}
           </div>
           <div className={`rounded-[1.2rem] border px-4 py-3 text-sm font-medium ${isDark ? "border-amber-400/20 bg-amber-500/10 text-amber-300" : "border-amber-300/40 bg-amber-50 text-amber-700"}`}>
-            {isEs ? “Exámenes simulados” : “Mock Exams”}
+            {isEs ? "Exámenes simulados" : "Mock Exams"}
           </div>
         </div>
       </div>
     ),
   },
   {
-    label: “Premium Preview”,
-    labelEs: “Vista premium”,
-    title: “Mock exam confidence”,
-    titleEs: “Confianza en el simulacro”,
-    subtitle: “Timed exams with clearer signals on whether you are ready to test.”,
-    subtitleEs: “Exámenes cronometrados con señales claras sobre si estás listo para el examen.”,
+    label: "Premium Preview",
+    labelEs: "Vista premium",
+    title: "Mock exam confidence",
+    titleEs: "Confianza en el simulacro",
+    subtitle: "Timed exams with clearer signals on whether you are ready to test.",
+    subtitleEs: "Exámenes cronometrados con señales claras sobre si estás listo para el examen.",
     accentClassName:
-      “bg-[#2D6BFF]/14 text-[#8EB0FF]”,
+      "bg-[#2D6BFF]/14 text-[#8EB0FF]",
     Icon: ClipboardCheck,
     renderMobileContent: (isDark, isEs) => (
       <div>
-        <div className=”flex items-center justify-between gap-3”>
+        <div className="flex items-center justify-between gap-3">
           <div>
-            <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
-              {isEs ? “Preparación” : “Mock readiness”}
+            <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+              {isEs ? "Preparación" : "Mock readiness"}
             </p>
-            <p className={`mt-2 text-3xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>212</p>
-            <p className={`mt-1 text-xs ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “puntuación escalada promedio” : “average scaled score”}</p>
+            <p className={`mt-2 text-3xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>212</p>
+            <p className={`mt-1 text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "puntuación escalada promedio" : "average scaled score"}</p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold ${isDark ? “bg-amber-500/16 text-amber-300” : “bg-amber-100 text-amber-700”}`}>
-            {isEs ? “Sigue practicando” : “Keep practicing”}
+          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold ${isDark ? "bg-amber-500/16 text-amber-300" : "bg-amber-100 text-amber-700"}`}>
+            {isEs ? "Sigue practicando" : "Keep practicing"}
           </span>
         </div>
-        <div className={`mt-4 h-3 rounded-full p-0.5 ${isDark ? “bg-white/8” : “bg-slate-100”}`}>
-          <div className=”h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400” />
+        <div className={`mt-4 h-3 rounded-full p-0.5 ${isDark ? "bg-white/8" : "bg-slate-100"}`}>
+          <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400" />
         </div>
-        <div className=”mt-4 grid grid-cols-3 gap-3”>
-          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
-            <p className=”text-2xl font-black text-emerald-300”>2</p>
-            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “aprobados” : “passed”}</p>
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
+            <p className="text-2xl font-black text-emerald-300">2</p>
+            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "aprobados" : "passed"}</p>
           </div>
-          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
-            <p className={`text-2xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>6</p>
-            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “realizados” : “taken”}</p>
+          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
+            <p className={`text-2xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>6</p>
+            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "realizados" : "taken"}</p>
           </div>
-          <div className={`rounded-[1rem] p-3 ${isDark ? “bg-white/[0.04]” : “bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]”}`}>
-            <p className=”text-2xl font-black text-amber-300”>4</p>
-            <p className={`text-[11px] ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “a revisar” : “review”}</p>
+          <div className={`rounded-[1rem] p-3 ${isDark ? "bg-white/[0.04]" : "bg-white/92 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)]"}`}>
+            <p className="text-2xl font-black text-amber-300">4</p>
+            <p className={`text-[11px] ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "a revisar" : "review"}</p>
           </div>
         </div>
       </div>
     ),
     renderContent: (isDark, isEs) => (
-      <div className=”space-y-4”>
+      <div className="space-y-4">
         <div
           className={`rounded-[1.4rem] border p-5 backdrop-blur-sm ${
             isDark
-              ? “border-white/10 bg-white/5”
-              : “border-slate-200 bg-white/88 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.25)]”
+              ? "border-white/10 bg-white/5"
+              : "border-slate-200 bg-white/88 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.25)]"
           }`}
         >
-          <div className=”flex items-center justify-between text-sm”>
-            <span className={`font-semibold ${isDark ? “text-white” : “text-slate-900”}`}>{isEs ? “Puntuación promedio” : “Average mock score”}</span>
-            <span className={`rounded-full px-3 py-1 font-semibold ${isDark ? “bg-amber-500/16 text-amber-300” : “bg-amber-100 text-amber-700”}`}>
-              {isEs ? “Sigue practicando” : “Keep practicing”}
+          <div className="flex items-center justify-between text-sm">
+            <span className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>{isEs ? "Puntuación promedio" : "Average mock score"}</span>
+            <span className={`rounded-full px-3 py-1 font-semibold ${isDark ? "bg-amber-500/16 text-amber-300" : "bg-amber-100 text-amber-700"}`}>
+              {isEs ? "Sigue practicando" : "Keep practicing"}
             </span>
           </div>
-          <div className=”mt-5”>
-            <div className={`h-4 rounded-full p-1 ${isDark ? “bg-white/8” : “bg-slate-100”}`}>
-              <div className=”h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400” />
+          <div className="mt-5">
+            <div className={`h-4 rounded-full p-1 ${isDark ? "bg-white/8" : "bg-slate-100"}`}>
+              <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#FF8A3D] via-[#FFB800] to-emerald-400" />
             </div>
-            <div className=”mt-3 flex items-end justify-between gap-4”>
+            <div className="mt-3 flex items-end justify-between gap-4">
               <div>
-                <p className={`text-4xl font-black ${isDark ? “text-white” : “text-slate-900”}`}>212</p>
-                <p className={`text-sm ${isDark ? “text-slate-400” : “text-slate-500”}`}>{isEs ? “puntuación escalada promedio” : “scaled average score”}</p>
+                <p className={`text-4xl font-black ${isDark ? "text-white" : "text-slate-900"}`}>212</p>
+                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>{isEs ? "puntuación escalada promedio" : "scaled average score"}</p>
               </div>
-              <div className={`text-right text-sm ${isDark ? “text-slate-400” : “text-slate-500”}`}>
-                <p>{isEs ? “6 simulacros realizados” : “6 mock exams taken”}</p>
-                <p>{isEs ? “2 aprobados, 4 a revisar” : “2 passed, 4 to review”}</p>
+              <div className={`text-right text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                <p>{isEs ? "6 simulacros realizados" : "6 mock exams taken"}</p>
+                <p>{isEs ? "2 aprobados, 4 a revisar" : "2 passed, 4 to review"}</p>
               </div>
             </div>
           </div>
         </div>
-        <div className=”grid gap-3 sm:grid-cols-2”>
-          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? “border-emerald-400/18 bg-emerald-500/8” : “border-emerald-300/40 bg-emerald-50”}`}>
-            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
-              {isEs ? “Aprobados” : “Passed”}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? "border-emerald-400/18 bg-emerald-500/8" : "border-emerald-300/40 bg-emerald-50"}`}>
+            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+              {isEs ? "Aprobados" : "Passed"}
             </p>
-            <p className=”mt-2 text-2xl font-black text-emerald-300”>2</p>
+            <p className="mt-2 text-2xl font-black text-emerald-300">2</p>
           </div>
-          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? “border-amber-400/18 bg-amber-500/8” : “border-amber-300/40 bg-amber-50”}`}>
-            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? “text-slate-400” : “text-slate-500”}`}>
-              {isEs ? “A revisar” : “Need review”}
+          <div className={`rounded-[1.2rem] border px-4 py-3 ${isDark ? "border-amber-400/18 bg-amber-500/8" : "border-amber-300/40 bg-amber-50"}`}>
+            <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+              {isEs ? "A revisar" : "Need review"}
             </p>
-            <p className=”mt-2 text-2xl font-black text-amber-300”>4</p>
+            <p className="mt-2 text-2xl font-black text-amber-300">4</p>
           </div>
         </div>
       </div>
