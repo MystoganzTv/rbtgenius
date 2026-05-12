@@ -334,7 +334,7 @@ export default function Store() {
                   Bundle
                 </div>
                 <div className='grid grid-cols-[110px_1fr] items-center gap-4'>
-                  <div className='flex h-28 w-full items-center justify-center rounded-[1.6rem] bg-gradient-to-br from-emerald-50 to-sky-50'>
+                  <div className='flex h-28 w-full items-center justify-center rounded-[1.6rem] bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-[#0E2235] dark:to-[#0B1B2E]'>
                     <Boxes className='h-10 w-10 text-[#1E5EFF]' />
                   </div>
                   <div>
