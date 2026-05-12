@@ -450,14 +450,24 @@ export default function MockExams() {
           <ArrowLeft className="h-4 w-4" />
           {translateUi("Previous", language)}
         </Button>
-        <Button
-          className="gap-2 rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
-          disabled={currentIndex >= questions.length - 1}
-          onClick={() => setCurrentIndex((current) => current + 1)}
-        >
-          {translateUi("Next", language)}
-          <ArrowRight className="h-4 w-4" />
-        </Button>
+        {currentIndex >= questions.length - 1 ? (
+          <Button
+            className="gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700"
+            onClick={handleFinishExam}
+            disabled={saveMutation.isPending}
+          >
+            {translateUi("Finish Exam", language)}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        ) : (
+          <Button
+            className="gap-2 rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
+            onClick={() => setCurrentIndex((current) => current + 1)}
+          >
+            {translateUi("Next", language)}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );
