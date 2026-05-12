@@ -313,6 +313,7 @@ export default function Landing() {
   const { isDark, toggleTheme } = useTheme();
   const { language } = useLanguage();
   const { isAuthenticated } = useAuth();
+  const isEs = language === "es";
   const [activePreviewIndex, setActivePreviewIndex] = useState(0);
   const [outgoingPreviewIndex, setOutgoingPreviewIndex] = useState(null);
   const outgoingPanel =
