@@ -445,8 +445,46 @@ export default function Landing() {
               <Sparkles className="h-4 w-4" />
               {translateUi("Built for RBT exam prep", language)}
             </div>
-            <h1 className="mt-5 max-w-3xl font-jakarta text-4xl font-black leading-[0.94] tracking-tight text-slate-900 dark:text-slate-50 sm:mt-6 sm:text-5xl lg:text-6xl">
-              {translateUi("Study with structure, not guesswork.", language)}
+            <h1 className="mt-5 max-w-3xl font-jakarta text-4xl font-black leading-[1.05] tracking-tight text-slate-900 dark:text-slate-50 sm:mt-6 sm:text-5xl lg:text-6xl">
+              {isEs ? (
+                <>
+                  Aprueba el{" "}
+                  <span className="relative inline-block pb-3">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
+                      examen RBT
+                    </span>
+                    <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 300 12" fill="none">
+                      <path d="M2 9 Q75 2 150 7 Q225 12 298 5" stroke="url(#gES)" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                      <defs>
+                        <linearGradient id="gES" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#3b82f6"/>
+                          <stop offset="1" stopColor="#8b5cf6"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </span>
+                  {" "}con estructura, no con suerte.
+                </>
+              ) : (
+                <>
+                  Pass the{" "}
+                  <span className="relative inline-block pb-3">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
+                      RBT exam
+                    </span>
+                    <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 300 12" fill="none">
+                      <path d="M2 9 Q75 2 150 7 Q225 12 298 5" stroke="url(#gEN)" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                      <defs>
+                        <linearGradient id="gEN" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#3b82f6"/>
+                          <stop offset="1" stopColor="#8b5cf6"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </span>
+                  {" "}with structure, not luck.
+                </>
+              )}
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-xl">
               {translateUi(
