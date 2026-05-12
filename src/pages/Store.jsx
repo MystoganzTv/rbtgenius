@@ -327,15 +327,17 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className='relative overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#4F7CFF]/18 dark:bg-[linear-gradient(180deg,rgba(15,28,54,0.98),rgba(10,20,39,0.96))] dark:shadow-[0_32px_90px_-55px_rgba(2,8,23,0.9)]'>
+              <div className='relative overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-[#8BCFB7]/18 dark:bg-[linear-gradient(180deg,rgba(14,23,43,0.98),rgba(10,18,35,0.97))] dark:shadow-[0_32px_90px_-55px_rgba(2,8,23,0.9)]'>
                 <div className='pointer-events-none absolute inset-0 hidden dark:block'>
-                  <div className='absolute inset-y-0 right-0 w-[58%] bg-[radial-gradient(circle_at_center,rgba(79,124,255,0.18),transparent_62%)] blur-2xl' />
+                  <div className='absolute -right-12 top-0 h-40 w-40 rounded-full bg-[#4F7CFF]/14 blur-3xl' />
+                  <div className='absolute bottom-0 left-0 h-32 w-40 rounded-full bg-[#34C38F]/10 blur-3xl' />
+                  <div className='absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent' />
                 </div>
-                <div className='absolute right-5 top-5 rounded-full bg-[#34C38F] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white'>
+                <div className='absolute right-5 top-5 rounded-full border border-[#8BCFB7]/30 bg-[#34C38F]/18 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#B7F2DA] dark:backdrop-blur'>
                   Bundle
                 </div>
                 <div className='relative grid grid-cols-[118px_1fr] items-center gap-4'>
-                  <div className='overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-gradient-to-br from-emerald-50 to-sky-50 dark:border-[#4F7CFF]/12 dark:from-[#11213B] dark:to-[#0C162B]'>
+                  <div className='overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-gradient-to-br from-emerald-50 to-sky-50 shadow-[0_18px_35px_-24px_rgba(15,23,42,0.38)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,29,54,0.98),rgba(11,21,39,0.95))] dark:shadow-[0_24px_44px_-28px_rgba(0,0,0,0.65)]'>
                     <img
                       src={PRODUCT_PRESENTATION[bundleProduct.id]?.image}
                       alt={bundleProduct.name}
@@ -349,7 +351,7 @@ export default function Store() {
                     <h3 className='mt-2 text-2xl font-black text-slate-900 dark:text-white'>
                       {bundleProduct.name}
                     </h3>
-                    <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300'>
+                    <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-[#C5D1E7]'>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.summary ||
                         bundleProduct.summary}
                     </p>
