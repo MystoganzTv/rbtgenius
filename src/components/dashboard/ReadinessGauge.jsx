@@ -1,4 +1,4 @@
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, TrendingDown } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { translateUi } from "@/lib/i18n";
 
@@ -9,13 +9,15 @@ export default function ReadinessGauge({
   averageExamScore = 0,
   label = null,
   cappedBy = null,
+  recentDecline = false,
+  mostRecentExamScore = null,
 }) {
   const { language } = useLanguage();
   const circumference = 2 * Math.PI * 54;
   const offset = circumference - (score / 100) * circumference;
 
   const getColor = () => {
-    if (cappedBy) return "#F0A94B";
+    if (cappedBy || recentDecline) return "#F0A94B";
     if (score >= 85) return "#22c55e";
     if (score >= 70) return "#5E7CF7";
     if (score >= 50) return "#7C7FF8";
@@ -60,7 +62,8 @@ export default function ReadinessGauge({
         </div>
 
         <span className={`mt-3 text-sm font-semibold ${
-          score >= 85 ? "text-emerald-600 dark:text-emerald-400"
+          recentDecline ? "text-amber-600 dark:text-amber-400"
+          : score >= 85 ? "text-emerald-600 dark:text-emerald-400"
           : score >= 70 ? "text-[#5E7CF7] dark:text-[#8EB0FF]"
           : score >= 50 ? "text-violet-600 dark:text-violet-400"
           : "text-amber-600 dark:text-amber-400"
@@ -72,7 +75,18 @@ export default function ReadinessGauge({
           {getSubtext()}
         </p>
 
-        {cappedBy && (
+        {recentDecline && mostRecentExamScore !== null && (
+          <div className="mt-3 flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 dark:border-rose-500/25 dark:bg-rose-500/10">
+            <TrendingDown className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-rose-500" />
+            <p className="text-xs text-rose-700 dark:text-rose-300">
+              {language === "es"
+                ? `Tu examen más reciente fue ${mostRecentExamScore}% — por debajo de tu promedio. Este resultado se refleja en tu preparación.`
+                : `Your most recent exam scored ${mostRecentExamScore}% — below your average. This drop is factored into your readiness.`}
+            </p>
+          </div>
+        )}
+
+        {cappedBy && !recentDecline && (
           <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 dark:border-amber-500/25 dark:bg-amber-500/10">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
             <p className="text-xs text-amber-700 dark:text-amber-300">

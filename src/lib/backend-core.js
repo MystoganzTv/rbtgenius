@@ -211,6 +211,13 @@ export function computeProgress(db, userId) {
           exams.reduce((total, exam) => total + (exam.score || 0), 0) / exams.length,
         )
       : 0;
+
+  // Most recent exam score (exams sorted by created_at DESC from DB)
+  const mostRecentExamScore = exams.length > 0 ? (exams[0]?.score || 0) : 0;
+
+  // If the most recent exam is significantly below average, pull readiness down.
+  // This prevents old good exams from hiding a recent decline.
+  const recentDecline = exams.length >= 2 && (averageExamScore - mostRecentExamScore) > 20;
   const passedMockExams = exams.filter((exam) => (exam.score || 0) >= 80).length;
   const failedMockExams = Math.max(0, exams.length - passedMockExams);
 
@@ -240,9 +247,14 @@ export function computeProgress(db, userId) {
   if (exams.length === 0) {
     rawReadiness = Math.min(40, practiceScore);
   } else if (exams.length === 1) {
-    rawReadiness = Math.round(averageExamScore * 0.70 + practiceScore * 0.30);
+    rawReadiness = Math.round(mostRecentExamScore * 0.70 + practiceScore * 0.30);
   } else if (exams.length === 2) {
     rawReadiness = Math.round(averageExamScore * 0.75 + practiceScore * 0.25);
+  } else if (recentDecline) {
+    // Recent exam was significantly worse — blend average with recent score (50/50)
+    // to avoid hiding a real performance drop behind old good exams
+    const blendedScore = Math.round((averageExamScore + mostRecentExamScore) / 2);
+    rawReadiness = Math.round(blendedScore * 0.80 + practiceScore * 0.20);
   } else {
     rawReadiness = Math.round(averageExamScore * 0.80 + practiceScore * 0.20);
   }
@@ -316,6 +328,8 @@ export function computeProgress(db, userId) {
     readiness_label: readinessLabel,
     readiness_confidence: readinessConfidence,
     readiness_capped_by: readinessCappedBy,
+    readiness_recent_decline: recentDecline,
+    most_recent_exam_score: mostRecentExamScore,
     badges,
     plan: user.plan || "free",
     domain_mastery: domainMastery,

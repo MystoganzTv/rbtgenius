@@ -324,6 +324,8 @@ export default function Dashboard() {
             averageExamScore={averageMockExamScore}
             label={progress?.readiness_label}
             cappedBy={progress?.readiness_capped_by}
+            recentDecline={progress?.readiness_recent_decline}
+            mostRecentExamScore={progress?.most_recent_exam_score}
           />
 
           <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
