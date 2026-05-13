@@ -93,7 +93,7 @@ export function WhatsNewModal({ open, onClose }) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] max-w-md overflow-hidden p-0 dark:border-[#1E5EFF]/20 dark:bg-[#0B1628]">
+      <DialogContent className="flex max-h-[90vh] max-w-md flex-col overflow-hidden p-0 dark:border-[#1E5EFF]/20 dark:bg-[#0B1628]">
         {/* Header */}
         <div className="flex flex-col items-center gap-3 border-b border-slate-100 px-6 pb-5 pt-6 dark:border-[#1E5EFF]/15">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1E5EFF]">
@@ -112,7 +112,7 @@ export function WhatsNewModal({ open, onClose }) {
         </div>
 
         {/* Sections */}
-        <div className="overflow-y-auto px-4 py-4" style={{ maxHeight: "calc(90vh - 160px)" }}>
+        <div className="flex-1 overflow-y-auto px-4 py-4">
           {Object.entries(CHANGELOG).map(([key, section]) => (
             <div key={key} className="mb-4">
               {/* Section header */}
