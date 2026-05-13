@@ -161,8 +161,12 @@ export async function getMockExamsByUser(userId) {
 // Avoids downloading 85 answers × N exams on every authenticated request.
 export async function getMockExamsMetaByUser(userId) {
   const rows = await sql`
-    SELECT id, user_id, score, total_questions, correct_answers,
-           time_taken_minutes, status, passed, domain_scores, created_at
+    SELECT id, user_id,
+           score::float8 AS score,
+           total_questions::int AS total_questions,
+           correct_answers::int AS correct_answers,
+           time_taken_minutes::int AS time_taken_minutes,
+           status, passed, domain_scores, created_at
     FROM mock_exams WHERE user_id = ${userId} ORDER BY created_at DESC
   `;
   return rows.map(r => ({

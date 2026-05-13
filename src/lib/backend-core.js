@@ -342,7 +342,7 @@ export function computeProgress(db, userId) {
     total_mock_exams: exams.length,
     passed_mock_exams: passedMockExams,
     failed_mock_exams: failedMockExams,
-    average_mock_exam_score: Math.min(100, averageExamScore),
+    average_mock_exam_score: averageExamScore,
     task_list_section_mastery: taskListBreakdown.mastery,
     task_list_section_attempts: taskListBreakdown.counts,
   };

@@ -119,7 +119,7 @@ export default function Dashboard() {
   const mockExamsTaken = progress?.total_mock_exams || exams.length || 0;
   const passedMockExams = progress?.passed_mock_exams || 0;
   const failedMockExams = progress?.failed_mock_exams || 0;
-  const averageMockExamScore = Math.min(100, Math.round(Number(progress?.average_mock_exam_score || 0)));
+  const averageMockExamScore = Math.min(100, Math.round(Number(progress?.average_mock_exam_score) || 0));
 
   const firstName =
     user?.full_name?.split(" ")[0] || user?.name?.split(" ")[0] || null;
