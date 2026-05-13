@@ -401,12 +401,6 @@ async function webApiHandler(req) {
     } catch (e) {
       checks.users_error = e.message;
     }
-    try {
-      const examRows = await db.sql`SELECT id, score, typeof_score FROM (SELECT id, score, pg_typeof(score)::text AS typeof_score FROM mock_exams LIMIT 5) t`;
-      checks.exam_scores_sample = examRows.map(r => ({ id: r.id, score: r.score, type: r.typeof_score, jsType: typeof r.score }));
-    } catch (e) {
-      checks.exam_scores_error = e.message;
-    }
     return json(checks);
   }
 
