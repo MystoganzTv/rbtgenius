@@ -168,7 +168,8 @@ export default function QuestionCard({
                 key={option.label}
                 type="button"
                 onClick={() => !isSubmitted && onSelectAnswer?.(option.label)}
-                disabled={isSubmitted}
+                aria-disabled={isSubmitted}
+                style={isSubmitted ? { cursor: "default" } : undefined}
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl border-2 p-4 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5EFF]/15 focus-visible:ring-offset-0",
                   optionStyle,

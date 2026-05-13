@@ -205,15 +205,16 @@ export function computeProgress(db, userId) {
     return result;
   }, {});
 
+  // Use Number() to handle postgres.js returning NUMERIC as string (avoids string concatenation in reduce)
   const averageExamScore =
     exams.length > 0
-      ? Math.round(
-          exams.reduce((total, exam) => total + (exam.score || 0), 0) / exams.length,
-        )
+      ? Math.min(100, Math.round(
+          exams.reduce((total, exam) => total + Number(exam.score || 0), 0) / exams.length,
+        ))
       : 0;
 
   // Most recent exam score (exams sorted by created_at DESC from DB)
-  const mostRecentExamScore = exams.length > 0 ? (exams[0]?.score || 0) : 0;
+  const mostRecentExamScore = exams.length > 0 ? Math.min(100, Number(exams[0]?.score || 0)) : 0;
 
   // If the most recent exam is significantly below average, pull readiness down.
   // This prevents old good exams from hiding a recent decline.
