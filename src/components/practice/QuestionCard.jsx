@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  ArrowLeft,
   ArrowRight,
   CheckCircle2,
   ChevronDown,
@@ -34,6 +35,7 @@ export default function QuestionCard({
   onSelectAnswer,
   onAnswer,
   onNext,
+  onPrevious = null,
   onToggleFlag,
 }) {
   const { language } = useLanguage();
@@ -279,12 +281,24 @@ export default function QuestionCard({
 
             </div>
 
-            <Button
-              onClick={handleNext}
-              className="w-full gap-2 rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
-            >
-              {translateUi("Next Question", language)} <ArrowRight className="h-4 w-4" />
-            </Button>
+            <div className={`flex gap-3 ${onPrevious ? "" : ""}`}>
+              {onPrevious && (
+                <Button
+                  variant="outline"
+                  onClick={onPrevious}
+                  className="gap-2 rounded-xl"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  {translateUi("Previous", language)}
+                </Button>
+              )}
+              <Button
+                onClick={handleNext}
+                className="flex-1 gap-2 rounded-xl bg-[#1E5EFF] hover:bg-[#1E5EFF]/90"
+              >
+                {translateUi("Next Question", language)} <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         )}
       </div>

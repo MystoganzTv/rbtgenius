@@ -484,6 +484,12 @@ export default function Practice() {
     }
   };
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentQuestionId(questions[currentIndex - 1].id);
+    }
+  };
+
   const handleToggleFlag = () => {
     if (!currentQuestion) {
       return;
@@ -740,6 +746,7 @@ export default function Practice() {
             onToggleFlag={handleToggleFlag}
             onAnswer={handleAnswer}
             onNext={handleNext}
+            onPrevious={currentIndex > 0 ? handlePrevious : null}
           />
         </div>
 

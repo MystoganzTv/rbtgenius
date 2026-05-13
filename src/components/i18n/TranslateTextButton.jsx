@@ -118,11 +118,7 @@ export default function TranslateTextButton({
     }
   }, [panelId]);
 
-  if (!english && !hasSpanish) {
-    return null;
-  }
-
-  if (!hasSpanish) {
+  if (!english) {
     return null;
   }
 
@@ -263,8 +259,8 @@ export default function TranslateTextButton({
                         <Volume2 className={`h-4 w-4 ${speaking === "es" ? "text-[#1E5EFF]" : ""}`} />
                       </Button>
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-900 dark:text-slate-50">
-                      {hasSpanish ? spanish : translateUi("Spanish translation unavailable.", language)}
+                    <p className={`text-sm leading-relaxed ${hasSpanish ? "text-slate-900 dark:text-slate-50" : "italic text-slate-400 dark:text-slate-500"}`}>
+                      {hasSpanish ? spanish : (language === "es" ? "Traducción próximamente…" : "Spanish translation coming soon…")}
                     </p>
                   </section>
                 </div>
