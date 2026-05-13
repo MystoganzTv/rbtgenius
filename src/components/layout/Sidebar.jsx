@@ -178,7 +178,27 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
         ) : null}
       </nav>
 
-      <div className="border-t border-slate-100 p-3 dark:border-[#1E5EFF]/15">
+      <div className="border-t border-slate-100 p-3 dark:border-[#1E5EFF]/15 space-y-1">
+        {/* What's New trigger */}
+        <button
+          type="button"
+          onClick={() => setWhatsNewOpen(true)}
+          className={cn(
+            "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-[#0D1628] dark:hover:text-slate-300",
+            collapsed && "justify-center px-0"
+          )}
+        >
+          <Sparkles className="h-3.5 w-3.5 flex-shrink-0 text-[#FFB800]" />
+          {!collapsed && (
+            <span className="flex items-center gap-1.5">
+              {language === "es" ? "Novedades" : "What's New"}
+              <span className="rounded-full bg-[#1E5EFF] px-1.5 py-0.5 text-[9px] font-bold text-white">
+                v{VERSION}
+              </span>
+            </span>
+          )}
+        </button>
+
         <button
           type="button"
           onClick={() => setCollapsed((current) => !current)}
@@ -191,6 +211,8 @@ export default function Sidebar({ currentPage, isAdmin = false, plan = "free" })
           )}
         </button>
       </div>
+
+      <WhatsNewModal open={whatsNewOpen} onClose={() => setWhatsNewOpen(false)} />
     </aside>
   );
 }
