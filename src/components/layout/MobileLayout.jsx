@@ -9,12 +9,10 @@ import {
   HelpCircle,
   LayoutDashboard,
   MoreHorizontal,
-  Settings,
   Sparkles,
   X,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
-import { translateUi } from "@/lib/i18n";
 import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
 import { cn } from "@/lib/utils";

@@ -1,211 +1,217 @@
 /**
  * translate-questions.mjs
- *
- * Translates all RBT concept fields from English to Spanish using LibreTranslate
- * (100% free, no API key required).
+ * Translates RBT concept fields using LibreTranslate (free, no API key).
  *
  * Usage:
  *   node scripts/translate-questions.mjs
  *
- * Saves progress every 10 concepts so it can resume if interrupted.
- * Re-running skips concepts that already have translations.
+ * Output: src/lib/questions/question-translations-es.json
+ * Saves progress every 10 concepts — safe to re-run if interrupted.
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUTPUT_PATH = join(__dirname, "../src/lib/question-translations-es.json");
+const ROOT = join(__dirname, "..");
+const QB_PATH = join(ROOT, "src/lib/questions/question-bank.js");
+const OUTPUT_PATH = join(ROOT, "src/lib/questions/question-translations-es.json");
 
-// Public LibreTranslate instances (tries each if one fails)
-const LIBRETRANSLATE_URLS = [
+// Public LibreTranslate instances
+const LIBRE_URLS = [
   "https://libretranslate.com/translate",
   "https://translate.argosopentech.com/translate",
   "https://libretranslate.de/translate",
 ];
 
-// ABA/RBT technical terms to keep in English
-const PROTECTED_TERMS = [
-  "RBT", "BCBA", "ABA", "DTT", "NET", "VB-MAPP", "PECS",
-  "reinforcement", "punishment", "extinction", "shaping", "chaining",
-  "prompting", "fading", "baseline", "FBA", "ABC", "MSWO",
-  "DRO", "DRA", "DRI", "NCR", "FCT", "IOA",
+// ABA technical terms to preserve in English
+const PROTECTED = [
+  "RBT","BCBA","ABA","DTT","NET","VB-MAPP","PECS","FBA","ABC","MSWO",
+  "DRO","DRA","DRI","NCR","FCT","IOA","SD","reinforcement","punishment",
+  "extinction","shaping","chaining","prompting","fading","baseline",
+  "antecedent","consequence","behavior","stimulus","latency","duration",
+  "frequency","interval","momentary","time sampling",
 ];
 
-// Replace protected terms with placeholders before translating
 function protectTerms(text) {
   const map = {};
   let result = text;
-  PROTECTED_TERMS.forEach((term, i) => {
-    const placeholder = `TERM${i}`;
-    const regex = new RegExp(`\\b${term}\\b`, "gi");
-    if (regex.test(result)) {
-      map[placeholder] = term;
-      result = result.replace(new RegExp(`\\b${term}\\b`, "gi"), placeholder);
+  PROTECTED.forEach((term, i) => {
+    const ph = `TERM${i}X`;
+    const re = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}\\b`, "gi");
+    if (re.test(result)) {
+      map[ph] = term;
+      result = result.replace(new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}\\b`,"gi"), ph);
     }
   });
   return { text: result, map };
 }
 
 function restoreTerms(text, map) {
-  let result = text;
-  for (const [placeholder, original] of Object.entries(map)) {
-    result = result.replace(new RegExp(placeholder, "g"), original);
-  }
-  return result;
+  let r = text;
+  for (const [ph, orig] of Object.entries(map)) r = r.replace(new RegExp(ph,"g"), orig);
+  return r;
 }
 
-async function translateText(text, retries = 3) {
-  const { text: protected_, map } = protectTerms(text);
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-  for (const url of LIBRETRANSLATE_URLS) {
+async function translateText(text, retries = 3) {
+  if (!text?.trim()) return text;
+  const { text: protected_, map } = protectTerms(text);
+  for (const url of LIBRE_URLS) {
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
         const res = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            q: protected_,
-            source: "en",
-            target: "es",
-            format: "text",
-          }),
-          signal: AbortSignal.timeout(15000),
+          body: JSON.stringify({ q: protected_, source: "en", target: "es", format: "text" }),
+          signal: AbortSignal.timeout(12000),
         });
-
-        if (!res.ok) {
-          if (attempt < retries - 1) await sleep(2000);
-          continue;
-        }
-
+        if (!res.ok) { await sleep(1500); continue; }
         const data = await res.json();
         const translated = data.translatedText || data.translated_text || "";
-        if (!translated) continue;
-
-        return restoreTerms(translated, map);
-      } catch {
-        if (attempt < retries - 1) await sleep(2000);
-      }
+        if (translated) return restoreTerms(translated, map);
+      } catch { await sleep(1500); }
     }
   }
-
-  // All instances failed — return original English
-  console.warn(`  ⚠ Could not translate: "${text.slice(0, 50)}..." — keeping English`);
+  console.warn(`  ⚠ Could not translate: "${text.slice(0,60)}..."`);
   return text;
 }
 
-function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
+// Parse concept blocks from the JS source using a state machine
+function parseConcepts(source) {
+  const concepts = [];
+  const lines = source.split("\n");
+  let current = null;
+  let inMultiline = null;
+  let multilineBuffer = "";
 
-async function translateConcept(concept) {
-  // Small delay between requests to be polite to free servers
-  const fields = ["answer", "definition", "scenario", "purpose", "explanation"];
-  const result = {};
+  const singleFieldRe = /^\s+(answer|definition|scenario|purpose|explanation):\s*["`'](.+?)["`'],?\s*$/;
+  const startFieldRe  = /^\s+(answer|definition|scenario|purpose|explanation):\s*["`'](.*)$/;
+  const idRe          = /^\s+id:\s*["`']([^"`']+)["`']/;
 
-  for (const field of fields) {
-    const value = concept[field];
-    if (value) {
-      result[field] = await translateText(value);
-      await sleep(300); // 300ms between requests
-    } else {
-      result[field] = value;
+  for (const line of lines) {
+    if (inMultiline) {
+      const endMatch = line.match(/^(.*?)["`'],?\s*$/);
+      if (endMatch && /["`']/.test(line)) {
+        multilineBuffer += " " + endMatch[1].trim();
+        if (current) current[inMultiline] = multilineBuffer.trim();
+        inMultiline = null; multilineBuffer = "";
+      } else {
+        multilineBuffer += " " + line.trim();
+      }
+      continue;
+    }
+
+    const idMatch = line.match(idRe);
+    if (idMatch) { if (!current) current = {}; current.id = idMatch[1]; continue; }
+
+    const single = line.match(singleFieldRe);
+    if (single && current) { current[single[1]] = single[2]; continue; }
+
+    const start = line.match(startFieldRe);
+    if (start && current) {
+      const rest = start[2];
+      if (/["`']/.test(rest.slice(1))) {
+        // ends on same line
+        current[start[1]] = rest.replace(/["`'],?\s*$/, "").trim();
+      } else {
+        inMultiline = start[1];
+        multilineBuffer = rest.replace(/["`']\s*$/, "").trim();
+      }
+      continue;
+    }
+
+    // Detect end of concept block
+    if (/^\s*\},?\s*$/.test(line) && current?.id && current?.answer) {
+      concepts.push({ ...current });
+      current = null;
     }
   }
 
-  return result;
+  return concepts;
 }
 
 async function main() {
-  console.log("RBT Genius — Question Translator (free, LibreTranslate)");
+  console.log("RBT Genius — Question Translator (LibreTranslate, free)");
   console.log("=".repeat(55));
 
-  // Load concept lookup from question bank
-  console.log("\nLoading question bank...");
-  const qbPath = join(__dirname, "../src/lib/question-bank.js");
+  const source = readFileSync(QB_PATH, "utf8");
+  const concepts = parseConcepts(source);
+  console.log(`\nParsed ${concepts.length} concepts from question bank`);
 
-  let conceptLookup;
-  try {
-    const mod = await import(qbPath);
-    conceptLookup = mod.questionConceptLookup;
-  } catch (e) {
-    console.error("Failed to import question-bank.js:", e.message);
+  if (concepts.length === 0) {
+    console.error("No concepts found — check the parser");
     process.exit(1);
   }
-
-  if (!conceptLookup || Object.keys(conceptLookup).length === 0) {
-    console.error("No concepts found");
-    process.exit(1);
-  }
-
-  const allConcepts = Object.values(conceptLookup);
-  console.log(`Found ${allConcepts.length} concepts`);
 
   // Load existing progress
   let translations = {};
   if (existsSync(OUTPUT_PATH)) {
     try {
       translations = JSON.parse(readFileSync(OUTPUT_PATH, "utf8"));
-      const done = Object.keys(translations).length;
-      console.log(`Resuming: ${done}/${allConcepts.length} already translated`);
-    } catch {
-      console.log("Starting fresh");
-    }
+      console.log(`Resuming: ${Object.keys(translations).length}/${concepts.length} already done`);
+    } catch { console.log("Starting fresh"); }
   }
 
-  const remaining = allConcepts.filter((c) => !translations[c.id]);
-  console.log(`Translating ${remaining.length} remaining concepts...\n`);
+  const remaining = concepts.filter(c => !translations[c.id]);
+  if (remaining.length === 0) { console.log("\n✅ All concepts already translated!"); return; }
+  console.log(`Translating ${remaining.length} remaining...\n`);
 
-  if (remaining.length === 0) {
-    console.log("✅ All concepts already translated!");
-    return;
-  }
-
-  // Test connection first
-  console.log("Testing LibreTranslate connection...");
+  // Test connection
+  process.stdout.write("Testing LibreTranslate... ");
   const test = await translateText("Hello");
   if (test === "Hello") {
-    console.error("❌ LibreTranslate unavailable. Try again later or check your internet connection.");
+    console.error("\n❌ LibreTranslate unavailable. Check your internet connection and try again.");
     process.exit(1);
   }
-  console.log(`✓ Connected (test: "Hello" → "${test}")\n`);
+  console.log(`✓ ("Hello" → "${test}")\n`);
 
   let done = 0;
-  const startTime = Date.now();
+  const start = Date.now();
 
   for (const concept of remaining) {
-    process.stdout.write(`[${done + 1}/${remaining.length}] ${concept.id}... `);
-
+    process.stdout.write(`[${done+1}/${remaining.length}] ${concept.id}... `);
     try {
-      const translated = await translateConcept(concept);
-      translations[concept.id] = translated;
+      const answerEs  = await translateText(concept.answer || "");  await sleep(250);
+      const purposeEs = concept.purpose    ? await translateText(concept.purpose)    : ""; await sleep(250);
+      const defEs     = concept.definition ? await translateText(concept.definition) : ""; await sleep(250);
+      const scenarioEs= concept.scenario   ? await translateText(concept.scenario)   : ""; await sleep(250);
+      const explainEs = concept.explanation? await translateText(concept.explanation) : ""; await sleep(250);
+
+      translations[concept.id] = {
+        status: "draft_machine",
+        answer: answerEs,
+        definition: defEs,
+        scenario: scenarioEs,
+        purpose: purposeEs,
+        explanation: explainEs,
+        options_es: {
+          answer: answerEs,
+          purpose: purposeEs,
+        },
+      };
       done++;
-      process.stdout.write(`✓\n`);
-    } catch (e) {
+      process.stdout.write("✓\n");
+    } catch(e) {
       process.stdout.write(`✗ (${e.message})\n`);
     }
 
-    // Save progress every 10 concepts
     if (done % 10 === 0) {
       writeFileSync(OUTPUT_PATH, JSON.stringify(translations, null, 2));
-      const elapsed = Math.round((Date.now() - startTime) / 1000);
-      const rate = done / elapsed;
-      const remaining_ = remaining.length - done;
-      const eta = Math.round(remaining_ / rate);
-      console.log(`  → Saved (${Object.keys(translations).length} total, ETA: ~${eta}s)`);
+      const elapsed = (Date.now()-start)/1000;
+      const eta = Math.round((remaining.length-done) / Math.max(done/elapsed, 0.1));
+      console.log(`  → Saved (${Object.keys(translations).length} total, ETA ~${eta}s)`);
     }
   }
 
-  // Final save
   writeFileSync(OUTPUT_PATH, JSON.stringify(translations, null, 2));
-  const total = Object.keys(translations).length;
-  console.log(`\n✅ Done! ${total}/${allConcepts.length} concepts translated`);
-  console.log(`Output: ${OUTPUT_PATH}`);
-  console.log("\nNext step: git add src/lib/question-translations-es.json && git commit");
+  console.log(`\n✅ Done! ${Object.keys(translations).length}/${concepts.length} concepts translated`);
+  console.log(`\nNext steps:`);
+  console.log(`  git add src/lib/questions/question-translations-es.json`);
+  console.log(`  git commit -m "feat: Spanish question translations (draft_machine)"`);
+  console.log(`  git push`);
 }
 
-main().catch((e) => {
-  console.error("Fatal:", e);
-  process.exit(1);
-});
+main().catch(e => { console.error("Fatal:", e); process.exit(1); });

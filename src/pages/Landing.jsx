@@ -7,7 +7,6 @@ import {
   Crown,
   GraduationCap,
   LayoutDashboard,
-  MessageSquareMore,
   Moon,
   Sparkles,
   Sun,
