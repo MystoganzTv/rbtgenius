@@ -290,19 +290,17 @@ export default function Store() {
         </section>
 
         {bundleProduct ? (
-          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-emerald-200/70 bg-[linear-gradient(135deg,#f3fff9_0%,#ffffff_48%,#f1f7ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.28)] dark:border-[#243657] dark:bg-[radial-gradient(circle_at_top_right,rgba(79,124,255,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(52,195,143,0.08),transparent_24%),linear-gradient(180deg,rgba(9,18,34,1),rgba(11,21,39,1))]'>
-            <div className='pointer-events-none absolute inset-0 hidden dark:block'>
-              <div className='absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent' />
-            </div>
-            <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-9'>
+          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_42%,#eef4ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.22)] dark:border-[#23324E] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.10),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(167,139,250,0.10),transparent_24%),linear-gradient(180deg,#0c1630 0%,#0a1428 100%)]'>
+            <div className='pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#8FB4FF]/35 to-transparent dark:via-white/10' />
+            <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-9'>
               <div>
-                <div className='inline-flex items-center gap-2 rounded-full bg-[#34C38F]/14 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#158A5E] dark:border dark:border-[#34C38F]/18 dark:bg-[#34C38F]/10 dark:text-[#8DDDBA]'>
+                <div className='inline-flex items-center gap-2 rounded-full border border-[#4F7CFF]/14 bg-[#4F7CFF]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/10 dark:text-[#A8BEFF]'>
                   <BadgePercent className='h-4 w-4' /> Oferta Especial
                 </div>
                 <h2 className='mt-4 text-3xl font-black leading-tight text-slate-900 dark:text-slate-50 sm:text-4xl'>
                   Ahorra con nuestros Bundles
                 </h2>
-                <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#C6D1E6] sm:text-lg'>
+                <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#D1DBF1] sm:text-lg'>
                   Combina libros, tarjetas de estudio y herramientas diarias en
                   un solo paquete con descuento. Perfecto para quienes empiezan
                   su camino como RBT.
@@ -312,7 +310,7 @@ export default function Store() {
                 </p>
                 <div className='mt-6 flex flex-wrap items-center gap-4'>
                   <Button
-                    className='rounded-2xl bg-[#1E5EFF] px-6 py-6 text-base font-semibold hover:bg-[#1E5EFF]/90'
+                    className='rounded-2xl bg-[#1E5EFF] px-6 py-6 text-base font-semibold shadow-[0_20px_40px_-24px_rgba(30,94,255,0.75)] hover:bg-[#1E5EFF]/90'
                     onClick={() => handleCategorySelect('Bundles')}>
                     Ver Bundles <ArrowRight className='ml-2 h-4 w-4' />
                   </Button>
@@ -333,21 +331,21 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className='relative overflow-hidden rounded-[1.9rem] border border-slate-200/80 bg-white/88 p-6 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.25)] backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-[0_28px_80px_-50px_rgba(0,0,0,0.75)]'>
+              <div className='relative overflow-hidden rounded-[1.9rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(244,248,255,0.94))] p-6 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.22)] backdrop-blur dark:border-white/10 dark:bg-[radial-gradient(circle_at_top_right,rgba(79,124,255,0.14),transparent_35%),linear-gradient(180deg,rgba(19,30,58,0.98),rgba(14,23,43,0.98))] dark:shadow-[0_28px_80px_-50px_rgba(0,0,0,0.7)]'>
                 <div className='pointer-events-none absolute inset-0 hidden dark:block'>
-                  <div className='absolute right-0 top-0 h-36 w-36 rounded-full bg-[#4F7CFF]/12 blur-3xl' />
-                  <div className='absolute bottom-0 left-0 h-28 w-32 rounded-full bg-[#34C38F]/8 blur-3xl' />
+                  <div className='absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent' />
+                  <div className='absolute right-0 top-0 h-36 w-36 rounded-full bg-[#4F7CFF]/16 blur-3xl' />
                 </div>
                 <div className='relative flex items-center justify-between gap-3'>
                   <p className='text-xs font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-[#8EA3D1]'>
                     Producto destacado
                   </p>
-                  <div className='rounded-full border border-[#8BCFB7]/28 bg-[#34C38F]/14 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#1B8F61] dark:text-[#B7F2DA]'>
+                  <div className='rounded-full border border-[#4F7CFF]/18 bg-[#4F7CFF]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#315EDC] dark:border-[#5D86FF]/20 dark:bg-[#4F7CFF]/12 dark:text-[#B6C7FF]'>
                     Bundle
                   </div>
                 </div>
                 <div className='relative mt-5 flex flex-col gap-5 sm:flex-row sm:items-center'>
-                  <div className='flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-gradient-to-br from-white to-sky-50 shadow-[0_18px_35px_-24px_rgba(15,23,42,0.3)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(20,35,63,0.95),rgba(12,22,39,0.95))]'>
+                  <div className='flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-[0_18px_35px_-24px_rgba(15,23,42,0.22)] dark:border-white/10 dark:bg-white/95'>
                     <img
                       src={PRODUCT_PRESENTATION[bundleProduct.id]?.image}
                       alt={bundleProduct.name}
@@ -358,7 +356,7 @@ export default function Store() {
                     <h3 className='text-2xl font-black text-slate-900 dark:text-white'>
                       {bundleProduct.name}
                     </h3>
-                    <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-[#C5D1E7]'>
+                    <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-[#D4DDF0]'>
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.summary ||
                         bundleProduct.summary}
                     </p>
@@ -373,7 +371,7 @@ export default function Store() {
                               PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
                             )}
                           </span>
-                          <span className='rounded-full bg-[#1E5EFF]/10 px-3 py-1 text-xs font-semibold text-[#1E5EFF] dark:bg-[#4F7CFF]/14 dark:text-[#9CB6FF]'>
+                          <span className='rounded-full border border-[#4F7CFF]/16 bg-[#4F7CFF]/8 px-3 py-1 text-xs font-semibold text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/12 dark:text-[#AFC2FF]'>
                             Ahorra {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt - bundleProduct.price_cents)}
                           </span>
                         </>
