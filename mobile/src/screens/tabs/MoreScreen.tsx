@@ -4,44 +4,54 @@ import { useColorScheme } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
-
 import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
 
-export default function MoreScreen({ navigation }) {
+type Theme = any;
+type Navigation = any;
+type AccentKey = 'primary' | 'gold' | 'success';
+
+export default function MoreScreen({ navigation }: { navigation?: Navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
-  const { user } = useAuth();
+  const auth = useAuth() as { user?: { isPremium?: boolean } | null } | null;
+  const user = auth?.user ?? null;
   const { t } = useTranslation();
   const s = styles(theme);
 
-  const ITEMS = [
+  const items: Array<{
+    key: string;
+    title: string;
+    sub: string;
+    icon: (color: string) => JSX.Element;
+    accent: AccentKey;
+  }> = [
     {
       key: 'Flashcards',
       title: t('more.flashcards'),
       sub: t('more.flashcards_sub'),
-      icon: (color) => <MaterialCommunityIcons name="cards-outline" color={color} size={22} />,
+      icon: (color: string) => <MaterialCommunityIcons name="cards-outline" color={color} size={22} />,
       accent: 'primary',
     },
     {
       key: 'Analytics',
       title: t('more.analytics'),
       sub: t('more.analytics_sub'),
-      icon: (color) => <Ionicons name="stats-chart-outline" color={color} size={22} />,
+      icon: (color: string) => <Ionicons name="stats-chart-outline" color={color} size={22} />,
       accent: 'gold',
     },
     {
       key: 'Profile',
       title: t('more.profile'),
       sub: t('more.profile_sub'),
-      icon: (color) => <Ionicons name="person-circle-outline" color={color} size={22} />,
+      icon: (color: string) => <Ionicons name="person-circle-outline" color={color} size={22} />,
       accent: 'success',
     },
   ];
 
   const isPro = user?.isPremium ?? false;
 
-  const accentColor = (accent) => {
+  const accentColor = (accent: AccentKey) => {
     if (accent === 'gold') return theme.gold;
     if (accent === 'success') return theme.success;
     return theme.primary;
@@ -55,14 +65,12 @@ export default function MoreScreen({ navigation }) {
       </View>
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
-
-        {/* Pro upgrade banner (free users only) */}
         {!isPro && (
           <Pressable
             style={s.proBanner}
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-              navigation.navigate('Upgrade');
+              navigation?.navigate('Upgrade');
             }}
           >
             <View style={s.proBannerLeft}>
@@ -76,7 +84,7 @@ export default function MoreScreen({ navigation }) {
           </Pressable>
         )}
 
-        {ITEMS.map((item) => {
+        {items.map((item) => {
           const color = accentColor(item.accent);
           return (
             <Pressable
@@ -84,7 +92,7 @@ export default function MoreScreen({ navigation }) {
               style={({ pressed }) => [s.card, pressed && { opacity: 0.85 }]}
               onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                navigation.navigate(item.key);
+                navigation?.navigate(item.key);
               }}
             >
               <View style={[s.iconWrap, { backgroundColor: alpha(color, 0.12) }]}>
@@ -103,7 +111,7 @@ export default function MoreScreen({ navigation }) {
   );
 }
 
-const styles = (theme) =>
+const styles = (theme: Theme) =>
   StyleSheet.create({
     safe: { flex: 1, backgroundColor: theme.background },
     topBar: {
