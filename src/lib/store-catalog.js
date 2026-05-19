@@ -10,6 +10,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Clipboard bundle for session notes, data collection, and daily RBT routines.",
     badge: "Most useful",
+    available: false,
     bullets: [
       "Session checklist layout",
       "Quick data prompts",
@@ -27,6 +28,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Portable reinforcer and visuals pouch for everyday RBT sessions.",
     badge: "Portable",
+    available: false,
     bullets: [
       "Token and visual storage",
       "Compact daily carry",
@@ -44,6 +46,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Focused RBT study book with concise explanations and review prompts.",
     badge: "Study favorite",
+    available: false,
     bullets: [
       "Quick concept reviews",
       "Simple study structure",
@@ -61,6 +64,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Workbook with mock-style practice, answer review, and study drills.",
     badge: "Exam prep",
+    available: false,
     bullets: [
       "Mock-style question sets",
       "Space for review notes",
@@ -78,6 +82,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Visual study cards for memorization and quick RBT review.",
     badge: "Quick review",
+    available: false,
     bullets: [
       "Portable concept cards",
       "Fast memorization support",
@@ -95,6 +100,7 @@ export const STORE_PRODUCTS = [
     checkout_description:
       "Starter bundle with daily tools and study materials for RBT prep.",
     badge: "Bundle",
+    available: false,
     bullets: [
       "Mix of tools and study aids",
       "Best for new learners",
@@ -109,4 +115,9 @@ export function getStoreProductById(productId) {
 
 export function formatStorePrice(priceCents) {
   return `$${(Number(priceCents || 0) / 100).toFixed(2)}`;
+}
+
+
+export function isStoreProductAvailable(product) {
+  return Boolean(product?.available);
 }

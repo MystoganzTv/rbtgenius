@@ -21,7 +21,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useAuth } from '@/lib/AuthContext';
 import { api } from '@/lib/api';
-import { formatStorePrice } from '@/lib/store-catalog';
+import { formatStorePrice, isStoreProductAvailable } from '@/lib/store-catalog';
 import { createPageUrl } from '@/utils';
 
 const CATEGORY_META = {
@@ -275,15 +275,15 @@ export default function Store() {
               </span>
             </h1>
             <p className='mt-5 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xl'>
-              Herramientas, libros y bundles diseñados para RBTs — compra como invitado o con tu cuenta.
+              Herramientas, libros y bundles diseñados para RBTs — explora el catálogo ahora y volveremos a abrir pedidos cuando tengamos restock.
             </p>
 
             <div className='mt-7 flex flex-wrap gap-3'>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Pago seguro con Stripe
+                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Catálogo listo para restock
               </div>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <ShoppingBag className='h-4 w-4 text-[#4F7CFF]' /> Sin membresía obligatoria
+                <ShoppingBag className='h-4 w-4 text-[#4F7CFF]' /> Compra abierta cuando vuelva el inventario
               </div>
             </div>
           </div>
@@ -307,6 +307,9 @@ export default function Store() {
                   un solo paquete con descuento. Perfecto para quienes empiezan
                   su camino como RBT.
                 </p>
+                <p className='mt-3 text-sm font-medium text-slate-500 dark:text-[#9FB0CE]'>
+                  Ahora mismo este bundle está agotado. Cuando tengamos restock, volverá a estar a la venta.
+                </p>
                 <div className='mt-6 flex flex-wrap items-center gap-4'>
                   <Button
                     className='rounded-2xl bg-[#1E5EFF] px-6 py-6 text-base font-semibold hover:bg-[#1E5EFF]/90'
@@ -324,7 +327,7 @@ export default function Store() {
                         </span>
                       </>
                     ) : (
-                      <>Oferta activa por tiempo limitado</>
+                      <>Restock próximamente</>
                     )}
                   </div>
                 </div>
@@ -397,7 +400,7 @@ export default function Store() {
                 Nuestros Productos
               </h2>
               <p className='mt-2 text-base text-slate-500 dark:text-slate-300'>
-                {filteredProducts.length} productos disponibles
+                {filteredProducts.length} productos en catálogo
               </p>
             </div>
             <div className='flex flex-wrap gap-3'>
@@ -429,6 +432,7 @@ export default function Store() {
                 checkoutMutation.isPending &&
                 checkoutMutation.variables === product.id;
               const categoryMeta = CATEGORY_META[product.category];
+              const isAvailable = isStoreProductAvailable(product);
 
               return (
                 <article
@@ -457,6 +461,11 @@ export default function Store() {
                     <h3 className='mt-2 text-[1.85rem] font-black leading-tight text-slate-900 dark:text-slate-50'>
                       {product.name}
                     </h3>
+                    {!isAvailable ? (
+                      <div className='mt-3 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-amber-700 dark:border-amber-400/15 dark:bg-amber-400/10 dark:text-amber-200'>
+                        Agotado
+                      </div>
+                    ) : null}
                     <p className='mt-3 text-[1.02rem] leading-8 text-slate-500 dark:text-slate-300'>
                       {presentation.summary || product.summary}
                     </p>
@@ -470,6 +479,12 @@ export default function Store() {
                         </span>
                       ))}
                     </div>
+
+                    {!isAvailable ? (
+                      <p className='mt-4 text-sm leading-6 text-slate-500 dark:text-slate-300'>
+                        No hay inventario en este momento. Lo pondremos a la venta en cuanto tengamos restock.
+                      </p>
+                    ) : null}
 
                     <div className='mt-auto pt-6'>
                       <div className='h-px bg-slate-200 dark:bg-[#1E5EFF]/12' />
@@ -488,15 +503,21 @@ export default function Store() {
                         </div>
 
                         <Button
-                          className='rounded-2xl bg-[#4F7CFF] px-5 py-5 text-base font-semibold shadow-[0_18px_40px_-24px_rgba(79,124,255,0.8)] hover:bg-[#3E68E8]'
-                          onClick={() => checkoutMutation.mutate(product.id)}
+                          className={`rounded-2xl px-5 py-5 text-base font-semibold ${
+                            isAvailable
+                              ? 'bg-[#4F7CFF] shadow-[0_18px_40px_-24px_rgba(79,124,255,0.8)] hover:bg-[#3E68E8]'
+                              : 'bg-slate-200 text-slate-500 shadow-none hover:bg-slate-200 dark:bg-[#16233D] dark:text-slate-400'
+                          }`}
+                          onClick={() => isAvailable && checkoutMutation.mutate(product.id)}
                           disabled={
-                            !isStripeEnabled || checkoutMutation.isPending
+                            !isAvailable || !isStripeEnabled || checkoutMutation.isPending
                           }>
                           {isLoadingThis ? (
                             <Loader2 className='h-4 w-4 animate-spin' />
-                          ) : (
+                          ) : isAvailable ? (
                             'Comprar'
+                          ) : (
+                            'Sin inventario'
                           )}
                         </Button>
                       </div>

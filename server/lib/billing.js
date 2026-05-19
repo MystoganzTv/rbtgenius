@@ -5,7 +5,7 @@ import {
   isPremiumPlan,
   normalizePlan,
 } from "../../shared/plan-access.js";
-import { getStoreProductById } from "../../src/lib/store-catalog.js";
+import { getStoreProductById, isStoreProductAvailable } from "../../src/lib/store-catalog.js";
 
 const STRIPE_PRICE_ENV = {
   [PLAN_IDS.PREMIUM_MONTHLY]: "STRIPE_PRICE_PREMIUM_MONTHLY",
@@ -344,6 +344,10 @@ export async function createStripeStoreCheckoutSession({
   const product = getStoreProductById(productId);
   if (!product) {
     throw new Error("Store product not found.");
+  }
+
+  if (!isStoreProductAvailable(product)) {
+    throw new Error("This product is currently out of stock. We will reopen checkout after restock.");
   }
 
   const stripe = ensureStripeReady();
