@@ -4714,5 +4714,341 @@
       "answer": "Conciencia de saciación",
       "purpose": "Para reconocer cuándo el acceso repetido puede reducir la eficacia de un reforzador."
     }
+  },
+  "measurement_interval_size_effect": {
+    "status": "reviewed",
+    "answer": "Efecto de la longitud del intervalo en la medición",
+    "definition": "la duración del intervalo influye en qué tan probable es captar conductas breves durante el muestreo por intervalos.",
+    "scenario": "Una conducta que dura solo 2 segundos rara vez se captaría en un intervalo de 30 segundos, pero aparecería con más fiabilidad en un intervalo de 5 segundos.",
+    "purpose": "Para elegir intervalos que coincidan con la duración típica de la conducta.",
+    "explanation": "El tamaño del intervalo debe corresponder a la duración habitual de la conducta; si el intervalo es demasiado largo, tenderá a pasar por alto respuestas breves.",
+    "options_es": {
+      "Reinforcer check before session": "Comprobación del reforzador antes de la sesión",
+      "Trend": "Tendencia",
+      "Whole interval vs. partial interval comparison": "Comparación entre intervalo completo e intervalo parcial",
+      "Effect of interval length on measurement": "Efecto de la longitud del intervalo en la medición"
+    }
+  },
+  "measurement_whole_vs_partial_intervals": {
+    "status": "reviewed",
+    "answer": "Comparación entre intervalo completo e intervalo parcial",
+    "definition": "el registro por intervalo completo suele subestimar la conducta, mientras que el registro por intervalo parcial tiende a sobreestimarla.",
+    "scenario": "Un aprendiz habla fuera de turno solo durante parte de cada intervalo y, por eso, sería puntuado de manera distinta según el método utilizado: subestimado por intervalo completo y sobreestimado por intervalo parcial.",
+    "purpose": "Para entender cómo distintos métodos de muestreo pueden sesgar la medición.",
+    "explanation": "El intervalo completo tiende a subestimar la conducta y el intervalo parcial tiende a sobreestimarla; el equipo elige el método según la pregunta clínica.",
+    "options_es": {
+      "Materials preparation": "Preparación de materiales",
+      "Data sheet setup": "Preparación de la hoja de datos",
+      "Whole interval vs. partial interval comparison": "Comparación entre intervalo completo e intervalo parcial",
+      "Permanent product examples": "Ejemplos de producto permanente"
+    }
+  },
+  "measurement_graph_reading_basic": {
+    "status": "reviewed",
+    "answer": "Lectura de una gráfica de conducta",
+    "definition": "el RBT observa una gráfica para describir si los puntos de datos en general aumentan, disminuyen o se mantienen estables a lo largo del tiempo.",
+    "scenario": "El RBT revisa una gráfica y describe si el patrón general de los datos está subiendo, bajando o manteniéndose similar entre sesiones.",
+    "purpose": "Para resumir con precisión lo que muestran visualmente los datos.",
+    "explanation": "Saber leer una gráfica ayuda al RBT a comunicar el progreso con precisión y a reconocer cuándo debe alertar al supervisor sobre un patrón preocupante.",
+    "options_es": {
+      "Behavior plan review": "Revisión del plan de conducta",
+      "Data collection preparation": "Preparación para la recolección de datos",
+      "Reading a behavior graph": "Lectura de una gráfica de conducta",
+      "Pinpointing behavior": "Definir la conducta con precisión"
+    }
+  },
+  "measurement_increasing_trend": {
+    "status": "reviewed",
+    "answer": "Tendencia ascendente",
+    "definition": "una tendencia ascendente muestra que los datos aumentan de manera general con el tiempo.",
+    "scenario": "Un RBT revisa una gráfica de respuestas correctas de un aprendiz durante cuatro semanas. Los puntos de datos comienzan bajos y suben de manera constante en cada sesión.",
+    "purpose": "Para describir la dirección general de los datos a lo largo del tiempo.",
+    "explanation": "Las tendencias muestran la dirección general de los datos con el tiempo. Una tendencia ascendente indica progreso en una habilidad o aumento de una conducta problema, según lo que se esté midiendo.",
+    "options_es": {
+      "Variable data": "Datos variables",
+      "Unreliable data risk": "Riesgo de datos poco confiables",
+      "Increasing trend": "Tendencia ascendente",
+      "Data entry accuracy": "Precisión al registrar los datos"
+    }
+  },
+  "measurement_dead_man_test": {
+    "status": "reviewed",
+    "answer": "Prueba del hombre muerto",
+    "definition": "una meta conductual debe describir algo que la persona hace activamente, no simplemente la ausencia de una conducta.",
+    "scenario": "El equipo cambia un objetivo escrito como 'no golpear' por otro que describe una respuesta activa y observable que el aprendiz sí puede emitir.",
+    "purpose": "Para asegurarse de que las conductas objetivo describan respuestas activas y medibles.",
+    "explanation": "Las metas conductuales deben describir algo que una persona hace activamente; la ausencia de conducta no puede medirse ni reforzarse. El objetivo principal es asegurar que la conducta objetivo describa respuestas activas y no solo la ausencia de conducta.",
+    "options_es": {
+      "To replace interpretive labels with observable descriptions that lead to consistent measurement.": "Sustituir etiquetas interpretativas por descripciones observables que permitan una medición consistente.",
+      "To help the RBT recognize when data is unstable and may need further investigation before making programming decisions.": "Ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación.",
+      "To ensure target behaviors describe active responses rather than the absence of behavior.": "Asegurar que las conductas objetivo describan respuestas activas y no la ausencia de conducta.",
+      "To retain physical evidence of the learner's work for review, progress monitoring, and data verification.": "Conservar evidencia física del trabajo del aprendiz para revisión, seguimiento del progreso y verificación de datos."
+    }
+  },
+  "measurement_interval_selection": {
+    "status": "reviewed",
+    "answer": "Selección del registro por intervalos",
+    "definition": "el registro por intervalos se elige cuando una conducta es demasiado frecuente, demasiado continua o demasiado difícil de registrar en cada ocurrencia.",
+    "scenario": "El equipo decide usar registro por intervalos porque la conducta ocurre tan a menudo que contar cada instancia en tiempo real no es práctico.",
+    "purpose": "Para usar un sistema de muestreo cuando el conteo exacto no es realista.",
+    "explanation": "El registro por intervalos sacrifica conteos exactos a cambio de un muestreo sistemático que sigue siendo sensible al cambio conductual a lo largo del tiempo.",
+    "options_es": {
+      "Latency recording": "Registro de latencia",
+      "Interval recording selection": "Selección del registro por intervalos",
+      "Limitations of discontinuous measurement": "Limitaciones de la medición discontinua",
+      "Reinforcer check before session": "Comprobación del reforzador antes de la sesión"
+    }
+  },
+  "measurement_environment_terms": {
+    "status": "reviewed",
+    "answer": "Describir el ambiente en términos observables",
+    "definition": "los factores ambientales se registran con descripciones observables y verificables, en lugar de términos vagos o interpretativos.",
+    "scenario": "El RBT describe el salón como 'había música alta y tres compañeros cerca de la mesa' en lugar de decir solo 'el ambiente estaba caótico'.",
+    "purpose": "Para registrar factores del entorno de manera verificable y útil para identificar eventos de establecimiento.",
+    "explanation": "Las descripciones observables del ambiente ayudan al equipo a identificar antecedentes y eventos de establecimiento que influyen en la conducta. El objetivo principal es registrar factores ambientales de una manera verificable y útil para el análisis.",
+    "options_es": {
+      "To set conditions for independent, comparable measurement by two observers.": "Establecer condiciones para una medición independiente y comparable entre dos observadores.",
+      "To record environmental factors in a way that can be verified and used to identify setting events.": "Registrar factores ambientales de una manera que pueda verificarse y usarse para identificar eventos de establecimiento.",
+      "To establish a reliable baseline before introducing an intervention, so any future changes in the data can be attributed to the intervention.": "Establecer una línea base confiable antes de introducir una intervención, para que cualquier cambio posterior pueda atribuirse a esa intervención.",
+      "To extract basic performance information from graphed data.": "Extraer información básica de desempeño a partir de los datos graficados."
+    }
+  },
+  "professional_timely_direction_seeking": {
+    "status": "reviewed",
+    "answer": "Consulta oportuna",
+    "definition": "el RBT busca orientación del supervisor a tiempo, especialmente cuando surge un cambio importante o una preocupación clínica entre sesiones.",
+    "scenario": "La conducta problema de un aprendiz aumenta significativamente durante tres sesiones consecutivas, y el RBT avisa al supervisor entre sesiones en lugar de esperar a la reunión semanal.",
+    "purpose": "Para abordar preocupaciones clínicas importantes sin esperar innecesariamente.",
+    "explanation": "La consulta oportuna evita que problemas pequeños se conviertan en problemas mayores y demuestra responsabilidad profesional.",
+    "options_es": {
+      "Timely consultation": "Consulta oportuna",
+      "Information security": "Seguridad de la información",
+      "Cultural responsiveness": "Sensibilidad cultural",
+      "Supervisor notification": "Notificación al supervisor"
+    }
+  },
+  "professional_supervision_documentation": {
+    "status": "reviewed",
+    "answer": "Documentar los contactos de supervisión",
+    "definition": "cada contacto de supervisión debe documentarse con la fecha, duración, actividades observadas y retroalimentación brindada, según los requisitos del BACB y de la organización empleadora.",
+    "scenario": "Después de cada supervisión, el RBT firma y conserva un registro con la fecha, la duración y la retroalimentación recibida.",
+    "purpose": "Para cumplir con requisitos profesionales y regulatorios relacionados con la supervisión.",
+    "explanation": "La documentación de la supervisión es un requisito profesional y regulatorio. El RBT debe entender que firmar el formulario confirma la asistencia y que los registros precisos protegen a todas las personas involucradas.",
+    "options_es": {
+      "Least restrictive support": "Apoyo menos restrictivo",
+      "Dual relationship avoidance": "Evitar relaciones duales",
+      "Documenting supervision contacts": "Documentar los contactos de supervisión",
+      "Protecting client identity on social media": "Proteger la identidad del cliente en redes sociales"
+    }
+  },
+  "professional_information_sharing_limits": {
+    "status": "reviewed",
+    "answer": "Límites para compartir información",
+    "definition": "el RBT comparte solo la información que el supervisor y la organización han autorizado, y evita divulgar detalles clínicos, diagnósticos o registros sin el permiso adecuado.",
+    "scenario": "Un familiar pide detalles clínicos adicionales, pero el RBT solo comparte la información autorizada y remite el resto al supervisor.",
+    "purpose": "Para proteger la confidencialidad y mantenerse dentro de los límites autorizados de comunicación.",
+    "explanation": "El RBT no está autorizado para hacer divulgaciones clínicas por su cuenta; compartir información del cliente sin autorización puede violar leyes de privacidad y políticas de la organización.",
+    "options_es": {
+      "Cultural responsiveness": "Sensibilidad cultural",
+      "Person-first language": "Lenguaje centrado en la persona",
+      "Respecting client autonomy": "Respetar la autonomía del cliente",
+      "Limits on information sharing": "Límites para compartir información"
+    }
+  },
+  "professional_family_communication": {
+    "status": "reviewed",
+    "answer": "Comunicación autorizada con la familia",
+    "definition": "el RBT se comunica con los familiares del aprendiz solo de las maneras y sobre los temas autorizados por el BCBA supervisor y la organización.",
+    "scenario": "El RBT responde preguntas de la familia solo dentro de los límites autorizados y remite decisiones clínicas al supervisor cuando corresponde.",
+    "purpose": "Para evitar errores clínicos, violaciones de confidencialidad o confusión sobre quién toma decisiones clínicas.",
+    "explanation": "Comunicarse fuera de los límites autorizados puede llevar a errores clínicos, violaciones de privacidad o confusión sobre quién es responsable de las decisiones de tratamiento.",
+    "options_es": {
+      "Making accurate public statements": "Hacer declaraciones públicas precisas",
+      "Respectful language": "Lenguaje respetuoso",
+      "Preparing for supervision meetings": "Prepararse para las reuniones de supervisión",
+      "Authorized family communication": "Comunicación autorizada con la familia"
+    }
+  },
+  "professional_client_autonomy": {
+    "status": "reviewed",
+    "answer": "Respetar la autonomía del cliente",
+    "definition": "los servicios deben respetar al aprendiz como una persona con preferencias, elecciones y derechos, en lugar de tratar la enseñanza como algo que simplemente se le hace.",
+    "scenario": "Durante la sesión, el RBT ofrece opciones reales al aprendiz y honra sus preferencias dentro de los objetivos del plan.",
+    "purpose": "Para asegurar que los servicios respeten al aprendiz como una persona con derechos y preferencias.",
+    "explanation": "Respetar la autonomía significa ofrecer elecciones significativas y honrarlas, no tratar la instrucción como algo impuesto al aprendiz. El objetivo principal es asegurar que los servicios respeten al cliente como una persona con preferencias y derechos.",
+    "options_es": {
+      "To protect client confidentiality in record keeping.": "Proteger la confidencialidad del cliente en el registro de datos.",
+      "To prevent errors by getting guidance before, not after, a challenging situation occurs.": "Prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación desafiante.",
+      "To ensure services respect the learner as an individual with preferences and rights.": "Asegurar que los servicios respeten al aprendiz como una persona con preferencias y derechos.",
+      "To coordinate effectively with the interdisciplinary team while protecting client privacy and staying within scope.": "Coordinarse eficazmente con el equipo interdisciplinario mientras se protege la privacidad del cliente y se mantiene el alcance profesional."
+    }
+  },
+  "professional_accurate_public_statements": {
+    "status": "reviewed",
+    "answer": "Hacer declaraciones públicas precisas",
+    "definition": "los RBT deben asegurarse de que cualquier declaración pública sobre ABA o sus servicios sea veraz, precisa y no engañosa, incluyendo publicaciones en redes sociales, reseñas y conversaciones verbales.",
+    "scenario": "Antes de publicar algo sobre sus servicios en redes sociales, el RBT se asegura de que la información sea correcta, prudente y no exagerada.",
+    "purpose": "Para proteger la confianza pública y evitar afirmaciones engañosas sobre los servicios.",
+    "explanation": "Las declaraciones públicas afectan la confianza del público en el campo. Hacer afirmaciones exageradas o inexactas viola la ética profesional. El RBT solo debe hacer declaraciones que pueda respaldar y que se alineen con los estándares del BACB.",
+    "options_es": {
+      "Changing behavior after feedback": "Cambiar la conducta después de recibir retroalimentación",
+      "Protection of client rights": "Protección de los derechos del cliente",
+      "Making accurate public statements": "Hacer declaraciones públicas precisas",
+      "Protecting client identity on social media": "Proteger la identidad del cliente en redes sociales"
+    }
+  },
+  "professional_team_member_communication": {
+    "status": "reviewed",
+    "answer": "Comunicación con otros miembros del equipo",
+    "definition": "el RBT se comunica con maestros, terapeutas y otros profesionales solo sobre información autorizada y relevante para coordinar la atención del aprendiz.",
+    "scenario": "El RBT comparte con otro profesional solo la información autorizada que ayuda a coordinar el plan del aprendiz.",
+    "purpose": "Para apoyar la coordinación del cuidado sin exceder los límites de confidencialidad y autorización.",
+    "explanation": "La comunicación con otros profesionales debe estar autorizada, ser relevante y limitarse a la información que apoya la programación del aprendiz.",
+    "options_es": {
+      "Appropriate refusal outside scope": "Rechazo apropiado fuera del alcance",
+      "Preparing for supervision meetings": "Prepararse para las reuniones de supervisión",
+      "Gift boundary": "Límite respecto a regalos",
+      "Communication with other team members": "Comunicación con otros miembros del equipo"
+    }
+  },
+  "professional_unclear_plan_response": {
+    "status": "reviewed",
+    "answer": "Responder cuando el plan no está claro",
+    "definition": "si un procedimiento o instrucción del plan no está claro, el RBT busca aclaración en lugar de completar los vacíos con juicio personal.",
+    "scenario": "El RBT detecta que un paso del plan no especifica qué hacer ante cierta respuesta del aprendiz y pide aclaración antes de improvisar.",
+    "purpose": "Para implementar los planes con fidelidad en lugar de llenarlos con interpretación personal.",
+    "explanation": "Implementar procedimientos ambiguos de una manera distinta a la que pretendía el supervisor puede comprometer la integridad del tratamiento y volver los datos difíciles de interpretar. El objetivo principal es implementar el plan con fidelidad y no completar vacíos con juicio personal.",
+    "options_es": {
+      "To keep treatment decisions with the supervising clinician.": "Mantener las decisiones de tratamiento bajo la responsabilidad del clínico supervisor.",
+      "To support service delivery within the bounds of authorized consent.": "Apoyar la prestación de servicios dentro de los límites del consentimiento autorizado.",
+      "To implement plans with fidelity rather than filling in gaps with personal judgment.": "Implementar los planes con fidelidad en lugar de llenar vacíos con juicio personal.",
+      "To translate supervision feedback into improved implementation as quickly as possible, benefiting the learner and demonstrating professional responsiveness.": "Convertir la retroalimentación de supervisión en una mejor implementación lo antes posible, beneficiando al aprendiz y demostrando receptividad profesional."
+    }
+  },
+  "professional_seek_clinical_direction": {
+    "status": "reviewed",
+    "answer": "Buscar dirección clínica",
+    "definition": "el RBT solicita guía clínica antes de actuar en situaciones que exceden su entrenamiento o lo que está descrito en el plan escrito.",
+    "scenario": "El RBT se encuentra con una situación no contemplada en el plan y consulta al supervisor antes de tomar una decisión clínica por su cuenta.",
+    "purpose": "Para obtener orientación clínica antes de actuar fuera de la capacitación del RBT o del plan escrito.",
+    "explanation": "Buscar dirección protege al cliente y al RBT al asegurar que las respuestas estén clínicamente fundamentadas y aprobadas por el supervisor. El objetivo principal es obtener guía clínica antes de actuar en situaciones que exceden el entrenamiento del RBT o el plan escrito.",
+    "options_es": {
+      "To keep implementation aligned with the supervisor's written plan.": "Mantener la implementación alineada con el plan escrito del supervisor.",
+      "To protect client welfare and maintain professional objectivity by avoiding situations where personal relationships could influence clinical decisions.": "Proteger el bienestar del cliente y mantener la objetividad profesional evitando situaciones donde relaciones personales puedan influir en decisiones clínicas.",
+      "To avoid acting beyond the limits of the RBT role.": "Evitar actuar más allá de los límites del rol del RBT.",
+      "To obtain clinical guidance before acting in situations that exceed the RBT's training or the written plan.": "Obtener guía clínica antes de actuar en situaciones que exceden la capacitación del RBT o el plan escrito."
+    }
+  },
+  "professional_rbt_prepares_for_supervision": {
+    "status": "reviewed",
+    "answer": "Prepararse para las reuniones de supervisión",
+    "definition": "el RBT se prepara para la supervisión llevando datos recientes de sesión, anotando preguntas sobre la implementación y estando listo para demostrar procedimientos para que el contacto sea productivo y enfocado.",
+    "scenario": "Antes de la supervisión, el RBT organiza sus hojas de datos, anota dudas y se prepara para modelar procedimientos cuando sea necesario.",
+    "purpose": "Para que la supervisión sea productiva, enfocada y útil para el aprendizaje del RBT.",
+    "explanation": "La supervisión es más efectiva cuando el RBT llega preparado. Llevar datos, preguntas y disposición para practicar hace la sesión significativa tanto para el RBT como para el supervisor.",
+    "options_es": {
+      "Preparing for supervision meetings": "Prepararse para las reuniones de supervisión",
+      "Multiple relationship risk": "Riesgo de relaciones múltiples",
+      "Implementing feedback": "Implementar retroalimentación",
+      "Proactive consultation with supervisor": "Consulta proactiva con el supervisor"
+    }
+  },
+  "professional_no_public_client_disclosure": {
+    "status": "reviewed",
+    "answer": "Evitar la divulgación pública de información del cliente",
+    "definition": "el RBT evita compartir información del cliente en conversaciones casuales, redes sociales u otros entornos públicos fuera de los contextos clínicos formales.",
+    "scenario": "Aunque una anécdota parezca inofensiva, el RBT evita compartirla en redes sociales o en conversaciones públicas porque podría revelar información privada del cliente.",
+    "purpose": "Para prevenir violaciones accidentales de confidencialidad fuera de los entornos clínicos formales.",
+    "explanation": "Las violaciones de confidencialidad no ocurren solo a través de registros oficiales. Las conversaciones casuales, redes sociales y contextos informales son lugares comunes donde se comparte información privada sin intención. El RBT debe ser vigilante en todos los contextos.",
+    "options_es": {
+      "To support caregiver implementation of the plan while operating within the RBT's authorized support role.": "Apoyar la implementación del plan por parte del cuidador dentro del rol de apoyo autorizado del RBT.",
+      "To improve performance by responding appropriately to supervision feedback.": "Mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión.",
+      "To prevent accidental confidentiality breaches that occur outside of formal clinical settings.": "Prevenir violaciones accidentales de confidencialidad que ocurren fuera de contextos clínicos formales.",
+      "To balance cultural sensitivity with professional ethics when navigating gift-related situations.": "Equilibrar la sensibilidad cultural con la ética profesional al manejar situaciones relacionadas con regalos."
+    }
+  },
+  "skill_task_analysis_steps": {
+    "status": "reviewed",
+    "answer": "Identificar los pasos en un análisis de tareas",
+    "definition": "el RBT usa el análisis de tareas escrito para presentar ayudas y registrar el desempeño en cada paso individual de una habilidad compleja.",
+    "scenario": "El RBT sigue una lista detallada de pasos para enseñar una rutina y registra cuáles pasos el aprendiz completa de forma independiente y cuáles con ayuda.",
+    "purpose": "Para enseñar y medir cada componente de una habilidad compleja por separado.",
+    "explanation": "Registrar cada paso individualmente muestra qué partes de la cadena el aprendiz ya domina y cuáles aún requieren ayudas.",
+    "options_es": {
+      "Identifying steps in a task analysis": "Identificar los pasos en un análisis de tareas",
+      "Conditioned reinforcer": "Reforzador condicionado",
+      "Stimulus prompt fading": "Desvanecimiento de ayudas de estímulo",
+      "Introducing targets in discrimination training": "Introducir objetivos en entrenamiento de discriminación"
+    }
+  },
+  "skill_prompt_fading_criteria": {
+    "status": "reviewed",
+    "answer": "Criterios para desvanecer ayudas",
+    "definition": "las ayudas se reducen de forma sistemática según el desempeño del aprendiz y no por intuición ni por periodos fijos de tiempo.",
+    "scenario": "El RBT decide retirar gradualmente la ayuda solo cuando el aprendiz demuestra respuestas consistentes y exitosas en el nivel actual de apoyo.",
+    "purpose": "Para desvanecer las ayudas de forma sistemática según el desempeño del aprendiz.",
+    "explanation": "Un desvanecimiento basado en criterios asegura que el aprendiz esté listo para recibir menos apoyo antes de retirarlo, lo que reduce errores y frustración.",
+    "options_es": {
+      "To address multiple skill areas within one session efficiently.": "Abordar múltiples áreas de habilidad dentro de una misma sesión de forma eficiente.",
+      "To keep reinforcers motivating by preventing repeated exposure to a single consequence.": "Mantener motivadores los reforzadores evitando la exposición repetida a una sola consecuencia.",
+      "To create the physical conditions the SAP requires for effective instruction.": "Crear las condiciones físicas que el plan de adquisición de habilidades requiere para una enseñanza efectiva.",
+      "To fade prompts systematically based on the learner's performance rather than on guesswork or fixed time periods.": "Desvanecer las ayudas de manera sistemática según el desempeño del aprendiz, en lugar de hacerlo por intuición o por periodos fijos."
+    }
+  },
+  "skill_graduated_guidance": {
+    "status": "reviewed",
+    "answer": "Guía graduada",
+    "definition": "el RBT usa guía física y reduce gradualmente la cantidad de ayuda a medida que el aprendiz comienza a responder con más independencia.",
+    "scenario": "El RBT guía las manos del aprendiz durante una tarea de clasificación y va reduciendo la presión a medida que el aprendiz comienza a mover las manos hacia el contenedor correcto por sí mismo.",
+    "purpose": "Para ajustar continuamente el nivel de ayuda física durante habilidades motoras.",
+    "explanation": "La guía graduada es particularmente útil para habilidades motoras en las que la cantidad exacta de apoyo necesario cambia continuamente conforme el aprendiz progresa.",
+    "options_es": {
+      "Selecting a prompt hierarchy": "Seleccionar una jerarquía de ayudas",
+      "Stimulus generalization": "Generalización del estímulo",
+      "Graduated guidance": "Guía graduada",
+      "Stimulus preparation": "Preparación de estímulos"
+    }
+  },
+  "skill_stimulus_generalization": {
+    "status": "reviewed",
+    "answer": "Generalización del estímulo",
+    "definition": "el aprendizaje logrado con un estímulo o contexto se transfiere a otros estímulos relacionados.",
+    "scenario": "Un aprendiz que identifica correctamente una cuchara en una tarjeta también la identifica en la cocina, en diferentes colores y tamaños.",
+    "purpose": "Para describir cómo el aprendizaje en un contexto se transfiere a otros estímulos relacionados.",
+    "explanation": "La generalización del estímulo indica que el aprendiz adquirió un concepto y no solo una respuesta limitada a un solo estímulo. El objetivo principal es describir cómo el aprendizaje en un contexto puede transferirse a otros estímulos relacionados.",
+    "options_es": {
+      "To understand how different time delay procedures transfer stimulus control from the prompt to the natural SD.": "Comprender cómo distintos procedimientos de demora transfieren el control del estímulo desde la ayuda hacia el SD natural.",
+      "To guide consistent implementation of skill teaching.": "Guiar una implementación consistente de la enseñanza de habilidades.",
+      "To expand the types of reinforcers available during sessions and prepare the learner to be responsive to social reinforcement, which is more natural in everyday environments.": "Ampliar los tipos de reforzadores disponibles durante las sesiones y preparar al aprendiz para responder al reforzamiento social, que es más natural en la vida diaria.",
+      "To describe how learning in one context can transfer to other related stimuli.": "Describir cómo el aprendizaje en un contexto puede transferirse a otros estímulos relacionados."
+    }
+  },
+  "skill_discriminative_stimulus_sd": {
+    "status": "reviewed",
+    "answer": "Estímulo discriminativo (SD)",
+    "definition": "el SD señala al aprendiz qué respuesta producirá reforzamiento en ese momento.",
+    "scenario": "Cuando el RBT muestra una tarjeta con una imagen específica, el aprendiz responde correctamente porque aprendió que esa señal antecede al reforzamiento.",
+    "purpose": "Para señalar al aprendiz qué respuesta entrará en contacto con el reforzamiento.",
+    "explanation": "El SD establece la ocasión para responder; el aprendiz ha aprendido que, cuando el SD está presente, una respuesta específica produce reforzamiento.",
+    "options_es": {
+      "To teach and track each component of a multi-step skill separately.": "Enseñar y registrar cada componente de una habilidad de varios pasos por separado.",
+      "To signal to the learner which response will contact reinforcement.": "Señalar al aprendiz qué respuesta entrará en contacto con el reforzamiento.",
+      "To prevent frustration and loss of responding when a shaping step is too difficult.": "Prevenir frustración y pérdida de respuesta cuando un paso de moldeamiento es demasiado difícil.",
+      "To keep a learned skill strong after initial mastery.": "Mantener fuerte una habilidad aprendida después del dominio inicial."
+    }
+  },
+  "skill_stimulus_control_definition": {
+    "status": "reviewed",
+    "answer": "Control de estímulos",
+    "definition": "la respuesta del aprendiz ocurre de forma consistente en presencia del estímulo correcto y no ante estímulos irrelevantes.",
+    "scenario": "El aprendiz dice 'pelota' cuando se le muestra una pelota y no cuando se muestran otros objetos, lo que demuestra que la pelota controla la respuesta de tacto.",
+    "purpose": "Para asegurar que la respuesta ocurra bajo el estímulo correcto y no por azar.",
+    "explanation": "El control de estímulos es el objetivo del entrenamiento en discriminación: la respuesta del aprendiz queda bajo el control del estímulo adecuado y no del azar o de la posición.",
+    "options_es": {
+      "Comparing chaining methods": "Comparar métodos de encadenamiento",
+      "Stimulus control": "Control de estímulos",
+      "Session preparation": "Preparación de la sesión",
+      "Acquisition phase": "Fase de adquisición"
+    }
   }
 }

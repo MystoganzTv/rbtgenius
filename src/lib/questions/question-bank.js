@@ -2094,11 +2094,13 @@ let _conceptTranslationsEs = {};
 // Reverse lookup: English option text → Spanish translation
 let _answerToSpanish = {};
 let _purposeToSpanish = {};
+let _reviewedOptionLookup = {};
 
 export function setConceptTranslations(translations) {
   _conceptTranslationsEs = translations || {};
   _answerToSpanish = {};
   _purposeToSpanish = {};
+  _reviewedOptionLookup = {};
   for (const [conceptId, tr] of Object.entries(_conceptTranslationsEs)) {
     const concept = questionConceptLookup[conceptId];
     if (!concept) continue;
@@ -2106,6 +2108,11 @@ export function setConceptTranslations(translations) {
     if (!tr.status || tr.status === 'draft_machine') continue;
     if (tr.options_es?.answer) _answerToSpanish[concept.answer] = tr.options_es.answer;
     if (tr.options_es?.purpose) _purposeToSpanish[concept.purpose] = tr.options_es.purpose;
+    for (const [english, spanish] of Object.entries(tr.options_es || {})) {
+      if (english?.trim() && spanish?.trim()) {
+        _reviewedOptionLookup[english.trim()] = spanish.trim();
+      }
+    }
   }
 }
 
@@ -2118,7 +2125,7 @@ export function getConceptTranslationEs(conceptId) {
 }
 
 export function getSpanishForOptionText(englishText) {
-  return _answerToSpanish[englishText] || _purposeToSpanish[englishText] || null;
+  return _reviewedOptionLookup[englishText] || _answerToSpanish[englishText] || _purposeToSpanish[englishText] || null;
 }
 
 export const PRACTICE_TOPIC_TOTALS = rbtQuestions.reduce(
