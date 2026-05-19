@@ -5050,5 +5050,17 @@
       "Session preparation": "Preparación de la sesión",
       "Acquisition phase": "Fase de adquisición"
     }
+  },
+  "measurement": {
+    "status": "reviewed",
+    "answer": "Medición",
+    "definition": "el RBT recoge y registra datos de forma objetiva para describir con precisión la conducta y el progreso del aprendiz.",
+    "scenario": "Durante la sesión, el RBT cuenta respuestas, cronometra duraciones y anota datos claros para que el equipo pueda revisar el desempeño real.",
+    "purpose": "Para registrar la conducta y el progreso con datos objetivos y útiles para la toma de decisiones.",
+    "explanation": "La medición permite al equipo ver qué está ocurriendo realmente, detectar cambios y evaluar si la enseñanza o la intervención están funcionando.",
+    "options_es": {
+      "answer": "Medición",
+      "purpose": "Para registrar la conducta y el progreso con datos objetivos y útiles para la toma de decisiones."
+    }
   }
 }
