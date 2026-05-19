@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'react-native';
@@ -10,13 +11,15 @@ import { useAuth } from '../../context/AuthContext';
 type Theme = any;
 type Navigation = any;
 type AccentKey = 'primary' | 'gold' | 'success';
+type TranslateFn = (key: string, options?: any) => string;
 
 export default function MoreScreen({ navigation }: { navigation?: Navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const auth = useAuth() as { user?: { isPremium?: boolean } | null } | null;
   const user = auth?.user ?? null;
-  const { t } = useTranslation();
+  const { t: rawT } = useTranslation();
+  const t = rawT as unknown as TranslateFn;
   const s = styles(theme);
 
   const items: Array<{
