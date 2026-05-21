@@ -4,7 +4,9 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import * as AppleAuthentication from 'expo-apple-authentication';
+// expo-apple-authentication — optional (requires native build)
+let AppleAuthentication = null;
+try { AppleAuthentication = require('expo-apple-authentication'); } catch { /* no-op */ }
 
 // RevenueCat — optional (native module, won't be available in Expo Go)
 let _initRevenueCat = null;
@@ -167,6 +169,8 @@ export function AuthProvider({ children }) {
   };
 
   const loginWithApple = async () => {
+    if (!AppleAuthentication) throw new Error('Apple Sign In not available on this device');
+
     const credential = await AppleAuthentication.signInAsync({
       requestedScopes: [
         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,

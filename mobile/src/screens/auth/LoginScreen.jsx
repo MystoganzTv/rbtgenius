@@ -13,7 +13,9 @@ import {
   View,
 } from 'react-native';
 import { useColorScheme } from 'react-native';
-import * as AppleAuthentication from 'expo-apple-authentication';
+// expo-apple-authentication — optional (requires native build)
+let AppleAuthentication = null;
+try { AppleAuthentication = require('expo-apple-authentication'); } catch { /* no-op */ }
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
 
@@ -29,7 +31,9 @@ export default function LoginScreen({ navigation }) {
   const [appleAvailable, setAppleAvailable] = useState(false);
 
   useEffect(() => {
-    AppleAuthentication.isAvailableAsync().then(setAppleAvailable).catch(() => {});
+    if (AppleAuthentication?.isAvailableAsync) {
+      AppleAuthentication.isAvailableAsync().then(setAppleAvailable).catch(() => {});
+    }
   }, []);
 
   const handleLogin = async () => {
@@ -80,8 +84,8 @@ export default function LoginScreen({ navigation }) {
           <Text style={s.headline}>Welcome back</Text>
           <Text style={s.subline}>Sign in to continue your study session</Text>
 
-          {/* Apple Sign-In button — shown only when available (iOS 13+) */}
-          {appleAvailable && (
+          {/* Apple Sign-In button — shown only when native module available + iOS 13+ */}
+          {appleAvailable && AppleAuthentication && (
             <View style={[s.appleWrapper, appleLoading && { opacity: 0.7 }]} pointerEvents={appleLoading ? 'none' : 'auto'}>
               <AppleAuthentication.AppleAuthenticationButton
                 buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
