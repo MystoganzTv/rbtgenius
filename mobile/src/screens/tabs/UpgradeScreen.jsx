@@ -47,22 +47,49 @@ export default function UpgradeScreen({ navigation }) {
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user, token, refreshSession } = useAuth();
   const s = styles(theme);
-  const [planId,   setPlanId]   = useState('premium_yearly');
-  const [loading,  setLoading]  = useState(false);
-  const [offering, setOffering] = useState(null);
+  const [planId,          setPlanId]          = useState('premium_yearly');
+  const [loading,         setLoading]         = useState(false);
+  const [offering,        setOffering]        = useState(null);
+  const [offeringsLoading, setOfferingsLoading] = useState(rcAvailable);
+  const [offeringsFailed, setOfferingsFailed] = useState(false);
   const fade  = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(24)).current;
   const handlingReturnRef = useRef(false);
 
+  // Fetch offerings with retry (up to 3 attempts, 2s apart)
   useEffect(() => {
+    if (!rcAvailable) return;
+    let cancelled = false;
+
+    const fetchWithRetry = async () => {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const o = await getOfferings();
+          if (cancelled) return;
+          if (o && (o.availablePackages?.length ?? 0) > 0) {
+            setOffering(o);
+            setOfferingsLoading(false);
+            return;
+          }
+        } catch { /* retry */ }
+        if (attempt < 2) await new Promise(r => setTimeout(r, 2000));
+      }
+      if (!cancelled) {
+        setOfferingsLoading(false);
+        setOfferingsFailed(true);
+      }
+    };
+
     Animated.parallel([
       Animated.timing(fade,  { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.timing(slide, { toValue: 0, duration: 500, useNativeDriver: true }),
     ]).start();
-    if (rcAvailable) getOfferings().then(o => o && setOffering(o)).catch(() => {});
+
+    fetchWithRetry();
+    return () => { cancelled = true; };
   }, []);
 
-  const useRC = rcAvailable && offering !== null;
+  const useRC = rcAvailable && !offeringsLoading && offering !== null;
   const plans = useRC
     ? (offering?.availablePackages ?? []).map(pkg => ({
         id: pkg.identifier, label: pkg.packageType === 'MONTHLY' ? 'Monthly' : 'Yearly',
@@ -297,14 +324,28 @@ export default function UpgradeScreen({ navigation }) {
           })}
         </View>
 
+        {/* Offerings unavailable banner */}
+        {offeringsFailed && !useRC && (
+          <View style={s.unavailableBanner}>
+            <Text style={s.unavailableTxt}>
+              Subscriptions temporarily unavailable. Please try again later.
+            </Text>
+          </View>
+        )}
+
         {/* CTA */}
-        <Pressable style={[s.cta, loading && { opacity: 0.72 }]} onPress={handleUpgrade} disabled={loading}>
+        <Pressable
+          style={[s.cta, (loading || offeringsLoading) && { opacity: 0.72 }]}
+          onPress={handleUpgrade}
+          disabled={loading || offeringsLoading || (rcAvailable && offeringsFailed)}>
           {loading
             ? <ActivityIndicator color="#fff" />
-            : <>
-                <Text style={s.ctaTxt}>Start Pro — {sel?.price}{sel?.period}</Text>
-                <Text style={s.ctaSub}>{sel?.desc}</Text>
-              </>}
+            : offeringsLoading
+              ? <><Text style={s.ctaTxt}>Products loading...</Text><ActivityIndicator color="rgba(255,255,255,0.7)" size="small" /></>
+              : <>
+                  <Text style={s.ctaTxt}>Start Pro — {sel?.price}{sel?.period}</Text>
+                  <Text style={s.ctaSub}>{sel?.desc}</Text>
+                </>}
         </Pressable>
 
         {/* Trust + restore */}
@@ -365,6 +406,8 @@ const styles = (theme) => StyleSheet.create({
   planDesc:    { color: theme.muted, fontSize: 10, textAlign: 'center', lineHeight: 13 },
   activeDot:   { position: 'absolute', bottom: 8, width: 6, height: 6, borderRadius: 3, backgroundColor: theme.primary },
 
+  unavailableBanner: { marginHorizontal: 16, borderRadius: 14, paddingHorizontal: 16, paddingVertical: 12, backgroundColor: alpha('#D97706', 0.1), borderWidth: 1, borderColor: alpha('#D97706', 0.25) },
+  unavailableTxt: { color: '#D97706', fontSize: 13, fontWeight: '600', textAlign: 'center', lineHeight: 18 },
   cta:         { marginHorizontal: 16, borderRadius: 20, paddingVertical: 20, alignItems: 'center', gap: 3, backgroundColor: theme.primary, shadowColor: theme.primary, shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.38, shadowRadius: 20 },
   ctaTxt:      { color: '#fff', fontSize: 17, fontWeight: '900' },
   ctaSub:      { color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: '600' },

@@ -4,6 +4,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 // RevenueCat — optional (native module, won't be available in Expo Go)
 let _initRevenueCat = null;
@@ -165,6 +166,46 @@ export function AuthProvider({ children }) {
     hydrateDashboard(rawUser, t, setUser);
   };
 
+  const loginWithApple = async () => {
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+
+    const { identityToken, fullName, email, user: appleUserId } = credential;
+
+    if (!identityToken) throw new Error('No identity token from Apple');
+
+    const displayName = fullName
+      ? `${fullName.givenName ?? ''} ${fullName.familyName ?? ''}`.trim() || null
+      : null;
+
+    const res = await fetch(`${API_BASE}/api/auth/apple`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        identity_token: identityToken,
+        full_name: displayName,
+        email,
+        apple_user_id: appleUserId,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || 'Apple sign-in failed');
+
+    const { token: t, user: rawUser } = data;
+
+    await AsyncStorage.setItem(TOKEN_KEY, t);
+    setToken(t);
+    setUser(buildUser(rawUser));
+    maybeInitRC(rawUser.id);
+    hydrateDashboard(rawUser, t, setUser);
+  };
+
   const loginWithGoogle = async () => {
     try {
       const userInfo = await GoogleSignin.signIn();
@@ -304,6 +345,7 @@ export function AuthProvider({ children }) {
         loading,
         login,
         register,
+        loginWithApple,
         loginWithGoogle,
         logout,
         refreshDashboard,

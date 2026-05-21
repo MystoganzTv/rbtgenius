@@ -34,7 +34,8 @@
     "react-native-purchases": "^10.0.2",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.23.0",
-    "react-native-web": "^0.21.0"
+    "react-native-web": "^0.21.0",
+    "expo-apple-authentication": "~7.2.3"
   },
   "devDependencies": {
     "@types/react": "~19.2.10",

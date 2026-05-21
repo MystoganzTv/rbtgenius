@@ -14,6 +14,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.rbtgenius.app",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleURLTypes": [
@@ -46,6 +47,7 @@
           "sounds": []
         }
       ],
+      "expo-apple-authentication",
       "expo-font",
       [
         "@react-native-google-signin/google-signin",

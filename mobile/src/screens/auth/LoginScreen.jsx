@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -13,17 +13,24 @@ import {
   View,
 } from 'react-native';
 import { useColorScheme } from 'react-native';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
 
 export default function LoginScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithApple, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleAvailable, setAppleAvailable] = useState(false);
+
+  useEffect(() => {
+    AppleAuthentication.isAvailableAsync().then(setAppleAvailable).catch(() => {});
+  }, []);
 
   const handleLogin = async () => {
     if (!email.trim() || !password) {
@@ -34,6 +41,18 @@ export default function LoginScreen({ navigation }) {
     try { await login(email.trim().toLowerCase(), password); }
     catch (err) { Alert.alert('Login failed', err.message ?? 'Check your credentials.'); }
     finally { setLoading(false); }
+  };
+
+  const handleAppleLogin = async () => {
+    setAppleLoading(true);
+    try {
+      await loginWithApple();
+    } catch (err) {
+      if (err?.code === 'ERR_REQUEST_CANCELED') return; // user dismissed
+      Alert.alert('Apple Sign-In failed', err.message ?? 'Try again.');
+    } finally {
+      setAppleLoading(false);
+    }
   };
 
   const handleGoogleLogin = async () => {
@@ -60,6 +79,21 @@ export default function LoginScreen({ navigation }) {
 
           <Text style={s.headline}>Welcome back</Text>
           <Text style={s.subline}>Sign in to continue your study session</Text>
+
+          {/* Apple Sign-In button — shown only when available (iOS 13+) */}
+          {appleAvailable && (
+            <View style={[s.appleWrapper, appleLoading && { opacity: 0.7 }]} pointerEvents={appleLoading ? 'none' : 'auto'}>
+              <AppleAuthentication.AppleAuthenticationButton
+                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                buttonStyle={scheme === 'dark'
+                  ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
+                  : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                cornerRadius={18}
+                style={s.appleBtn}
+                onPress={handleAppleLogin}
+              />
+            </View>
+          )}
 
           {/* Native Google Sign-In button */}
           <Pressable
@@ -144,6 +178,8 @@ const styles = (theme) => StyleSheet.create({
   brandName: { color: theme.text, fontSize: 22, fontWeight: '800' },
   headline: { color: theme.text, fontSize: 32, fontWeight: '900', marginBottom: 4 },
   subline: { color: theme.muted, fontSize: 16, lineHeight: 24, marginBottom: 24 },
+  appleWrapper: { marginBottom: 4 },
+  appleBtn: { width: '100%', height: 56 },
   googleBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12,
     backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1.5,
