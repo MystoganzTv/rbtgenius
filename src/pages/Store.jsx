@@ -25,10 +25,10 @@ import { formatStorePrice, isStoreProductAvailable } from '@/lib/store-catalog';
 import { createPageUrl } from '@/utils';
 
 const CATEGORY_META = {
-  all: { label: 'Todos', icon: ShoppingBag },
-  'Daily Tools': { label: 'Herramientas', icon: Package },
-  'Study Books': { label: 'Libros', icon: BookOpen },
-  'Study Aids': { label: 'Estudio', icon: Sparkles },
+  all: { label: 'All', icon: ShoppingBag },
+  'Daily Tools': { label: 'Tools', icon: Package },
+  'Study Books': { label: 'Books', icon: BookOpen },
+  'Study Aids': { label: 'Study Aids', icon: Sparkles },
   Bundles: { label: 'Bundles', icon: Boxes },
 };
 
@@ -36,17 +36,17 @@ const PRODUCT_PRESENTATION = {
   'rbt-session-clipboard-kit': {
     badge: 'Popular',
     summary:
-      'Clipboard con checklist, notas de sesión y prompts para recolección de datos. Todo listo para tu día a día.',
-    tags: ['Checklist incluido', 'Formato diario', 'Portátil'],
+      'Clipboard with checklist, session notes, and data collection prompts. Ready for your daily sessions.',
+    tags: ['Checklist included', 'Daily format', 'Portable'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
     image: '/1.png',
   },
   'reinforcer-pouch-essentials': {
-    badge: 'Nuevo',
+    badge: 'New',
     summary:
-      'Bolsa compacta con tokens, visuales, timer y mini herramientas para cada sesión terapéutica.',
-    tags: ['Tokens incluidos', 'Compacta', 'Fácil de llevar'],
+      'Compact pouch with tokens, visuals, timer, and mini tools for every therapy session.',
+    tags: ['Tokens included', 'Compact', 'Easy to carry'],
     gradient: 'from-rose-50 via-white to-sky-50',
     accent: 'bg-[#4F7CFF]',
     image: '/2.png',
@@ -54,17 +54,17 @@ const PRODUCT_PRESENTATION = {
   'rbt-rapid-review-book': {
     badge: 'Popular',
     summary:
-      'Libro de repaso enfocado en conceptos clave del RBT con explicaciones claras y prompts de estudio.',
-    tags: ['Conceptos clave', 'Bilingüe', 'Explicaciones claras'],
+      'Review book focused on key RBT concepts with clear explanations and study prompts.',
+    tags: ['Key concepts', 'Bilingual', 'Clear explanations'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
     image: '/3.png',
   },
   'mock-exam-workbook': {
-    badge: 'Nuevo',
+    badge: 'New',
     summary:
-      'Cuaderno de práctica con exámenes simulados, revisión de respuestas y ejercicios de confianza.',
-    tags: ['Exámenes simulados', 'Notas de revisión', 'Prep completa'],
+      'Practice workbook with mock exams, answer reviews, and confidence-building exercises.',
+    tags: ['Mock exams', 'Review notes', 'Full prep'],
     gradient: 'from-indigo-50 via-white to-slate-100',
     accent: 'bg-[#4F7CFF]',
     image: '/4.png',
@@ -72,17 +72,17 @@ const PRODUCT_PRESENTATION = {
   'visual-study-card-bundle': {
     badge: 'Popular',
     summary:
-      'Tarjetas de memoria con conceptos clave y ayudas visuales para memorizar más rápido antes del examen.',
-    tags: ['170+ tarjetas', 'Memorización rápida', 'Repaso final'],
+      'Flashcards with key concepts and visual aids to memorize faster before the exam.',
+    tags: ['170+ cards', 'Quick memorization', 'Final review'],
     gradient: 'from-sky-50 via-white to-slate-100',
     accent: 'bg-[#F59E0B]',
     image: '/5.png',
   },
   'rbt-starter-study-pack': {
-    badge: 'Oferta',
+    badge: 'Bundle Deal',
     summary:
-      'Bundle completo que combina herramientas prácticas y material de estudio en un solo paquete con descuento.',
-    tags: ['Todo incluido', 'Para principiantes', 'Ahorra $13'],
+      'Complete bundle combining practical tools and study materials in one discounted package.',
+    tags: ['All included', 'For beginners', 'Save $13'],
     compareAt: 5500,
     gradient: 'from-emerald-50 via-white to-sky-50',
     accent: 'bg-[#34C38F]',
@@ -243,7 +243,7 @@ export default function Store() {
               <Button
                 variant='outline'
                 className='rounded-xl px-3 text-sm sm:px-4 sm:text-base'>
-                {isAuthenticated ? 'Dashboard' : 'Volver al inicio'}
+                {isAuthenticated ? 'Dashboard' : 'Back to Home'}
               </Button>
             </Link>
           </div>
@@ -258,10 +258,10 @@ export default function Store() {
               RBT Store
             </div>
             <h1 className='mt-5 max-w-4xl font-jakarta text-4xl font-black leading-[1.05] text-slate-900 dark:text-slate-50 sm:text-5xl lg:text-[5rem]'>
-              Todo lo que necesitas{' '}
+              Everything you need{' '}
               <span className='relative inline-block pb-3'>
                 <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400'>
-                  para tu carrera RBT.
+                  for your RBT career.
                 </span>
                 <svg className='absolute -bottom-1 left-0 w-full' viewBox='0 0 300 12' fill='none'>
                   <path d='M2 9 Q75 2 150 7 Q225 12 298 5' stroke='url(#gStore)' strokeWidth='3' strokeLinecap='round' fill='none'/>
@@ -275,15 +275,15 @@ export default function Store() {
               </span>
             </h1>
             <p className='mt-5 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xl'>
-              Herramientas, libros y bundles diseñados para RBTs — explora el catálogo ahora y volveremos a abrir pedidos cuando tengamos restock.
+              Tools, books, and bundles designed for RBTs — browse the catalog and check back when we restock.
             </p>
 
             <div className='mt-7 flex flex-wrap gap-3'>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Catálogo listo para restock
+                <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Catalog ready for restock
               </div>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
-                <ShoppingBag className='h-4 w-4 text-[#4F7CFF]' /> Compra abierta cuando vuelva el inventario
+                <ShoppingBag className='h-4 w-4 text-[#4F7CFF]' /> Orders open when inventory returns
               </div>
             </div>
           </div>
@@ -295,29 +295,28 @@ export default function Store() {
             <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-9'>
               <div>
                 <div className='inline-flex items-center gap-2 rounded-full border border-[#4F7CFF]/14 bg-[#4F7CFF]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/10 dark:text-[#A8BEFF]'>
-                  <BadgePercent className='h-4 w-4' /> Oferta Especial
+                  <BadgePercent className='h-4 w-4' /> Special Offer
                 </div>
                 <h2 className='mt-4 text-3xl font-black leading-tight text-slate-900 dark:text-slate-50 sm:text-4xl'>
-                  Ahorra con nuestros Bundles
+                  Save with our Bundles
                 </h2>
                 <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#D1DBF1] sm:text-lg'>
-                  Combina libros, tarjetas de estudio y herramientas diarias en
-                  un solo paquete con descuento. Perfecto para quienes empiezan
-                  su camino como RBT.
+                  Combine books, flashcards, and daily tools in one discounted
+                  package. Perfect for those starting their journey as an RBT.
                 </p>
                 <p className='mt-3 text-sm font-medium text-slate-500 dark:text-[#9FB0CE]'>
-                  Ahora mismo este bundle está agotado. Cuando tengamos restock, volverá a estar a la venta.
+                  This bundle is currently out of stock. It will be available again when we restock.
                 </p>
                 <div className='mt-6 flex flex-wrap items-center gap-4'>
                   <Button
                     className='rounded-2xl bg-[#1E5EFF] px-6 py-6 text-base font-semibold shadow-[0_20px_40px_-24px_rgba(30,94,255,0.75)] hover:bg-[#1E5EFF]/90'
                     onClick={() => handleCategorySelect('Bundles')}>
-                    Ver Bundles <ArrowRight className='ml-2 h-4 w-4' />
+                    View Bundles <ArrowRight className='ml-2 h-4 w-4' />
                   </Button>
                   <div className='text-sm text-slate-500 dark:text-[#A8B7D4]'>
                     {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
                       <>
-                        Antes{' '}
+                        Was{' '}
                         <span className='line-through'>
                           {formatStorePrice(
                             PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
@@ -325,7 +324,7 @@ export default function Store() {
                         </span>
                       </>
                     ) : (
-                      <>Restock próximamente</>
+                      <>Restock coming soon</>
                     )}
                   </div>
                 </div>
@@ -338,7 +337,7 @@ export default function Store() {
                 </div>
                 <div className='relative flex items-center justify-between gap-3'>
                   <p className='text-xs font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-[#8EA3D1]'>
-                    Producto destacado
+                    Featured Product
                   </p>
                   <div className='rounded-full border border-[#4F7CFF]/18 bg-[#4F7CFF]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#315EDC] dark:border-[#5D86FF]/20 dark:bg-[#4F7CFF]/12 dark:text-[#B6C7FF]'>
                     Bundle
@@ -372,7 +371,7 @@ export default function Store() {
                             )}
                           </span>
                           <span className='rounded-full border border-[#4F7CFF]/16 bg-[#4F7CFF]/8 px-3 py-1 text-xs font-semibold text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/12 dark:text-[#AFC2FF]'>
-                            Ahorra {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt - bundleProduct.price_cents)}
+                            Save {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt - bundleProduct.price_cents)}
                           </span>
                         </>
                       ) : null}
@@ -395,10 +394,10 @@ export default function Store() {
           <div className='flex flex-col gap-5 rounded-[2rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_26px_80px_-50px_rgba(15,23,42,0.22)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] lg:flex-row lg:items-center lg:justify-between lg:px-6'>
             <div>
               <h2 className='text-3xl font-black text-slate-900 dark:text-slate-50 sm:text-[2.6rem]'>
-                Nuestros Productos
+                Our Products
               </h2>
               <p className='mt-2 text-base text-slate-500 dark:text-slate-300'>
-                {filteredProducts.length} productos en catálogo
+                {filteredProducts.length} products in catalog
               </p>
             </div>
             <div className='flex flex-wrap gap-3'>
@@ -461,7 +460,7 @@ export default function Store() {
                     </h3>
                     {!isAvailable ? (
                       <div className='mt-3 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-amber-700 dark:border-amber-400/15 dark:bg-amber-400/10 dark:text-amber-200'>
-                        Agotado
+                        Out of Stock
                       </div>
                     ) : null}
                     <p className='mt-3 text-[1.02rem] leading-8 text-slate-500 dark:text-slate-300'>
@@ -480,7 +479,7 @@ export default function Store() {
 
                     {!isAvailable ? (
                       <p className='mt-4 text-sm leading-6 text-slate-500 dark:text-slate-300'>
-                        No hay inventario en este momento. Lo pondremos a la venta en cuanto tengamos restock.
+                        Currently out of stock. We'll make it available again when we restock.
                       </p>
                     ) : null}
 
@@ -513,9 +512,9 @@ export default function Store() {
                           {isLoadingThis ? (
                             <Loader2 className='h-4 w-4 animate-spin' />
                           ) : isAvailable ? (
-                            'Comprar'
+                            'Buy Now'
                           ) : (
-                            'Sin inventario'
+                            'Out of Stock'
                           )}
                         </Button>
                       </div>

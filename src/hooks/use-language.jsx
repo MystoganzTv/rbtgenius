@@ -15,8 +15,8 @@ function resolveInitialLanguage() {
     return saved;
   }
 
-  const browserLanguage = window.navigator?.language?.toLowerCase?.() || "";
-  return browserLanguage.startsWith("es") ? "es" : DEFAULT_LANGUAGE;
+  // Always default to English — no browser language auto-detection
+  return DEFAULT_LANGUAGE;
 }
 
 export function LanguageProvider({ children }) {
