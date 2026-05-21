@@ -1,0 +1,16 @@
+body {
+  background:
+    radial-gradient(circle at top, rgba(52, 140, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+  color: hsl(var(--foreground));
+  transition:
+    background 200ms ease,
+    color 200ms ease;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.2), transparent 28%),
+    radial-gradient(circle at 82% 12%, rgba(14, 165, 233, 0.12), transparent 24%),
+    linear-gradient(180deg, #081121 0%, #0b1426 100%);
+}

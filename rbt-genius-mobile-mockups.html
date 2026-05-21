@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBT Genius — Mobile Screens v1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:      #FFFFFF;
+  --off-white:  #F8FAFF;
+  --bg:         #EEF2F9;
+  --bg-2:       #E2E8F4;
+  --ink:        #0F172A;
+  --ink-2:      #334155;
+  --ink-3:      #64748B;
+  --ink-4:      #94A3B8;
+  --border:     #DDE3EF;
+  --border-2:   #C8D2E6;
+
+  --blue:       #1E5EFF;
+  --blue-dk:    #1347CC;
+  --blue-lt:    #EEF3FF;
+  --blue-mid:   #5B8BFF;
+  --green:      #22C55E;
+  --green-lt:   #DCFCE7;
+  --red:        #EF4444;
+  --red-lt:     #FEE2E2;
+  --gold:       #F59E0B;
+  --gold-lt:    #FEF3C7;
+  --purple:     #8B5CF6;
+  --purple-lt:  #EDE9FE;
+
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(circle, var(--border-2) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.45;
+}
+
+/* ── TOP NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(238,242,249,0.93);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 17px; font-weight: 800;
+  color: var(--ink); letter-spacing: -0.5px;
+}
+.nav-mark {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--blue); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 900; letter-spacing: -0.5px;
+}
+.nav-mark span { color: white; }
+.nav-tabs { display: flex; gap: 2px; }
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+  color: var(--ink-3); padding: 7px 14px; border-radius: 8px;
+  transition: all 0.15s;
+}
+.nav-btn:hover { color: var(--ink); background: var(--bg-2); }
+.nav-btn.on { color: var(--blue); background: var(--blue-lt); }
+.nav-pill {
+  font-family: var(--mono); font-size: 10px;
+  background: var(--ink); color: white;
+  padding: 4px 12px; border-radius: 20px; letter-spacing: 0.3px;
+}
+
+/* ── CANVAS ── */
+.canvas {
+  position: relative; z-index: 1;
+  padding: 56px 40px 80px;
+  max-width: 1500px; margin: 0 auto;
+}
+
+/* ── SECTION HEADER ── */
+.sec-hdr { margin-bottom: 48px; }
+.sec-eye {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 10px; display: block;
+}
+.sec-title {
+  font-size: clamp(30px, 3.5vw, 48px);
+  font-weight: 900; line-height: 1.08;
+  color: var(--ink); letter-spacing: -1px;
+}
+.sec-sub {
+  font-size: 15px; color: var(--ink-3);
+  margin-top: 10px; font-weight: 400;
+  max-width: 480px; line-height: 1.65;
+}
+
+/* ── SECTION VISIBILITY ── */
+.gs { display: none; }
+.gs.on { display: block; }
+
+/* ── PHONES ROW ── */
+.phones-row {
+  display: flex; gap: 32px; align-items: flex-start;
+  overflow-x: auto; padding-bottom: 16px;
+  scrollbar-width: thin; scrollbar-color: var(--border-2) transparent;
+}
+.phones-row::-webkit-scrollbar { height: 3px; }
+.phones-row::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+
+/* ── PHONE FRAME ── */
+.phone-wrap {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.phone-lbl {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ink-4); text-align: center;
+}
+.phone {
+  width: 318px;
+  background: #111827;
+  border-radius: 52px;
+  padding: 14px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.1),
+    0 28px 64px rgba(0,0,0,0.22),
+    0 8px 20px rgba(0,0,0,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.07);
+  position: relative;
+}
+/* Dynamic Island */
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 18px; left: 50%; transform: translateX(-50%);
+  width: 100px; height: 30px;
+  background: #111827;
+  border-radius: 20px;
+  z-index: 10;
+}
+.phone-inner {
+  width: 100%; border-radius: 38px;
+  overflow: hidden; background: var(--off-white);
+  min-height: 668px;
+  display: flex; flex-direction: column;
+}
+.phone-inner.dark { background: #0b1120; }
+
+/* ── STATUS BAR ── */
+.sbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px 8px;
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--ink); flex-shrink: 0;
+}
+.phone-inner.dark .sbar { color: #f1f5f9; }
+.sbar-r { display: flex; align-items: center; gap: 5px; font-size: 10px; }
+.sbar-dot { width: 5px; height: 5px; background: currentColor; border-radius: 50%; opacity: 0.7; }
+.sbar-batt {
+  display: flex; align-items: center; gap: 2px;
+  width: 22px; height: 11px;
+  border: 1.5px solid currentColor; border-radius: 3px; opacity: 0.7;
+  position: relative; padding: 1.5px;
+}
+.sbar-batt::after {
+  content: '';
+  position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
+  width: 2px; height: 5px; background: currentColor; border-radius: 1px; opacity: 0.7;
+}
+.sbar-fill { flex: 1; background: currentColor; border-radius: 1px; }
+
+/* ── SCROLL CONTENT ── */
+.scroll-content {
+  flex: 1; overflow-y: auto; scrollbar-width: none;
+}
+.scroll-content::-webkit-scrollbar { display: none; }
+
+/* ── BOTTOM NAV ── */
+.bnav {
+  display: flex; background: rgba(255,255,255,0.96);
+  border-top: 1px solid var(--border);
+  padding: 8px 6px 22px; flex-shrink: 0;
+  margin-top: auto;
+}
+.phone-inner.dark .bnav {
+  background: rgba(11,17,32,0.96);
+  border-top-color: #1e2d48;
+}
+.bni {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; cursor: pointer;
+  font-size: 9.5px; font-weight: 600; color: var(--ink-4);
+}
+.bni.on { color: var(--blue); }
+.phone-inner.dark .bni { color: #475569; }
+.phone-inner.dark .bni.on { color: var(--blue-mid); }
+.bni-icon-wrap {
+  width: 44px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 14px;
+}
+.bni.on .bni-icon-wrap { background: var(--blue-lt); }
+.phone-inner.dark .bni.on .bni-icon-wrap { background: rgba(30,94,255,0.15); }
+
+/* ── PAGE HEADER ── */
+.page-hdr {
+  padding: 6px 20px 10px;
+}
+.page-hdr-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.page-title { font-size: 22px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
+.page-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.phone-inner.dark .page-title { color: #f1f5f9; }
+.phone-inner.dark .page-sub { color: #64748b; }
+
+/* ── AVATAR ── */
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: white; flex-shrink: 0;
+}
+
+/* ── READINESS CARD ── */
+.readiness-card {
+  margin: 0 16px 12px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--blue) 0%, #0a3acc 100%);
+  padding: 20px;
+  position: relative; overflow: hidden;
+}
+.readiness-card::before {
+  content: '';
+  position: absolute;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  top: -50px; right: -40px;
+}
+.readiness-card::after {
+  content: '';
+  position: absolute;
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  bottom: -30px; left: 60px;
+}
+.rc-label { font-size: 11px; color: rgba(255,255,255,0.65); font-weight: 600; letter-spacing: 0.3px; }
+.rc-score { font-size: 52px; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; margin: 6px 0 2px; }
+.rc-sub { font-size: 11px; color: rgba(255,255,255,0.6); }
+.rc-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.rc-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 11px; color: white; font-weight: 600;
+}
+.rc-streak-dot { width: 7px; height: 7px; background: #FFD60A; border-radius: 50%; flex-shrink: 0; }
+.rc-badge {
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 11px; color: white; font-weight: 600;
+}
+
+/* ── STAT CHIPS ── */
+.stat-row { display: flex; gap: 8px; padding: 0 16px 12px; }
+.stat-chip {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 10px 8px;
+}
+.phone-inner.dark .stat-chip { background: #131f35; border-color: #1e2d48; }
+.stat-chip-val { font-size: 18px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
+.phone-inner.dark .stat-chip-val { color: #f1f5f9; }
+.stat-chip-lbl { font-size: 9.5px; color: var(--ink-3); font-weight: 500; margin-top: 2px; }
+
+/* ── SECTION LABEL ── */
+.slbl {
+  font-size: 12px; font-weight: 700; color: var(--ink);
+  padding: 4px 16px 8px; display: block;
+  letter-spacing: -0.2px;
+}
+.phone-inner.dark .slbl { color: #f1f5f9; }
+
+/* ── DOMAIN BARS ── */
+.domain-list { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
+.domain-row { display: flex; align-items: center; gap: 8px; }
+.domain-name { font-size: 11px; color: var(--ink-2); width: 88px; flex-shrink: 0; font-weight: 500; }
+.phone-inner.dark .domain-name { color: #94a3b8; }
+.domain-bar-bg { flex: 1; height: 6px; background: var(--bg-2); border-radius: 3px; overflow: hidden; }
+.phone-inner.dark .domain-bar-bg { background: #1e2d48; }
+.domain-bar-fill { height: 100%; border-radius: 3px; background: var(--blue); }
+.domain-pct { font-size: 11px; font-weight: 700; color: var(--blue); width: 30px; text-align: right; }
+
+/* ── QUICK ACTIONS ── */
+.quick-grid { display: flex; gap: 8px; padding: 0 16px 12px; }
+.qa-card {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.phone-inner.dark .qa-card { background: #131f35; border-color: #1e2d48; }
+.qa-icon {
+  width: 32px; height: 32px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; margin-bottom: 3px;
+}
+.qa-title { font-size: 11px; font-weight: 700; color: var(--ink); }
+.qa-sub { font-size: 9.5px; color: var(--ink-3); line-height: 1.3; }
+.phone-inner.dark .qa-title { color: #f1f5f9; }
+
+/* ── PRACTICE HEADER ── */
+.prac-hdr {
+  padding: 6px 20px 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.back-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--ink-2); flex-shrink: 0;
+  font-weight: 300; line-height: 1;
+}
+.phone-inner.dark .back-btn { background: #1e2d48; border-color: #293d5c; color: #94a3b8; }
+.prac-title { font-size: 15px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+.phone-inner.dark .prac-title { color: #f1f5f9; }
+
+/* ── PROGRESS BAR ── */
+.prog-wrap { padding: 0 20px 12px; }
+.prog-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+.prog-label { font-size: 10.5px; color: var(--ink-3); font-weight: 500; }
+.prog-count { font-size: 10.5px; color: var(--blue); font-weight: 700; }
+.prog-bg { height: 5px; background: var(--bg-2); border-radius: 3px; overflow: hidden; }
+.phone-inner.dark .prog-bg { background: #1e2d48; }
+.prog-fill { height: 100%; border-radius: 3px; background: var(--blue); }
+
+/* ── QUESTION CARD ── */
+.q-card {
+  margin: 0 16px 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+}
+.phone-inner.dark .q-card { background: #131f35; border-color: #1e2d48; }
+.q-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.q-tag {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 20px;
+  letter-spacing: 0.2px;
+}
+.tag-blue { background: var(--blue-lt); color: var(--blue); }
+.tag-purple { background: var(--purple-lt); color: var(--purple); }
+.tag-green { background: var(--green-lt); color: #16a34a; }
+.q-text { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+.phone-inner.dark .q-text { color: #e2e8f0; }
+
+/* ── OPTIONS ── */
+.options { padding: 0 16px; display: flex; flex-direction: column; gap: 7px; }
+.opt {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 11px 13px;
+  display: flex; align-items: center; gap: 10px;
+}
+.phone-inner.dark .opt { background: #131f35; border-color: #1e2d48; }
+.opt.correct { background: var(--green-lt); border-color: #86efac; }
+.opt.wrong { background: var(--red-lt); border-color: #fca5a5; }
+.opt.selected { border-color: var(--blue); background: var(--blue-lt); }
+.opt-letter {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg-2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--ink-2);
+}
+.opt.correct .opt-letter { background: #22c55e; color: white; }
+.opt.wrong .opt-letter { background: #ef4444; color: white; }
+.opt.selected .opt-letter { background: var(--blue); color: white; }
+.phone-inner.dark .opt-letter { background: #1e2d48; color: #94a3b8; }
+.opt-text { font-size: 12px; font-weight: 500; color: var(--ink); line-height: 1.35; }
+.phone-inner.dark .opt-text { color: #e2e8f0; }
+.opt.correct .opt-text { color: #166534; font-weight: 600; }
+.opt.wrong .opt-text { color: #991b1b; }
+.opt.selected .opt-text { color: var(--blue-dk); font-weight: 600; }
+
+/* ── EXPLANATION BOX ── */
+.exp-box {
+  margin: 10px 16px 0;
+  background: #f0fdf4; border: 1px solid #86efac;
+  border-radius: 14px; padding: 12px 14px;
+}
+.exp-box.wrong-exp { background: #fff7ed; border-color: #fed7aa; }
+.exp-head { font-size: 11px; font-weight: 800; color: #166534; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.exp-box.wrong-exp .exp-head { color: #92400e; }
+.exp-text { font-size: 10.5px; color: #15803d; line-height: 1.5; }
+.exp-box.wrong-exp .exp-text { color: #78350f; }
+
+/* ── CTA BUTTON ── */
+.cta-btn {
+  margin: 12px 16px 0;
+  background: var(--blue);
+  border-radius: 16px; padding: 14px;
+  text-align: center;
+  font-size: 13px; font-weight: 800; color: white; letter-spacing: -0.2px;
+}
+.cta-btn.outline {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--ink-2);
+}
+
+/* ── MOCK EXAM HEADER ── */
+.exam-hdr {
+  padding: 6px 16px 10px;
+}
+.exam-timer-row {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+}
+.timer-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 20px; padding: 5px 12px;
+}
+.timer-dot { width: 6px; height: 6px; border-radius: 50%; background: #f97316; }
+.timer-val { font-family: var(--mono); font-size: 13px; font-weight: 600; color: #ea580c; }
+.exam-prog-label { font-size: 10.5px; color: var(--ink-3); font-weight: 500; }
+.exam-q-count { font-size: 13px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+.phone-inner.dark .exam-q-count { color: #f1f5f9; }
+.exam-prog-bg { height: 5px; background: var(--bg-2); border-radius: 3px; overflow: hidden; }
+.phone-inner.dark .exam-prog-bg { background: #1e2d48; }
+.exam-prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--blue-mid)); }
+
+/* ── FLASHCARD ── */
+.flash-area { padding: 12px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.flash-meta { display: flex; align-items: center; justify-content: space-between; }
+.flash-counter { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.flash-domain { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--blue-lt); color: var(--blue); }
+.flashcard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px;
+  flex: 1;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.phone-inner.dark .flashcard { background: #131f35; border-color: #1e2d48; }
+.flashcard::before {
+  content: '';
+  position: absolute;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: var(--blue-lt);
+  top: -40px; right: -30px;
+}
+.phone-inner.dark .flashcard::before { background: rgba(30,94,255,0.08); }
+.fc-side-label {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: 14px;
+}
+.phone-inner.dark .fc-side-label { color: #475569; }
+.fc-term { font-size: 20px; font-weight: 900; color: var(--ink); line-height: 1.2; letter-spacing: -0.5px; }
+.phone-inner.dark .fc-term { color: #f1f5f9; }
+.fc-definition { font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-top: 10px; }
+.phone-inner.dark .fc-definition { color: #94a3b8; }
+.fc-tap-hint { margin-top: auto; font-size: 10.5px; color: var(--ink-4); text-align: center; padding-top: 12px; }
+.flash-actions { display: flex; gap: 8px; }
+.flash-btn {
+  flex: 1; border-radius: 14px; padding: 11px;
+  text-align: center; font-size: 12px; font-weight: 700;
+  border: 1.5px solid var(--border); color: var(--ink-2);
+  background: white;
+}
+.phone-inner.dark .flash-btn { background: #131f35; border-color: #1e2d48; color: #94a3b8; }
+.flash-btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
+
+/* ── ONBOARDING ── */
+.onboard-hero {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px 24px 8px; text-align: center;
+}
+.ob-mark {
+  width: 72px; height: 72px; border-radius: 22px;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 22px; position: relative;
+}
+.ob-mark::after {
+  content: ''; position: absolute;
+  inset: -6px; border-radius: 28px;
+  border: 2px solid var(--blue-lt);
+}
+.ob-mark-text { font-size: 26px; font-weight: 900; color: white; letter-spacing: -1px; }
+.ob-heading { font-size: 26px; font-weight: 900; color: var(--ink); line-height: 1.15; letter-spacing: -0.8px; }
+.ob-sub { font-size: 13px; color: var(--ink-3); line-height: 1.6; margin-top: 10px; max-width: 220px; }
+.ob-dots { display: flex; gap: 6px; margin-top: 20px; }
+.ob-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-2); }
+.ob-dot.on { width: 20px; border-radius: 3px; background: var(--blue); }
+.ob-bottom { padding: 16px 20px 22px; }
+.ob-cta {
+  background: var(--blue); border-radius: 16px; padding: 15px;
+  text-align: center; font-size: 14px; font-weight: 800; color: white;
+  letter-spacing: -0.3px; margin-bottom: 10px;
+}
+.ob-skip { text-align: center; font-size: 12px; color: var(--ink-4); font-weight: 500; }
+
+/* ── ANALYTICS ── */
+.analytics-card {
+  margin: 0 16px 10px;
+  background: white; border: 1px solid var(--border);
+  border-radius: 18px; padding: 14px;
+}
+.phone-inner.dark .analytics-card { background: #131f35; border-color: #1e2d48; }
+.an-title { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.2px; }
+.phone-inner.dark .an-title { color: #f1f5f9; }
+.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 70px; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.bar-fill {
+  width: 100%; border-radius: 5px 5px 0 0;
+  background: var(--blue-lt);
+  position: relative;
+  transition: height 0.3s;
+}
+.bar-fill.highlight { background: var(--blue); }
+.bar-day { font-size: 8.5px; color: var(--ink-4); font-weight: 500; }
+.an-stat-row { display: flex; gap: 8px; margin-top: 8px; }
+.an-stat {
+  flex: 1; background: var(--bg); border-radius: 10px; padding: 8px 10px;
+}
+.phone-inner.dark .an-stat { background: #0b1120; }
+.an-stat-val { font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
+.phone-inner.dark .an-stat-val { color: #f1f5f9; }
+.an-stat-lbl { font-size: 9.5px; color: var(--ink-3); margin-top: 1px; }
+.an-stat-badge {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 20px; margin-left: 4px;
+}
+.badge-green { background: var(--green-lt); color: #16a34a; }
+.badge-red { background: var(--red-lt); color: #dc2626; }
+
+/* ── SVG ICONS ── */
+svg { display: block; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-mark">RG</div>
+    RBT Genius
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-btn on" onclick="showSection('onboarding', this)">Onboarding</button>
+    <button class="nav-btn" onclick="showSection('home', this)">Dashboard</button>
+    <button class="nav-btn" onclick="showSection('practice', this)">Practice</button>
+    <button class="nav-btn" onclick="showSection('exam', this)">Mock Exam</button>
+    <button class="nav-btn" onclick="showSection('flashcards', this)">Flashcards</button>
+    <button class="nav-btn" onclick="showSection('analytics', this)">Analytics</button>
+  </div>
+  <div class="nav-pill">v1 · iOS</div>
+</nav>
+
+<div class="canvas">
+
+  <!-- ═══════════════════ ONBOARDING ═══════════════════ -->
+  <div id="onboarding" class="gs on">
+    <div class="sec-hdr">
+      <span class="sec-eye">01 — Onboarding</span>
+      <div class="sec-title">First impression counts</div>
+      <div class="sec-sub">Welcome screens que convierten visitantes en estudiantes activos desde el primer tap.</div>
+    </div>
+    <div class="phones-row">
+
+      <!-- Screen 1: Welcome -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r">
+                <span>●●●</span>
+                <div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+            <div class="onboard-hero">
+              <div class="ob-mark"><span class="ob-mark-text">RG</span></div>
+              <div class="ob-heading">Pass the RBT<br>exam with<br>confidence.</div>
+              <div class="ob-sub">1,095+ practice questions mapped to every BACB task list item.</div>
+              <div class="ob-dots">
+                <div class="ob-dot on"></div>
+                <div class="ob-dot"></div>
+                <div class="ob-dot"></div>
+              </div>
+            </div>
+            <div class="ob-bottom">
+              <div class="ob-cta">Get started free</div>
+              <div class="ob-skip">Already have an account? Sign in</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Welcome</div>
+      </div>
+
+      <!-- Screen 2: Value prop -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r">
+                <span>●●●</span>
+                <div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+            <div class="onboard-hero" style="padding-bottom:0;">
+              <div style="width:64px;height:64px;border-radius:20px;background:#eef3ff;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M6 16h20M16 6l10 10-10 10" stroke="#1E5EFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="ob-heading" style="font-size:22px;">Adaptive practice<br>for every section.</div>
+              <div class="ob-sub">Questions weighted by BACB section distribution. Study smarter, not longer.</div>
+              <div style="margin-top:20px;width:100%;display:flex;flex-direction:column;gap:8px;text-align:left;">
+                <div style="display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:12px;padding:10px 13px;">
+                  <div style="width:28px;height:28px;border-radius:8px;background:var(--blue-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#1E5EFF" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5.5" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <span style="font-size:12px;font-weight:600;color:var(--ink);">43 BACB task list items covered</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:12px;padding:10px 13px;">
+                  <div style="width:28px;height:28px;border-radius:8px;background:var(--green-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#22c55e" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5.5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <span style="font-size:12px;font-weight:600;color:var(--ink);">Full 85-question mock exams</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:12px;padding:10px 13px;">
+                  <div style="width:28px;height:28px;border-radius:8px;background:var(--purple-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#8b5cf6" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5.5" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <span style="font-size:12px;font-weight:600;color:var(--ink);">AI tutor for instant explanations</span>
+                </div>
+              </div>
+              <div class="ob-dots" style="margin-top:16px;">
+                <div class="ob-dot"></div>
+                <div class="ob-dot on"></div>
+                <div class="ob-dot"></div>
+              </div>
+            </div>
+            <div class="ob-bottom">
+              <div class="ob-cta">Continue</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Value Props</div>
+      </div>
+
+      <!-- Screen 3: Language pick -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r">
+                <span>●●●</span>
+                <div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+            <div class="onboard-hero">
+              <div style="font-size:36px;margin-bottom:16px;">🌎</div>
+              <div class="ob-heading" style="font-size:22px;">Choose your<br>study language.</div>
+              <div class="ob-sub">RBT Genius is fully bilingual. Switch anytime from settings.</div>
+              <div style="margin-top:20px;width:100%;display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:12px;background:var(--blue-lt);border:2px solid var(--blue);border-radius:14px;padding:14px 16px;">
+                  <span style="font-size:20px;">🇺🇸</span>
+                  <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:800;color:var(--blue);">English</div>
+                    <div style="font-size:10.5px;color:var(--blue-mid);">Full content available</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#1E5EFF" stroke-width="1.5"/><circle cx="9" cy="9" r="4" fill="#1E5EFF"/></svg>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;background:white;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;">
+                  <span style="font-size:20px;">🇪🇸</span>
+                  <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:800;color:var(--ink);">Español</div>
+                    <div style="font-size:10.5px;color:var(--ink-3);">Contenido completo disponible</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d1d5db" stroke-width="1.5"/></svg>
+                </div>
+              </div>
+              <div class="ob-dots" style="margin-top:20px;">
+                <div class="ob-dot"></div>
+                <div class="ob-dot"></div>
+                <div class="ob-dot on"></div>
+              </div>
+            </div>
+            <div class="ob-bottom">
+              <div class="ob-cta">Start studying</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Language</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ DASHBOARD ═══════════════════ -->
+  <div id="home" class="gs">
+    <div class="sec-hdr">
+      <span class="sec-eye">02 — Dashboard</span>
+      <div class="sec-title">Tu progreso al instante</div>
+      <div class="sec-sub">Readiness score, streak, dominio por sección, y accesos rápidos — todo above the fold.</div>
+    </div>
+    <div class="phones-row">
+
+      <!-- Light mode -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r">
+                <span>●●●</span>
+                <div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+            <div class="scroll-content">
+              <div class="page-hdr">
+                <div class="page-hdr-row">
+                  <div>
+                    <div class="page-title">Good morning 👋</div>
+                    <div class="page-sub">Let's keep that streak going, Enrique</div>
+                  </div>
+                  <div class="avatar">EP</div>
+                </div>
+              </div>
+              <div class="readiness-card">
+                <div class="rc-label">EXAM READINESS</div>
+                <div class="rc-score">84%</div>
+                <div class="rc-sub">Based on 248 questions answered</div>
+                <div class="rc-row">
+                  <div class="rc-pill"><div class="rc-streak-dot"></div> 3-day streak</div>
+                  <div class="rc-badge">Free plan</div>
+                </div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-chip">
+                  <div class="stat-chip-val">248</div>
+                  <div class="stat-chip-lbl">Questions done</div>
+                </div>
+                <div class="stat-chip">
+                  <div class="stat-chip-val">84%</div>
+                  <div class="stat-chip-lbl">Accuracy</div>
+                </div>
+                <div class="stat-chip">
+                  <div class="stat-chip-val">6</div>
+                  <div class="stat-chip-lbl">Sections</div>
+                </div>
+              </div>
+              <div class="slbl">Quick actions</div>
+              <div class="quick-grid">
+                <div class="qa-card">
+                  <div class="qa-icon" style="background:var(--blue-lt);">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="11" rx="2.5" stroke="#1E5EFF" stroke-width="1.4"/><path d="M5 7h6M5 9.5h4" stroke="#1E5EFF" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="qa-title">Practice</div>
+                  <div class="qa-sub">15 questions left today</div>
+                </div>
+                <div class="qa-card">
+                  <div class="qa-icon" style="background:var(--purple-lt);">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V3l6 4 6-4v10" stroke="#8b5cf6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="qa-title">Flashcards</div>
+                  <div class="qa-sub">365 concepts</div>
+                </div>
+              </div>
+              <div class="slbl" style="margin-top:4px;">Domain mastery</div>
+              <div class="domain-list">
+                <div class="domain-row">
+                  <div class="domain-name">Measurement</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:88%;"></div></div>
+                  <div class="domain-pct">88%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Assessment</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:71%;"></div></div>
+                  <div class="domain-pct">71%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Skill Acq.</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:79%;"></div></div>
+                  <div class="domain-pct">79%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Behavior Red.</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:67%;"></div></div>
+                  <div class="domain-pct">67%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Documentation</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:74%;"></div></div>
+                  <div class="domain-pct">74%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Professional</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:88%;"></div></div>
+                  <div class="domain-pct">88%</div>
+                </div>
+              </div>
+              <div style="height:12px;"></div>
+            </div>
+            <div class="bnav">
+              <div class="bni on">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="#1E5EFF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                </div>
+                Home
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                Practice
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M6 7h8M6 10h8M6 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                Exams
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                Cards
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v5M10 13.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                More
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Light mode</div>
+      </div>
+
+      <!-- Dark mode -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner dark">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r">
+                <span>●●●</span>
+                <div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+            <div class="scroll-content">
+              <div class="page-hdr">
+                <div class="page-hdr-row">
+                  <div>
+                    <div class="page-title">Good morning 👋</div>
+                    <div class="page-sub">Let's keep that streak going, Enrique</div>
+                  </div>
+                  <div class="avatar">EP</div>
+                </div>
+              </div>
+              <div class="readiness-card" style="background:linear-gradient(135deg,#1E5EFF,#0a2fa8);">
+                <div class="rc-label">EXAM READINESS</div>
+                <div class="rc-score">84%</div>
+                <div class="rc-sub">Based on 248 questions answered</div>
+                <div class="rc-row">
+                  <div class="rc-pill"><div class="rc-streak-dot"></div> 3-day streak</div>
+                  <div class="rc-badge">Free plan</div>
+                </div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-chip">
+                  <div class="stat-chip-val">248</div>
+                  <div class="stat-chip-lbl">Questions done</div>
+                </div>
+                <div class="stat-chip">
+                  <div class="stat-chip-val">84%</div>
+                  <div class="stat-chip-lbl">Accuracy</div>
+                </div>
+                <div class="stat-chip">
+                  <div class="stat-chip-val">6</div>
+                  <div class="stat-chip-lbl">Sections</div>
+                </div>
+              </div>
+              <div class="slbl">Domain mastery</div>
+              <div class="domain-list">
+                <div class="domain-row">
+                  <div class="domain-name">Measurement</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:88%;"></div></div>
+                  <div class="domain-pct">88%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Assessment</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:71%;"></div></div>
+                  <div class="domain-pct">71%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Skill Acq.</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:79%;"></div></div>
+                  <div class="domain-pct">79%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Behavior Red.</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:67%;"></div></div>
+                  <div class="domain-pct">67%</div>
+                </div>
+                <div class="domain-row">
+                  <div class="domain-name">Documentation</div>
+                  <div class="domain-bar-bg"><div class="domain-bar-fill" style="width:74%;"></div></div>
+                  <div class="domain-pct">74%</div>
+                </div>
+              </div>
+              <div style="height:12px;"></div>
+            </div>
+            <div class="bnav">
+              <div class="bni on">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="#5B8BFF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                </div>
+                Home
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                Practice
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                </div>
+                Exams
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                Cards
+              </div>
+              <div class="bni">
+                <div class="bni-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                </div>
+                More
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Dark mode</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PRACTICE ═══════════════════ -->
+  <div id="practice" class="gs">
+    <div class="sec-hdr">
+      <span class="sec-eye">03 — Practice</span>
+      <div class="sec-title">Una pregunta. Foco total.</div>
+      <div class="sec-sub">Full-screen question mode con feedback inmediato, explicación y haptic en cada respuesta.</div>
+    </div>
+    <div class="phones-row">
+
+      <!-- Question active -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div class="prac-hdr">
+                <div class="back-btn">‹</div>
+                <div style="flex:1;">
+                  <div class="prac-title">Practice</div>
+                </div>
+                <div style="font-size:11px;font-weight:700;color:var(--ink-3);">15 left today</div>
+              </div>
+              <div class="prog-wrap">
+                <div class="prog-row">
+                  <div class="prog-label">Progress</div>
+                  <div class="prog-count">9 / 20</div>
+                </div>
+                <div class="prog-bg"><div class="prog-fill" style="width:45%;"></div></div>
+              </div>
+              <div class="q-card">
+                <div class="q-tags">
+                  <span class="q-tag tag-blue">Measurement · A-1</span>
+                  <span class="q-tag tag-purple">Intermediate</span>
+                </div>
+                <div class="q-text">An RBT records how many times a client engages in a target behavior per minute. Which measurement method is being used?</div>
+              </div>
+              <div class="options">
+                <div class="opt"><div class="opt-letter">A</div><div class="opt-text">Duration recording</div></div>
+                <div class="opt"><div class="opt-letter">B</div><div class="opt-text">Rate recording</div></div>
+                <div class="opt"><div class="opt-letter">C</div><div class="opt-text">Latency recording</div></div>
+                <div class="opt"><div class="opt-letter">D</div><div class="opt-text">Momentary time sampling</div></div>
+              </div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni on"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="#1E5EFF" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Answering</div>
+      </div>
+
+      <!-- Correct answer revealed -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div class="prac-hdr">
+                <div class="back-btn">‹</div>
+                <div style="flex:1;"><div class="prac-title">Practice</div></div>
+                <div style="font-size:11px;font-weight:700;color:var(--green);">✓ Correct!</div>
+              </div>
+              <div class="prog-wrap">
+                <div class="prog-row">
+                  <div class="prog-label">Progress</div>
+                  <div class="prog-count">9 / 20</div>
+                </div>
+                <div class="prog-bg"><div class="prog-fill" style="width:45%;"></div></div>
+              </div>
+              <div class="q-card">
+                <div class="q-tags">
+                  <span class="q-tag tag-blue">Measurement · A-1</span>
+                  <span class="q-tag tag-purple">Intermediate</span>
+                </div>
+                <div class="q-text">An RBT records how many times a client engages in a target behavior per minute. Which measurement method is being used?</div>
+              </div>
+              <div class="options">
+                <div class="opt"><div class="opt-letter">A</div><div class="opt-text">Duration recording</div></div>
+                <div class="opt correct"><div class="opt-letter">B</div><div class="opt-text">Rate recording</div></div>
+                <div class="opt wrong"><div class="opt-letter">C</div><div class="opt-text">Latency recording</div></div>
+                <div class="opt"><div class="opt-letter">D</div><div class="opt-text">Momentary time sampling</div></div>
+              </div>
+              <div class="exp-box">
+                <div class="exp-head">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#166534" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4.5" stroke="#166534" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Why this is correct
+                </div>
+                <div class="exp-text">Rate recording measures how often a behavior occurs in a given time period (count ÷ time). Recording per minute is the defining feature of rate measurement.</div>
+              </div>
+              <div class="cta-btn">Next question →</div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni on"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="#1E5EFF" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Correct ✓</div>
+      </div>
+
+      <!-- Wrong answer -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div class="prac-hdr">
+                <div class="back-btn">‹</div>
+                <div style="flex:1;"><div class="prac-title">Practice</div></div>
+                <div style="font-size:11px;font-weight:700;color:var(--red);">✗ Incorrect</div>
+              </div>
+              <div class="prog-wrap">
+                <div class="prog-row">
+                  <div class="prog-label">Progress</div>
+                  <div class="prog-count">9 / 20</div>
+                </div>
+                <div class="prog-bg"><div class="prog-fill" style="width:45%;"></div></div>
+              </div>
+              <div class="q-card">
+                <div class="q-tags">
+                  <span class="q-tag tag-blue">Measurement · A-1</span>
+                  <span class="q-tag tag-purple">Intermediate</span>
+                </div>
+                <div class="q-text">An RBT records how many times a client engages in a target behavior per minute. Which measurement method is being used?</div>
+              </div>
+              <div class="options">
+                <div class="opt"><div class="opt-letter">A</div><div class="opt-text">Duration recording</div></div>
+                <div class="opt correct"><div class="opt-letter">B</div><div class="opt-text">Rate recording</div></div>
+                <div class="opt wrong"><div class="opt-letter">C</div><div class="opt-text">Latency recording</div></div>
+                <div class="opt"><div class="opt-letter">D</div><div class="opt-text">Momentary time sampling</div></div>
+              </div>
+              <div class="exp-box wrong-exp">
+                <div class="exp-head">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#92400e" stroke-width="1.2"/><path d="M4.5 4.5l3 3M7.5 4.5l-3 3" stroke="#92400e" stroke-width="1.2" stroke-linecap="round"/></svg>
+                  The correct answer is B
+                </div>
+                <div class="exp-text">Latency measures time from cue to behavior onset — not frequency per unit time. Rate divides count by time, so "per minute" is the key indicator.</div>
+              </div>
+              <div class="cta-btn">Next question →</div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni on"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="#1E5EFF" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Incorrect ✗</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ MOCK EXAM ═══════════════════ -->
+  <div id="exam" class="gs">
+    <div class="sec-hdr">
+      <span class="sec-eye">04 — Mock Exam</span>
+      <div class="sec-title">Simula el examen real</div>
+      <div class="sec-sub">85 preguntas, timer nativo, distribución exacta del BACB. Presión de verdad, sin consecuencias.</div>
+    </div>
+    <div class="phones-row">
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:62%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div class="exam-hdr">
+                <div class="exam-timer-row">
+                  <div>
+                    <div class="exam-q-count">Mock Exam</div>
+                    <div class="exam-prog-label">Full 85-question simulation</div>
+                  </div>
+                  <div class="timer-chip">
+                    <div class="timer-dot"></div>
+                    <div class="timer-val">1:42:18</div>
+                  </div>
+                </div>
+                <div class="prog-row" style="margin-bottom:5px;">
+                  <div class="prog-label">Question 38 of 85</div>
+                  <div class="prog-count">45%</div>
+                </div>
+                <div class="exam-prog-bg"><div class="exam-prog-fill" style="width:45%;"></div></div>
+              </div>
+              <div class="q-card">
+                <div class="q-tags">
+                  <span class="q-tag tag-green">Skill Acquisition · C-3</span>
+                  <span class="q-tag" style="background:var(--gold-lt);color:#b45309;">Beginner</span>
+                </div>
+                <div class="q-text">During discrete trial training, the therapist delivers the SD and waits for the client's response. The client immediately begins to cry instead of responding. What should the RBT do first?</div>
+              </div>
+              <div class="options">
+                <div class="opt"><div class="opt-letter">A</div><div class="opt-text">Provide a prompt to help the client respond correctly</div></div>
+                <div class="opt selected"><div class="opt-letter">B</div><div class="opt-text">Wait the planned inter-trial interval and try again</div></div>
+                <div class="opt"><div class="opt-letter">C</div><div class="opt-text">End the session and notify the supervisor</div></div>
+                <div class="opt"><div class="opt-letter">D</div><div class="opt-text">Deliver a different SD to redirect the behavior</div></div>
+              </div>
+              <div style="display:flex;gap:8px;padding:12px 16px 0;">
+                <div class="cta-btn outline" style="flex:1;font-size:12px;padding:10px;">Flag for review</div>
+                <div class="cta-btn" style="flex:2;font-size:12px;padding:10px;margin:0;">Next →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">In progress</div>
+      </div>
+
+      <!-- Results screen -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:58%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div style="padding:14px 16px 8px;">
+                <div style="font-size:11px;font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Exam complete</div>
+                <div style="font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-0.5px;">Your results</div>
+              </div>
+              <div style="margin:0 16px 12px;background:linear-gradient(135deg,#1E5EFF,#0a3acc);border-radius:20px;padding:18px;text-align:center;">
+                <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:6px;">FINAL SCORE</div>
+                <div style="font-size:56px;font-weight:900;color:white;line-height:1;letter-spacing:-2px;">78%</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">66 of 85 correct · Passing is ~70%</div>
+                <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border-radius:20px;padding:5px 14px;">
+                  <span style="font-size:11px;color:white;font-weight:700;">✓ Above passing threshold</span>
+                </div>
+              </div>
+              <div style="padding:0 16px;display:flex;flex-direction:column;gap:7px;">
+                <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;">By section</div>
+                <div class="domain-row"><div class="domain-name">Measurement (A)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:87%;background:#22c55e;"></div></div><div class="domain-pct" style="color:#22c55e;">87%</div></div>
+                <div class="domain-row"><div class="domain-name">Assessment (B)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:70%;"></div></div><div class="domain-pct">70%</div></div>
+                <div class="domain-row"><div class="domain-name">Skill Acq. (C)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:81%;background:#22c55e;"></div></div><div class="domain-pct" style="color:#22c55e;">81%</div></div>
+                <div class="domain-row"><div class="domain-name">Behavior (D)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:59%;background:#ef4444;"></div></div><div class="domain-pct" style="color:#ef4444;">59%</div></div>
+                <div class="domain-row"><div class="domain-name">Documentation (E)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:75%;"></div></div><div class="domain-pct">75%</div></div>
+                <div class="domain-row"><div class="domain-name">Professional (F)</div><div class="domain-bar-bg"><div class="domain-bar-fill" style="width:80%;background:#22c55e;"></div></div><div class="domain-pct" style="color:#22c55e;">80%</div></div>
+              </div>
+              <div class="cta-btn" style="margin-top:12px;">Review flagged questions</div>
+              <div style="height:12px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Results</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ FLASHCARDS ═══════════════════ -->
+  <div id="flashcards" class="gs">
+    <div class="sec-hdr">
+      <span class="sec-eye">05 — Flashcards</span>
+      <div class="sec-title">365 conceptos. Flip nativo.</div>
+      <div class="sec-sub">Término → definición con animación nativa. Sesiones cortas perfectas para el metro o entre clases.</div>
+    </div>
+    <div class="phones-row">
+
+      <!-- Front side -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div></div>
+            </div>
+            <div class="scroll-content" style="display:flex;flex-direction:column;">
+              <div class="page-hdr">
+                <div class="page-hdr-row">
+                  <div class="back-btn">‹</div>
+                  <div class="page-title" style="font-size:17px;">Flashcards</div>
+                  <div style="font-size:11px;font-weight:700;color:var(--ink-3);">15 / 30</div>
+                </div>
+              </div>
+              <div class="flash-area">
+                <div class="flash-meta">
+                  <div class="flash-counter">Card 15 of 30</div>
+                  <div class="flash-domain">Measurement · A-2</div>
+                </div>
+                <div class="flashcard">
+                  <div class="fc-side-label">Term</div>
+                  <div class="fc-term">Interobserver Agreement (IOA)</div>
+                  <div class="fc-definition">A measure of the consistency between two observers recording the same behavior simultaneously, typically expressed as a percentage.</div>
+                  <div class="fc-tap-hint">Tap to reveal definition ↓</div>
+                </div>
+                <div class="flash-actions">
+                  <div class="flash-btn">← Back</div>
+                  <div class="flash-btn primary">Next →</div>
+                </div>
+              </div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni on"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Front (term)</div>
+      </div>
+
+      <!-- Back side flipped (dark) -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner dark">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:75%;"></div></div></div>
+            </div>
+            <div class="scroll-content" style="display:flex;flex-direction:column;">
+              <div class="page-hdr">
+                <div class="page-hdr-row">
+                  <div class="back-btn">‹</div>
+                  <div class="page-title" style="font-size:17px;">Flashcards</div>
+                  <div style="font-size:11px;font-weight:700;color:#475569;">15 / 30</div>
+                </div>
+              </div>
+              <div class="flash-area">
+                <div class="flash-meta">
+                  <div class="flash-counter" style="color:#475569;">Card 15 of 30</div>
+                  <div class="flash-domain">Measurement · A-2</div>
+                </div>
+                <div class="flashcard" style="background:#1E5EFF;border-color:#1347CC;">
+                  <div class="fc-side-label" style="color:rgba(255,255,255,0.55);">Definition</div>
+                  <div class="fc-term" style="color:white;font-size:14px;line-height:1.5;">The degree to which two independent observers produce the same measurement when recording the same behavior at the same time. Reported as a percentage — typically ≥ 80% indicates acceptable reliability.</div>
+                  <div style="margin-top:auto;display:flex;gap:10px;padding-top:14px;">
+                    <div style="flex:1;text-align:center;background:rgba(255,255,255,0.15);border-radius:10px;padding:8px;font-size:11px;font-weight:700;color:white;">✗ Still learning</div>
+                    <div style="flex:1;text-align:center;background:rgba(255,255,255,0.2);border-radius:10px;padding:8px;font-size:11px;font-weight:700;color:white;">✓ Got it</div>
+                  </div>
+                </div>
+                <div class="flash-actions">
+                  <div class="flash-btn">← Back</div>
+                  <div class="flash-btn primary">Next →</div>
+                </div>
+              </div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni on"><div class="bni-icon-wrap" style="background:rgba(30,94,255,0.2);"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="#5B8BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Back (definition)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ ANALYTICS ═══════════════════ -->
+  <div id="analytics" class="gs">
+    <div class="sec-hdr">
+      <span class="sec-eye">06 — Analytics</span>
+      <div class="sec-title">Sabe exactamente dónde mejorar</div>
+      <div class="sec-sub">Accuracy trend, domain breakdown, y weak spots — para estudiar con dirección, no a ciegas.</div>
+    </div>
+    <div class="phones-row">
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="sbar">
+              <span>9:41</span>
+              <div class="sbar-r"><span>●●●</span><div class="sbar-batt"><div class="sbar-fill" style="width:71%;"></div></div></div>
+            </div>
+            <div class="scroll-content">
+              <div class="page-hdr">
+                <div class="page-hdr-row">
+                  <div>
+                    <div class="page-title">Analytics</div>
+                    <div class="page-sub">Your performance insights</div>
+                  </div>
+                </div>
+              </div>
+              <div class="analytics-card">
+                <div class="an-title">Weekly accuracy</div>
+                <div class="bar-chart">
+                  <div class="bar-col"><div class="bar-fill" style="height:55%;"></div><div class="bar-day">M</div></div>
+                  <div class="bar-col"><div class="bar-fill" style="height:72%;"></div><div class="bar-day">T</div></div>
+                  <div class="bar-col"><div class="bar-fill" style="height:61%;"></div><div class="bar-day">W</div></div>
+                  <div class="bar-col"><div class="bar-fill highlight" style="height:88%;"></div><div class="bar-day">T</div></div>
+                  <div class="bar-col"><div class="bar-fill" style="height:79%;"></div><div class="bar-day">F</div></div>
+                  <div class="bar-col"><div class="bar-fill highlight" style="height:84%;"></div><div class="bar-day">S</div></div>
+                  <div class="bar-col"><div class="bar-fill" style="height:70%;"></div><div class="bar-day">S</div></div>
+                </div>
+                <div class="an-stat-row">
+                  <div class="an-stat">
+                    <div class="an-stat-val">84% <span class="an-stat-badge badge-green">↑4%</span></div>
+                    <div class="an-stat-lbl">Avg. accuracy this week</div>
+                  </div>
+                  <div class="an-stat">
+                    <div class="an-stat-val">127</div>
+                    <div class="an-stat-lbl">Questions this week</div>
+                  </div>
+                </div>
+              </div>
+              <div class="analytics-card">
+                <div class="an-title">Weakest sections — focus here</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--red-lt);border-radius:12px;border:1px solid #fca5a5;">
+                    <div style="width:28px;height:28px;border-radius:8px;background:#ef4444;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0;">D</div>
+                    <div style="flex:1;">
+                      <div style="font-size:11.5px;font-weight:700;color:#991b1b;">Behavior Reduction</div>
+                      <div style="font-size:10px;color:#b91c1c;">59% accuracy · 17 questions</div>
+                    </div>
+                    <div style="font-size:10.5px;font-weight:700;color:#1E5EFF;">Study →</div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--gold-lt);border-radius:12px;border:1px solid #fde68a;">
+                    <div style="width:28px;height:28px;border-radius:8px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0;">B</div>
+                    <div style="flex:1;">
+                      <div style="font-size:11.5px;font-weight:700;color:#78350f;">Assessment</div>
+                      <div style="font-size:10px;color:#92400e;">71% accuracy · 10 questions</div>
+                    </div>
+                    <div style="font-size:10.5px;font-weight:700;color:#1E5EFF;">Study →</div>
+                  </div>
+                </div>
+              </div>
+              <div class="analytics-card">
+                <div class="an-title">All-time stats</div>
+                <div class="an-stat-row">
+                  <div class="an-stat"><div class="an-stat-val">248</div><div class="an-stat-lbl">Total answered</div></div>
+                  <div class="an-stat"><div class="an-stat-val">3</div><div class="an-stat-lbl">Day streak</div></div>
+                </div>
+                <div class="an-stat-row" style="margin-top:6px;">
+                  <div class="an-stat"><div class="an-stat-val">5</div><div class="an-stat-lbl">Mock exams taken</div></div>
+                  <div class="an-stat"><div class="an-stat-val">365</div><div class="an-stat-lbl">Cards reviewed</div></div>
+                </div>
+              </div>
+              <div style="height:12px;"></div>
+            </div>
+            <div class="bnav">
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10.5L10 4l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1v-6.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>Home</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Practice</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>Exams</div>
+              <div class="bni"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16V4l7 5 7-5v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cards</div>
+              <div class="bni on"><div class="bni-icon-wrap"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#1E5EFF" stroke-width="1.5"/><path d="M10 7v5M10 13.5v.5" stroke="#1E5EFF" stroke-width="1.5" stroke-linecap="round"/></svg></div>More</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-lbl">Analytics</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showSection(id, btn) {
+  document.querySelectorAll('.gs').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+</script>
+</body>
+</html>
