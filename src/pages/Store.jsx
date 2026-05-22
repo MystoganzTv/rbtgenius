@@ -35,8 +35,7 @@ const CATEGORY_META = {
 const PRODUCT_PRESENTATION = {
   'rbt-session-clipboard-kit': {
     badge: 'Popular',
-    summary:
-      'Clipboard with checklist, session notes, and data collection prompts. Ready for your daily sessions.',
+    summary: 'Clipboard with checklist, session notes, and data collection prompts. Ready for your daily sessions.',
     tags: ['Checklist included', 'Daily format', 'Portable'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
@@ -44,8 +43,7 @@ const PRODUCT_PRESENTATION = {
   },
   'reinforcer-pouch-essentials': {
     badge: 'New',
-    summary:
-      'Compact pouch with tokens, visuals, timer, and mini tools for every therapy session.',
+    summary: 'Compact pouch with tokens, visuals, timer, and mini tools for every therapy session.',
     tags: ['Tokens included', 'Compact', 'Easy to carry'],
     gradient: 'from-rose-50 via-white to-sky-50',
     accent: 'bg-[#4F7CFF]',
@@ -53,8 +51,7 @@ const PRODUCT_PRESENTATION = {
   },
   'rbt-rapid-review-book': {
     badge: 'Popular',
-    summary:
-      'Review book focused on key RBT concepts with clear explanations and study prompts.',
+    summary: 'Review book focused on key RBT concepts with clear explanations and study prompts.',
     tags: ['Key concepts', 'Bilingual', 'Clear explanations'],
     gradient: 'from-slate-100 via-white to-slate-200',
     accent: 'bg-[#F59E0B]',
@@ -62,8 +59,7 @@ const PRODUCT_PRESENTATION = {
   },
   'mock-exam-workbook': {
     badge: 'New',
-    summary:
-      'Practice workbook with mock exams, answer reviews, and confidence-building exercises.',
+    summary: 'Practice workbook with mock exams, answer reviews, and confidence-building exercises.',
     tags: ['Mock exams', 'Review notes', 'Full prep'],
     gradient: 'from-indigo-50 via-white to-slate-100',
     accent: 'bg-[#4F7CFF]',
@@ -71,8 +67,7 @@ const PRODUCT_PRESENTATION = {
   },
   'visual-study-card-bundle': {
     badge: 'Popular',
-    summary:
-      'Flashcards with key concepts and visual aids to memorize faster before the exam.',
+    summary: 'Flashcards with key concepts and visual aids to memorize faster before the exam.',
     tags: ['170+ cards', 'Quick memorization', 'Final review'],
     gradient: 'from-sky-50 via-white to-slate-100',
     accent: 'bg-[#F59E0B]',
@@ -80,8 +75,7 @@ const PRODUCT_PRESENTATION = {
   },
   'rbt-starter-study-pack': {
     badge: 'Bundle Deal',
-    summary:
-      'Complete bundle combining practical tools and study materials in one discounted package.',
+    summary: 'Complete bundle combining practical tools and study materials in one discounted package.',
     tags: ['All included', 'For beginners', 'Save $13'],
     compareAt: 5500,
     gradient: 'from-emerald-50 via-white to-sky-50',
@@ -217,12 +211,8 @@ export default function Store() {
               <GraduationCap className='h-5 w-5 text-white' />
             </div>
             <div className='flex min-w-0 items-center gap-1'>
-              <span className='truncate text-base font-bold text-slate-900 dark:text-slate-50 sm:text-lg'>
-                RBT
-              </span>
-              <span className='truncate text-base font-bold text-[#1E5EFF] sm:text-lg'>
-                Genius
-              </span>
+              <span className='truncate text-base font-bold text-slate-900 dark:text-slate-50 sm:text-lg'>RBT</span>
+              <span className='truncate text-base font-bold text-[#1E5EFF] sm:text-lg'>Genius</span>
               <Sparkles className='h-3.5 w-3.5 text-[#FFB800]' />
             </div>
           </Link>
@@ -233,16 +223,10 @@ export default function Store() {
               size='icon'
               className='rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-100'
               onClick={toggleTheme}>
-              {isDark ? (
-                <Sun className='h-[18px] w-[18px]' />
-              ) : (
-                <Moon className='h-[18px] w-[18px]' />
-              )}
+              {isDark ? <Sun className='h-[18px] w-[18px]' /> : <Moon className='h-[18px] w-[18px]' />}
             </Button>
             <Link to={isAuthenticated ? createPageUrl('Dashboard') : '/'}>
-              <Button
-                variant='outline'
-                className='rounded-xl px-3 text-sm sm:px-4 sm:text-base'>
+              <Button variant='outline' className='rounded-xl px-3 text-sm sm:px-4 sm:text-base'>
                 {isAuthenticated ? 'Dashboard' : 'Back to Home'}
               </Button>
             </Link>
@@ -251,6 +235,7 @@ export default function Store() {
       </header>
 
       <main className='mx-auto max-w-[1280px] px-4 py-8 sm:px-6 sm:py-12'>
+        {/* ── Hero ── */}
         <section className='grid gap-8'>
           <div>
             <div className='inline-flex items-center gap-2 rounded-full border border-[#1E5EFF]/15 bg-[#1E5EFF]/8 px-4 py-2 text-xs font-medium text-[#1E5EFF] dark:border-[#1E5EFF]/20 dark:bg-[#1E5EFF]/10 dark:text-[#8EB0FF] sm:text-sm'>
@@ -260,7 +245,7 @@ export default function Store() {
             <h1 className='mt-5 max-w-4xl font-jakarta text-4xl font-black leading-[1.05] text-slate-900 dark:text-slate-50 sm:text-5xl lg:text-[5rem]'>
               Everything you need{' '}
               <span className='relative inline-block pb-3'>
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400'>
+                <span className='bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent'>
                   for your RBT career.
                 </span>
                 <svg className='absolute -bottom-1 left-0 w-full' viewBox='0 0 300 12' fill='none'>
@@ -277,7 +262,6 @@ export default function Store() {
             <p className='mt-5 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xl'>
               Tools, books, and bundles designed for RBTs — browse the catalog and check back when we restock.
             </p>
-
             <div className='mt-7 flex flex-wrap gap-3'>
               <div className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200 dark:bg-[#0E1A31] dark:text-slate-200 dark:ring-[#1E5EFF]/15'>
                 <ShieldCheck className='h-4 w-4 text-[#4F7CFF]' /> Catalog ready for restock
@@ -289,10 +273,17 @@ export default function Store() {
           </div>
         </section>
 
+        {/* ── Featured Bundle ── */}
         {bundleProduct ? (
-          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_42%,#eef4ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.22)] dark:border-[#23324E] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.10),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(167,139,250,0.10),transparent_24%),linear-gradient(180deg,#0c1630 0%,#0a1428 100%)]'>
+          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_42%,#eef4ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.22)] dark:border-[#23324E] dark:bg-[#0c1630]'>
+            {/* dark decorative glows — done in JSX so Tailwind doesn't choke on multi-gradient arbitrary values */}
+            <div className='pointer-events-none absolute inset-0 hidden dark:block'>
+              <div className='absolute right-0 top-0 h-72 w-72 rounded-full bg-blue-400/10 blur-3xl' />
+              <div className='absolute bottom-0 left-0 h-72 w-72 rounded-full bg-violet-400/10 blur-3xl' />
+            </div>
             <div className='pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#8FB4FF]/35 to-transparent dark:via-white/10' />
-            <div className='grid gap-8 px-6 py-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-9'>
+
+            <div className='relative grid gap-8 px-6 py-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-9'>
               <div>
                 <div className='inline-flex items-center gap-2 rounded-full border border-[#4F7CFF]/14 bg-[#4F7CFF]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/10 dark:text-[#A8BEFF]'>
                   <BadgePercent className='h-4 w-4' /> Special Offer
@@ -301,8 +292,7 @@ export default function Store() {
                   Save with our Bundles
                 </h2>
                 <p className='mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#D1DBF1] sm:text-lg'>
-                  Combine books, flashcards, and daily tools in one discounted
-                  package. Perfect for those starting their journey as an RBT.
+                  Combine books, flashcards, and daily tools in one discounted package. Perfect for those starting their journey as an RBT.
                 </p>
                 <p className='mt-3 text-sm font-medium text-slate-500 dark:text-[#9FB0CE]'>
                   This bundle is currently out of stock. It will be available again when we restock.
@@ -318,9 +308,7 @@ export default function Store() {
                       <>
                         Was{' '}
                         <span className='line-through'>
-                          {formatStorePrice(
-                            PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
-                          )}
+                          {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt)}
                         </span>
                       </>
                     ) : (
@@ -330,7 +318,8 @@ export default function Store() {
                 </div>
               </div>
 
-              <div className='relative overflow-hidden rounded-[1.9rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(244,248,255,0.94))] p-6 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.22)] backdrop-blur dark:border-white/10 dark:bg-[radial-gradient(circle_at_top_right,rgba(79,124,255,0.14),transparent_35%),linear-gradient(180deg,rgba(19,30,58,0.98),rgba(14,23,43,0.98))] dark:shadow-[0_28px_80px_-50px_rgba(0,0,0,0.7)]'>
+              {/* Featured product card */}
+              <div className='relative overflow-hidden rounded-[1.9rem] border border-slate-200/80 bg-white p-6 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.22)] dark:border-white/10 dark:bg-[#131E3A] dark:shadow-[0_28px_80px_-50px_rgba(0,0,0,0.7)]'>
                 <div className='pointer-events-none absolute inset-0 hidden dark:block'>
                   <div className='absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent' />
                   <div className='absolute right-0 top-0 h-36 w-36 rounded-full bg-[#4F7CFF]/16 blur-3xl' />
@@ -356,8 +345,7 @@ export default function Store() {
                       {bundleProduct.name}
                     </h3>
                     <p className='mt-2 text-sm leading-6 text-slate-600 dark:text-[#D4DDF0]'>
-                      {PRODUCT_PRESENTATION[bundleProduct.id]?.summary ||
-                        bundleProduct.summary}
+                      {PRODUCT_PRESENTATION[bundleProduct.id]?.summary || bundleProduct.summary}
                     </p>
                     <div className='mt-4 flex flex-wrap items-end gap-x-3 gap-y-2'>
                       <span className='text-3xl font-black text-slate-900 dark:text-white'>
@@ -366,9 +354,7 @@ export default function Store() {
                       {PRODUCT_PRESENTATION[bundleProduct.id]?.compareAt ? (
                         <>
                           <span className='pb-1 text-sm text-slate-400 line-through dark:text-slate-500'>
-                            {formatStorePrice(
-                              PRODUCT_PRESENTATION[bundleProduct.id].compareAt,
-                            )}
+                            {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt)}
                           </span>
                           <span className='rounded-full border border-[#4F7CFF]/16 bg-[#4F7CFF]/8 px-3 py-1 text-xs font-semibold text-[#315EDC] dark:border-[#5D86FF]/18 dark:bg-[#4F7CFF]/12 dark:text-[#AFC2FF]'>
                             Save {formatStorePrice(PRODUCT_PRESENTATION[bundleProduct.id].compareAt - bundleProduct.price_cents)}
@@ -385,11 +371,11 @@ export default function Store() {
 
         {!isStripeEnabled ? (
           <div className='mt-8 rounded-[1.6rem] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-200'>
-            Store checkout is not configured yet. The page is ready, but Stripe
-            still needs to be available for live product orders.
+            Store checkout is not configured yet. The page is ready, but Stripe still needs to be available for live product orders.
           </div>
         ) : null}
 
+        {/* ── Products grid ── */}
         <section ref={productsRef} className='mt-10'>
           <div className='flex flex-col gap-5 rounded-[2rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_26px_80px_-50px_rgba(15,23,42,0.22)] dark:border-[#1E5EFF]/12 dark:bg-[#0B1628] lg:flex-row lg:items-center lg:justify-between lg:px-6'>
             <div>
@@ -425,9 +411,7 @@ export default function Store() {
           <div className='mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
             {filteredProducts.map(product => {
               const presentation = PRODUCT_PRESENTATION[product.id] || {};
-              const isLoadingThis =
-                checkoutMutation.isPending &&
-                checkoutMutation.variables === product.id;
+              const isLoadingThis = checkoutMutation.isPending && checkoutMutation.variables === product.id;
               const categoryMeta = CATEGORY_META[product.category];
               const isAvailable = isStoreProductAvailable(product);
 
@@ -438,16 +422,14 @@ export default function Store() {
                   <div
                     className={`relative h-[260px] bg-gradient-to-br ${presentation.gradient || 'from-slate-100 to-white'} p-4 dark:from-[#0F1C34] dark:via-[#0B1628] dark:to-[#091221]`}>
                     {presentation.badge ? (
-                      <span
-                        className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white ${presentation.accent || 'bg-[#4F7CFF]'}`}>
+                      <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white ${presentation.accent || 'bg-[#4F7CFF]'}`}>
                         {presentation.badge}
                       </span>
                     ) : null}
-
                     <img
                       src={presentation.image}
                       alt={product.name}
-                      className='h-full w-full object-cover rounded-[1.8rem]'
+                      className='h-full w-full rounded-[1.8rem] object-cover'
                     />
                   </div>
 
@@ -466,7 +448,6 @@ export default function Store() {
                     <p className='mt-3 text-[1.02rem] leading-8 text-slate-500 dark:text-slate-300'>
                       {presentation.summary || product.summary}
                     </p>
-
                     <div className='mt-4 flex flex-wrap gap-2'>
                       {(presentation.tags || product.bullets || []).map(tag => (
                         <span
@@ -476,7 +457,6 @@ export default function Store() {
                         </span>
                       ))}
                     </div>
-
                     {!isAvailable ? (
                       <p className='mt-4 text-sm leading-6 text-slate-500 dark:text-slate-300'>
                         Currently out of stock. We'll make it available again when we restock.
@@ -486,19 +466,16 @@ export default function Store() {
                     <div className='mt-auto pt-6'>
                       <div className='h-px bg-slate-200 dark:bg-[#1E5EFF]/12' />
                       <div className='mt-5 flex items-end justify-between gap-4'>
-                        <div>
-                          <div className='flex items-end gap-2'>
-                            <span className='text-[2.25rem] font-black tracking-tight text-slate-900 dark:text-slate-50'>
-                              {formatStorePrice(product.price_cents)}
+                        <div className='flex items-end gap-2'>
+                          <span className='text-[2.25rem] font-black tracking-tight text-slate-900 dark:text-slate-50'>
+                            {formatStorePrice(product.price_cents)}
+                          </span>
+                          {presentation.compareAt ? (
+                            <span className='pb-1 text-sm text-slate-400 line-through dark:text-slate-500'>
+                              {formatStorePrice(presentation.compareAt)}
                             </span>
-                            {presentation.compareAt ? (
-                              <span className='pb-1 text-sm text-slate-400 line-through dark:text-slate-500'>
-                                {formatStorePrice(presentation.compareAt)}
-                              </span>
-                            ) : null}
-                          </div>
+                          ) : null}
                         </div>
-
                         <Button
                           className={`rounded-2xl px-5 py-5 text-base font-semibold ${
                             isAvailable
@@ -506,9 +483,7 @@ export default function Store() {
                               : 'bg-slate-200 text-slate-500 shadow-none hover:bg-slate-200 dark:bg-[#16233D] dark:text-slate-400'
                           }`}
                           onClick={() => isAvailable && checkoutMutation.mutate(product.id)}
-                          disabled={
-                            !isAvailable || !isStripeEnabled || checkoutMutation.isPending
-                          }>
+                          disabled={!isAvailable || !isStripeEnabled || checkoutMutation.isPending}>
                           {isLoadingThis ? (
                             <Loader2 className='h-4 w-4 animate-spin' />
                           ) : isAvailable ? (
