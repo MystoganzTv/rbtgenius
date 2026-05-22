@@ -392,7 +392,7 @@ export default function AnalyticsScreen() {
         <View style={s.bankCard}>
           <Text style={s.bankTitle}>Banco de preguntas</Text>
           <Text style={[s.bankStat, { color: theme.primary }]}>{TOTAL_PRACTICE_QUESTIONS.toLocaleString()}</Text>
-          <Text style={s.bankSub}>preguntas · 43 ítems del BACB RBT TCO 3ª edición</Text>
+          <Text style={s.bankSub}>preguntas · 43 ítems del RBT TCO 3ª edición</Text>
           {!isPro && <Text style={[s.bankSub, { marginTop: 4, color: theme.gold }]}>👑 Pro: preguntas ilimitadas por día</Text>}
         </View>
       </ScrollView>

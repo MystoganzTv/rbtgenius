@@ -193,7 +193,7 @@ export default function DashboardScreen({ navigation }) {
         {/* Bank stat */}
         <View style={s.bankRow}>
           <Text style={s.bankText}>
-            {TOTAL_PRACTICE_QUESTIONS.toLocaleString()} questions across 6 domains · BACB RBT TCO 3rd Ed.
+            {TOTAL_PRACTICE_QUESTIONS.toLocaleString()} questions across 6 domains · RBT Task Content Outline 3rd Ed.
           </Text>
         </View>
       </ScrollView>
