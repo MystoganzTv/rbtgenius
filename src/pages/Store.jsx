@@ -275,7 +275,7 @@ export default function Store() {
 
         {/* ── Featured Bundle ── */}
         {bundleProduct ? (
-          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_42%,#eef4ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.22)] dark:border-[#23324E] dark:bg-[#0c1630]'>
+          <section className='relative mt-8 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_42%,#eef4ff_100%)] shadow-[0_30px_90px_-55px_rgba(15,23,42,0.22)] dark:border-[#23324E] dark:bg-none dark:bg-[#0c1630]'>
             {/* dark decorative glows — done in JSX so Tailwind doesn't choke on multi-gradient arbitrary values */}
             <div className='pointer-events-none absolute inset-0 hidden dark:block'>
               <div className='absolute right-0 top-0 h-72 w-72 rounded-full bg-blue-400/10 blur-3xl' />

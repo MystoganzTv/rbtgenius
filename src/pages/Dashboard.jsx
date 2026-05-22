@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
-  ArrowRight,
-  Brain,
   BookOpenCheck,
   Flame,
   HelpCircle,
@@ -269,51 +267,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 dark:border-[#1E5EFF]/15 dark:bg-[#0B1628]">
-            <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
-              {t("Quick Actions")}
-            </h3>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <Link to={createPageUrl("Practice")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-[#1E5EFF]/20 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-[#1E5EFF]/20 dark:hover:bg-slate-900">
-                  <HelpCircle className="mb-2 h-5 w-5 text-[#1E5EFF] dark:text-[#8EB0FF]" />
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                    {t("Practice Questions")}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-                    {t("Test your knowledge")}
-                  </p>
-                  <ArrowRight className="mt-2 h-4 w-4 text-[#1E5EFF] transition-transform group-hover:translate-x-1 dark:text-[#8EB0FF]" />
-                </div>
-              </Link>
-
-              <Link to={createPageUrl("MockExams")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-emerald-200 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-emerald-500/20 dark:hover:bg-slate-900">
-                  <Trophy className="mb-2 h-5 w-5 text-emerald-600 dark:text-emerald-300" />
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                    {t("Mock Exam")}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-                    {t("Simulate the real test")}
-                  </p>
-                  <ArrowRight className="mt-2 h-4 w-4 text-emerald-600 transition-transform group-hover:translate-x-1 dark:text-emerald-300" />
-                </div>
-              </Link>
-
-              <Link to={createPageUrl("AITutor")}>
-                <div className="group cursor-pointer rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-violet-200 hover:bg-slate-50 dark:border-[#1E5EFF]/12 dark:bg-[#0D1E3A] dark:hover:border-violet-500/20 dark:hover:bg-slate-900">
-                  <Brain className="mb-2 h-5 w-5 text-violet-600 dark:text-violet-300" />
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                    {t("AI Tutor")}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-                    {t("Get instant help")}
-                  </p>
-                  <ArrowRight className="mt-2 h-4 w-4 text-violet-600 transition-transform group-hover:translate-x-1 dark:text-violet-300" />
-                </div>
-              </Link>
-            </div>
-          </div>
         </div>
 
         <div className="space-y-6">
