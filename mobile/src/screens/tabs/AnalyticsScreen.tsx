@@ -4,6 +4,7 @@ import {
   RefreshControl, ScrollView, StyleSheet, Text, View, useColorScheme,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, SectionTitle, toneColor } from '../../components/ui';
 import { TOTAL_PRACTICE_QUESTIONS } from '../../services/questionService.js';
@@ -77,13 +78,13 @@ interface AnalyticsResponse {
   exams?: ExamSummary[];
 }
 
-const DOMAIN_CONFIG: DomainConfigItem[] = [
-  { key: 'measurement', label: 'Measurement', accent: 'primary' },
-  { key: 'assessment', label: 'Assessment', accent: 'gold' },
-  { key: 'skill_acquisition', label: 'Skill Acquisition', accent: 'success' },
-  { key: 'behavior_reduction', label: 'Behavior Reduction', accent: 'primary' },
-  { key: 'documentation', label: 'Documentation', accent: 'gold' },
-  { key: 'professional_conduct', label: 'Ethics', accent: 'success' },
+const DOMAIN_KEYS: { key: DomainKey; accent: AccentKey }[] = [
+  { key: 'measurement', accent: 'primary' },
+  { key: 'assessment', accent: 'gold' },
+  { key: 'skill_acquisition', accent: 'success' },
+  { key: 'behavior_reduction', accent: 'primary' },
+  { key: 'documentation', accent: 'gold' },
+  { key: 'professional_conduct', accent: 'success' },
 ];
 
 const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -132,6 +133,7 @@ export default function AnalyticsScreen() {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
+  const { t } = useTranslation();
   const auth = useAuth() as { token?: string | null; user?: AuthUser | null } | null;
   const token = auth?.token ?? '';
   const user = auth?.user ?? null;
@@ -193,6 +195,19 @@ export default function AnalyticsScreen() {
   const domainMastery = progress.domain_mastery ?? {};
   const rl = readinessLabel(readiness);
 
+  // Build domain config with translated labels
+  const DOMAIN_CONFIG: DomainConfigItem[] = DOMAIN_KEYS.map(({ key, accent }) => ({
+    key,
+    accent,
+    label: t(`domains.${key}`),
+  }));
+
+  // Coverage: how much of the total bank has been practiced
+  const coveragePct = Math.min(100, Math.round((completed / TOTAL_PRACTICE_QUESTIONS) * 100));
+  // Confidence threshold: domain scores are unreliable below this total
+  const MIN_FOR_RELIABLE_DOMAINS = 80;
+  const hasReliableData = completed >= MIN_FOR_RELIABLE_DOMAINS;
+
   const scored = DOMAIN_CONFIG
     .map((domain) => ({ ...domain, pct: Math.round(domainMastery[domain.key] ?? 0) }))
     .filter((domain) => domain.pct > 0)
@@ -209,8 +224,8 @@ export default function AnalyticsScreen() {
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.topBar}>
-        <Text style={s.screenTitle}>Analytics</Text>
-        <Text style={s.screenSub}>Tu rendimiento en detalle</Text>
+        <Text style={s.screenTitle}>{t('analytics.title')}</Text>
+        <Text style={s.screenSub}>{t('analytics.subtitle')}</Text>
       </View>
 
       <ScrollView
@@ -222,34 +237,30 @@ export default function AnalyticsScreen() {
       >
         <View style={s.heroCard}>
           <View style={s.heroLeft}>
-            <Text style={s.heroLabel}>Readiness score</Text>
-            <Text style={[s.heroValue, { color: rl.color }]}>{readiness}%</Text>
+            <Text style={s.heroLabel}>{t('analytics.accuracy_label')}</Text>
+            <Text style={[s.heroValue, { color: rl.color }]}>{accuracy > 0 ? `${accuracy}%` : '—'}</Text>
             <View style={[s.heroTag, { backgroundColor: `${rl.color}18` }]}>
-              <Text style={[s.heroTagText, { color: rl.color }]}>{rl.text}</Text>
+              <Text style={[s.heroTagText, { color: rl.color }]}>
+                {accuracy === 0 ? t('common.loading') : rl.text}
+              </Text>
             </View>
+            <Text style={s.heroNote}>{t('analytics.real_answers')}</Text>
           </View>
           <View style={s.heroRight}>
+            <Text style={s.coverageLabel}>{t('analytics.coverage_label')}</Text>
             <View style={s.ringOuter}>
-              <View
-                style={[
-                  s.ringFill,
-                  {
-                    height: `${Math.min(100, readiness)}%`,
-                    backgroundColor: rl.color,
-                  },
-                ]}
-              />
-              <Text style={[s.ringPct, { color: rl.color }]}>{readiness}%</Text>
+              <View style={[s.ringFill, { height: `${Math.min(100, coveragePct)}%`, backgroundColor: theme.primary }]} />
+              <Text style={[s.ringPct, { color: theme.primary }]}>{coveragePct}%</Text>
             </View>
+            <Text style={s.coverageSub}>{completed}/{TOTAL_PRACTICE_QUESTIONS.toLocaleString()}</Text>
           </View>
         </View>
 
         <View style={s.chipGrid}>
           {[
-            { label: 'Preguntas', value: completed.toLocaleString(), accent: theme.primary },
-            { label: 'Precisión', value: accuracy > 0 ? `${accuracy}%` : '—', accent: '#059669' },
-            { label: 'Racha', value: `${streak}d`, accent: theme.gold },
-            { label: 'Hoy', value: String(questionsToday), accent: '#7C3AED' },
+            { label: t('analytics.today_label'), value: String(questionsToday), accent: '#7C3AED' },
+            { label: t('analytics.streak_label'), value: `${streak}d`, accent: theme.gold },
+            { label: t('exams.title'), value: exams ? String(exams.length) : '—', accent: theme.primary },
           ].map((chip) => (
             <View key={chip.label} style={s.chip}>
               <Text style={[s.chipValue, { color: chip.accent }]}>{chip.value}</Text>
@@ -258,12 +269,12 @@ export default function AnalyticsScreen() {
           ))}
         </View>
 
-        {(best || weakest) && (
+        {hasReliableData && (best || weakest) && (
           <View style={s.insightRow}>
             {best && (
               <View style={[s.insightCard, { borderColor: alpha('#059669', 0.3), backgroundColor: alpha('#059669', 0.06) }]}>
                 <Text style={s.insightEmoji}>💪</Text>
-                <Text style={[s.insightTitle, { color: '#059669' }]}>Más fuerte</Text>
+                <Text style={[s.insightTitle, { color: '#059669' }]}>{t('analytics.strongest')}</Text>
                 <Text style={s.insightDomain}>{best.label}</Text>
                 <Text style={[s.insightPct, { color: '#059669' }]}>{best.pct}%</Text>
               </View>
@@ -271,7 +282,7 @@ export default function AnalyticsScreen() {
             {weakest && weakest.key !== best?.key && (
               <View style={[s.insightCard, { borderColor: alpha('#D97706', 0.3), backgroundColor: alpha('#D97706', 0.06) }]}>
                 <Text style={s.insightEmoji}>🎯</Text>
-                <Text style={[s.insightTitle, { color: '#D97706' }]}>Enfócate aquí</Text>
+                <Text style={[s.insightTitle, { color: '#D97706' }]}>{t('analytics.focus_here')}</Text>
                 <Text style={s.insightDomain}>{weakest.label}</Text>
                 <Text style={[s.insightPct, { color: '#D97706' }]}>{weakest.pct}%</Text>
               </View>
@@ -279,11 +290,12 @@ export default function AnalyticsScreen() {
           </View>
         )}
 
-        <SectionTitle title="Actividad semanal" subtitle="Últimos 7 días" theme={theme} />
+        <SectionTitle title={t('analytics.weekly_activity')} subtitle={t('analytics.last_7_days')} theme={theme} />
         <View style={s.chartCard}>
           {weekly === null ? (
-            <Text style={s.chartLoading}>Cargando...</Text>
+            <Text style={s.chartLoading}>{t('common.loading')}</Text>
           ) : hasActivity ? (
+
             <>
               <View style={s.chart}>
                 {weekly.map((day, i) => {
@@ -314,43 +326,67 @@ export default function AnalyticsScreen() {
                 })}
               </View>
               <Text style={s.chartAvg}>
-                Promedio: {weeklyAverage}% · Días activos: {activeWeekly.length}/7
+                {t('analytics.avg', { pct: weeklyAverage })} · {t('analytics.active_days', { days: `${activeWeekly.length}/7` })}
               </Text>
             </>
           ) : (
             <View style={s.chartEmpty}>
               <Text style={s.chartEmptyIcon}>📊</Text>
-              <Text style={s.chartEmptyText}>Practica más para ver tu tendencia semanal</Text>
+              <Text style={s.chartEmptyText}>{t('analytics.no_activity')}</Text>
             </View>
           )}
         </View>
 
-        <SectionTitle title="Dominio por área" subtitle="Basado en tus respuestas reales" theme={theme} />
+        <SectionTitle
+          title={t('analytics.domain_mastery')}
+          subtitle={hasReliableData ? t('analytics.real_answers') : t('analytics.preliminary_data')}
+          theme={theme}
+        />
+        {!hasReliableData && (
+          <View style={s.coverageBanner}>
+            <Text style={s.coverageBannerText}>
+              ⚠️  {t('analytics.coverage_warning', {
+                completed,
+                total: TOTAL_PRACTICE_QUESTIONS.toLocaleString(),
+                pct: coveragePct,
+                min: MIN_FOR_RELIABLE_DOMAINS,
+              })}
+            </Text>
+          </View>
+        )}
         <View style={s.panel}>
           {DOMAIN_CONFIG.map((domain) => {
             const pct = Math.round(domainMastery[domain.key] ?? 0);
-            const color = toneColor(domain.accent, theme);
+            const color = hasReliableData ? toneColor(domain.accent, theme) : theme.muted;
             return (
               <View key={domain.key} style={s.domainRow}>
                 <View style={s.domainMeta}>
-                  <Text style={s.domainLabel}>{domain.label}</Text>
-                  <Text style={[s.domainPct, { color }]}>{pct}%</Text>
+                  <Text style={[s.domainLabel, !hasReliableData && { color: theme.muted }]}>{domain.label}</Text>
+                  <Text style={[s.domainPct, { color }]}>
+                    {pct > 0 ? `${pct}%` : '—'}
+                    {!hasReliableData && pct > 0 ? ' *' : ''}
+                  </Text>
                 </View>
-                <ProgressBar color={color} progress={pct} theme={theme} />
-                {pct === 0 && <Text style={s.domainHint}>Sin intentos todavía en este área</Text>}
+                <ProgressBar color={color} progress={hasReliableData ? pct : pct * 0.5} theme={theme} />
+                {pct === 0
+                  ? <Text style={s.domainHint}>{t('analytics.no_attempts')}</Text>
+                  : !hasReliableData
+                  ? <Text style={s.domainHint}>{t('analytics.small_sample')}</Text>
+                  : null
+                }
               </View>
             );
           })}
         </View>
 
-        <SectionTitle title="Historial de exámenes" subtitle="Tus mock exams completados" theme={theme} />
+        <SectionTitle title={t('analytics.exam_history')} subtitle={t('analytics.exams_completed')} theme={theme} />
         <View style={s.panel}>
           {exams === null ? (
-            <Text style={s.chartLoading}>Cargando...</Text>
+            <Text style={s.chartLoading}>{t('common.loading')}</Text>
           ) : exams.length === 0 ? (
             <View style={s.examEmpty}>
               <Text style={s.chartEmptyIcon}>📋</Text>
-              <Text style={s.chartEmptyText}>Aún no has completado ningún examen{`\n`}Ve a la pestaña Exams para practicar</Text>
+              <Text style={s.chartEmptyText}>{t('analytics.no_exams')}</Text>
             </View>
           ) : (
             exams.slice().reverse().map((exam, i) => {
@@ -362,7 +398,7 @@ export default function AnalyticsScreen() {
                     <Text style={[s.examBadgeText, { color: passColor }]}>{exam.score}%</Text>
                   </View>
                   <View style={s.examInfo}>
-                    <Text style={s.examTitle}>{passed ? '✅ Aprobado' : '❌ No aprobado'}</Text>
+                    <Text style={s.examTitle}>{passed ? t('analytics.passed') : t('analytics.failed')}</Text>
                     <Text style={s.examMeta}>
                       {formatExamDate(exam.created_at)}
                       {exam.time_taken_minutes ? ` · ${exam.time_taken_minutes} min` : ''}
@@ -382,7 +418,7 @@ export default function AnalyticsScreen() {
                       </View>
                     )}
                   </View>
-                  <Text style={[s.examPassLabel, { color: passColor }]}>{passed ? 'PASS' : 'FAIL'}</Text>
+                  <Text style={[s.examPassLabel, { color: passColor }]}>{passed ? t('analytics.pass_label') : t('analytics.fail_label')}</Text>
                 </View>
               );
             })
@@ -390,10 +426,10 @@ export default function AnalyticsScreen() {
         </View>
 
         <View style={s.bankCard}>
-          <Text style={s.bankTitle}>Banco de preguntas</Text>
+          <Text style={s.bankTitle}>{t('analytics.bank_title')}</Text>
           <Text style={[s.bankStat, { color: theme.primary }]}>{TOTAL_PRACTICE_QUESTIONS.toLocaleString()}</Text>
-          <Text style={s.bankSub}>preguntas · 43 ítems del RBT TCO 3ª edición</Text>
-          {!isPro && <Text style={[s.bankSub, { marginTop: 4, color: theme.gold }]}>👑 Pro: preguntas ilimitadas por día</Text>}
+          <Text style={s.bankSub}>{t('analytics.bank_sub')}</Text>
+          {!isPro && <Text style={[s.bankSub, { marginTop: 4, color: theme.gold }]}>{t('analytics.pro_unlimited')}</Text>}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -412,14 +448,19 @@ const styles = (theme: Theme) => StyleSheet.create({
   heroValue: { fontSize: 48, fontWeight: '900', lineHeight: 52 },
   heroTag: { alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 99 },
   heroTagText: { fontSize: 12, fontWeight: '800' },
-  heroRight: { alignItems: 'center', justifyContent: 'center', width: 80 },
+  heroNote: { color: theme.muted, fontSize: 11, marginTop: 2 },
+  heroRight: { alignItems: 'center', justifyContent: 'center', width: 80, gap: 4 },
+  coverageLabel: { color: theme.muted, fontSize: 10, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
+  coverageSub: { color: theme.muted, fontSize: 10, fontWeight: '600', textAlign: 'center' },
+  coverageBanner: { backgroundColor: alpha('#D97706', 0.08), borderColor: alpha('#D97706', 0.25), borderWidth: 1, borderRadius: 16, padding: 14 },
+  coverageBannerText: { color: '#92600A', fontSize: 13, lineHeight: 20 },
   ringOuter: { width: 72, height: 72, borderRadius: 36, backgroundColor: alpha(theme.border, 0.15), overflow: 'hidden', justifyContent: 'flex-end', alignItems: 'center', position: 'relative' },
   ringFill: { width: '100%', borderRadius: 4 },
   ringPct: { position: 'absolute', fontSize: 13, fontWeight: '900' },
   chipGrid: { flexDirection: 'row', gap: 10 },
   chip: { flex: 1, backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1, borderRadius: 18, padding: 14, alignItems: 'center', gap: 4 },
   chipValue: { fontSize: 20, fontWeight: '900' },
-  chipLabel: { color: theme.muted, fontSize: 11, fontWeight: '600' },
+  chipLabel: { color: theme.muted, fontSize: 10, fontWeight: '600', textAlign: 'center' },
   insightRow: { flexDirection: 'row', gap: 12 },
   insightCard: { flex: 1, borderWidth: 1, borderRadius: 20, padding: 16, gap: 4, alignItems: 'center' },
   insightEmoji: { fontSize: 24 },

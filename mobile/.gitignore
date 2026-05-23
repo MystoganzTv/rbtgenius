@@ -1,1 +1,30 @@
+# Expo
 .expo/
+dist/
+
+# Dependencies
+node_modules/
+
+# Native build dirs (regenerar con: npx expo prebuild --clean)
+# Descomenta las siguientes líneas si usas EAS Build exclusivamente y no builds locales:
+# ios/
+# android/
+
+# Build artifacts & macOS duplicates
+ios/build/
+ios/Pods/
+android/build/
+android/.gradle/
+
+# Environment
+.env
+.env.*
+*.local
+
+# Editor
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

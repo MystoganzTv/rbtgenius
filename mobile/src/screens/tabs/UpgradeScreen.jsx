@@ -6,6 +6,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
 
@@ -30,23 +31,25 @@ function buildAppReturnUrl(params = {}) {
   return url.toString();
 }
 
-const FEATURES = [
-  { icon: '∞',  label: 'Unlimited practice questions', sub: 'No daily cap — study as much as you want' },
-  { icon: '🃏', label: 'Unlimited flashcard sessions',  sub: 'All topics, all difficulty levels' },
-  { icon: '📋', label: 'Full 85-question mock exams',  sub: 'Simulate the real BACB RBT exam' },
-  { icon: '📊', label: 'Advanced analytics',            sub: 'Domain mastery, exam history & weekly trends' },
-];
-
-const FALLBACK = [
-  { id: 'premium_monthly', label: 'Monthly', price: '$19.99', period: '/mo', badge: null,         savings: null,       desc: 'Cancel anytime' },
-  { id: 'premium_yearly',  label: 'Yearly',  price: '$17.99', period: '/mo', badge: 'BEST VALUE', savings: 'Save 10%', desc: 'Billed $215.89/year' },
-];
 
 export default function UpgradeScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme  = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { user, token, refreshSession } = useAuth();
+  const { t } = useTranslation();
   const s = styles(theme);
+
+  const FEATURES = [
+    { icon: '∞',  label: t('upgrade.feat_1_label'), sub: t('upgrade.feat_1_sub') },
+    { icon: '🃏', label: t('upgrade.feat_2_label'), sub: t('upgrade.feat_2_sub') },
+    { icon: '📋', label: t('upgrade.feat_3_label'), sub: t('upgrade.feat_3_sub') },
+    { icon: '📊', label: t('upgrade.feat_4_label'), sub: t('upgrade.feat_4_sub') },
+  ];
+
+  const FALLBACK = [
+    { id: 'premium_monthly', label: t('upgrade.monthly'), price: '$19.99', period: '/mo', badge: null,                    savings: null,              desc: t('upgrade.cancel_anytime') },
+    { id: 'premium_yearly',  label: t('upgrade.yearly'),  price: '$17.99', period: '/mo', badge: t('upgrade.best_value'), savings: t('upgrade.save_10'), desc: t('upgrade.billed_yearly_desc') },
+  ];
   const [planId,          setPlanId]          = useState('premium_yearly');
   const [loading,         setLoading]         = useState(false);
   const [offering,        setOffering]        = useState(null);
@@ -92,11 +95,12 @@ export default function UpgradeScreen({ navigation }) {
   const useRC = rcAvailable && !offeringsLoading && offering !== null;
   const plans = useRC
     ? (offering?.availablePackages ?? []).map(pkg => ({
-        id: pkg.identifier, label: pkg.packageType === 'MONTHLY' ? 'Monthly' : 'Yearly',
+        id: pkg.identifier,
+        label: pkg.packageType === 'MONTHLY' ? t('upgrade.monthly') : t('upgrade.yearly'),
         price: pkg.product.priceString, period: '/mo',
-        badge: pkg.packageType !== 'MONTHLY' ? 'BEST VALUE' : null,
-        savings: pkg.packageType !== 'MONTHLY' ? 'Save 10%' : null,
-        desc: pkg.packageType === 'MONTHLY' ? 'Cancel anytime' : `Billed ${pkg.product.priceString}/year`,
+        badge: pkg.packageType !== 'MONTHLY' ? t('upgrade.best_value') : null,
+        savings: pkg.packageType !== 'MONTHLY' ? t('upgrade.save_10') : null,
+        desc: pkg.packageType === 'MONTHLY' ? t('upgrade.cancel_anytime') : `${t('upgrade.billed_yearly_desc').replace('$215.89', pkg.product.priceString)}`,
         _pkg: pkg,
       }))
     : FALLBACK;
@@ -130,7 +134,7 @@ export default function UpgradeScreen({ navigation }) {
     if (checkoutState === 'cancelled') {
       setLoading(false);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      Alert.alert('Checkout canceled', 'No charge was made and you are back in the app.');
+      Alert.alert(t('upgrade.checkout_canceled'), t('upgrade.checkout_canceled_body'));
       navigation.goBack?.();
       return true;
     }
@@ -156,10 +160,10 @@ export default function UpgradeScreen({ navigation }) {
 
         await refreshSession?.().catch(() => null);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        Alert.alert('Welcome to Pro!', 'Your subscription is active and the app is ready to continue.');
+        Alert.alert(t('upgrade.welcome_pro'), t('upgrade.subscription_active'));
         navigation.goBack?.();
       } catch (error) {
-        Alert.alert('Error', error?.message || 'Unable to confirm checkout.');
+        Alert.alert(t('common.error'), error?.message || t('upgrade.error'));
       } finally {
         handlingReturnRef.current = false;
         setLoading(false);
@@ -201,30 +205,30 @@ export default function UpgradeScreen({ navigation }) {
       if (data.url) {
         await Linking.openURL(data.url);
       } else {
-        Alert.alert('Error', data.message || 'Could not open billing portal.');
+        Alert.alert(t('common.error'), data.message || t('upgrade.error'));
         setLoading(false);
       }
     } catch {
       setLoading(false);
-      Alert.alert('Error', 'Network error. Check your connection.');
+      Alert.alert(t('common.error'), t('common.network_error'));
     }
   };
 
   const handleUpgrade = async () => {
-    if (!token) { Alert.alert('Not signed in', 'Sign in first to upgrade.'); return; }
+    if (!token) { Alert.alert(t('upgrade.not_signed_in'), t('upgrade.sign_in_first')); return; }
     setLoading(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     try {
       if (useRC) {
         const pkg = plans.find(p => p.id === planId)?._pkg;
-        if (!pkg) { Alert.alert('Error', 'Plan not found.'); return; }
+        if (!pkg) { Alert.alert(t('common.error'), t('upgrade.error')); return; }
         const r = await purchasePackage(pkg);
         if (r.cancelled) return;
         if (r.success) {
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          Alert.alert('🎉 Welcome to Pro!', 'All features unlocked. Good luck on your exam!');
+          Alert.alert(t('upgrade.welcome_pro'), t('upgrade.features_unlocked'));
           navigation.goBack?.();
-        } else Alert.alert('Error', r.error ?? 'Purchase failed. Try again.');
+        } else Alert.alert(t('common.error'), r.error ?? t('upgrade.purchase_failed'));
       } else {
         const res  = await fetch(`${API_BASE}/api/billing/checkout`, {
           method: 'POST',
@@ -237,9 +241,9 @@ export default function UpgradeScreen({ navigation }) {
         });
         const data = await res.json();
         if (data.url) await Linking.openURL(data.url);
-        else Alert.alert('Error', 'Could not start checkout. Try again.');
+        else Alert.alert(t('common.error'), t('upgrade.error'));
       }
-    } catch { Alert.alert('Error', 'Network error. Check your connection.'); }
+    } catch { Alert.alert(t('common.error'), t('common.network_error')); }
     finally  { setLoading(false); }
   };
 
@@ -248,8 +252,8 @@ export default function UpgradeScreen({ navigation }) {
     setLoading(true);
     const ok = await restorePurchases().catch(() => false);
     setLoading(false);
-    if (ok) { Alert.alert('Restored!', 'Pro subscription restored.'); navigation.goBack?.(); }
-    else Alert.alert('Nothing found', 'No active subscription found for this Apple ID.');
+    if (ok) { Alert.alert(t('upgrade.restored'), t('upgrade.pro_restored')); navigation.goBack?.(); }
+    else Alert.alert(t('upgrade.nothing_found'), t('upgrade.no_subscription'));
   };
 
   const isPro = user?.isPremium ?? false;
@@ -257,10 +261,10 @@ export default function UpgradeScreen({ navigation }) {
     <SafeAreaView style={s.safe} edges={['top']}>
       <View style={s.proWrap}>
         <Text style={s.proEmoji}>🎉</Text>
-        <Text style={s.proTitle}>You're Pro!</Text>
-        <Text style={s.proSub}>All premium study features unlocked. Go study!</Text>
+        <Text style={s.proTitle}>{t('upgrade.pro_you_are')}</Text>
+        <Text style={s.proSub}>{t('upgrade.pro_sub')}</Text>
         <Pressable style={s.manageBtn} onPress={handleManageSubscription}>
-          <Text style={s.manageTxt}>Manage Subscription</Text>
+          <Text style={s.manageTxt}>{t('upgrade.manage_subscription')}</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -279,9 +283,9 @@ export default function UpgradeScreen({ navigation }) {
         {/* Hero */}
         <Animated.View style={[s.hero, { opacity: fade, transform: [{ translateY: slide }] }]}>
           <View style={s.crown}><Text style={s.crownEmoji}>👑</Text></View>
-          <Text style={s.heroTitle}>RBT Genius Pro</Text>
-          <Text style={s.heroSub}>Everything you need to pass the{'\n'}BACB RBT exam — no limits.</Text>
-          <View style={s.proof}><Text style={s.proofTxt}>⭐ Trusted by 2,000+ RBT students</Text></View>
+          <Text style={s.heroTitle}>{t('upgrade.hero_title')}</Text>
+          <Text style={s.heroSub}>{t('upgrade.hero_sub')}</Text>
+          <View style={s.proof}><Text style={s.proofTxt}>{t('upgrade.proof')}</Text></View>
         </Animated.View>
 
         {/* Features */}
@@ -327,9 +331,7 @@ export default function UpgradeScreen({ navigation }) {
         {/* Offerings unavailable banner */}
         {offeringsFailed && !useRC && (
           <View style={s.unavailableBanner}>
-            <Text style={s.unavailableTxt}>
-              Subscriptions temporarily unavailable. Please try again later.
-            </Text>
+            <Text style={s.unavailableTxt}>{t('upgrade.unavailable')}</Text>
           </View>
         )}
 
@@ -341,28 +343,24 @@ export default function UpgradeScreen({ navigation }) {
           {loading
             ? <ActivityIndicator color="#fff" />
             : offeringsLoading
-              ? <><Text style={s.ctaTxt}>Products loading...</Text><ActivityIndicator color="rgba(255,255,255,0.7)" size="small" /></>
+              ? <><Text style={s.ctaTxt}>{t('upgrade.products_loading')}</Text><ActivityIndicator color="rgba(255,255,255,0.7)" size="small" /></>
               : <>
-                  <Text style={s.ctaTxt}>Start Pro — {sel?.price}{sel?.period}</Text>
+                  <Text style={s.ctaTxt}>{t('upgrade.start_pro', { price: sel?.price, period: sel?.period })}</Text>
                   <Text style={s.ctaSub}>{sel?.desc}</Text>
                 </>}
         </Pressable>
 
         {/* Trust + restore */}
         <View style={s.trust}>
-          <Text style={s.trustTxt}>🔒 Secure</Text>
+          <Text style={s.trustTxt}>🔒 {t('upgrade.cancel_anytime')}</Text>
           <Text style={s.trustDot}>·</Text>
-          <Text style={s.trustTxt}>Cancel anytime</Text>
-          <Text style={s.trustDot}>·</Text>
-          <Text style={s.trustTxt}>Instant access</Text>
+          <Text style={s.trustTxt}>{t('upgrade.instant_access')}</Text>
         </View>
         <Pressable onPress={handleRestore} style={s.restore}>
-          <Text style={s.restoreTxt}>Restore previous purchase</Text>
+          <Text style={s.restoreTxt}>{t('upgrade.restore')}</Text>
         </Pressable>
         <Text style={s.legal}>
-          {useRC
-            ? 'Payment charged to Apple ID at confirmation. Subscription auto-renews unless cancelled 24h before period end. Manage in App Store Settings.'
-            : 'By subscribing you agree to our Terms of Service and Privacy Policy. Manage at rbtgenius.com/profile.'}
+          {useRC ? t('upgrade.legal_rc') : t('upgrade.legal_stripe')}
         </Text>
       </ScrollView>
     </SafeAreaView>
