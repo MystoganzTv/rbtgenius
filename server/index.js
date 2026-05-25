@@ -922,6 +922,30 @@ app.post('/api/auth/logout', requireUser, (req, res) => {
   res.json({ ok: true });
 });
 
+// Account deletion — required by Apple App Store guideline 5.1.1
+app.delete('/api/auth/account', requireUser, (req, res) => {
+  const userId = req.currentUser.id;
+
+  updateDb(current => {
+    const nextPracticeSessions = { ...current.practiceSessions };
+    delete nextPracticeSessions[userId];
+
+    const nextTutorConversations = { ...current.tutorConversations };
+    delete nextTutorConversations[userId];
+
+    return {
+      ...current,
+      users: current.users.filter(user => user.id !== userId),
+      attempts: current.attempts.filter(attempt => attempt.user_id !== userId),
+      mockExams: current.mockExams.filter(exam => exam.user_id !== userId),
+      practiceSessions: nextPracticeSessions,
+      tutorConversations: nextTutorConversations,
+    };
+  });
+
+  res.json({ ok: true, message: 'Account deleted successfully.' });
+});
+
 app.get('/api/questions', (req, res) => {
   const mode = req.query.mode || 'practice';
 

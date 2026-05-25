@@ -359,6 +359,19 @@ export default function UpgradeScreen({ navigation }) {
         <Pressable onPress={handleRestore} style={s.restore}>
           <Text style={s.restoreTxt}>{t('upgrade.restore')}</Text>
         </Pressable>
+
+        {/* Legal links — required by Apple 3.1.2 */}
+        <View style={s.legalLinks}>
+          <Text style={s.legalLinksTxt}>{t('upgrade.legal_links')} </Text>
+          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/terms')}>
+            <Text style={s.legalLink}>{t('upgrade.terms_link')}</Text>
+          </Pressable>
+          <Text style={s.legalLinksTxt}> {t('upgrade.and')} </Text>
+          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/privacy')}>
+            <Text style={s.legalLink}>{t('upgrade.privacy_link')}</Text>
+          </Pressable>
+        </View>
+
         <Text style={s.legal}>
           {useRC ? t('upgrade.legal_rc') : t('upgrade.legal_stripe')}
         </Text>
@@ -415,6 +428,9 @@ const styles = (theme) => StyleSheet.create({
   trustDot:    { color: theme.muted, fontSize: 12 },
   restore:     { alignItems: 'center', paddingVertical: 2 },
   restoreTxt:  { color: theme.primary, fontSize: 13, fontWeight: '600' },
+  legalLinks:  { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 },
+  legalLinksTxt: { color: theme.muted, fontSize: 11 },
+  legalLink:   { color: theme.primary, fontSize: 11, fontWeight: '600', textDecorationLine: 'underline' },
   legal:       { color: theme.muted, fontSize: 10, textAlign: 'center', lineHeight: 15, paddingHorizontal: 28 },
 
   proWrap:     { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },

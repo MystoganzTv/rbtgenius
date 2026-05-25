@@ -323,6 +323,38 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
     ]);
   };
 
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      t('profile.delete_account_confirm_title'),
+      t('profile.delete_account_confirm_body'),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('profile.delete_account'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const res = await fetch(`${API_BASE}/api/auth/account`, {
+                method: 'DELETE',
+                headers: authHeaders,
+              });
+              if (res.ok) {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+                Alert.alert(t('common.done'), t('profile.delete_account_success'), [
+                  { text: 'OK', onPress: logout },
+                ]);
+              } else {
+                Alert.alert(t('common.error'), t('profile.delete_account_error'));
+              }
+            } catch {
+              Alert.alert(t('common.error'), t('common.network_error'));
+            }
+          },
+        },
+      ],
+    );
+  };
+
   const countdownColor =
     daysLeft === null ? theme.muted
       : daysLeft <= 0 ? '#EF4444'
@@ -510,6 +542,10 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
         <View style={s.sectionLabel}><Text style={s.sectionLabelText}>{t('profile.danger_zone')}</Text></View>
         <Pressable style={s.dangerBtn} onPress={handleReset}>
           <Text style={s.dangerBtnText}>{t('profile.reset_progress')}</Text>
+        </Pressable>
+
+        <Pressable style={[s.dangerBtn, { marginTop: 10 }]} onPress={handleDeleteAccount}>
+          <Text style={s.dangerBtnText}>{t('profile.delete_account')}</Text>
         </Pressable>
 
         <Pressable style={s.logoutBtn} onPress={handleLogout}>
