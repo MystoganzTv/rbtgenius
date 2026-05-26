@@ -288,7 +288,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
               <TranslationTrigger
                 theme={theme}
                 onPress={() => setTranslationPanel({
-                  title: i18n.language === 'es' ? (flipped ? 'Traducción de la respuesta' : 'Traducción de la tarjeta') : (flipped ? 'Answer Translation' : 'Flashcard Translation'),
+                  title: t(flipped ? 'translation.answer' : 'translation.flashcard'),
                   englishText: flipped ? (card.answer || '') : (card.question || ''),
                   spanishText: flipped
                     ? (translationContent?.options?.find((option) => option.english === card.answer)?.spanish || getSpanishForOptionText(card.answer) || '')
@@ -305,7 +305,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
                   <TranslationTrigger
                     theme={theme}
                     onPress={() => setTranslationPanel({
-                      title: i18n.language === 'es' ? 'Traducción de la explicación' : 'Explanation Translation',
+                      title: t('translation.explanation'),
                       englishText: card.explanation || '',
                       spanishText: translationContent?.explanationSpanish || '',
                     })}
@@ -346,10 +346,10 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
         visible={Boolean(translationPanel)}
         onClose={() => setTranslationPanel(null)}
         theme={theme}
-        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        title={translationPanel?.title || t('translation.title')}
         englishText={translationPanel?.englishText || ''}
         spanishText={translationPanel?.spanishText || ''}
-        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+        unavailableLabel={t('translation.unavailable')}
       />
     </SafeAreaView>
   );

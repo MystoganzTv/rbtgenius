@@ -156,7 +156,7 @@ export default function PracticeScreen({ navigation }) {
               <TranslationTrigger
                 theme={theme}
                 onPress={() => openTranslation({
-                  title: i18n.language === 'es' ? 'Traducción de la pregunta' : 'Question Translation',
+                  title: t('translation.question'),
                   englishText: question?.prompt || '',
                   spanishText: translationContent?.spanishText || '',
                 })}
@@ -182,7 +182,7 @@ export default function PracticeScreen({ navigation }) {
                     <TranslationTrigger
                       theme={theme}
                       onPress={() => openTranslation({
-                        title: i18n.language === 'es' ? `Traducción de la opción ${String.fromCharCode(65 + i)}` : `Option ${String.fromCharCode(65 + i)} Translation`,
+                        title: t('translation.option', { letter: String.fromCharCode(65 + i) }),
                         englishText: question?.options?.[i] || '',
                         spanishText: translationContent?.options?.[i]?.spanish || '',
                       })}
@@ -203,7 +203,7 @@ export default function PracticeScreen({ navigation }) {
                   <TranslationTrigger
                     theme={theme}
                     onPress={() => openTranslation({
-                      title: i18n.language === 'es' ? 'Traducción de la explicación' : 'Explanation Translation',
+                      title: t('translation.explanation'),
                       englishText: question?.explanation || '',
                       spanishText: translationContent?.explanationSpanish || '',
                     })}
@@ -226,10 +226,10 @@ export default function PracticeScreen({ navigation }) {
         visible={Boolean(translationPanel)}
         onClose={() => setTranslationPanel(null)}
         theme={theme}
-        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        title={translationPanel?.title || t('translation.title')}
         englishText={translationPanel?.englishText || ''}
         spanishText={translationPanel?.spanishText || ''}
-        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+        unavailableLabel={t('translation.unavailable')}
       />
     </SafeAreaView>
   );

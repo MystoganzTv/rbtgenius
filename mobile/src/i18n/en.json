@@ -382,5 +382,14 @@
     "progress_label": "{{pct}}% of {{total}} mastered",
     "session_note": "{{answered}}/{{limit}} this session · free plan",
     "all_topics": "All"
+  },
+  "translation": {
+    "question": "Question Translation",
+    "answer": "Answer Translation",
+    "flashcard": "Flashcard Translation",
+    "explanation": "Explanation Translation",
+    "option": "Option {{letter}} Translation",
+    "title": "Translation",
+    "unavailable": "Spanish translation is not available yet for this section."
   }
 }

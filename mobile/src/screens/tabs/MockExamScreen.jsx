@@ -352,7 +352,7 @@ export default function MockExamScreen({ navigation }) {
             <TranslationTrigger
               theme={theme}
               onPress={() => setTranslationPanel({
-                title: i18n.language === 'es' ? 'Traducción de la pregunta' : 'Question Translation',
+                title: t('translation.question'),
                 englishText: q?.prompt || '',
                 spanishText: translationContent?.spanishText || '',
               })}
@@ -375,7 +375,7 @@ export default function MockExamScreen({ navigation }) {
                 <TranslationTrigger
                   theme={theme}
                   onPress={() => setTranslationPanel({
-                    title: i18n.language === 'es' ? `Traducción de la opción ${letter}` : `Option ${letter} Translation`,
+                    title: t('translation.option', { letter }),
                     englishText: q?.options?.[i] || '',
                     spanishText: translationContent?.options?.[i]?.spanish || '',
                   })}
@@ -397,7 +397,7 @@ export default function MockExamScreen({ navigation }) {
         </View>
 
         <Pressable style={s.submitEarly} onPress={submitEarly}>
-          <Text style={s.submitEarlyText}>Enviar examen</Text>
+          <Text style={s.submitEarlyText}>{t('exams.submit_early')}</Text>
         </Pressable>
       </ScrollView>
 
@@ -405,10 +405,10 @@ export default function MockExamScreen({ navigation }) {
         visible={Boolean(translationPanel)}
         onClose={() => setTranslationPanel(null)}
         theme={theme}
-        title={translationPanel?.title || (i18n.language === 'es' ? 'Traducción' : 'Translation')}
+        title={translationPanel?.title || t('translation.title')}
         englishText={translationPanel?.englishText || ''}
         spanishText={translationPanel?.spanishText || ''}
-        unavailableLabel={i18n.language === 'es' ? 'La traducción al español aún no está disponible para este bloque.' : 'Spanish translation is not available yet for this section.'}
+        unavailableLabel={t('translation.unavailable')}
       />
     </SafeAreaView>
   );

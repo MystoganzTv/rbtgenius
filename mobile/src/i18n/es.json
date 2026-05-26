@@ -382,5 +382,14 @@
     "progress_label": "{{pct}}% de {{total}} dominadas",
     "session_note": "{{answered}}/{{limit}} esta sesión · plan gratuito",
     "all_topics": "Todos"
+  },
+  "translation": {
+    "question": "Traducción de la pregunta",
+    "answer": "Traducción de la respuesta",
+    "flashcard": "Traducción de la tarjeta",
+    "explanation": "Traducción de la explicación",
+    "option": "Traducción de la opción {{letter}}",
+    "title": "Traducción",
+    "unavailable": "La traducción al español aún no está disponible para este bloque."
   }
 }
