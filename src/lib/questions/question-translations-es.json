@@ -20,7 +20,8 @@
     "explanation": "Reconocer patrones en los datos ABC ayuda al RBT a comunicar observaciones relevantes al BCBA, quien las utiliza para fundamentar las conclusiones de la evaluación funcional.",
     "options_es": {
       "answer": "Datos ABC pattern revisión",
-      "purpose": "Para identificar recurring patrones in antecedentes y consecuencias que suggest what maintains el conducta"
+      "purpose": "Para identificar recurring patrones in antecedentes y consecuencias que suggest what maintains el conducta",
+      "ABC data pattern review": "Datos ABC pattern revisión"
     }
   },
   "assessment_antecedent_pattern_analysis": {
@@ -32,7 +33,8 @@
     "explanation": "Antecedent pattern analysis ayuda el equipo detect el contextos in qué conducta es most probable.",
     "options_es": {
       "answer": "Análisis de patrones antecedentes",
-      "purpose": "Para identificar desencadenantes comunes que preceden a la conducta."
+      "purpose": "Para identificar desencadenantes comunes que preceden a la conducta.",
+      "Antecedent pattern analysis": "Análisis de patrones antecedentes"
     }
   },
   "assessment_baseline": {
@@ -56,7 +58,8 @@
     "explanation": "Los datos de línea base estables facilitan determinar si los cambios posteriores probablemente reflejan el efecto de la intervención.",
     "options_es": {
       "answer": "Estabilidad de la línea base",
-      "purpose": "Para determinar si los datos previos a la intervención ofrecen una comparación útil."
+      "purpose": "Para determinar si los datos previos a la intervención ofrecen una comparación útil.",
+      "Baseline stability": "Estabilidad de la línea base"
     }
   },
   "assessment_consequence_pattern_analysis": {
@@ -68,7 +71,8 @@
     "explanation": "Consecuencia pattern analysis ayuda el equipo see si similar outcomes repeatedly follow el conducta.",
     "options_es": {
       "answer": "Análisis de patrones de consecuencia",
-      "purpose": "Para identificar qué suele seguir a la conducta y puede mantenerla."
+      "purpose": "Para identificar qué suele seguir a la conducta y puede mantenerla.",
+      "Consequence pattern analysis": "Análisis de patrones de consecuencia"
     }
   },
   "assessment_curriculum_based": {
@@ -80,7 +84,8 @@
     "explanation": "Evaluación basada en el currículos mostrar dónde el aprendiz es performing dentro de a enseñanza sequence.",
     "options_es": {
       "answer": "Evaluación basada en el currículo",
-      "purpose": "Para identificar niveles actuales de habilidades dentro de un currículo instructivo."
+      "purpose": "Para identificar niveles actuales de habilidades dentro de un currículo instructivo.",
+      "Curriculum-based assessment": "Evaluación basada en el currículo"
     }
   },
   "assessment_descriptive": {
@@ -92,7 +97,8 @@
     "explanation": "La evaluación descriptiva se basa en observaciones directas en entornos cotidianos, no solo en condiciones de prueba.",
     "options_es": {
       "answer": "Evaluación descriptiva",
-      "purpose": "Para identificar patrones de conducta que ocurren naturalmente dentro de su contexto."
+      "purpose": "Para identificar patrones de conducta que ocurren naturalmente dentro de su contexto.",
+      "Descriptive assessment": "Evaluación descriptiva"
     }
   },
   "assessment_developmental": {
@@ -104,7 +110,8 @@
     "explanation": "La evaluación del desarrollo ayuda al equipo a comprender el perfil de habilidades del aprendiz en distintas áreas del desarrollo.",
     "options_es": {
       "answer": "Evaluación del desarrollo",
-      "purpose": "Para comparar el desempeño con expectativas del desarrollo más amplias."
+      "purpose": "Para comparar el desempeño con expectativas del desarrollo más amplias.",
+      "Developmental assessment": "Evaluación del desarrollo"
     }
   },
   "assessment_direct": {
@@ -128,7 +135,8 @@
     "explanation": "La observación directa mejora la calidad de la evaluación porque capta lo que está ocurriendo en el momento.",
     "options_es": {
       "answer": "Observación directa",
-      "purpose": "Para recoger información observando directamente la conducta."
+      "purpose": "Para recoger información observando directamente la conducta.",
+      "Direct observation": "Observación directa"
     }
   },
   "assessment_edible_vs_activity_preference": {
@@ -140,7 +148,8 @@
     "explanation": "Saber si los comestibles, los objetos o las actividades son los más preferidos ayuda al equipo a seleccionar reforzadores que mantendrán altas tasas de respuesta.",
     "options_es": {
       "answer": "Preferencias por comestibles vs. actividades",
-      "purpose": "Para identificar el most efectiva reforzador category para a específico aprendiz in a given setting"
+      "purpose": "Para identificar el most efectiva reforzador category para a específico aprendiz in a given setting",
+      "Edible vs. activity preferences": "Preferencias por comestibles vs. actividades"
     }
   },
   "assessment_environmental_assessment": {
@@ -152,7 +161,8 @@
     "explanation": "Ambiental evaluación ayuda el equipo see si contextuales arrangements son influencing conducta.",
     "options_es": {
       "answer": "Ambiental evaluación",
-      "purpose": "Para identificar variables ambientales relevantes para los hallazgos de evaluación."
+      "purpose": "Para identificar variables ambientales relevantes para los hallazgos de evaluación.",
+      "Environmental assessment": "Ambiental evaluación"
     }
   },
   "assessment_fa_condition_implementation": {
@@ -164,7 +174,8 @@
     "explanation": "Implementar FA conditions con fidelity ensures que results reflect el real maintaining variables rather than staff conducta.",
     "options_es": {
       "answer": "Implementación de condición de análisis funcional",
-      "purpose": "Para implement controlled test conditions que isolate variables related to el función de conducta"
+      "purpose": "Para implement controlled test conditions que isolate variables related to el función de conducta",
+      "Functional analysis condition implementation": "Implementación de condición de análisis funcional"
     }
   },
   "assessment_fba": {
@@ -200,7 +211,8 @@
     "explanation": "Una hipótesis de función es una explicación de trabajo basada en hallazgos de evaluación y guía la planificación de la intervención.",
     "options_es": {
       "answer": "Hipótesis de función",
-      "purpose": "Para resumir la variable más probable que mantiene una conducta."
+      "purpose": "Para resumir la variable más probable que mantiene una conducta.",
+      "Function hypothesis": "Hipótesis de función"
     }
   },
   "assessment_functional_analysis": {
@@ -224,7 +236,8 @@
     "explanation": "Los RBT participan en procedimientos de evaluación implementando con precisión los pasos asignados bajo supervisión.",
     "options_es": {
       "answer": "Functional evaluación participation",
-      "purpose": "Para apoyar procedimientos de evaluación dentro del rol del RBT."
+      "purpose": "Para apoyar procedimientos de evaluación dentro del rol del RBT.",
+      "Functional assessment participation": "Functional evaluación participation"
     }
   },
   "assessment_hypothesis_statement": {
@@ -272,7 +285,8 @@
     "explanation": "Dominio criterios asegurar que habilidades son no advanced prematurely y que desempeño es estable antes de instrucción moves en.",
     "options_es": {
       "answer": "Criterio de dominio",
-      "purpose": "Para establish a clear, medible standard para cuando a habilidad has been acquired"
+      "purpose": "Para establish a clear, medible standard para cuando a habilidad has been acquired",
+      "Mastery criterion": "Criterio de dominio"
     }
   },
   "assessment_mswo": {
@@ -296,7 +310,8 @@
     "explanation": "Observar en distintos contextos ayuda al equipo a ver si los patrones son específicos de ciertas situaciones o más generales.",
     "options_es": {
       "answer": "Observación en múltiples contextos",
-      "purpose": "Para comparar la conducta en contextos relevantes."
+      "purpose": "Para comparar la conducta en contextos relevantes.",
+      "Multi-context observation": "Observación en múltiples contextos"
     }
   },
   "assessment_multiple_stimulus_preference": {
@@ -308,7 +323,8 @@
     "explanation": "Múltiple-estímulo assessments ayuda el equipo rápidamente see relative preferencia cuando varios options son disponible.",
     "options_es": {
       "answer": "Múltiple-estímulo Evaluación de preferencias",
-      "purpose": "Para comparar varios elementos potencialmente preferidos dentro del mismo ensayo."
+      "purpose": "Para comparar varios elementos potencialmente preferidos dentro del mismo ensayo.",
+      "Multiple-stimulus preference assessment": "Múltiple-estímulo Evaluación de preferencias"
     }
   },
   "assessment_operational_definition": {
@@ -356,7 +372,8 @@
     "explanation": "Arranging mild privación antes de sesiones puede fortalecer reforzador efectividad sin permanently restricting access.",
     "options_es": {
       "answer": "Operaciones motivacionales y preferencia",
-      "purpose": "Para comprender cómo access history affects cómo motivating a estímulo es durante a sesión"
+      "purpose": "Para comprender cómo access history affects cómo motivating a estímulo es durante a sesión",
+      "Motivating operations and preference": "Operaciones motivacionales y preferencia"
     }
   },
   "assessment_preference_hierarchy": {
@@ -368,7 +385,8 @@
     "explanation": "Una jerarquía de preferencias ayuda al equipo a elegir opciones más fuertes y más débiles de forma más estratégica.",
     "options_es": {
       "answer": "Jerarquía de preferencias",
-      "purpose": "Para identificar la preferencia relativa entre varios elementos."
+      "purpose": "Para identificar la preferencia relativa entre varios elementos.",
+      "Preference hierarchy": "Jerarquía de preferencias"
     }
   },
   "assessment_preference_satiation": {
@@ -380,7 +398,8 @@
     "explanation": "Monitoring para satiation y rotating preferred elementos ayuda mantener reforzador efectividad a lo largo de sesiones.",
     "options_es": {
       "answer": "Preferencia satiation",
-      "purpose": "Para reconocer cuándo un reforzador pudo haber perdido efectividad por sobreexposición."
+      "purpose": "Para reconocer cuándo un reforzador pudo haber perdido efectividad por sobreexposición.",
+      "Preference satiation": "Preferencia satiation"
     }
   },
   "assessment_probe_assessment": {
@@ -392,7 +411,8 @@
     "explanation": "Probe evaluación es útiles cuando el equipo necesita a quick snapshot de real habilidad levels.",
     "options_es": {
       "answer": "Probe evaluación",
-      "purpose": "Para muestrear el desempeño actual de manera eficiente."
+      "purpose": "Para muestrear el desempeño actual de manera eficiente.",
+      "Probe assessment": "Probe evaluación"
     }
   },
   "assessment_rbt_assessment_role": {
@@ -404,7 +424,8 @@
     "explanation": "El rol del RBT en la evaluación es la recopilación de datos e implementación, no la interpretación ni la toma de decisiones clínicas, las cuales corresponden al supervisor.",
     "options_es": {
       "answer": "RBT's rol in evaluación",
-      "purpose": "Para contribute to evaluación Toma de datos dentro de el RBT's autorizada alcance"
+      "purpose": "Para contribute to evaluación Toma de datos dentro de el RBT's autorizada alcance",
+      "RBT's role in assessment": "RBT's rol in evaluación"
     }
   },
   "assessment_rbt_data_collection_fba": {
@@ -416,7 +437,8 @@
     "explanation": "El RBT's primario FBA rol es rigorous Toma de datos; el supervisor es responsible para analyzing el datos y forming a Hipótesis de función.",
     "options_es": {
       "answer": "RBT's datos rol in FBA",
-      "purpose": "Para recoger el observational datos el BCBA necesita to analyze el función de a conducta"
+      "purpose": "Para recoger el observational datos el BCBA necesita to analyze el función de a conducta",
+      "RBT's data role in FBA": "RBT's datos rol in FBA"
     }
   },
   "assessment_reinforcer": {
@@ -440,7 +462,8 @@
     "explanation": "Un elemento preferido no es automáticamente un reforzador hasta que se demuestra que aumenta la conducta.",
     "options_es": {
       "answer": "Comprobación de efectividad del reforzador",
-      "purpose": "Para confirmar si un elemento preferido funciona como reforzador."
+      "purpose": "Para confirmar si un elemento preferido funciona como reforzador.",
+      "Reinforcer effectiveness check": "Comprobación de efectividad del reforzador"
     }
   },
   "assessment_scatterplot": {
@@ -464,7 +487,8 @@
     "explanation": "Reporting setting eventos ayuda el BCBA account para factors fuera el sesión cuando interpreting conductual datos.",
     "options_es": {
       "answer": "Setting evento identification",
-      "purpose": "Para identificar background conditions que alter el probability de conducta dentro de el sesión"
+      "purpose": "Para identificar background conditions que alter el probability de conducta dentro de el sesión",
+      "Setting event identification": "Setting evento identification"
     }
   },
   "assessment_setting_event_review": {
@@ -476,7 +500,8 @@
     "explanation": "Los eventos de contexto no desencadenan la conducta de inmediato, pero pueden alterar su probabilidad más tarde en el día.",
     "options_es": {
       "answer": "Revisión de eventos de contexto",
-      "purpose": "Para identificar variables contextuales que pueden influir en la conducta posterior."
+      "purpose": "Para identificar variables contextuales que pueden influir en la conducta posterior.",
+      "Setting event review": "Revisión de eventos de contexto"
     }
   },
   "assessment_single_stimulus_preference": {
@@ -488,7 +513,8 @@
     "explanation": "Single-estímulo Evaluación de preferenciass son útiles cuando elección arrays son difficult para el aprendiz.",
     "options_es": {
       "answer": "Single-estímulo Evaluación de preferencias",
-      "purpose": "Para identificar elementos probablemente preferidos uno a la vez."
+      "purpose": "Para identificar elementos probablemente preferidos uno a la vez.",
+      "Single-stimulus preference assessment": "Single-estímulo Evaluación de preferencias"
     }
   },
   "assessment_skill": {
@@ -512,7 +538,8 @@
     "explanation": "Evaluar los déficits ayuda a priorizar qué enseñar después.",
     "options_es": {
       "answer": "Evaluación de déficits de habilidades",
-      "purpose": "Para identificar habilidades que necesitan intervención."
+      "purpose": "Para identificar habilidades que necesitan intervención.",
+      "Skill deficits assessment": "Evaluación de déficits de habilidades"
     }
   },
   "assessment_skill_probe": {
@@ -524,7 +551,8 @@
     "explanation": "Los sondeos de habilidades evitan que el equipo enseñe habilidades que el aprendiz ya domina y ayudan a priorizar la instrucción en los déficits reales.",
     "options_es": {
       "answer": "Habilidad probe",
-      "purpose": "Para identificar el aprendiz's real nivel de independiente desempeño antes de instrucción comienza"
+      "purpose": "Para identificar el aprendiz's real nivel de independiente desempeño antes de instrucción comienza",
+      "Skill probe": "Habilidad probe"
     }
   },
   "assessment_skill_strengths": {
@@ -536,7 +564,8 @@
     "explanation": "Evaluar las fortalezas ayuda al equipo a construir a partir de lo que el aprendiz ya hace bien.",
     "options_es": {
       "answer": "Evaluación de fortalezas de habilidades",
-      "purpose": "Para identificar habilidades que ya están en el repertorio del aprendiz."
+      "purpose": "Para identificar habilidades que ya están en el repertorio del aprendiz.",
+      "Skill strengths assessment": "Evaluación de fortalezas de habilidades"
     }
   },
   "assessment_social_skills": {
@@ -548,7 +577,8 @@
     "explanation": "Evaluación de habilidades socialess guiar enseñanza priorities para peer interaction y related conducta.",
     "options_es": {
       "answer": "Evaluación de habilidades sociales",
-      "purpose": "Para identificar fortalezas y necesidades en habilidades sociales."
+      "purpose": "Para identificar fortalezas y necesidades en habilidades sociales.",
+      "Social skills assessment": "Evaluación de habilidades sociales"
     }
   },
   "assessment_stimulus_sampling": {
@@ -560,7 +590,8 @@
     "explanation": "Muestrear distintas categorías de estímulos garantiza que el equipo no pase por alto reforzadores potenciales que el aprendiz aún no ha tenido la oportunidad de mostrar preferencia.",
     "options_es": {
       "answer": "Estímulo sampling in Evaluación de preferencias",
-      "purpose": "Para discover qué types de stimuli función as reforzadores para a particulares aprendiz"
+      "purpose": "Para discover qué types de stimuli función as reforzadores para a particulares aprendiz",
+      "Stimulus sampling in preference assessment": "Estímulo sampling in Evaluación de preferencias"
     }
   },
   "assessment_structured_interview": {
@@ -572,7 +603,8 @@
     "explanation": "Entrevista estructuradas mejorar consistencia porque similar información es reunida desde cada respondent.",
     "options_es": {
       "answer": "Entrevista estructurada",
-      "purpose": "Para recoger información de evaluación en un formato sistemático de entrevista."
+      "purpose": "Para recoger información de evaluación en un formato sistemático de entrevista.",
+      "Structured interview": "Entrevista estructurada"
     }
   },
   "assessment_target_behavior_selection": {
@@ -608,7 +640,8 @@
     "explanation": "Las operaciones abolitivas hacen una consecuencia menos efectiva y reducen la conducta relacionada.",
     "options_es": {
       "answer": "Operación abolitoria",
-      "purpose": "Para identificar eventos que disminuyen temporalmente el valor de una consecuencia."
+      "purpose": "Para identificar eventos que disminuyen temporalmente el valor de una consecuencia.",
+      "Abolishing operation": "Operación abolitoria"
     }
   },
   "behavior_aggression_during_extinction": {
@@ -620,7 +653,8 @@
     "explanation": "El RBT debe estar entrenado para reconocer la agresión como un posible efecto secundario de la extinción y responder de acuerdo con el plan de crisis. Ceder ante la agresión para detenerla refuerza tanto la agresión como la conducta problemática original.",
     "options_es": {
       "answer": "Agresión durante la extinción",
-      "purpose": "Para preparar al RBT a manejar de forma segura la agresión que pueda surgir durante la extinción sin abandonar el procedimiento ni reforzar inadvertidamente la conducta."
+      "purpose": "Para preparar al RBT a manejar de forma segura la agresión que pueda surgir durante la extinción sin abandonar el procedimiento ni reforzar inadvertidamente la conducta.",
+      "Aggression during extinction": "Agresión durante la extinción"
     }
   },
   "behavior_antecedent": {
@@ -644,7 +678,8 @@
     "explanation": "Antecedent modificación es preventive porque it alters el situation antes de el conducta ocurre.",
     "options_es": {
       "answer": "Antecedent modificación",
-      "purpose": "Para reducir la probabilidad de conducta problema cambiando las condiciones con anticipación."
+      "purpose": "Para reducir la probabilidad de conducta problema cambiando las condiciones con anticipación.",
+      "Antecedent modification": "Antecedent modificación"
     }
   },
   "behavior_attention_extinction": {
@@ -656,7 +691,8 @@
     "explanation": "La extinción de atención se dirige a conductas que han sido mantenidas por la atención social.",
     "options_es": {
       "answer": "Extinción de atención",
-      "purpose": "Para reducir conducta mantenida por atención dejando de entregar atención después de ella."
+      "purpose": "Para reducir conducta mantenida por atención dejando de entregar atención después de ella.",
+      "Attention extinction": "Extinción de atención"
     }
   },
   "behavior_attention_function": {
@@ -668,7 +704,8 @@
     "explanation": "Attention-mantenida conducta es strengthened cuando others responder con any form de social contacto, even si it appears negative.",
     "options_es": {
       "answer": "Attention función",
-      "purpose": "Para identificar conductas mantenida mediante social attention desde others"
+      "purpose": "Para identificar conductas mantenida mediante social attention desde others",
+      "Attention function": "Attention función"
     }
   },
   "behavior_attention_replacement_response": {
@@ -680,7 +717,8 @@
     "explanation": "Una petición apropiada de atención puede competir con la conducta problema cuando la atención es la variable que la mantiene.",
     "options_es": {
       "answer": "Respuesta de reemplazo mantenida por atención",
-      "purpose": "Para reemplazar conducta problema mantenida por atención con una petición apropiada."
+      "purpose": "Para reemplazar conducta problema mantenida por atención con una petición apropiada.",
+      "Attention-maintained replacement response": "Respuesta de reemplazo mantenida por atención"
     }
   },
   "behavior_automatic_function": {
@@ -692,7 +730,8 @@
     "explanation": "Automatically mantenida conducta es no dependent en others — it produces its own sensory reforzamiento.",
     "options_es": {
       "answer": "Automatic función",
-      "purpose": "Para identificar conductas mantenida mediante internal sensory consecuencias"
+      "purpose": "Para identificar conductas mantenida mediante internal sensory consecuencias",
+      "Automatic function": "Automatic función"
     }
   },
   "behavior_blocking": {
@@ -716,7 +755,8 @@
     "explanation": "Antecedent strategies hacer problema conducta less probable mediante addressing el conditions que set el stage para it.",
     "options_es": {
       "answer": "Antecedent strategies in a BRP",
-      "purpose": "Para reducir el posibilidad el conducta will ocurrir mediante changing what ocurre antes de it"
+      "purpose": "Para reducir el posibilidad el conducta will ocurrir mediante changing what ocurre antes de it",
+      "Antecedent strategies in a BRP": "Antecedent strategies in a BRP"
     }
   },
   "behavior_brp_crisis_section": {
@@ -728,7 +768,8 @@
     "explanation": "Contar con un plan de crisis escrito en el BRP garantiza que el RBT sepa exactamente qué hacer en una emergencia sin tener que improvisar bajo presión.",
     "options_es": {
       "answer": "Sección de plan de crisis de un BRP",
-      "purpose": "Para proporcionar el RBT con clear instructions para responder to severe escalada safely y consistently"
+      "purpose": "Para proporcionar el RBT con clear instructions para responder to severe escalada safely y consistently",
+      "Crisis plan section of a BRP": "Sección de plan de crisis de un BRP"
     }
   },
   "behavior_brp_function_statement": {
@@ -740,7 +781,8 @@
     "explanation": "Función-basado interventions son más efectiva than generic strategies porque they objetivo el específico consecuencia que reinforces el conducta.",
     "options_es": {
       "answer": "Función declaración in a BRP",
-      "purpose": "Para connect el intervención plan to el reason el conducta ocurre so strategies address el real maintaining consecuencia"
+      "purpose": "Para connect el intervención plan to el reason el conducta ocurre so strategies address el real maintaining consecuencia",
+      "Function statement in a BRP": "Función declaración in a BRP"
     }
   },
   "behavior_brp_operational_definition": {
@@ -752,7 +794,8 @@
     "explanation": "Sin una definición operacional precisa en el BRP, el personal puede no coincidir en qué cuenta como la conducta objetivo, lo que lleva a datos e intervenciones inconsistentes.",
     "options_es": {
       "answer": "Definición operacional in a BRP",
-      "purpose": "Para asegurar cada equipo member registros el misma conducta y applies interventions only to defined ocurrencias"
+      "purpose": "Para asegurar cada equipo member registros el misma conducta y applies interventions only to defined ocurrencias",
+      "Operational definition in a BRP": "Definición operacional in a BRP"
     }
   },
   "behavior_brp_reinforcement_section": {
@@ -764,7 +807,8 @@
     "explanation": "La sección de reforzamiento del BRP le indica al RBT qué debe hacer cuando la conducta es apropiada y qué debe evitar cuando ocurre la conducta problema.",
     "options_es": {
       "answer": "Procedimientos de reforzamiento en un BRP",
-      "purpose": "Para fortalecer la conducta apropiada y asegurar que la conducta problema ya no obtenga acceso al reforzador que la mantenía."
+      "purpose": "Para fortalecer la conducta apropiada y asegurar que la conducta problema ya no obtenga acceso al reforzador que la mantenía.",
+      "Reinforcement procedures in a BRP": "Procedimientos de reforzamiento en un BRP"
     }
   },
   "behavior_brp_replacement_section": {
@@ -776,7 +820,8 @@
     "explanation": "Enseñar una conducta de reemplazo reduce la conducta problema con más eficacia que intentar suprimirla sin ofrecer una alternativa funcional.",
     "options_es": {
       "answer": "Conducta de reemplazo en un BRP",
-      "purpose": "Para dar al aprendiz una manera aceptable de obtener el mismo resultado que antes conseguía con la conducta problema."
+      "purpose": "Para dar al aprendiz una manera aceptable de obtener el mismo resultado que antes conseguía con la conducta problema.",
+      "Replacement behavior in a BRP": "Conducta de reemplazo en un BRP"
     }
   },
   "behavior_choice_making": {
@@ -788,7 +833,8 @@
     "explanation": "La toma de decisiones puede reducir la aversividad de las demandas y aumentar la participación del aprendiz.",
     "options_es": {
       "answer": "Elección",
-      "purpose": "Para mejorar la cooperación y reducir la conducta problema ofreciendo elecciones significativas."
+      "purpose": "Para mejorar la cooperación y reducir la conducta problema ofreciendo elecciones significativas.",
+      "Choice making": "Elección"
     }
   },
   "behavior_contingency_review": {
@@ -812,7 +858,8 @@
     "explanation": "Familiarity con el crisis plan reduces respuesta tiempo in an emergency y ensures el RBT follows el approved procedimiento rather than improvising.",
     "options_es": {
       "answer": "Revisar el plan de crisis",
-      "purpose": "Para ser prepared to implement el correcto emergency respuesta sin hesitation cuando a crisis ocurre"
+      "purpose": "Para ser prepared to implement el correcto emergency respuesta sin hesitation cuando a crisis ocurre",
+      "Reviewing the crisis plan": "Revisar el plan de crisis"
     }
   },
   "behavior_crisis_protocol_implementation": {
@@ -824,7 +871,8 @@
     "explanation": "Los protocolos de crisis se usan solo cuando la conducta alcanza el nivel descrito en el plan de emergencia aprobado.",
     "options_es": {
       "answer": "Crisis protocol implementation",
-      "purpose": "Para responder de forma segura y consistente durante emergencias conductuales."
+      "purpose": "Para responder de forma segura y consistente durante emergencias conductuales.",
+      "Crisis protocol implementation": "Crisis protocol implementation"
     }
   },
   "behavior_crisis_supervisor_notification": {
@@ -836,7 +884,8 @@
     "explanation": "El supervisor must ser notified so they puede hacer clinical decisiones, actualización el plan si es necesario, y fulfill any reporting obligations.",
     "options_es": {
       "answer": "Notificar al supervisor durante una crisis",
-      "purpose": "Para asegurar que el supervisor esté informado y pueda brindar orientación, documentación o apoyo."
+      "purpose": "Para asegurar que el supervisor esté informado y pueda brindar orientación, documentación o apoyo.",
+      "Notifying the supervisor during a crisis": "Notificar al supervisor durante una crisis"
     }
   },
   "behavior_deescalation_strategies": {
@@ -848,7 +897,8 @@
     "explanation": "De-escalada strategies do no reforzar problema conducta cuando they son usado de forma proactiva en el primero signs de agitation, antes de el conducta intensifies.",
     "options_es": {
       "answer": "De-escalada strategies",
-      "purpose": "Para prevenir conducta desde escalating to crisis mediante reducing el aprendiz's arousal mientras keeping el entorno predecible y seguros"
+      "purpose": "Para prevenir conducta desde escalating to crisis mediante reducing el aprendiz's arousal mientras keeping el entorno predecible y seguros",
+      "De-escalation strategies": "De-escalada strategies"
     }
   },
   "behavior_demand_fading": {
@@ -860,7 +910,8 @@
     "explanation": "Demand fading reduces abrupt respuesta effort y ayuda el aprendiz contacto success con creciente expectations.",
     "options_es": {
       "answer": "Desvanecimiento de demandas",
-      "purpose": "Para construir tolerancia a las demandas de manera gradual."
+      "purpose": "Para construir tolerancia a las demandas de manera gradual.",
+      "Demand fading": "Desvanecimiento de demandas"
     }
   },
   "behavior_dra": {
@@ -908,7 +959,8 @@
     "explanation": "El reforzamiento diferencial de tasas bajas se usa cuando la conducta es aceptable en pequeñas cantidades, pero ocurre con demasiada frecuencia.",
     "options_es": {
       "answer": "Reforzamiento diferencial de low rates",
-      "purpose": "Para reducir una conducta a una tasa más baja permitiendo cierta ocurrencia."
+      "purpose": "Para reducir una conducta a una tasa más baja permitiendo cierta ocurrencia.",
+      "Differential reinforcement of low rates": "Reforzamiento diferencial de low rates"
     }
   },
   "behavior_dro": {
@@ -944,7 +996,8 @@
     "explanation": "Ambiental modifications son among el most efectiva antecedent strategies porque they cambio el conditions que set el stage para problema conducta.",
     "options_es": {
       "answer": "Ambiental modificación",
-      "purpose": "Para reducir conducta mediante removing o altering antecedentes antes de el conducta has a posibilidad to ocurrir"
+      "purpose": "Para reducir conducta mediante removing o altering antecedentes antes de el conducta has a posibilidad to ocurrir",
+      "Environmental modification": "Ambiental modificación"
     }
   },
   "behavior_escalation_levels": {
@@ -956,7 +1009,8 @@
     "explanation": "Identificar la escalada tempranamente permite al RBT utilizar estrategias de desescalada de menor nivel y puede prevenir que la conducta llegue al nivel de crisis.",
     "options_es": {
       "answer": "Conducta escalada levels",
-      "purpose": "Para reconocer cuando a conducta es escalating so el RBT puede implement earlier-stage strategies antes de a full crisis develops"
+      "purpose": "Para reconocer cuando a conducta es escalating so el RBT puede implement earlier-stage strategies antes de a full crisis develops",
+      "Behavior escalation levels": "Conducta escalada levels"
     }
   },
   "behavior_escape_extinction": {
@@ -980,7 +1034,8 @@
     "explanation": "La extinción de escape se implementa únicamente tal como está escrita en el plan de conducta y requiere que el RBT sea consistente mientras mantiene la seguridad del aprendiz y de los demás.",
     "options_es": {
       "answer": "Extinción de escape implementation",
-      "purpose": "Para remove el reforzador — escape desde demand — que has been maintaining el problema conducta"
+      "purpose": "Para remove el reforzador — escape desde demand — que has been maintaining el problema conducta",
+      "Escape extinction implementation": "Extinción de escape implementation"
     }
   },
   "behavior_escape_function": {
@@ -992,7 +1047,8 @@
     "explanation": "Escape-mantenida conducta es strengthened cuando it reliably results in el aprendiz getting out de something difficult o uncomfortable.",
     "options_es": {
       "answer": "Escape función",
-      "purpose": "Para identificar conductas mantenida mediante removal de demands o aversive situations"
+      "purpose": "Para identificar conductas mantenida mediante removal de demands o aversive situations",
+      "Escape function": "Escape función"
     }
   },
   "behavior_escape_replacement_response": {
@@ -1004,7 +1060,8 @@
     "explanation": "Enseñanza an apropiado escape-related respuesta es a menudo part de a función-basado intervención para escape-mantenida conducta.",
     "options_es": {
       "answer": "Escape-mantenida reemplazo respuesta",
-      "purpose": "Para reemplazar conducta problema mantenida por escape con una petición apropiada."
+      "purpose": "Para reemplazar conducta problema mantenida por escape con una petición apropiada.",
+      "Escape-maintained replacement response": "Escape-mantenida reemplazo respuesta"
     }
   },
   "behavior_establishing_operation": {
@@ -1016,7 +1073,8 @@
     "explanation": "Las operaciones establecedoras hacen una consecuencia más efectiva y aumentan la conducta relevante.",
     "options_es": {
       "answer": "Operación establecedora",
-      "purpose": "Para identificar eventos que aumentan temporalmente el valor de una consecuencia."
+      "purpose": "Para identificar eventos que aumentan temporalmente el valor de una consecuencia.",
+      "Establishing operation": "Operación establecedora"
     }
   },
   "behavior_extinction": {
@@ -1052,7 +1110,8 @@
     "explanation": "Las explosiones de extinción son una parte normal y esperada de la extinción. Si el RBT responde a la explosión proporcionando reforzamiento, la conducta aumentará aún más. La consistencia es esencial y el supervisor debe ser notificado si las explosiones son graves.",
     "options_es": {
       "answer": "Estallido de extinción",
-      "purpose": "Para preparar al RBT a continuar implementando la extinción correctamente aunque la conducta empeore temporalmente, y documentar y reportar este efecto secundario esperado."
+      "purpose": "Para preparar al RBT a continuar implementando la extinción correctamente aunque la conducta empeore temporalmente, y documentar y reportar este efecto secundario esperado.",
+      "Extinction burst": "Estallido de extinción"
     }
   },
   "behavior_extinction_burst_management": {
@@ -1064,7 +1123,8 @@
     "explanation": "El RBT should ser prepared para an Explosión de extinción y stay consistente; stopping extinction durante a estallido accidentally reinforces el escalated conducta.",
     "options_es": {
       "answer": "Manejar an Explosión de extinción",
-      "purpose": "Para reconocer que a temporal aumentar in conducta en el comenzar de extinction es esperados y hace no mean el procedimiento es failing"
+      "purpose": "Para reconocer que a temporal aumentar in conducta en el comenzar de extinction es esperados y hace no mean el procedimiento es failing",
+      "Managing an extinction burst": "Manejar an Explosión de extinción"
     }
   },
   "behavior_extinction_consistency": {
@@ -1076,7 +1136,8 @@
     "explanation": "La implementación consistente de la extinción es esencial; incluso un reforzamiento ocasional puede prolongar la conducta.",
     "options_es": {
       "answer": "Consistencia en la extinción",
-      "purpose": "Para evitar un reforzamiento accidental que haga la conducta más difícil de reducir."
+      "purpose": "Para evitar un reforzamiento accidental que haga la conducta más difícil de reducir.",
+      "Consistency in extinction": "Consistencia en la extinción"
     }
   },
   "behavior_extinction_safety": {
@@ -1088,7 +1149,8 @@
     "explanation": "La extinción puede producir aumentos temporales en la conducta; el RBT debe estar preparado para manejar la seguridad sin reforzar accidentalmente la conducta.",
     "options_es": {
       "answer": "Seguridad durante la extinción",
-      "purpose": "Para proteger el aprendiz y others desde harm mientras continuing el extinction procedimiento as planned"
+      "purpose": "Para proteger el aprendiz y others desde harm mientras continuing el extinction procedimiento as planned",
+      "Safety during extinction": "Seguridad durante la extinción"
     }
   },
   "behavior_extinction_side_effects": {
@@ -1100,7 +1162,8 @@
     "explanation": "Los efectos secundarios de la extinción son reacciones temporales que pueden aparecer cuando una conducta previamente reforzada deja de contactar reforzamiento.",
     "options_es": {
       "answer": "Efectos secundarios de la extinción",
-      "purpose": "Para reconocer efectos esperados a corto plazo que pueden ocurrir durante la extinción."
+      "purpose": "Para reconocer efectos esperados a corto plazo que pueden ocurrir durante la extinción.",
+      "Extinction side effects": "Efectos secundarios de la extinción"
     }
   },
   "behavior_fct": {
@@ -1124,7 +1187,8 @@
     "explanation": "Identificar qué función mantiene una conducta guía al equipo hacia intervenciones que abordan la razón real por la que ocurre.",
     "options_es": {
       "answer": "Cuatro funciones de la conducta",
-      "purpose": "Para reconocer que toda conducta cumple una función y puede clasificarse dentro de una de cuatro categorías funcionales."
+      "purpose": "Para reconocer que toda conducta cumple una función y puede clasificarse dentro de una de cuatro categorías funcionales.",
+      "Four functions of behavior": "Cuatro funciones de la conducta"
     }
   },
   "behavior_function_based_intervention": {
@@ -1136,7 +1200,8 @@
     "explanation": "Las intervenciones basadas en la función son más efectivas porque abordan la variable que mantiene la conducta.",
     "options_es": {
       "answer": "Intervención basada en la función",
-      "purpose": "Para reducir la conducta usando intervenciones alineadas con su función."
+      "purpose": "Para reducir la conducta usando intervenciones alineadas con su función.",
+      "Function-based intervention": "Intervención basada en la función"
     }
   },
   "behavior_function_from_abc": {
@@ -1148,7 +1213,8 @@
     "explanation": "Reconocer patrones en los datos ABC ayuda al RBT a contribuir con observaciones significativas a la discusión del equipo sobre la evaluación funcional.",
     "options_es": {
       "answer": "Identifying función desde Datos ABC",
-      "purpose": "Para connect de forma sistemática recogidos observations to a hypothesis about what maintains el conducta"
+      "purpose": "Para connect de forma sistemática recogidos observations to a hypothesis about what maintains el conducta",
+      "Identifying function from ABC data": "Identifying función desde Datos ABC"
     }
   },
   "behavior_function_match": {
@@ -1160,7 +1226,8 @@
     "explanation": "Un buen ajuste con la función aumenta la probabilidad de que la respuesta de reemplazo sea efectiva y duradera.",
     "options_es": {
       "answer": "Ajuste con la función",
-      "purpose": "Para asegurar que la intervención aborde la verdadera razón por la que la conducta persiste."
+      "purpose": "Para asegurar que la intervención aborde la verdadera razón por la que la conducta persiste.",
+      "Function match": "Ajuste con la función"
     }
   },
   "behavior_function_vs_topography": {
@@ -1172,7 +1239,8 @@
     "explanation": "Intervening basado en topography alone sin understanding función puede result in a plan que es ineffective o que accidentally strengthens el conducta.",
     "options_es": {
       "answer": "Función vs. topography de conducta",
-      "purpose": "Para comprender Por qué identifying función es essential antes de seleccionar a conducta-reduction strategy"
+      "purpose": "Para comprender Por qué identifying función es essential antes de seleccionar a conducta-reduction strategy",
+      "Function vs. topography of behavior": "Función vs. topography de conducta"
     }
   },
   "behavior_high_p": {
@@ -1196,7 +1264,8 @@
     "explanation": "Las operaciones motivadoras afectan tanto el valor de una consecuencia como la probabilidad de conducta relacionada con esa consecuencia.",
     "options_es": {
       "answer": "Motivating operation",
-      "purpose": "Para describir eventos que alteran el valor del reforzador y la conducta relacionada."
+      "purpose": "Para describir eventos que alteran el valor del reforzador y la conducta relacionada.",
+      "Motivating operation": "Motivating operation"
     }
   },
   "behavior_multiple_functions": {
@@ -1208,7 +1277,8 @@
     "explanation": "Cuando una conducta tiene múltiples funciones, el equipo debe planificar intervenciones que aborden todas las consecuencias relevantes para reducir la conducta de manera efectiva.",
     "options_es": {
       "answer": "Conducta mantenida mediante múltiple funciona",
-      "purpose": "Para reconocer que interventions puede necesidad to address más than one maintaining consecuencia"
+      "purpose": "Para reconocer que interventions puede necesidad to address más than one maintaining consecuencia",
+      "Behavior maintained by multiple functions": "Conducta mantenida mediante múltiple funciona"
     }
   },
   "behavior_negative_punishment": {
@@ -1220,7 +1290,8 @@
     "explanation": "El castigo negativo elimina algo que el aprendiz desea con el fin de reducir la conducta. El tiempo fuera y el costo de respuesta son las formas más comunes. Estos siempre deben implementarse exactamente como están escritos y únicamente cuando el supervisor lo ha autorizado.",
     "options_es": {
       "answer": "Castigo negativo",
-      "purpose": "Para reducir la conducta problema retirando el acceso a un estímulo reforzante, según lo especificado en el plan del supervisor."
+      "purpose": "Para reducir la conducta problema retirando el acceso a un estímulo reforzante, según lo especificado en el plan del supervisor.",
+      "Negative punishment": "Castigo negativo"
     }
   },
   "behavior_noncontingent_reinforcement": {
@@ -1244,7 +1315,8 @@
     "explanation": "Usando física manejo sin training o autorización poses risk de harm y violates profesional y legal standards; el escrito plan y supervisor approval son siempre requerida.",
     "options_es": {
       "answer": "Autorización para manejo físico",
-      "purpose": "Para asegurar que las intervenciones de seguridad física se usen solo cuando estén autorizadas, entrenadas y sean necesarias."
+      "purpose": "Para asegurar que las intervenciones de seguridad física se usen solo cuando estén autorizadas, entrenadas y sean necesarias.",
+      "Physical management authorization": "Autorización para manejo físico"
     }
   },
   "behavior_planned_ignoring": {
@@ -1268,7 +1340,8 @@
     "explanation": "Ignorar planificadamente requiere evitar toda forma de atención, incluido el contacto visual, los comentarios y hasta las expresiones faciales que podrían funcionar como reforzamiento.",
     "options_es": {
       "answer": "Procedimiento de ignorar planificadamente",
-      "purpose": "Para retirar la atención social que ha estado manteniendo la conducta."
+      "purpose": "Para retirar la atención social que ha estado manteniendo la conducta.",
+      "Planned ignoring procedure": "Procedimiento de ignorar planificadamente"
     }
   },
   "behavior_positive_punishment": {
@@ -1280,7 +1353,8 @@
     "explanation": "El castigo positivo añade algo al entorno para reducir la conducta. Debe estar autorizado por el supervisor, implementarse consistentemente y documentarse. El RBT nunca crea ni modifica procedimientos de castigo de forma independiente.",
     "options_es": {
       "answer": "Castigo positivo",
-      "purpose": "Para reducir una conducta problema añadiendo una consecuencia según lo especificado en el plan de conducta, bajo la dirección del supervisor."
+      "purpose": "Para reducir una conducta problema añadiendo una consecuencia según lo especificado en el plan de conducta, bajo la dirección del supervisor.",
+      "Positive punishment": "Castigo positivo"
     }
   },
   "behavior_post_crisis_documentation": {
@@ -1292,7 +1366,8 @@
     "explanation": "Precisos post-crisis documentación supports el BCBA in revisando el plan y fulfills legal y organizational requisitos para reporting significant incidents.",
     "options_es": {
       "answer": "Post-crisis documentación",
-      "purpose": "Para create an precisos registro de el crisis para clinical revisión, compliance, y any requerida reporting"
+      "purpose": "Para create an precisos registro de el crisis para clinical revisión, compliance, y any requerida reporting",
+      "Post-crisis documentation": "Post-crisis documentación"
     }
   },
   "behavior_precorrection": {
@@ -1304,7 +1379,8 @@
     "explanation": "La precorrección es proactiva porque ocurre antes de que comience la situación en la que probablemente aparecería el problema.",
     "options_es": {
       "answer": "Precorrección",
-      "purpose": "Para reducir la conducta problema recordando con anticipación la conducta esperada."
+      "purpose": "Para reducir la conducta problema recordando con anticipación la conducta esperada.",
+      "Precorrection": "Precorrección"
     }
   },
   "behavior_punishment_definition": {
@@ -1316,7 +1392,8 @@
     "explanation": "Conductual castigo es no el misma as castigo in everyday language. It es defined only mediante si conducta decreases. Un RBT must implement castigo procedimientos exactly as escrito in el conducta plan y only under supervisor autorización.",
     "options_es": {
       "answer": "Castigo (definición conductual)",
-      "purpose": "Para comprender qué significa el castigo en términos conductuales y así implementar los procedimientos correctamente y reconocer si están funcionando."
+      "purpose": "Para comprender qué significa el castigo en términos conductuales y así implementar los procedimientos correctamente y reconocer si están funcionando.",
+      "Punishment (behavioral definition)": "Castigo (definición conductual)"
     }
   },
   "behavior_punishment_side_effects": {
@@ -1328,7 +1405,8 @@
     "explanation": "El castigo reduce la conducta pero también puede producir reacciones emocionales negativas y de evitación. El RBT monitorea estos efectos, los documenta con precisión y no modifica el plan de forma independiente. El supervisor utiliza estos datos para determinar si continuar, ajustar o suspender el procedimiento.",
     "options_es": {
       "answer": "Efectos secundarios de los procedimientos de castigo",
-      "purpose": "Para ayudar al RBT a detectar efectos secundarios no deseados del castigo y reportarlos de inmediato para que el supervisor pueda evaluar la intervención."
+      "purpose": "Para ayudar al RBT a detectar efectos secundarios no deseados del castigo y reportarlos de inmediato para que el supervisor pueda evaluar la intervención.",
+      "Side effects of punishment procedures": "Efectos secundarios de los procedimientos de castigo"
     }
   },
   "behavior_rbt_follows_brp": {
@@ -1340,7 +1418,8 @@
     "explanation": "Una implementación inconsistente de un BRP puede impedir la reducción de la conducta y hacer imposible saber si el plan está funcionando.",
     "options_es": {
       "answer": "Rol del RBT al seguir el BRP",
-      "purpose": "Para asegurar que las intervenciones se apliquen con fidelidad y que los datos reflejen el efecto real del plan."
+      "purpose": "Para asegurar que las intervenciones se apliquen con fidelidad y que los datos reflejen el efecto real del plan.",
+      "RBT's role in following the BRP": "Rol del RBT al seguir el BRP"
     }
   },
   "behavior_rbt_punishment_role": {
@@ -1352,7 +1431,8 @@
     "explanation": "Los procedimientos de castigo conllevan riesgos éticos y deben monitorearse cuidadosamente. El trabajo del RBT es seguir el plan con fidelidad, documentar los resultados y comunicarse con el supervisor —nunca crear ni modificar procedimientos de castigo de forma independiente.",
     "options_es": {
       "answer": "Rol del RBT en la implementación de procedimientos de castigo",
-      "purpose": "Para asegurar que los procedimientos de castigo solo se usen cuando estén clínicamente justificados, correctamente diseñados y aprobados por un supervisor calificado."
+      "purpose": "Para asegurar que los procedimientos de castigo solo se usen cuando estén clínicamente justificados, correctamente diseñados y aprobados por un supervisor calificado.",
+      "RBT role in implementing punishment procedures": "Rol del RBT en la implementación de procedimientos de castigo"
     }
   },
   "behavior_redirection": {
@@ -1364,7 +1444,8 @@
     "explanation": "La redirección cambia la respuesta del aprendiz hacia una conducta más segura o más funcional en ese momento.",
     "options_es": {
       "answer": "Redirección",
-      "purpose": "Para interrumpir la conducta problema y guiar al aprendiz hacia una respuesta más apropiada."
+      "purpose": "Para interrumpir la conducta problema y guiar al aprendiz hacia una respuesta más apropiada.",
+      "Redirection": "Redirección"
     }
   },
   "behavior_replacement_behavior": {
@@ -1376,7 +1457,8 @@
     "explanation": "Las conductas de reemplazo se eligen porque son más seguras, más aceptables y funcionalmente útiles.",
     "options_es": {
       "answer": "Conducta de reemplazo",
-      "purpose": "Para ofrecer una manera más apropiada de satisfacer la misma necesidad."
+      "purpose": "Para ofrecer una manera más apropiada de satisfacer la misma necesidad.",
+      "Replacement behavior": "Conducta de reemplazo"
     }
   },
   "behavior_response_cost": {
@@ -1400,7 +1482,8 @@
     "explanation": "Respuesta costo works dentro de a ficha economía. El RBT removes tokens exactly as specified in el conducta plan—no más, no fewer. El procedimiento must ser approved mediante el supervisor y should no ser invented mediante el RBT.",
     "options_es": {
       "answer": "Costo de respuesta",
-      "purpose": "Para disminuir la conducta problema usando un sistema de consecuencias estructurado que retira los reforzadores ganados."
+      "purpose": "Para disminuir la conducta problema usando un sistema de consecuencias estructurado que retira los reforzadores ganados.",
+      "Response cost": "Costo de respuesta"
     }
   },
   "behavior_rird": {
@@ -1424,7 +1507,8 @@
     "explanation": "Mantener un entorno seguro es una prioridad durante cualquier crisis; el RBT toma estas medidas mientras sigue el plan de crisis y notifica al supervisor.",
     "options_es": {
       "answer": "Entorno seguro durante una crisis",
-      "purpose": "Para reducir el riesgo inmediato para el aprendiz y para otras personas mientras se maneja la crisis."
+      "purpose": "Para reducir el riesgo inmediato para el aprendiz y para otras personas mientras se maneja la crisis.",
+      "Safe environment during crisis": "Entorno seguro durante una crisis"
     }
   },
   "behavior_safety_monitoring": {
@@ -1436,7 +1520,8 @@
     "explanation": "El monitoreo de seguridad implica mantenerse alerta ante el peligro y actuar dentro del plan aprobado para reducir el daño.",
     "options_es": {
       "answer": "Monitoreo de seguridad",
-      "purpose": "Para monitorear y reducir el riesgo inmediato durante el apoyo conductual."
+      "purpose": "Para monitorear y reducir el riesgo inmediato durante el apoyo conductual.",
+      "Safety monitoring": "Monitoreo de seguridad"
     }
   },
   "behavior_spontaneous_recovery": {
@@ -1448,7 +1533,8 @@
     "explanation": "Espontánea recuperación es temporal si extinction es continued consistently; dar in cuando el conducta reaparece puede restart el reforzamiento history.",
     "options_es": {
       "answer": "Recuperación espontánea",
-      "purpose": "Para reconocer que brief reaparición de an extinguished conducta es a normal part de el extinction process, no a permanent return de el problema"
+      "purpose": "Para reconocer que brief reaparición de an extinguished conducta es a normal part de el extinction process, no a permanent return de el problema",
+      "Spontaneous recovery": "Recuperación espontánea"
     }
   },
   "behavior_spontaneous_recovery_definition": {
@@ -1460,7 +1546,8 @@
     "explanation": "La recuperación espontánea puede alarmar a los cuidadores y RBTs que piensan que la conducta problemática ha regresado. Entender que es temporal y esperada ayuda al RBT a mantenerse consistente y proporcionar información precisa al supervisor.",
     "options_es": {
       "answer": "Recuperación espontánea",
-      "purpose": "Para ayudar al RBT a reconocer la recuperación espontánea y responder correctamente manteniendo el procedimiento de extinción en lugar de cambiar el plan."
+      "purpose": "Para ayudar al RBT a reconocer la recuperación espontánea y responder correctamente manteniendo el procedimiento de extinción en lugar de cambiar el plan.",
+      "Spontaneous recovery": "Recuperación espontánea"
     }
   },
   "behavior_tangible_extinction": {
@@ -1472,7 +1559,8 @@
     "explanation": "La extinción tangible significa que el objeto que mantenía la conducta ya no se entrega después de que esa conducta ocurre.",
     "options_es": {
       "answer": "Extinción tangible",
-      "purpose": "Para reducir la conducta mantenida por tangibles dejando de proporcionar el objeto después de la conducta problema."
+      "purpose": "Para reducir la conducta mantenida por tangibles dejando de proporcionar el objeto después de la conducta problema.",
+      "Tangible extinction": "Extinción tangible"
     }
   },
   "behavior_tangible_function": {
@@ -1484,7 +1572,8 @@
     "explanation": "La conducta mantenida por tangibles se fortalece cuando produce de manera confiable acceso a algo que el aprendiz valora.",
     "options_es": {
       "answer": "Tangible función",
-      "purpose": "Para identificar conductas mantenida mediante access to preferred elementos o actividades"
+      "purpose": "Para identificar conductas mantenida mediante access to preferred elementos o actividades",
+      "Tangible function": "Tangible función"
     }
   },
   "behavior_tangible_replacement_response": {
@@ -1496,7 +1585,8 @@
     "explanation": "Enseñar una petición apropiada de un objeto es una estrategia común de reemplazo para conducta mantenida por tangibles.",
     "options_es": {
       "answer": "Respuesta de reemplazo mantenida por tangibles",
-      "purpose": "Para reemplazar conducta problema de búsqueda de objetos con una petición apropiada."
+      "purpose": "Para reemplazar conducta problema de búsqueda de objetos con una petición apropiada.",
+      "Tangible-maintained replacement response": "Respuesta de reemplazo mantenida por tangibles"
     }
   },
   "behavior_task_modification": {
@@ -1508,7 +1598,8 @@
     "explanation": "La modificación de tarea debe hacerse únicamente como se describe en el plan de conducta; los cambios arbitrarios a las tareas pueden reforzar inadvertidamente la evitación si no se manejan cuidadosamente.",
     "options_es": {
       "answer": "Modificación de la tarea",
-      "purpose": "Para reducir el motivation to escape o avoid demands mediante hacer them más manageable"
+      "purpose": "Para reducir el motivation to escape o avoid demands mediante hacer them más manageable",
+      "Task modification": "Modificación de la tarea"
     }
   },
   "behavior_time_out_procedure": {
@@ -1520,7 +1611,8 @@
     "explanation": "Tiempo fuera must only ser usado cuando it es escrito en el conducta plan. El RBT follows el exacto duración, location, y implementation pasos specified. Variations desde el plan puede reducir efectividad o create seguridad concerns.",
     "options_es": {
       "answer": "Tiempo fuera del reforzamiento positivo",
-      "purpose": "Para reducir la destrucción de objetos retirando al aprendiz de un entorno reforzante durante un período breve y definido."
+      "purpose": "Para reducir la destrucción de objetos retirando al aprendiz de un entorno reforzante durante un período breve y definido.",
+      "Time-out from positive reinforcement": "Tiempo fuera del reforzamiento positivo"
     }
   },
   "behavior_transition_warning": {
@@ -1532,7 +1624,8 @@
     "explanation": "Los avisos de transición son una estrategia antecedente sencilla que reduce lo abrupto de los cambios de actividad, que a menudo desencadenan conducta problema.",
     "options_es": {
       "answer": "Avisos de transición",
-      "purpose": "Para reducir la conducta problema durante las transiciones dando al aprendiz tiempo para prepararse para el cambio."
+      "purpose": "Para reducir la conducta problema durante las transiciones dando al aprendiz tiempo para prepararse para el cambio.",
+      "Transition warnings": "Avisos de transición"
     }
   },
   "behavior_visual_supports": {
@@ -1544,7 +1637,8 @@
     "explanation": "Los apoyos visuales funcionan como intervenciones antecedentes al aclarar las expectativas antes de que la conducta tenga la oportunidad de ocurrir.",
     "options_es": {
       "answer": "Visual supports as antecedent intervención",
-      "purpose": "Para reducir problema conducta associated con unpredictability, transitions, o difficulty understanding expectations"
+      "purpose": "Para reducir problema conducta associated con unpredictability, transitions, o difficulty understanding expectations",
+      "Visual supports as antecedent intervention": "Visual supports as antecedent intervención"
     }
   },
   "behavior_written_plan_components": {
@@ -1556,7 +1650,8 @@
     "explanation": "Un plan escrito de reducción de conducta le indica al RBT exactamente cómo responder dentro del procedimiento aprobado.",
     "options_es": {
       "answer": "Plan escrito de reducción de conducta",
-      "purpose": "Para guiar una implementación consistente de los procedimientos de reducción de conducta."
+      "purpose": "Para guiar una implementación consistente de los procedimientos de reducción de conducta.",
+      "Written behavior reduction plan": "Plan escrito de reducción de conducta"
     }
   },
   "documentation_abc_note": {
@@ -1616,7 +1711,8 @@
     "explanation": "Reportar preocupaciones con prontitud protege al aprendiz y permite que el supervisor cumpla con sus responsabilidades clínicas y legales.",
     "options_es": {
       "answer": "Comunicar preocupaciones al supervisor",
-      "purpose": "Para asegurar que el supervisor esté al tanto de cualquier situación que pueda afectar la seguridad del aprendiz o la integridad de los servicios."
+      "purpose": "Para asegurar que el supervisor esté al tanto de cualquier situación que pueda afectar la seguridad del aprendiz o la integridad de los servicios.",
+      "Reporting concerns to the supervisor": "Comunicar preocupaciones al supervisor"
     }
   },
   "documentation_data_summary": {
@@ -1964,7 +2060,8 @@
     "explanation": "La duración por episodio es útil cuando al equipo le importa cuánto dura cada evento por separado y no solo el tiempo total acumulado.",
     "options_es": {
       "answer": "Duración por episodio",
-      "purpose": "Para comparar cuánto dura cada episodio individual de la conducta."
+      "purpose": "Para comparar cuánto dura cada episodio individual de la conducta.",
+      "Duration per occurrence": "Duración por episodio"
     }
   },
   "measurement_event_recording": {
@@ -2144,7 +2241,8 @@
     "explanation": "La topografía se centra en la forma física de la respuesta y evita hacer suposiciones sobre la motivación o la función.",
     "options_es": {
       "answer": "Descripción topográfica",
-      "purpose": "Para describir la conducta según cómo se ve de manera observable."
+      "purpose": "Para describir la conducta según cómo se ve de manera observable.",
+      "Topography": "Descripción topográfica"
     }
   },
   "measurement_trial_by_trial": {
@@ -2588,7 +2686,8 @@
     "explanation": "Las ayudas gestuales son menos intrusivas que las ayudas de modelado o físicas y pueden favorecer una mayor independencia.",
     "options_es": {
       "answer": "Ayuda gestual",
-      "purpose": "Para dirigir la atención hacia la respuesta correcta con un gesto simple."
+      "purpose": "Para dirigir la atención hacia la respuesta correcta con un gesto simple.",
+      "Gesture prompt": "Ayuda gestual"
     }
   },
   "skill_incidental_teaching": {
@@ -2636,7 +2735,8 @@
     "explanation": "La ayuda de modelado ofrece un ejemplo de la respuesta objetivo y se usa mucho en enseñanza motora e imitación.",
     "options_es": {
       "answer": "Ayuda de modelado",
-      "purpose": "Para mostrarle al aprendiz cómo se ve la respuesta correcta."
+      "purpose": "Para mostrarle al aprendiz cómo se ve la respuesta correcta.",
+      "Model prompt": "Ayuda de modelado"
     }
   },
   "skill_net": {
@@ -2696,7 +2796,8 @@
     "explanation": "La generalización de respuestas ocurre cuando enseñar una respuesta produce otras conductas apropiadas nuevas pero relacionadas.",
     "options_es": {
       "answer": "Generalización de respuestas",
-      "purpose": "Para favorecer la aparición de respuestas apropiadas relacionadas más allá del entrenamiento directo."
+      "purpose": "Para favorecer la aparición de respuestas apropiadas relacionadas más allá del entrenamiento directo.",
+      "Response generalization": "Generalización de respuestas"
     }
   },
   "skill_shaping": {
@@ -2780,7 +2881,8 @@
     "explanation": "Los ensayos de transferencia ayudan a confirmar que las ayudas están conduciendo a respuestas independientes y no a dependencia de la ayuda.",
     "options_es": {
       "answer": "Ensayo de transferencia",
-      "purpose": "Para comprobar si el control del estímulo se está desplazando hacia una respuesta con menos ayuda."
+      "purpose": "Para comprobar si el control del estímulo se está desplazando hacia una respuesta con menos ayuda.",
+      "Transfer trial": "Ensayo de transferencia"
     }
   },
   "skill_verbal_prompt": {
@@ -2792,7 +2894,8 @@
     "explanation": "Las ayudas verbales pueden ir desde la respuesta completa hasta pistas parciales y deben desvanecerse para evitar dependencia.",
     "options_es": {
       "answer": "Ayuda verbal",
-      "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal."
+      "purpose": "Para aumentar las respuestas correctas mediante apoyo verbal.",
+      "Verbal prompt": "Ayuda verbal"
     }
   },
   "measurement_frequency_vs_rate": {
@@ -2804,7 +2907,8 @@
     "explanation": "La tasa es más informativa que la frecuencia bruta cuando la duración de la sesión varía, porque toma en cuenta la cantidad de tiempo observado.",
     "options_es": {
       "answer": "Frecuencia frente a tasa",
-      "purpose": "Para comparar la conducta entre sesiones de distinta duración."
+      "purpose": "Para comparar la conducta entre sesiones de distinta duración.",
+      "Frequency vs. rate": "Frecuencia frente a tasa"
     }
   },
   "measurement_decreasing_trend": {
@@ -2816,7 +2920,8 @@
     "explanation": "Una tendencia decreciente es una señal positiva cuando la conducta objetivo es una conducta problema, y una señal de preocupación cuando la meta es una habilidad en adquisición. Leer correctamente la tendencia orienta las decisiones del supervisor.",
     "options_es": {
       "answer": "Tendencia decreciente",
-      "purpose": "Para ayudar al RBT a identificar cuándo una intervención de reducción de conducta está produciendo resultados."
+      "purpose": "Para ayudar al RBT a identificar cuándo una intervención de reducción de conducta está produciendo resultados.",
+      "Decreasing trend": "Tendencia decreciente"
     }
   },
   "measurement_variable_trend": {
@@ -2828,7 +2933,8 @@
     "explanation": "Los datos muy variables pueden sugerir implementación inconsistente, diferencias motivacionales o factores externos que afectan al aprendiz. Identificar la variabilidad ayuda al equipo a decidir los siguientes pasos.",
     "options_es": {
       "answer": "Datos variables",
-      "purpose": "Para ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación."
+      "purpose": "Para ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación.",
+      "Variable data": "Datos variables"
     }
   },
   "measurement_stable_trend": {
@@ -2840,7 +2946,8 @@
     "explanation": "Los datos de línea base estables son esenciales porque permiten comparar con los datos de intervención. Sin estabilidad, es difícil determinar si un programa es efectivo.",
     "options_es": {
       "answer": "Datos estables",
-      "purpose": "Para establecer una línea base confiable antes de introducir una intervención, de modo que cualquier cambio futuro en los datos pueda atribuirse a la intervención."
+      "purpose": "Para establecer una línea base confiable antes de introducir una intervención, de modo que cualquier cambio futuro en los datos pueda atribuirse a la intervención.",
+      "Stable data": "Datos estables"
     }
   },
   "professional_proactive_consultation": {
@@ -2852,7 +2959,8 @@
     "explanation": "La consulta proactiva reduce el riesgo de errores y demuestra responsabilidad profesional al anticipar situaciones difíciles.",
     "options_es": {
       "answer": "Consulta proactiva con el supervisor",
-      "purpose": "Para prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación difícil."
+      "purpose": "Para prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación difícil.",
+      "Proactive consultation with supervisor": "Consulta proactiva con el supervisor"
     }
   },
   "professional_constructive_disagreement": {
@@ -2864,7 +2972,8 @@
     "explanation": "El desacuerdo profesional se expresa mediante diálogo y datos, no actuando de forma independiente ni socavando las indicaciones del supervisor.",
     "options_es": {
       "answer": "Expresar desacuerdo de manera profesional",
-      "purpose": "Para plantear preocupaciones legítimas sin violar la relación de supervisión ni la integridad de los servicios."
+      "purpose": "Para plantear preocupaciones legítimas sin violar la relación de supervisión ni la integridad de los servicios.",
+      "Expressing disagreement professionally": "Expresar desacuerdo de manera profesional"
     }
   },
   "documentation_between_session_contact": {
@@ -2876,7 +2985,8 @@
     "explanation": "La comunicación entre sesiones asegura que los cambios clínicamente significativos se atiendan antes de que ocurran más sesiones bajo un plan desactualizado o ineficaz.",
     "options_es": {
       "answer": "Comunicación con el supervisor entre sesiones",
-      "purpose": "Para atender las preocupaciones de manera oportuna en lugar de esperar al próximo contacto programado."
+      "purpose": "Para atender las preocupaciones de manera oportuna en lugar de esperar al próximo contacto programado.",
+      "Between-session supervisor communication": "Comunicación con el supervisor entre sesiones"
     }
   },
   "documentation_objective_language": {
@@ -2888,7 +2998,8 @@
     "explanation": "El lenguaje objetivo mejora la claridad y mantiene la documentación centrada en información observable.",
     "options_es": {
       "answer": "Lenguaje objetivo",
-      "purpose": "Para documentar la conducta y los hechos del tratamiento sin juicios subjetivos."
+      "purpose": "Para documentar la conducta y los hechos del tratamiento sin juicios subjetivos.",
+      "Objective language": "Lenguaje objetivo"
     }
   },
   "documentation_subjective_statement": {
@@ -2900,7 +3011,8 @@
     "explanation": "Las afirmaciones subjetivas deben evitarse porque son más difíciles de verificar y pueden distorsionar lo ocurrido en la sesión.",
     "options_es": {
       "answer": "Afirmación subjetiva",
-      "purpose": "Para identificar redacción que debe evitarse en la documentación profesional."
+      "purpose": "Para identificar redacción que debe evitarse en la documentación profesional.",
+      "Subjective statement": "Afirmación subjetiva"
     }
   },
   "documentation_relevant_variables": {
@@ -2912,7 +3024,8 @@
     "explanation": "Las variables relevantes ayudan al equipo a interpretar un desempeño inusual sin tener que depender después de suposiciones.",
     "options_es": {
       "answer": "Documentación de variables relevantes",
-      "purpose": "Para documentar variables del contexto que pudieron influir en los resultados de la sesión."
+      "purpose": "Para documentar variables del contexto que pudieron influir en los resultados de la sesión.",
+      "Relevant variable documentation": "Documentación de variables relevantes"
     }
   },
   "documentation_plan_deviation_note": {
@@ -2924,7 +3037,8 @@
     "explanation": "Las notas de desviación del plan aclaran qué se implementó y qué no durante la sesión.",
     "options_es": {
       "answer": "Nota de desviación del plan",
-      "purpose": "Para documentar cuándo el plan escrito no pudo seguirse exactamente."
+      "purpose": "Para documentar cuándo el plan escrito no pudo seguirse exactamente.",
+      "Plan deviation note": "Nota de desviación del plan"
     }
   },
   "documentation_health_status_change": {
@@ -2936,7 +3050,8 @@
     "explanation": "Los cambios en el estado de salud son relevantes porque pueden alterar la conducta, la participación y las necesidades de seguridad.",
     "options_es": {
       "answer": "Cambio en el estado de salud",
-      "purpose": "Para registrar factores de salud que puedan afectar el tratamiento o el desempeño."
+      "purpose": "Para registrar factores de salud que puedan afectar el tratamiento o el desempeño.",
+      "Health status change": "Cambio en el estado de salud"
     }
   },
   "documentation_medication_change_report": {
@@ -2948,7 +3063,8 @@
     "explanation": "Los cambios de medicación pueden afectar la conducta y deben documentarse y comunicarse de acuerdo con el plan.",
     "options_es": {
       "answer": "Registro de cambio de medicación",
-      "purpose": "Para documentar variables relacionadas con la medicación que puedan ser relevantes para el tratamiento."
+      "purpose": "Para documentar variables relacionadas con la medicación que puedan ser relevantes para el tratamiento.",
+      "Medication change report": "Registro de cambio de medicación"
     }
   },
   "documentation_injury_report": {
@@ -2960,7 +3076,8 @@
     "explanation": "Los reportes de lesión respaldan el seguimiento de seguridad, la rendición de cuentas y el cumplimiento de los requisitos del lugar de trabajo.",
     "options_es": {
       "answer": "Reporte de lesión",
-      "purpose": "Para documentar lesiones de acuerdo con los procedimientos de reporte requeridos."
+      "purpose": "Para documentar lesiones de acuerdo con los procedimientos de reporte requeridos.",
+      "Injury report": "Reporte de lesión"
     }
   },
   "documentation_caregiver_update_note": {
@@ -2972,7 +3089,8 @@
     "explanation": "Una nota de actualización al cuidador ayuda a conservar un registro preciso de la comunicación importante de la sesión.",
     "options_es": {
       "answer": "Nota de actualización al cuidador",
-      "purpose": "Para registrar lo que se comunicó al cuidador sobre la sesión."
+      "purpose": "Para registrar lo que se comunicó al cuidador sobre la sesión.",
+      "Caregiver update note": "Nota de actualización al cuidador"
     }
   },
   "documentation_supervisor_concern_report": {
@@ -2984,7 +3102,8 @@
     "explanation": "Reportar preocupaciones con detalles objetivos ayuda al supervisor a evaluar si se necesitan cambios en el plan.",
     "options_es": {
       "answer": "Reporte de preocupación al supervisor",
-      "purpose": "Para comunicar al supervisor preocupaciones clínicamente relevantes con prontitud."
+      "purpose": "Para comunicar al supervisor preocupaciones clínicamente relevantes con prontitud.",
+      "Supervisor concern report": "Reporte de preocupación al supervisor"
     }
   },
   "documentation_graph_annotation": {
@@ -2996,7 +3115,8 @@
     "explanation": "Las anotaciones en la gráfica ayudan al equipo a interpretar cambios en los datos a la luz de eventos contextuales importantes.",
     "options_es": {
       "answer": "Anotación en la gráfica",
-      "purpose": "Para mostrar eventos relevantes junto al desempeño graficado."
+      "purpose": "Para mostrar eventos relevantes junto al desempeño graficado.",
+      "Graph annotation": "Anotación en la gráfica"
     }
   },
   "documentation_baseline_data_entry": {
@@ -3008,7 +3128,8 @@
     "explanation": "El registro de datos de línea base conserva el punto de partida del aprendiz para comparaciones posteriores.",
     "options_es": {
       "answer": "Registro de datos de línea base",
-      "purpose": "Para documentar el desempeño antes de que inicie la intervención."
+      "purpose": "Para documentar el desempeño antes de que inicie la intervención.",
+      "Baseline data entry": "Registro de datos de línea base"
     }
   },
   "documentation_data_transcription_check": {
@@ -3020,7 +3141,8 @@
     "explanation": "Las verificaciones de transcripción ayudan a evitar errores administrativos que podrían distorsionar los registros de progreso.",
     "options_es": {
       "answer": "Verificación de transcripción de datos",
-      "purpose": "Para asegurar que los datos registrados coincidan con el registro final documentado."
+      "purpose": "Para asegurar que los datos registrados coincidan con el registro final documentado.",
+      "Data transcription check": "Verificación de transcripción de datos"
     }
   },
   "documentation_late_entry_addendum": {
@@ -3032,7 +3154,8 @@
     "explanation": "Los anexos de registro tardío preservan la exactitud de la documentación sin volver engañoso el registro.",
     "options_es": {
       "answer": "Anexo de registro tardío",
-      "purpose": "Para documentar de forma transparente la información añadida después del registro original."
+      "purpose": "Para documentar de forma transparente la información añadida después del registro original.",
+      "Late-entry addendum": "Anexo de registro tardío"
     }
   },
   "documentation_cancellation_note": {
@@ -3044,7 +3167,8 @@
     "explanation": "Las notas de cancelación ayudan a mantener registros precisos del servicio y del historial de programación.",
     "options_es": {
       "answer": "Nota de cancelación",
-      "purpose": "Para documentar cuándo un servicio programado no ocurrió."
+      "purpose": "Para documentar cuándo un servicio programado no ocurrió.",
+      "Cancellation note": "Nota de cancelación"
     }
   },
   "documentation_partial_session_note": {
@@ -3056,7 +3180,8 @@
     "explanation": "Las notas de sesión parcial aclaran la cantidad de servicio prestado y la razón por la que la sesión terminó antes.",
     "options_es": {
       "answer": "Nota de sesión parcial",
-      "purpose": "Para documentar con precisión las sesiones acortadas."
+      "purpose": "Para documentar con precisión las sesiones acortadas.",
+      "Partial session note": "Nota de sesión parcial"
     }
   },
   "documentation_behavior_trend_summary": {
@@ -3068,7 +3193,8 @@
     "explanation": "Los resúmenes de tendencia ayudan a comunicar patrones clínicamente útiles sin reemplazar los datos subyacentes.",
     "options_es": {
       "answer": "Resumen de tendencia de conducta",
-      "purpose": "Para resumir cambios significativos en los patrones de conducta a lo largo del tiempo."
+      "purpose": "Para resumir cambios significativos en los patrones de conducta a lo largo del tiempo.",
+      "Behavior trend summary": "Resumen de tendencia de conducta"
     }
   },
   "documentation_prompt_change_note": {
@@ -3080,7 +3206,8 @@
     "explanation": "Las notas de cambio de ayudas ayudan a que quienes revisen después entiendan por qué el desempeño puede verse diferente entre sesiones.",
     "options_es": {
       "answer": "Nota de cambio de ayudas",
-      "purpose": "Para documentar actualizaciones en los procedimientos de ayuda utilizados durante la sesión."
+      "purpose": "Para documentar actualizaciones en los procedimientos de ayuda utilizados durante la sesión.",
+      "Prompt change note": "Nota de cambio de ayudas"
     }
   },
   "documentation_reinforcer_change_note": {
@@ -3092,7 +3219,8 @@
     "explanation": "Las notas de cambio de reforzador ayudan al equipo a entender cambios en la motivación y en los resultados de enseñanza.",
     "options_es": {
       "answer": "Nota de cambio de reforzador",
-      "purpose": "Para documentar cambios significativos en el reforzamiento usado durante la sesión."
+      "purpose": "Para documentar cambios significativos en el reforzamiento usado durante la sesión.",
+      "Reinforcer change note": "Nota de cambio de reforzador"
     }
   },
   "documentation_environmental_change_report": {
@@ -3104,7 +3232,8 @@
     "explanation": "Los reportes de cambio ambiental ayudan al equipo a interpretar conductas inusuales dentro de su contexto.",
     "options_es": {
       "answer": "Reporte de cambio ambiental",
-      "purpose": "Para documentar cambios del entorno que puedan ayudar a explicar el desempeño en sesión."
+      "purpose": "Para documentar cambios del entorno que puedan ayudar a explicar el desempeño en sesión.",
+      "Environmental change report": "Reporte de cambio ambiental"
     }
   },
   "documentation_follow_up_communication_note": {
@@ -3116,7 +3245,8 @@
     "explanation": "Las notas de seguimiento ayudan a asegurar que intercambios importantes no se pierdan ni se recuerden mal más adelante.",
     "options_es": {
       "answer": "Nota de comunicación de seguimiento",
-      "purpose": "Para conservar un registro preciso de la comunicación clínicamente relevante posterior a la sesión."
+      "purpose": "Para conservar un registro preciso de la comunicación clínicamente relevante posterior a la sesión.",
+      "Follow-up communication note": "Nota de comunicación de seguimiento"
     }
   },
   "documentation_timely_reporting": {
@@ -3128,7 +3258,8 @@
     "explanation": "El reporte oportuno favorece la exactitud, la continuidad del cuidado y el cumplimiento de las expectativas del lugar de trabajo.",
     "options_es": {
       "answer": "Reporte oportuno",
-      "purpose": "Para asegurar que los registros y reportes se completen cuando los detalles aún son precisos."
+      "purpose": "Para asegurar que los registros y reportes se completen cuando los detalles aún son precisos.",
+      "Timely reporting": "Reporte oportuno"
     }
   },
   "documentation_supervisor_update": {
@@ -3140,7 +3271,8 @@
     "explanation": "La comunicación efectiva con el supervisor asegura que el equipo tenga información actual y precisa para guiar la programación y atender preocupaciones.",
     "options_es": {
       "answer": "Actualización al supervisor",
-      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se tomen con información completa."
+      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se tomen con información completa.",
+      "Supervisor update": "Actualización al supervisor"
     }
   },
   "documentation_session_debrief": {
@@ -3152,7 +3284,8 @@
     "explanation": "La comunicación regular después de la sesión permite al supervisor monitorear el progreso, identificar problemas emergentes y ajustar el plan cuando sea necesario.",
     "options_es": {
       "answer": "Resumen posterior a la sesión con el supervisor",
-      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se basen en información actual y completa."
+      "purpose": "Para mantener informado al supervisor de modo que las decisiones clínicas se basen en información actual y completa.",
+      "Post-session debrief with supervisor": "Resumen posterior a la sesión con el supervisor"
     }
   },
   "documentation_communication_format": {
@@ -3164,7 +3297,8 @@
     "explanation": "Usar el formato correcto asegura que las comunicaciones se reciban, se documenten y sean apropiadas para el nivel de urgencia.",
     "options_es": {
       "answer": "Formato de comunicación apropiado con el supervisor",
-      "purpose": "Para usar canales que el supervisor y la organización han establecido como confiables y rastreables."
+      "purpose": "Para usar canales que el supervisor y la organización han establecido como confiables y rastreables.",
+      "Appropriate communication format with supervisor": "Formato de comunicación apropiado con el supervisor"
     }
   },
   "documentation_progress_update": {
@@ -3176,7 +3310,8 @@
     "explanation": "Las actualizaciones regulares de progreso permiten al supervisor identificar tendencias, hacer ajustes y asegurar que los servicios sigan siendo efectivos y apropiados.",
     "options_es": {
       "answer": "Actualizaciones de progreso al supervisor",
-      "purpose": "Para darle al supervisor la información necesaria para tomar decisiones basadas en datos sobre el plan."
+      "purpose": "Para darle al supervisor la información necesaria para tomar decisiones basadas en datos sobre el plan.",
+      "Progress updates to supervisor": "Actualizaciones de progreso al supervisor"
     }
   },
   "documentation_urgent_contact": {
@@ -3188,7 +3323,8 @@
     "explanation": "Algunas situaciones no pueden esperar al próximo contacto programado; el RBT debe reconocer cuándo se requiere notificación inmediata al supervisor.",
     "options_es": {
       "answer": "Contacto urgente con el supervisor",
-      "purpose": "Para asegurar que los asuntos urgentes reciban una respuesta oportuna de la persona con la autoridad y la preparación para manejarlos."
+      "purpose": "Para asegurar que los asuntos urgentes reciban una respuesta oportuna de la persona con la autoridad y la preparación para manejarlos.",
+      "Urgent supervisor contact": "Contacto urgente con el supervisor"
     }
   },
   "documentation_illness_report": {
@@ -3200,7 +3336,8 @@
     "explanation": "La enfermedad y los cambios médicos pueden afectar drásticamente los datos de conducta; reportarlos permite que el equipo interprete la sesión con precisión y tome decisiones adecuadas.",
     "options_es": {
       "answer": "Reporte de enfermedad o cambios médicos",
-      "purpose": "Para asegurar que el supervisor conozca condiciones de salud que puedan afectar la conducta, la seguridad o la prestación del servicio."
+      "purpose": "Para asegurar que el supervisor conozca condiciones de salud que puedan afectar la conducta, la seguridad o la prestación del servicio.",
+      "Reporting illness or medical changes": "Reporte de enfermedad o cambios médicos"
     }
   },
   "documentation_environmental_hazard": {
@@ -3212,7 +3349,8 @@
     "explanation": "Reportar riesgos ambientales forma parte de la responsabilidad del RBT de mantener un entorno de tratamiento seguro y proteger el bienestar del aprendiz.",
     "options_es": {
       "answer": "Reporte de riesgos ambientales",
-      "purpose": "Para proteger al aprendiz y al RBT de daños prevenibles causados por condiciones inseguras."
+      "purpose": "Para proteger al aprendiz y al RBT de daños prevenibles causados por condiciones inseguras.",
+      "Reporting environmental hazards": "Reporte de riesgos ambientales"
     }
   },
   "measurement_interresponse_time": {
@@ -3224,7 +3362,8 @@
     "explanation": "El tiempo entre respuestas es útil cuando el equipo necesita saber qué tan espaciadas están las respuestas repetidas.",
     "options_es": {
       "answer": "Tiempo entre respuestas",
-      "purpose": "Para medir el intervalo entre respuestas consecutivas."
+      "purpose": "Para medir el intervalo entre respuestas consecutivas.",
+      "Interresponse time": "Tiempo entre respuestas"
     }
   },
   "measurement_mean_duration": {
@@ -3236,7 +3375,8 @@
     "explanation": "La duración promedio ayuda a resumir cuánto suele durar una respuesta a lo largo de múltiples ocurrencias.",
     "options_es": {
       "answer": "Duración promedio",
-      "purpose": "Para resumir la duración promedio de los episodios de respuesta."
+      "purpose": "Para resumir la duración promedio de los episodios de respuesta.",
+      "Mean duration": "Duración promedio"
     }
   },
   "measurement_percentage_correct": {
@@ -3248,7 +3388,8 @@
     "explanation": "El porcentaje de respuestas correctas convierte el desempeño en una proporción fácil de leer de respuestas correctas.",
     "options_es": {
       "answer": "Porcentaje de respuestas correctas",
-      "purpose": "Para expresar las respuestas correctas en relación con el total de oportunidades."
+      "purpose": "Para expresar las respuestas correctas en relación con el total de oportunidades.",
+      "Percentage correct": "Porcentaje de respuestas correctas"
     }
   },
   "measurement_percentage_opportunities": {
@@ -3260,7 +3401,8 @@
     "explanation": "El porcentaje de oportunidades es útil cuando la cantidad de ocasiones para responder cambia entre sesiones.",
     "options_es": {
       "answer": "Porcentaje de oportunidades",
-      "purpose": "Para resumir con qué frecuencia ocurrió una respuesta cuando podía haber ocurrido."
+      "purpose": "Para resumir con qué frecuencia ocurrió una respuesta cuando podía haber ocurrido.",
+      "Percentage of opportunities": "Porcentaje de oportunidades"
     }
   },
   "measurement_graph_trend": {
@@ -3272,7 +3414,8 @@
     "explanation": "La tendencia le dice al equipo si el desempeño, en general, está mejorando, empeorando o manteniéndose estable.",
     "options_es": {
       "answer": "Tendencia",
-      "purpose": "Para describir la dirección general del desempeño a lo largo del tiempo."
+      "purpose": "Para describir la dirección general del desempeño a lo largo del tiempo.",
+      "Trend": "Tendencia"
     }
   },
   "measurement_graph_level": {
@@ -3284,7 +3427,8 @@
     "explanation": "El nivel se refiere a qué tan altos o bajos están los datos en la gráfica, no a la dirección del cambio.",
     "options_es": {
       "answer": "Nivel",
-      "purpose": "Para describir la magnitud relativa de los datos dentro de una fase."
+      "purpose": "Para describir la magnitud relativa de los datos dentro de una fase.",
+      "Level": "Nivel"
     }
   },
   "measurement_graph_variability": {
@@ -3296,7 +3440,8 @@
     "explanation": "La variabilidad importa porque los datos muy inestables son más difíciles de interpretar con confianza.",
     "options_es": {
       "answer": "Variabilidad",
-      "purpose": "Para describir cuánto fluctúan los datos."
+      "purpose": "Para describir cuánto fluctúan los datos.",
+      "Variability": "Variabilidad"
     }
   },
   "measurement_graph_immediacy": {
@@ -3308,7 +3453,8 @@
     "explanation": "La inmediatez del cambio se enfoca en si el efecto apareció justo después de que cambió la condición.",
     "options_es": {
       "answer": "Inmediatez del cambio",
-      "purpose": "Para evaluar qué tan rápido cambió la conducta después de iniciar una intervención."
+      "purpose": "Para evaluar qué tan rápido cambió la conducta después de iniciar una intervención.",
+      "Immediacy of change": "Inmediatez del cambio"
     }
   },
   "measurement_visual_analysis": {
@@ -3320,7 +3466,8 @@
     "explanation": "El análisis visual usa patrones en los datos graficados para guiar decisiones de tratamiento en lugar de depender de suposiciones.",
     "options_es": {
       "answer": "Análisis visual",
-      "purpose": "Para interpretar datos graficados y tomar decisiones."
+      "purpose": "Para interpretar datos graficados y tomar decisiones.",
+      "Visual analysis": "Análisis visual"
     }
   },
   "measurement_data_collection_preparation": {
@@ -3332,7 +3479,8 @@
     "explanation": "Prepararse para la toma de datos reduce observaciones perdidas y hace que el sistema de medición sea más fácil de usar correctamente.",
     "options_es": {
       "answer": "Preparación para la toma de datos",
-      "purpose": "Para asegurar que los datos puedan recogerse con precisión desde el inicio de la sesión."
+      "purpose": "Para asegurar que los datos puedan recogerse con precisión desde el inicio de la sesión.",
+      "Data collection preparation": "Preparación para la toma de datos"
     }
   },
   "measurement_observable_terms": {
@@ -3344,7 +3492,8 @@
     "explanation": "Los términos observables mejoran la consistencia porque el personal puede estar de acuerdo sobre lo que realmente vio ocurrir.",
     "options_es": {
       "answer": "Términos observables",
-      "purpose": "Para describir la conducta en términos directamente observables o audibles."
+      "purpose": "Para describir la conducta en términos directamente observables o audibles.",
+      "Observable terms": "Términos observables"
     }
   },
   "measurement_measurable_terms": {
@@ -3356,7 +3505,8 @@
     "explanation": "Los términos medibles favorecen la recolección confiable de datos porque pueden contarse o cronometrarse objetivamente.",
     "options_es": {
       "answer": "Términos medibles",
-      "purpose": "Para hacer cuantificables la conducta y el contexto."
+      "purpose": "Para hacer cuantificables la conducta y el contexto.",
+      "Measurable terms": "Términos medibles"
     }
   },
   "measurement_environment_description": {
@@ -3368,7 +3518,8 @@
     "explanation": "Las descripciones objetivas del entorno ayudan al equipo a entender las condiciones relevantes de la sesión.",
     "options_es": {
       "answer": "Descripción del entorno",
-      "purpose": "Para describir variables contextuales que pueden afectar la conducta."
+      "purpose": "Para describir variables contextuales que pueden afectar la conducta.",
+      "Environmental description": "Descripción del entorno"
     }
   },
   "measurement_graph_updating": {
@@ -3380,7 +3531,8 @@
     "explanation": "Actualizar los gráficos a tiempo ayuda a los supervisores a detectar patrones y tomar decisiones sin demoras innecesarias.",
     "options_es": {
       "answer": "Actualización del gráfico",
-      "purpose": "Para mantener actualizada la información graficada para su revisión."
+      "purpose": "Para mantener actualizada la información graficada para su revisión.",
+      "Graph updating": "Actualización del gráfico"
     }
   },
   "measurement_unreliable_data_risk": {
@@ -3392,7 +3544,8 @@
     "explanation": "Los datos poco confiables pueden hacer que un tratamiento eficaz parezca ineficaz o pueden ocultar problemas reales en el desempeño.",
     "options_es": {
       "answer": "Riesgo de datos poco confiables",
-      "purpose": "Para reconocer el peligro de basar decisiones en datos de mala calidad."
+      "purpose": "Para reconocer el peligro de basar decisiones en datos de mala calidad.",
+      "Unreliable data risk": "Riesgo de datos poco confiables"
     }
   },
   "measurement_procedural_fidelity_risk": {
@@ -3404,7 +3557,8 @@
     "explanation": "La baja fidelidad procedimental dificulta saber si los cambios en los datos reflejan el plan o una aplicación inconsistente.",
     "options_es": {
       "answer": "Baja fidelidad procedimental",
-      "purpose": "Para identificar la implementación inconsistente de un procedimiento escrito."
+      "purpose": "Para identificar la implementación inconsistente de un procedimiento escrito.",
+      "Poor procedural fidelity": "Baja fidelidad procedimental"
     }
   },
   "measurement_missing_data_impact": {
@@ -3416,7 +3570,8 @@
     "explanation": "Los datos faltantes reducen la confianza en las conclusiones porque el registro ya no representa la sesión completa.",
     "options_es": {
       "answer": "Impacto de datos faltantes",
-      "purpose": "Para reconocer cómo las observaciones no registradas debilitan la interpretación de los datos."
+      "purpose": "Para reconocer cómo las observaciones no registradas debilitan la interpretación de los datos.",
+      "Missing data impact": "Impacto de datos faltantes"
     }
   },
   "measurement_timing_accuracy": {
@@ -3428,7 +3583,8 @@
     "explanation": "Un cronometraje preciso es necesario siempre que el sistema de medición dependa del tiempo transcurrido.",
     "options_es": {
       "answer": "Cronometraje preciso",
-      "purpose": "Para recopilar medidas válidas basadas en tiempo, como latencia y duración."
+      "purpose": "Para recopilar medidas válidas basadas en tiempo, como latencia y duración.",
+      "Accurate timing": "Cronometraje preciso"
     }
   },
   "measurement_data_summarization": {
@@ -3440,7 +3596,8 @@
     "explanation": "El resumen de datos ayuda al equipo a detectar patrones que son más difíciles de ver cuando solo se miran números en bruto.",
     "options_es": {
       "answer": "Resumen de datos",
-      "purpose": "Para presentar el desempeño en un formato más fácil de interpretar."
+      "purpose": "Para presentar el desempeño en un formato más fácil de interpretar.",
+      "Data summarization": "Resumen de datos"
     }
   },
   "measurement_behavior_plan_review": {
@@ -3452,7 +3609,8 @@
     "explanation": "Revisar el plan conductual antes de cada sesión ayuda al RBT a recolectar datos con precisión y de forma consistente con las metas del equipo de tratamiento.",
     "options_es": {
       "answer": "Revisión del plan conductual",
-      "purpose": "Para asegurar que la toma de datos coincida con los procedimientos descritos en el plan."
+      "purpose": "Para asegurar que la toma de datos coincida con los procedimientos descritos en el plan.",
+      "Behavior plan review": "Revisión del plan conductual"
     }
   },
   "professional_guardian_consent": {
@@ -3464,7 +3622,8 @@
     "explanation": "Los asuntos de consentimiento se manejan conforme a la política y la guía del supervisor, no mediante decisiones legales independientes del RBT.",
     "options_es": {
       "answer": "Consentimiento del tutor legal",
-      "purpose": "Para apoyar la prestación de servicios dentro de los límites del consentimiento autorizado."
+      "purpose": "Para apoyar la prestación de servicios dentro de los límites del consentimiento autorizado.",
+      "Guardian consent": "Consentimiento del tutor legal"
     }
   },
   "professional_feedback_receptivity": {
@@ -3476,7 +3635,8 @@
     "explanation": "Recibir retroalimentación de manera profesional es parte de una supervisión efectiva y del crecimiento de habilidades.",
     "options_es": {
       "answer": "Receptividad a la retroalimentación",
-      "purpose": "Para mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión."
+      "purpose": "Para mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión.",
+      "Feedback receptivity": "Receptividad a la retroalimentación"
     }
   },
   "professional_clarification_request": {
@@ -3488,7 +3648,8 @@
     "explanation": "Pedir aclaración protege la integridad del tratamiento y mantiene al RBT dentro de su alcance profesional.",
     "options_es": {
       "answer": "Solicitud de aclaración",
-      "purpose": "Para prevenir errores de implementación cuando las instrucciones no son claras."
+      "purpose": "Para prevenir errores de implementación cuando las instrucciones no son claras.",
+      "Clarification request": "Solicitud de aclaración"
     }
   },
   "professional_secure_record_storage": {
@@ -3500,7 +3661,8 @@
     "explanation": "El almacenamiento seguro de registros ayuda a prevenir el acceso no autorizado a información protegida del cliente.",
     "options_es": {
       "answer": "Almacenamiento seguro de registros",
-      "purpose": "Para proteger la confidencialidad del cliente en el manejo de registros."
+      "purpose": "Para proteger la confidencialidad del cliente en el manejo de registros.",
+      "Secure record storage": "Almacenamiento seguro de registros"
     }
   },
   "professional_public_privacy_protection": {
@@ -3512,7 +3674,8 @@
     "explanation": "La privacidad debe protegerse no solo en los registros, sino también en las conversaciones cotidianas.",
     "options_es": {
       "answer": "Protección de la privacidad en público",
-      "purpose": "Para proteger la confidencialidad cuando hay otras personas presentes."
+      "purpose": "Para proteger la confidencialidad cuando hay otras personas presentes.",
+      "Privacy protection in public": "Protección de la privacidad en público"
     }
   },
   "professional_gift_boundary": {
@@ -3524,7 +3687,8 @@
     "explanation": "Las decisiones relacionadas con regalos se manejan con cuidado porque pueden crear problemas de límites o conflictos de interés.",
     "options_es": {
       "answer": "Límite con los regalos",
-      "purpose": "Para mantener límites profesionales alrededor de regalos y favores."
+      "purpose": "Para mantener límites profesionales alrededor de regalos y favores.",
+      "Gift boundary": "Límite con los regalos"
     }
   },
   "professional_multiple_relationship_risk": {
@@ -3536,7 +3700,8 @@
     "explanation": "Los riesgos de relaciones múltiples importan porque pueden afectar la objetividad y el profesionalismo.",
     "options_es": {
       "answer": "Riesgo de relaciones múltiples",
-      "purpose": "Para identificar situaciones que podrían difuminar los roles profesionales."
+      "purpose": "Para identificar situaciones que podrían difuminar los roles profesionales.",
+      "Multiple relationship risk": "Riesgo de relaciones múltiples"
     }
   },
   "professional_social_media_confidentiality": {
@@ -3548,7 +3713,8 @@
     "explanation": "Las publicaciones en redes sociales pueden violar la confidencialidad incluso si se omiten nombres, si aun así otras personas pueden identificar al cliente.",
     "options_es": {
       "answer": "Confidencialidad en redes sociales",
-      "purpose": "Para proteger la confidencialidad del cliente en plataformas personales o públicas en línea."
+      "purpose": "Para proteger la confidencialidad del cliente en plataformas personales o públicas en línea.",
+      "Social media confidentiality": "Confidencialidad en redes sociales"
     }
   },
   "professional_workplace_policy_compliance": {
@@ -3560,7 +3726,8 @@
     "explanation": "Seguir las políticas del lugar de trabajo favorece la responsabilidad y la prestación segura de servicios.",
     "options_es": {
       "answer": "Cumplimiento de políticas del lugar de trabajo",
-      "purpose": "Para mantener un desempeño profesional consistente y conforme a las normas."
+      "purpose": "Para mantener un desempeño profesional consistente y conforme a las normas.",
+      "Workplace policy compliance": "Cumplimiento de políticas del lugar de trabajo"
     }
   },
   "professional_supervision_preparation": {
@@ -3572,7 +3739,8 @@
     "explanation": "Prepararse para la supervisión ayuda al supervisor a brindar una guía más clara y mejor apoyo.",
     "options_es": {
       "answer": "Preparación para la supervisión",
-      "purpose": "Para que la supervisión sea más precisa y productiva."
+      "purpose": "Para que la supervisión sea más precisa y productiva.",
+      "Supervision preparation": "Preparación para la supervisión"
     }
   },
   "professional_error_reporting": {
@@ -3584,7 +3752,8 @@
     "explanation": "El reporte honesto y rápido de errores protege al cliente y favorece la integridad del tratamiento.",
     "options_es": {
       "answer": "Reporte de errores",
-      "purpose": "Para abordar los errores con transparencia y poder corregirlos."
+      "purpose": "Para abordar los errores con transparencia y poder corregirlos.",
+      "Error reporting": "Reporte de errores"
     }
   },
   "professional_respectful_language": {
@@ -3596,7 +3765,8 @@
     "explanation": "El lenguaje respetuoso forma parte de la conducta profesional y ayuda a preservar la dignidad del cliente.",
     "options_es": {
       "answer": "Lenguaje respetuoso",
-      "purpose": "Para mantener la dignidad del cliente en la comunicación."
+      "purpose": "Para mantener la dignidad del cliente en la comunicación.",
+      "Respectful language": "Lenguaje respetuoso"
     }
   },
   "professional_referral_outside_scope": {
@@ -3608,7 +3778,8 @@
     "explanation": "Derivar o escalar asuntos fuera del alcance protege tanto al cliente como al RBT.",
     "options_es": {
       "answer": "Derivación fuera del alcance",
-      "purpose": "Para evitar actuar más allá de los límites del rol del RBT."
+      "purpose": "Para evitar actuar más allá de los límites del rol del RBT.",
+      "Referral outside scope": "Derivación fuera del alcance"
     }
   },
   "professional_interdisciplinary_collaboration": {
@@ -3620,7 +3791,8 @@
     "explanation": "La colaboración interdisciplinaria debe ser profesional, relevante y consistente con las reglas de confidencialidad.",
     "options_es": {
       "answer": "Colaboración interdisciplinaria",
-      "purpose": "Para apoyar una atención coordinada respetando el rol y las expectativas de confidencialidad."
+      "purpose": "Para apoyar una atención coordinada respetando el rol y las expectativas de confidencialidad.",
+      "Interdisciplinary collaboration": "Colaboración interdisciplinaria"
     }
   },
   "professional_least_restrictive_support": {
@@ -3632,7 +3804,8 @@
     "explanation": "El apoyo menos restrictivo protege la dignidad y se alinea con el uso ético de los procedimientos conductuales.",
     "options_es": {
       "answer": "Apoyo menos restrictivo",
-      "purpose": "Para apoyar la conducta de manera segura minimizando restricciones innecesarias."
+      "purpose": "Para apoyar la conducta de manera segura minimizando restricciones innecesarias.",
+      "Least restrictive support": "Apoyo menos restrictivo"
     }
   },
   "professional_client_preference_respect": {
@@ -3644,7 +3817,8 @@
     "explanation": "Respetar las preferencias del cliente puede mejorar el rapport y la participación mientras preserva la dignidad.",
     "options_es": {
       "answer": "Respeto por las preferencias del cliente",
-      "purpose": "Para apoyar la dignidad y la colaboración respetando las preferencias razonables del cliente."
+      "purpose": "Para apoyar la dignidad y la colaboración respetando las preferencias razonables del cliente.",
+      "Respect for client preferences": "Respeto por las preferencias del cliente"
     }
   },
   "professional_emergency_reporting": {
@@ -3656,7 +3830,8 @@
     "explanation": "El reporte de emergencias protege la seguridad y garantiza que las personas correctas sean informadas rápidamente.",
     "options_es": {
       "answer": "Reporte de emergencias",
-      "purpose": "Para asegurar que los eventos graves se escalen de inmediato por los canales requeridos."
+      "purpose": "Para asegurar que los eventos graves se escalen de inmediato por los canales requeridos.",
+      "Emergency reporting": "Reporte de emergencias"
     }
   },
   "professional_implement_feedback": {
@@ -3668,7 +3843,8 @@
     "explanation": "Implementar la retroalimentación es lo que convierte la supervisión en un mejor desempeño del día a día.",
     "options_es": {
       "answer": "Implementación de la retroalimentación",
-      "purpose": "Para mejorar la calidad del servicio poniendo en práctica la retroalimentación de supervisión."
+      "purpose": "Para mejorar la calidad del servicio poniendo en práctica la retroalimentación de supervisión.",
+      "Implementing feedback": "Implementación de la retroalimentación"
     }
   },
   "professional_demeanor": {
@@ -3680,7 +3856,8 @@
     "explanation": "El comportamiento profesional favorece la seguridad, el rapport y la confianza incluso bajo estrés.",
     "options_es": {
       "answer": "Comportamiento profesional",
-      "purpose": "Para mantener el profesionalismo durante situaciones desafiantes."
+      "purpose": "Para mantener el profesionalismo durante situaciones desafiantes.",
+      "Professional demeanor": "Comportamiento profesional"
     }
   },
   "professional_role_appropriate_communication": {
@@ -3692,7 +3869,8 @@
     "explanation": "La comunicación apropiada al rol protege el alcance de práctica y al mismo tiempo favorece una colaboración clara.",
     "options_es": {
       "answer": "Comunicación apropiada al rol",
-      "purpose": "Para comunicarse profesionalmente sin salir del alcance del rol."
+      "purpose": "Para comunicarse profesionalmente sin salir del alcance del rol.",
+      "Role-appropriate communication": "Comunicación apropiada al rol"
     }
   },
   "professional_truthful_representation": {
@@ -3704,7 +3882,8 @@
     "explanation": "La representación veraz protege a los clientes de afirmaciones engañosas y mantiene al RBT dentro de los límites éticos de su rol.",
     "options_es": {
       "answer": "Representación veraz",
-      "purpose": "Para asegurar que las afirmaciones sobre rol, formación y autoridad sean precisas."
+      "purpose": "Para asegurar que las afirmaciones sobre rol, formación y autoridad sean precisas.",
+      "Truthful representation": "Representación veraz"
     }
   },
   "professional_no_independent_program_changes": {
@@ -3716,7 +3895,8 @@
     "explanation": "Los cambios al programa son decisiones clínicas y deben ser dirigidos por el supervisor, no tomados de forma independiente por el RBT.",
     "options_es": {
       "answer": "Sin cambios independientes al programa",
-      "purpose": "Para mantener las decisiones de tratamiento en manos del clínico supervisor."
+      "purpose": "Para mantener las decisiones de tratamiento en manos del clínico supervisor.",
+      "No independent program changes": "Sin cambios independientes al programa"
     }
   },
   "professional_minimum_necessary_disclosure": {
@@ -3728,7 +3908,8 @@
     "explanation": "La confidencialidad ética incluye compartir solo la información mínima necesaria por los canales apropiados.",
     "options_es": {
       "answer": "Divulgación mínima necesaria",
-      "purpose": "Para proteger la confidencialidad limitando la divulgación a lo necesario."
+      "purpose": "Para proteger la confidencialidad limitando la divulgación a lo necesario.",
+      "Minimum necessary disclosure": "Divulgación mínima necesaria"
     }
   },
   "professional_required_supervision_participation": {
@@ -3740,7 +3921,8 @@
     "explanation": "La supervisión es una parte obligatoria de la práctica segura del RBT y apoya la precisión, la retroalimentación y la competencia continua.",
     "options_es": {
       "answer": "Participación obligatoria en supervisión",
-      "purpose": "Para mantener la calidad del servicio mediante una supervisión obligatoria activa."
+      "purpose": "Para mantener la calidad del servicio mediante una supervisión obligatoria activa.",
+      "Required supervision participation": "Participación obligatoria en supervisión"
     }
   },
   "professional_public_statement_accuracy": {
@@ -3752,7 +3934,8 @@
     "explanation": "Las declaraciones públicas éticas deben ser precisas porque las afirmaciones engañosas pueden confundir a las familias y tergiversar el rol del RBT.",
     "options_es": {
       "answer": "Precisión en declaraciones públicas",
-      "purpose": "Para evitar declaraciones públicas engañosas sobre servicios, resultados o credenciales."
+      "purpose": "Para evitar declaraciones públicas engañosas sobre servicios, resultados o credenciales.",
+      "Public statement accuracy": "Precisión en declaraciones públicas"
     }
   },
   "professional_client_rights_protection": {
@@ -3764,7 +3947,8 @@
     "explanation": "Los derechos del cliente se protegen cuando los servicios preservan la dignidad, la privacidad, el trato respetuoso y la elección razonable.",
     "options_es": {
       "answer": "Protección de los derechos del cliente",
-      "purpose": "Para proteger los derechos del cliente durante toda la prestación del servicio."
+      "purpose": "Para proteger los derechos del cliente durante toda la prestación del servicio.",
+      "Protection of client rights": "Protección de los derechos del cliente"
     }
   },
   "professional_authorized_information_release": {
@@ -3776,7 +3960,8 @@
     "explanation": "Incluso la información útil no debe divulgarse a menos que la autorización, la política y las expectativas del rol respalden esa divulgación.",
     "options_es": {
       "answer": "Divulgación autorizada de información",
-      "purpose": "Para asegurar que las divulgaciones cumplan los requisitos de autorización y confidencialidad."
+      "purpose": "Para asegurar que las divulgaciones cumplan los requisitos de autorización y confidencialidad.",
+      "Authorized information release": "Divulgación autorizada de información"
     }
   },
   "professional_post_service_boundaries": {
@@ -3788,7 +3973,8 @@
     "explanation": "Los problemas de límites pueden continuar después de los servicios, por lo que el RBT no debe asumir que una relación profesional previa ahora está libre de riesgos.",
     "options_es": {
       "answer": "Límites profesionales después del servicio",
-      "purpose": "Para prevenir que los roles se vuelvan confusos después de que los servicios cambian o terminan."
+      "purpose": "Para prevenir que los roles se vuelvan confusos después de que los servicios cambian o terminan.",
+      "Post-service boundary maintenance": "Límites profesionales después del servicio"
     }
   },
   "skill_positive_reinforcement": {
@@ -3800,7 +3986,8 @@
     "explanation": "El reforzamiento positivo se define por un aumento de la conducta futura después de añadir una consecuencia.",
     "options_es": {
       "answer": "Reforzamiento positivo",
-      "purpose": "Para aumentar una conducta añadiendo una consecuencia después de que ocurre."
+      "purpose": "Para aumentar una conducta añadiendo una consecuencia después de que ocurre.",
+      "Positive reinforcement": "Reforzamiento positivo"
     }
   },
   "skill_negative_reinforcement": {
@@ -3812,7 +3999,8 @@
     "explanation": "El reforzamiento negativo también fortalece la conducta; la diferencia clave es que se quita algo en lugar de añadirse.",
     "options_es": {
       "answer": "Reforzamiento negativo",
-      "purpose": "Para aumentar una conducta eliminando un evento aversivo después de la respuesta."
+      "purpose": "Para aumentar una conducta eliminando un evento aversivo después de la respuesta.",
+      "Negative reinforcement": "Reforzamiento negativo"
     }
   },
   "skill_conditioned_reinforcer": {
@@ -3824,7 +4012,8 @@
     "explanation": "Los reforzadores condicionados adquieren valor mediante el emparejamiento con otros reforzadores ya establecidos.",
     "options_es": {
       "answer": "Reforzador condicionado",
-      "purpose": "Para fortalecer respuestas usando un reforzador aprendido."
+      "purpose": "Para fortalecer respuestas usando un reforzador aprendido.",
+      "Conditioned reinforcer": "Reforzador condicionado"
     }
   },
   "skill_continuous_reinforcement": {
@@ -3836,7 +4025,8 @@
     "explanation": "El reforzamiento continuo es común cuando una habilidad se está estableciendo por primera vez.",
     "options_es": {
       "answer": "Reforzamiento continuo",
-      "purpose": "Para fortalecer una respuesta nueva reforzando cada ocurrencia."
+      "purpose": "Para fortalecer una respuesta nueva reforzando cada ocurrencia.",
+      "Continuous reinforcement": "Reforzamiento continuo"
     }
   },
   "skill_intermittent_reinforcement": {
@@ -3848,7 +4038,8 @@
     "explanation": "El reforzamiento intermitente suele usarse después de que la respuesta ya está establecida y ayuda a hacer el desempeño más duradero.",
     "options_es": {
       "answer": "Reforzamiento intermitente",
-      "purpose": "Para mantener la respuesta sin reforzar cada ocurrencia."
+      "purpose": "Para mantener la respuesta sin reforzar cada ocurrencia.",
+      "Intermittent reinforcement": "Reforzamiento intermitente"
     }
   },
   "skill_fixed_ratio_schedule": {
@@ -3860,7 +4051,8 @@
     "explanation": "Los programas de razón fija se basan en el conteo de respuestas y el requisito se mantiene igual.",
     "options_es": {
       "answer": "Programa de razón fija",
-      "purpose": "Para reforzar la conducta después de una cantidad específica de respuestas."
+      "purpose": "Para reforzar la conducta después de una cantidad específica de respuestas.",
+      "Fixed-ratio schedule": "Programa de razón fija"
     }
   },
   "skill_variable_ratio_schedule": {
@@ -3872,7 +4064,8 @@
     "explanation": "Los programas de razón variable se basan en respuestas, pero el requisito exacto cambia de un reforzador al siguiente.",
     "options_es": {
       "answer": "Programa de razón variable",
-      "purpose": "Para reforzar la conducta después de una cantidad variable de respuestas."
+      "purpose": "Para reforzar la conducta después de una cantidad variable de respuestas.",
+      "Variable-ratio schedule": "Programa de razón variable"
     }
   },
   "skill_fixed_interval_schedule": {
@@ -3884,7 +4077,8 @@
     "explanation": "Los programas de intervalo fijo se basan en tiempo, porque debe transcurrir tiempo antes de que el reforzamiento esté disponible.",
     "options_es": {
       "answer": "Programa de intervalo fijo",
-      "purpose": "Para reforzar respuestas después de un intervalo fijo de tiempo."
+      "purpose": "Para reforzar respuestas después de un intervalo fijo de tiempo.",
+      "Fixed-interval schedule": "Programa de intervalo fijo"
     }
   },
   "skill_variable_interval_schedule": {
@@ -3896,7 +4090,8 @@
     "explanation": "Los programas de intervalo variable se basan en tiempo y el intervalo exacto cambia de una oportunidad a la siguiente.",
     "options_es": {
       "answer": "Programa de intervalo variable",
-      "purpose": "Para reforzar respuestas después de intervalos de tiempo cambiantes."
+      "purpose": "Para reforzar respuestas después de intervalos de tiempo cambiantes.",
+      "Variable-interval schedule": "Programa de intervalo variable"
     }
   },
   "skill_most_to_least_prompting": {
@@ -3908,7 +4103,8 @@
     "explanation": "Las ayudas de más a menos suelen elegirse cuando el equipo quiere prevenir errores mientras emerge una habilidad nueva.",
     "options_es": {
       "answer": "Ayudas de más a menos",
-      "purpose": "Para asegurar respuestas correctas tempranas mientras se reduce sistemáticamente el apoyo."
+      "purpose": "Para asegurar respuestas correctas tempranas mientras se reduce sistemáticamente el apoyo.",
+      "Most-to-least prompting": "Ayudas de más a menos"
     }
   },
   "skill_physical_prompt": {
@@ -3920,7 +4116,8 @@
     "explanation": "Las ayudas físicas implican asistencia física directa y suelen estar entre los tipos de ayuda más intrusivos.",
     "options_es": {
       "answer": "Ayuda física",
-      "purpose": "Para asistir al cliente directamente durante la respuesta."
+      "purpose": "Para asistir al cliente directamente durante la respuesta.",
+      "Physical prompt": "Ayuda física"
     }
   },
   "skill_stimulus_prompt": {
@@ -3932,7 +4129,8 @@
     "explanation": "Las ayudas de estímulo cambian los materiales o las señales, no el cuerpo del cliente ni la instrucción hablada.",
     "options_es": {
       "answer": "Ayuda de estímulo",
-      "purpose": "Para hacer más notorio el estímulo relevante durante la enseñanza."
+      "purpose": "Para hacer más notorio el estímulo relevante durante la enseñanza.",
+      "Stimulus prompt": "Ayuda de estímulo"
     }
   },
   "skill_response_prompt": {
@@ -3944,7 +4142,8 @@
     "explanation": "Las ayudas de respuesta actúan sobre la conducta del cliente, mientras que las ayudas de estímulo modifican las claves.",
     "options_es": {
       "answer": "Ayuda de respuesta",
-      "purpose": "Para evocar directamente la respuesta correcta."
+      "purpose": "Para evocar directamente la respuesta correcta.",
+      "Response prompt": "Ayuda de respuesta"
     }
   },
   "skill_stimulus_control_transfer": {
@@ -3956,7 +4155,8 @@
     "explanation": "La transferencia de control del estímulo es la meta del desvanecimiento efectivo de ayudas y de la construcción de independencia.",
     "options_es": {
       "answer": "Transferencia de control del estímulo",
-      "purpose": "Para mover la respuesta desde las ayudas hacia las señales naturales."
+      "purpose": "Para mover la respuesta desde las ayudas hacia las señales naturales.",
+      "Stimulus control transfer": "Transferencia de control del estímulo"
     }
   },
   "skill_token_exchange": {
@@ -3968,7 +4168,8 @@
     "explanation": "El componente de intercambio es esencial porque las fichas adquieren valor mediante el acceso a otros reforzadores.",
     "options_es": {
       "answer": "Intercambio de fichas",
-      "purpose": "Para conectar la ganancia de fichas con el acceso a reforzadores de apoyo."
+      "purpose": "Para conectar la ganancia de fichas con el acceso a reforzadores de apoyo.",
+      "Token exchange": "Intercambio de fichas"
     }
   },
   "skill_session_preparation": {
@@ -3980,7 +4181,8 @@
     "explanation": "Una buena preparación de la sesión ayuda a que la enseñanza fluya y reduce errores prevenibles durante la instrucción.",
     "options_es": {
       "answer": "Preparación de la sesión",
-      "purpose": "Para preparar el entorno y los materiales requeridos por el plan de enseñanza."
+      "purpose": "Para preparar el entorno y los materiales requeridos por el plan de enseñanza.",
+      "Session preparation": "Preparación de la sesión"
     }
   },
   "skill_written_plan_components": {
@@ -3992,7 +4194,8 @@
     "explanation": "Un plan escrito de adquisición de habilidades le indica al RBT exactamente cómo debe enseñarse y medirse el objetivo.",
     "options_es": {
       "answer": "Plan escrito de adquisición de habilidades",
-      "purpose": "Para guiar una implementación consistente de la enseñanza de habilidades."
+      "purpose": "Para guiar una implementación consistente de la enseñanza de habilidades.",
+      "Written skill acquisition plan": "Plan escrito de adquisición de habilidades"
     }
   },
   "skill_material_gathering": {
@@ -4004,7 +4207,8 @@
     "explanation": "Tener todos los materiales preparados antes de que comience la sesión permite al RBT concentrarse por completo en el cliente y enseñar sin pausas.",
     "options_es": {
       "answer": "Recolección de materiales antes de la sesión",
-      "purpose": "Para prevenir retrasos o interrupciones durante la instrucción causados por materiales faltantes."
+      "purpose": "Para prevenir retrasos o interrupciones durante la instrucción causados por materiales faltantes.",
+      "Gathering materials before session": "Recolección de materiales antes de la sesión"
     }
   },
   "skill_environment_arrangement": {
@@ -4016,7 +4220,8 @@
     "explanation": "El entorno afecta qué tan bien puede atender el cliente y qué tan fácilmente puede el RBT implementar los procedimientos planeados.",
     "options_es": {
       "answer": "Organización del entorno para la sesión",
-      "purpose": "Para crear las condiciones físicas que el plan requiere para una instrucción efectiva."
+      "purpose": "Para crear las condiciones físicas que el plan requiere para una instrucción efectiva.",
+      "Environment arrangement for session": "Organización del entorno para la sesión"
     }
   },
   "skill_reinforcer_preparation": {
@@ -4028,7 +4233,8 @@
     "explanation": "Los reforzadores deben estar disponibles de inmediato para poder entregarse a los pocos segundos de una respuesta correcta.",
     "options_es": {
       "answer": "Preparación de reforzadores",
-      "purpose": "Para prevenir demoras en el reforzamiento que reduzcan la eficacia de su entrega contingente."
+      "purpose": "Para prevenir demoras en el reforzamiento que reduzcan la eficacia de su entrega contingente.",
+      "Reinforcer preparation": "Preparación de reforzadores"
     }
   },
   "skill_presession_data_review": {
@@ -4040,7 +4246,8 @@
     "explanation": "Revisar datos previos ayuda al RBT a organizar la sesión con eficiencia y a señalar preocupaciones al supervisor antes de empezar la instrucción.",
     "options_es": {
       "answer": "Revisión de datos previa a la sesión",
-      "purpose": "Para entrar a cada sesión con una idea clara de dónde se quedó el cliente y qué priorizar."
+      "purpose": "Para entrar a cada sesión con una idea clara de dónde se quedó el cliente y qué priorizar.",
+      "Pre-session data review": "Revisión de datos previa a la sesión"
     }
   },
   "skill_stimulus_preparation": {
@@ -4052,7 +4259,8 @@
     "explanation": "Preparar correctamente los estímulos garantiza que las respuestas del cliente estén controladas por los estímulos previstos y no por características irrelevantes.",
     "options_es": {
       "answer": "Preparación de estímulos",
-      "purpose": "Para asegurar que los estímulos coincidan con las especificaciones del plan y que la instrucción sea consistente."
+      "purpose": "Para asegurar que los estímulos coincidan con las especificaciones del plan y que la instrucción sea consistente.",
+      "Stimulus preparation": "Preparación de estímulos"
     }
   },
   "skill_presession_program_review": {
@@ -4064,7 +4272,8 @@
     "explanation": "Revisar los programas antes de la sesión reduce errores procedimentales y ayuda al RBT a enseñar con mayor fluidez.",
     "options_es": {
       "answer": "Revisión del programa antes de la sesión",
-      "purpose": "Para implementar correctamente cada programa desde el primer ensayo sin tener que consultar el plan durante la instrucción."
+      "purpose": "Para implementar correctamente cada programa desde el primer ensayo sin tener que consultar el plan durante la instrucción.",
+      "Pre-session program review": "Revisión del programa antes de la sesión"
     }
   },
   "skill_dtt_discriminative_stimulus": {
@@ -4076,7 +4285,8 @@
     "explanation": "Un SD claro y consistente ayuda al cliente a discriminar cuándo y cómo responder, que es la base del control de estímulos.",
     "options_es": {
       "answer": "Estímulo discriminativo (SD) en DTT",
-      "purpose": "Para señalar al cliente que existe una oportunidad de respuesta que puede ser reforzada."
+      "purpose": "Para señalar al cliente que existe una oportunidad de respuesta que puede ser reforzada.",
+      "Discriminative stimulus (SD) in DTT": "Estímulo discriminativo (SD) en DTT"
     }
   },
   "skill_dtt_learner_response": {
@@ -4088,7 +4298,8 @@
     "explanation": "La respuesta del cliente es el objetivo de la instrucción; que haya sido independiente, ayudada o incorrecta determina qué consecuencia sigue.",
     "options_es": {
       "answer": "Respuesta del cliente en DTT",
-      "purpose": "Para identificar la conducta que el ensayo está diseñado para fortalecer."
+      "purpose": "Para identificar la conducta que el ensayo está diseñado para fortalecer.",
+      "Learner response in DTT": "Respuesta del cliente en DTT"
     }
   },
   "skill_dtt_consequence_delivery": {
@@ -4100,7 +4311,8 @@
     "explanation": "La entrega consistente de consecuencias enseña al cliente qué respuestas producen reforzamiento y cuáles requieren corrección.",
     "options_es": {
       "answer": "Entrega de consecuencias en DTT",
-      "purpose": "Para asegurar que las respuestas correctas se refuercen y los errores se atiendan de manera consistente."
+      "purpose": "Para asegurar que las respuestas correctas se refuercen y los errores se atiendan de manera consistente.",
+      "Consequence delivery in DTT": "Entrega de consecuencias en DTT"
     }
   },
   "skill_dtt_intertrial_interval": {
@@ -4112,7 +4324,8 @@
     "explanation": "Un intervalo entre ensayos consistente separa claramente los ensayos y ayuda a prevenir sesgos de posición o dependencia de ayudas que pueden desarrollarse sin una pausa.",
     "options_es": {
       "answer": "Intervalo entre ensayos (ITI)",
-      "purpose": "Para permitir que el cliente procese la consecuencia antes de que comience el siguiente ensayo."
+      "purpose": "Para permitir que el cliente procese la consecuencia antes de que comience el siguiente ensayo.",
+      "Intertrial interval (ITI)": "Intervalo entre ensayos (ITI)"
     }
   },
   "skill_dtt_trial_components": {
@@ -4124,7 +4337,8 @@
     "explanation": "Reconocer los tres componentes ayuda al RBT a ejecutar ensayos limpios e identificar qué parte de la secuencia necesita ajustes cuando el aprendizaje es lento.",
     "options_es": {
       "answer": "Contingencia de tres términos en un ensayo DTT",
-      "purpose": "Para entender la estructura que hace que un ensayo sea discreto y enseñable."
+      "purpose": "Para entender la estructura que hace que un ensayo sea discreto y enseñable.",
+      "Three-term contingency in a DTT trial": "Contingencia de tres términos en un ensayo DTT"
     }
   },
   "skill_dtt_massed_practice": {
@@ -4136,7 +4350,8 @@
     "explanation": "La práctica masiva construye rápidamente la respuesta inicial, pero puede generar respuestas mecánicas; la práctica distribuida favorece mejor retención y generalización.",
     "options_es": {
       "answer": "Práctica masiva vs. distribuida en DTT",
-      "purpose": "Para seleccionar el formato de práctica que mejor se ajuste al nivel actual de adquisición del cliente."
+      "purpose": "Para seleccionar el formato de práctica que mejor se ajuste al nivel actual de adquisición del cliente.",
+      "Massed vs. distributed practice in DTT": "Práctica masiva vs. distribuida en DTT"
     }
   },
   "skill_dtt_multiple_programs": {
@@ -4148,7 +4363,8 @@
     "explanation": "Rotar programas dentro de una sesión mantiene al cliente involucrado, reduce la fatiga por una sola tarea y permite progreso en varias áreas del desarrollo.",
     "options_es": {
       "answer": "Ejecución de múltiples programas en una sesión DTT",
-      "purpose": "Para abordar múltiples áreas de habilidades dentro de una sola sesión de manera eficiente."
+      "purpose": "Para abordar múltiples áreas de habilidades dentro de una sola sesión de manera eficiente.",
+      "Running multiple programs in a DTT session": "Ejecución de múltiples programas en una sesión DTT"
     }
   },
   "skill_dtt_error_correction": {
@@ -4160,7 +4376,8 @@
     "explanation": "La corrección consistente de errores reduce la probabilidad de que el cliente practique respuestas incorrectas y ayuda a establecer la respuesta correcta más rápidamente.",
     "options_es": {
       "answer": "Corrección de errores en DTT",
-      "purpose": "Para responder a los errores de manera consistente de modo que el cliente contacte la respuesta correcta sin que el error se refuerce accidentalmente."
+      "purpose": "Para responder a los errores de manera consistente de modo que el cliente contacte la respuesta correcta sin que el error se refuerce accidentalmente.",
+      "Error correction in DTT": "Corrección de errores en DTT"
     }
   },
   "skill_dtt_trial_pacing": {
@@ -4172,7 +4389,8 @@
     "explanation": "Un ritmo lento reduce el número de ensayos de aprendizaje y puede contribuir a conductas fuera de tarea; un ritmo demasiado rápido puede abrumar al cliente.",
     "options_es": {
       "answer": "Ritmo de ensayos en DTT",
-      "purpose": "Para mantener la atención del cliente y maximizar las oportunidades de aprendizaje dentro de la sesión."
+      "purpose": "Para mantener la atención del cliente y maximizar las oportunidades de aprendizaje dentro de la sesión.",
+      "Trial pacing in DTT": "Ritmo de ensayos en DTT"
     }
   },
   "skill_net_contriving_opportunity": {
@@ -4184,7 +4402,8 @@
     "explanation": "Crear oportunidades en el entorno natural permite enseñar habilidades en el contexto donde realmente se usarán.",
     "options_es": {
       "answer": "Crear una oportunidad de aprendizaje en NET",
-      "purpose": "Para crear oportunidades naturales de práctica de habilidades objetivo sin depender de ensayos masivos en una mesa."
+      "purpose": "Para crear oportunidades naturales de práctica de habilidades objetivo sin depender de ensayos masivos en una mesa.",
+      "Contriving a learning opportunity in NET": "Crear una oportunidad de aprendizaje en NET"
     }
   },
   "skill_net_learner_motivation": {
@@ -4196,7 +4415,8 @@
     "explanation": "Enseñar dentro de actividades que ya motivan al cliente aumenta la calidad y la durabilidad del aprendizaje.",
     "options_es": {
       "answer": "Seguir la motivación del cliente en NET",
-      "purpose": "Para usar la motivación que ocurre de manera natural como contexto de enseñanza, haciendo el aprendizaje más significativo."
+      "purpose": "Para usar la motivación que ocurre de manera natural como contexto de enseñanza, haciendo el aprendizaje más significativo.",
+      "Following the learner's motivation in NET": "Seguir la motivación del cliente en NET"
     }
   },
   "skill_net_dtt_comparison": {
@@ -4208,7 +4428,8 @@
     "explanation": "DTT y NET no se excluyen mutuamente; muchos clientes se benefician de DTT para construir una habilidad inicialmente y de NET para generalizarla y usarla de manera natural.",
     "options_es": {
       "answer": "Enseñanza naturalista vs. DTT",
-      "purpose": "Para entender cuándo es más apropiado cada enfoque y cómo se complementan."
+      "purpose": "Para entender cuándo es más apropiado cada enfoque y cómo se complementan.",
+      "Naturalistic teaching vs. DTT": "Enseñanza naturalista vs. DTT"
     }
   },
   "skill_net_environment_use": {
@@ -4220,7 +4441,8 @@
     "explanation": "Enseñar en entornos naturales reduce la necesidad de entrenamiento formal de generalización, porque la instrucción ya ocurre en el contexto objetivo.",
     "options_es": {
       "answer": "Uso del entorno natural para instrucción",
-      "purpose": "Para promover la generalización enseñando en los contextos donde la habilidad debe ocurrir."
+      "purpose": "Para promover la generalización enseñando en los contextos donde la habilidad debe ocurrir.",
+      "Using the natural environment for instruction": "Uso del entorno natural para instrucción"
     }
   },
   "skill_net_capture_vs_contrive": {
@@ -4232,7 +4454,8 @@
     "explanation": "Ambas estrategias son válidas; capturar es menos intrusiva, mientras que crear genera oportunidades predecibles de práctica cuando los momentos naturales son poco frecuentes.",
     "options_es": {
       "answer": "Capturar vs. crear oportunidades",
-      "purpose": "Para reconocer cómo dos estrategias distintas de NET pueden usarse de forma flexible según lo que ocurra de manera natural."
+      "purpose": "Para reconocer cómo dos estrategias distintas de NET pueden usarse de forma flexible según lo que ocurra de manera natural.",
+      "Capturing vs. contriving opportunities": "Capturar vs. crear oportunidades"
     }
   },
   "skill_net_embedded_instruction": {
@@ -4244,7 +4467,8 @@
     "explanation": "Incrustar la instrucción en las rutinas aumenta la densidad de ensayos a lo largo del día y reduce la sensación de que la enseñanza es algo separado de la vida real.",
     "options_es": {
       "answer": "Instrucción incrustada en NET",
-      "purpose": "Para aumentar el número de oportunidades de aprendizaje sin interrumpir el flujo de las actividades naturales."
+      "purpose": "Para aumentar el número de oportunidades de aprendizaje sin interrumpir el flujo de las actividades naturales.",
+      "Embedded instruction in NET": "Instrucción incrustada en NET"
     }
   },
   "skill_generalization_programming": {
@@ -4256,7 +4480,8 @@
     "explanation": "Sin una programación deliberada, las habilidades aprendidas en un entorno pueden no transferirse; planificar la generalización durante la instrucción la hace mucho más probable.",
     "options_es": {
       "answer": "Programación para la generalización",
-      "purpose": "Para incorporar desde el principio las condiciones que apoyan la transferencia del aprendizaje a situaciones nuevas."
+      "purpose": "Para incorporar desde el principio las condiciones que apoyan la transferencia del aprendizaje a situaciones nuevas.",
+      "Programming for generalization": "Programación para la generalización"
     }
   },
   "skill_multiple_exemplar_training": {
@@ -4268,7 +4493,8 @@
     "explanation": "El entrenamiento con múltiples ejemplares evita que el cliente responda solo a los ítems específicos usados durante la instrucción.",
     "options_es": {
       "answer": "Entrenamiento con múltiples ejemplares",
-      "purpose": "Para ampliar la clase de estímulos que controla la respuesta, de modo que la habilidad se generalice a ejemplos nuevos."
+      "purpose": "Para ampliar la clase de estímulos que controla la respuesta, de modo que la habilidad se generalice a ejemplos nuevos.",
+      "Multiple exemplar training": "Entrenamiento con múltiples ejemplares"
     }
   },
   "skill_maintenance_probe": {
@@ -4280,7 +4506,8 @@
     "explanation": "Las pruebas de mantenimiento identifican habilidades que han decaído y necesitan instrucción de refuerzo antes de que el cliente las pierda por completo.",
     "options_es": {
       "answer": "Prueba de mantenimiento",
-      "purpose": "Para comprobar si las habilidades adquiridas previamente se han mantenido sin instrucción continua."
+      "purpose": "Para comprobar si las habilidades adquiridas previamente se han mantenido sin instrucción continua.",
+      "Maintenance probe": "Prueba de mantenimiento"
     }
   },
   "skill_natural_reinforcers": {
@@ -4292,7 +4519,8 @@
     "explanation": "Las habilidades mantenidas por reforzadores naturales tienen más probabilidad de persistir después de que termina la instrucción formal, porque producen sus propias consecuencias.",
     "options_es": {
       "answer": "Reforzadores naturales para la generalización",
-      "purpose": "Para ayudar a que la conducta persista en entornos naturales donde el reforzamiento programado no siempre está disponible."
+      "purpose": "Para ayudar a que la conducta persista en entornos naturales donde el reforzamiento programado no siempre está disponible.",
+      "Natural reinforcers for generalization": "Reforzadores naturales para la generalización"
     }
   },
   "skill_generalization_probe": {
@@ -4304,7 +4532,8 @@
     "explanation": "Las pruebas de generalización muestran si la programación para la generalización fue exitosa o si se necesita más entrenamiento en distintos contextos.",
     "options_es": {
       "answer": "Prueba de generalización",
-      "purpose": "Para medir si las habilidades aprendidas en un contexto se transfieren a otros contextos relevantes sin enseñanza adicional."
+      "purpose": "Para medir si las habilidades aprendidas en un contexto se transfieren a otros contextos relevantes sin enseñanza adicional.",
+      "Generalization probe": "Prueba de generalización"
     }
   },
   "skill_token_delivery_procedure": {
@@ -4316,7 +4545,8 @@
     "explanation": "La entrega inmediata y consistente de fichas asegura que la ficha se asocie con la conducta correcta y mantenga sus propiedades reforzantes condicionadas.",
     "options_es": {
       "answer": "Entrega de fichas",
-      "purpose": "Para emparejar un reforzador condicionado con la conducta que lo produjo, de modo que la ficha adquiera valor."
+      "purpose": "Para emparejar un reforzador condicionado con la conducta que lo produjo, de modo que la ficha adquiera valor.",
+      "Token delivery": "Entrega de fichas"
     }
   },
   "skill_backup_reinforcer": {
@@ -4328,7 +4558,8 @@
     "explanation": "Sin reforzadores de apoyo atractivos, las fichas pierden su función motivadora; estos reforzadores deben actualizarse según las preferencias actuales.",
     "options_es": {
       "answer": "Reforzadores de apoyo en una economía de fichas",
-      "purpose": "Para dar a las fichas su valor reforzante mediante una conexión confiable con artículos o actividades preferidas."
+      "purpose": "Para dar a las fichas su valor reforzante mediante una conexión confiable con artículos o actividades preferidas.",
+      "Backup reinforcers in a token economy": "Reforzadores de apoyo en una economía de fichas"
     }
   },
   "skill_token_board_use": {
@@ -4340,7 +4571,8 @@
     "explanation": "Un tablero de fichas visible ayuda al cliente a entender la contingencia y proporciona motivación al mostrar qué tan cerca está del intercambio.",
     "options_es": {
       "answer": "Uso del tablero de fichas",
-      "purpose": "Para darle al cliente una representación visible de su progreso hacia el reforzador de apoyo."
+      "purpose": "Para darle al cliente una representación visible de su progreso hacia el reforzador de apoyo.",
+      "Using a token board": "Uso del tablero de fichas"
     }
   },
   "skill_token_backup_exchange": {
@@ -4352,7 +4584,8 @@
     "explanation": "Un procedimiento de intercambio claro y consistente ayuda al cliente a entender el valor de las fichas y refuerza el completar el trabajo requerido.",
     "options_es": {
       "answer": "Procedimiento de intercambio de fichas",
-      "purpose": "Para completar la contingencia convirtiendo las fichas ganadas en la consecuencia preferida."
+      "purpose": "Para completar la contingencia convirtiendo las fichas ganadas en la consecuencia preferida.",
+      "Token exchange procedure": "Procedimiento de intercambio de fichas"
     }
   },
   "skill_token_ratio": {
@@ -4364,7 +4597,8 @@
     "explanation": "Una relación demasiado alta produce frustración; una demasiado baja reduce la productividad de la sesión. La relación debe ajustarse según evolucione el desempeño del cliente.",
     "options_es": {
       "answer": "Relación fichas-reforzador",
-      "purpose": "Para establecer un requisito de trabajo apropiado que mantenga la motivación mientras construye persistencia conductual."
+      "purpose": "Para establecer un requisito de trabajo apropiado que mantenga la motivación mientras construye persistencia conductual.",
+      "Token-to-backup ratio": "Relación fichas-reforzador"
     }
   },
   "skill_token_system_fading": {
@@ -4376,7 +4610,8 @@
     "explanation": "Desvanecer la economía de fichas asegura que la conducta se mantenga por reforzadores naturales y no dependa permanentemente de un sistema artificial.",
     "options_es": {
       "answer": "Desvanecimiento del sistema de fichas",
-      "purpose": "Para hacer la transición desde un sistema artificial de reforzamiento hacia consecuencias que ocurren de manera natural."
+      "purpose": "Para hacer la transición desde un sistema artificial de reforzamiento hacia consecuencias que ocurren de manera natural.",
+      "Fading the token system": "Desvanecimiento del sistema de fichas"
     }
   },
   "skill_maintenance_phase_definition": {
@@ -4388,7 +4623,8 @@
     "explanation": "Las habilidades pueden perderse si no se practican periódicamente. Las pruebas de mantenimiento y la práctica distribuida ayudan al cliente a conservarlas mucho después de la fase de adquisición.",
     "options_es": {
       "answer": "Fase de mantenimiento",
-      "purpose": "Para conservar habilidades previamente dominadas a lo largo del tiempo y prevenir regresión una vez que la instrucción se ha desvanecido."
+      "purpose": "Para conservar habilidades previamente dominadas a lo largo del tiempo y prevenir regresión una vez que la instrucción se ha desvanecido.",
+      "Maintenance phase": "Fase de mantenimiento"
     }
   },
   "skill_sap_behavioral_objective": {
@@ -4400,7 +4636,8 @@
     "explanation": "Un objetivo conductual claro guía la instrucción y le dice a todo el equipo cómo se verá el éxito para esa habilidad.",
     "options_es": {
       "answer": "Objetivo conductual en un SAP",
-      "purpose": "Para definir exactamente qué se espera que el cliente aprenda, en términos medibles."
+      "purpose": "Para definir exactamente qué se espera que el cliente aprenda, en términos medibles.",
+      "Behavioral objective in a SAP": "Objetivo conductual en un SAP"
     }
   },
   "skill_sap_reinforcement_plan": {
@@ -4412,7 +4649,8 @@
     "explanation": "Seguir el plan de reforzamiento asegura que las respuestas correctas contacten la consecuencia diseñada para fortalecerlas.",
     "options_es": {
       "answer": "Plan de reforzamiento en un SAP",
-      "purpose": "Para guiar al RBT en el reforzamiento consistente de la conducta objetivo según el plan."
+      "purpose": "Para guiar al RBT en el reforzamiento consistente de la conducta objetivo según el plan.",
+      "Reinforcement plan in a SAP": "Plan de reforzamiento en un SAP"
     }
   },
   "skill_sap_data_system": {
@@ -4424,7 +4662,8 @@
     "explanation": "Usar el método de toma de datos especificado en el SAP asegura que los datos de distintas sesiones sean comparables.",
     "options_es": {
       "answer": "Sistema de toma de datos en un SAP",
-      "purpose": "Para estandarizar cómo se registra el desempeño entre todos los miembros del personal que trabajan con el cliente."
+      "purpose": "Para estandarizar cómo se registra el desempeño entre todos los miembros del personal que trabajan con el cliente.",
+      "Data collection system in a SAP": "Sistema de toma de datos en un SAP"
     }
   },
   "skill_sap_mastery_criteria": {
@@ -4436,7 +4675,8 @@
     "explanation": "Los criterios de dominio evitan avanzar demasiado pronto y aseguran que las habilidades se generalicen en distintas condiciones antes de pasar a lo siguiente.",
     "options_es": {
       "answer": "Criterios de dominio en un SAP",
-      "purpose": "Para establecer un estándar objetivo de cuándo una habilidad ha sido adquirida de manera confiable."
+      "purpose": "Para establecer un estándar objetivo de cuándo una habilidad ha sido adquirida de manera confiable.",
+      "Mastery criteria in a SAP": "Criterios de dominio en un SAP"
     }
   },
   "skill_sap_generalization_plan": {
@@ -4448,7 +4688,8 @@
     "explanation": "Incluir un plan de generalización asegura que las habilidades dominadas se transfieran a entornos naturales donde resultan más útiles.",
     "options_es": {
       "answer": "Plan de generalización en un SAP",
-      "purpose": "Para planificar desde el principio cómo la habilidad se mantendrá y se usará en contextos de la vida real."
+      "purpose": "Para planificar desde el principio cómo la habilidad se mantendrá y se usará en contextos de la vida real.",
+      "Generalization plan in a SAP": "Plan de generalización en un SAP"
     }
   },
   "skill_sap_teaching_procedure": {
@@ -4460,7 +4701,8 @@
     "explanation": "Seguir el procedimiento de enseñanza especificado asegura la integridad del tratamiento y permite al supervisor identificar qué está funcionando.",
     "options_es": {
       "answer": "Procedimiento de enseñanza en un SAP",
-      "purpose": "Para asegurar que todo el personal enseñe de la misma manera y el cliente reciba una instrucción consistente."
+      "purpose": "Para asegurar que todo el personal enseñe de la misma manera y el cliente reciba una instrucción consistente.",
+      "Teaching procedure in a SAP": "Procedimiento de enseñanza en un SAP"
     }
   },
   "skill_sap_target_behavior": {
@@ -4472,7 +4714,8 @@
     "explanation": "Una conducta objetivo definida operacionalmente en el SAP permite que varios miembros del personal estén de acuerdo sobre cuándo la habilidad ocurrió.",
     "options_es": {
       "answer": "Conducta objetivo en un SAP",
-      "purpose": "Para identificar claramente qué se espera que haga el cliente y poder enseñarlo y medirlo de manera consistente."
+      "purpose": "Para identificar claramente qué se espera que haga el cliente y poder enseñarlo y medirlo de manera consistente.",
+      "Target behavior in a SAP": "Conducta objetivo en un SAP"
     }
   },
   "skill_presession_supervisor_contact": {
@@ -4484,7 +4727,8 @@
     "explanation": "Contactar al supervisor antes de una sesión cuando hay dudas evita que el RBT implemente un procedimiento incorrecto durante toda la sesión.",
     "options_es": {
       "answer": "Contacto con el supervisor antes de la sesión",
-      "purpose": "Para recibir guía clínica antes de iniciar la instrucción cuando existe incertidumbre sobre el plan."
+      "purpose": "Para recibir guía clínica antes de iniciar la instrucción cuando existe incertidumbre sobre el plan.",
+      "Pre-session supervisor contact": "Contacto con el supervisor antes de la sesión"
     }
   },
   "skill_stimulus_prompt_fading": {
@@ -4496,7 +4740,8 @@
     "explanation": "El desvanecimiento de estímulos mantiene el foco en el estímulo natural desde el principio, lo que puede reducir la dependencia de ayudas en comparación con las ayudas de respuesta.",
     "options_es": {
       "answer": "Desvanecimiento de ayudas de estímulo",
-      "purpose": "Para usar una característica destacada del estímulo para establecer la respuesta inicial antes de retirar la ayuda adicional."
+      "purpose": "Para usar una característica destacada del estímulo para establecer la respuesta inicial antes de retirar la ayuda adicional.",
+      "Stimulus prompt fading": "Desvanecimiento de ayudas de estímulo"
     }
   },
   "skill_response_prompt_types": {
@@ -4508,7 +4753,8 @@
     "explanation": "Seleccionar el tipo adecuado de ayuda asegura que el cliente reciba suficiente apoyo para tener éxito sin recibir más asistencia de la necesaria.",
     "options_es": {
       "answer": "Tipos de ayudas de respuesta",
-      "purpose": "Para saber qué tipo de ayuda suplementaria proporcionar según el cliente y la habilidad."
+      "purpose": "Para saber qué tipo de ayuda suplementaria proporcionar según el cliente y la habilidad.",
+      "Types of response prompts": "Tipos de ayudas de respuesta"
     }
   },
   "skill_prompt_dependency_avoidance": {
@@ -4520,7 +4766,8 @@
     "explanation": "La dependencia de ayudas se previene planificando de antemano el programa de desvanecimiento y reforzando las respuestas independientes con más entusiasmo que las ayudadas.",
     "options_es": {
       "answer": "Prevención de dependencia de ayudas",
-      "purpose": "Para asegurar que la respuesta del cliente se transfiera al estímulo natural en lugar de depender de claves suplementarias."
+      "purpose": "Para asegurar que la respuesta del cliente se transfiera al estímulo natural en lugar de depender de claves suplementarias.",
+      "Avoiding prompt dependency": "Prevención de dependencia de ayudas"
     }
   },
   "skill_time_delay_types": {
@@ -4532,7 +4779,8 @@
     "explanation": "Ambos procedimientos permiten que el cliente responda de manera independiente dentro del intervalo de espera; la elección entre ellos depende de la historia del cliente y de la preferencia del supervisor.",
     "options_es": {
       "answer": "Retraso constante vs. progresivo",
-      "purpose": "Para entender cómo distintos procedimientos de retraso transfieren el control del estímulo desde la ayuda hacia el SD natural."
+      "purpose": "Para entender cómo distintos procedimientos de retraso transfieren el control del estímulo desde la ayuda hacia el SD natural.",
+      "Constant vs. progressive time delay": "Retraso constante vs. progresivo"
     }
   },
   "skill_successive_approximations": {
@@ -4544,7 +4792,8 @@
     "explanation": "El shaping mediante aproximaciones sucesivas permite desarrollar respuestas que el cliente todavía no puede producir, comenzando desde lo que ya puede hacer.",
     "options_es": {
       "answer": "Aproximaciones sucesivas en shaping",
-      "purpose": "Para construir una conducta nueva reforzando versiones cada vez más cercanas al objetivo."
+      "purpose": "Para construir una conducta nueva reforzando versiones cada vez más cercanas al objetivo.",
+      "Successive approximations in shaping": "Aproximaciones sucesivas en shaping"
     }
   },
   "skill_shaping_step_advancement": {
@@ -4556,7 +4805,8 @@
     "explanation": "Avanzar demasiado rápido hace que el cliente falle; quedarse demasiado tiempo en un paso reduce la motivación. El RBT monitorea el desempeño para decidir cuándo avanzar.",
     "options_es": {
       "answer": "Avance de pasos en shaping",
-      "purpose": "Para mover al cliente hacia adelante en shaping al ritmo correcto, ni demasiado rápido ni demasiado lento."
+      "purpose": "Para mover al cliente hacia adelante en shaping al ritmo correcto, ni demasiado rápido ni demasiado lento.",
+      "Advancing steps in shaping": "Avance de pasos en shaping"
     }
   },
   "skill_shaping_vs_prompt_fading": {
@@ -4568,7 +4818,8 @@
     "explanation": "Entender la diferencia ayuda al RBT a aplicar la estrategia adecuada: shaping para conductas nuevas y ayudas para conductas que el cliente puede hacer, pero no de manera independiente.",
     "options_es": {
       "answer": "Shaping vs. desvanecimiento de ayudas",
-      "purpose": "Para elegir el procedimiento correcto al enseñar una conducta que el cliente todavía no puede realizar."
+      "purpose": "Para elegir el procedimiento correcto al enseñar una conducta que el cliente todavía no puede realizar.",
+      "Shaping vs. prompting": "Shaping vs. desvanecimiento de ayudas"
     }
   },
   "skill_shaping_step_size": {
@@ -4580,7 +4831,8 @@
     "explanation": "Los pasos pequeños hacen que el shaping sea más lento pero reducen el fracaso; los pasos grandes avanzan más rápido, pero corren el riesgo de fallar si el cliente no puede cerrar la brecha.",
     "options_es": {
       "answer": "Tamaño de paso en shaping",
-      "purpose": "Para calibrar la progresión de modo que cada paso sea alcanzable y aun así acerque a la conducta terminal."
+      "purpose": "Para calibrar la progresión de modo que cada paso sea alcanzable y aun así acerque a la conducta terminal.",
+      "Step size in shaping": "Tamaño de paso en shaping"
     }
   },
   "skill_shaping_topography": {
@@ -4592,7 +4844,8 @@
     "explanation": "La topografía en shaping se usa cuando la forma física exacta de la respuesta importa, como en escritura, articulación del habla o habilidades motoras.",
     "options_es": {
       "answer": "Topografía conductual en shaping",
-      "purpose": "Para desarrollar una nueva forma conductual reforzando versiones progresivamente más precisas del objetivo."
+      "purpose": "Para desarrollar una nueva forma conductual reforzando versiones progresivamente más precisas del objetivo.",
+      "Shaping behavior topography": "Topografía conductual en shaping"
     }
   },
   "skill_shaping_regression": {
@@ -4604,7 +4857,8 @@
     "explanation": "Retroceder un paso no es un fracaso; permite que el cliente recupere impulso y éxito antes de intentar de nuevo la aproximación más difícil.",
     "options_es": {
       "answer": "Retroceder un paso en shaping",
-      "purpose": "Para prevenir frustración y pérdida de respuestas cuando un paso de shaping es demasiado difícil."
+      "purpose": "Para prevenir frustración y pérdida de respuestas cuando un paso de shaping es demasiado difícil.",
+      "Going back a step in shaping": "Retroceder un paso en shaping"
     }
   },
   "skill_shaping_new_behavior": {
@@ -4616,7 +4870,8 @@
     "explanation": "El shaping es la herramienta principal para construir conductas completamente nuevas cuando la respuesta terminal no está actualmente en el repertorio del cliente.",
     "options_es": {
       "answer": "Uso del shaping para construir una conducta nueva",
-      "purpose": "Para enseñar conductas que no pueden evocarse directamente porque el cliente nunca las ha producido."
+      "purpose": "Para enseñar conductas que no pueden evocarse directamente porque el cliente nunca las ha producido.",
+      "Using shaping to build a new behavior": "Uso del shaping para construir una conducta nueva"
     }
   },
   "assessment_barrier_review": {
@@ -4782,7 +5037,8 @@
       "To replace interpretive labels with observable descriptions that lead to consistent measurement.": "Sustituir etiquetas interpretativas por descripciones observables que permitan una medición consistente.",
       "To help the RBT recognize when data is unstable and may need further investigation before making programming decisions.": "Ayudar al RBT a reconocer cuándo los datos son inestables y pueden requerir más investigación antes de tomar decisiones de programación.",
       "To ensure target behaviors describe active responses rather than the absence of behavior.": "Asegurar que las conductas objetivo describan respuestas activas y no la ausencia de conducta.",
-      "To retain physical evidence of the learner's work for review, progress monitoring, and data verification.": "Conservar evidencia física del trabajo del aprendiz para revisión, seguimiento del progreso y verificación de datos."
+      "To retain physical evidence of the learner's work for review, progress monitoring, and data verification.": "Conservar evidencia física del trabajo del aprendiz para revisión, seguimiento del progreso y verificación de datos.",
+      "Dead man test": "Prueba del hombre muerto"
     }
   },
   "measurement_interval_selection": {
@@ -4810,7 +5066,8 @@
       "To set conditions for independent, comparable measurement by two observers.": "Establecer condiciones para una medición independiente y comparable entre dos observadores.",
       "To record environmental factors in a way that can be verified and used to identify setting events.": "Registrar factores ambientales de una manera que pueda verificarse y usarse para identificar eventos de establecimiento.",
       "To establish a reliable baseline before introducing an intervention, so any future changes in the data can be attributed to the intervention.": "Establecer una línea base confiable antes de introducir una intervención, para que cualquier cambio posterior pueda atribuirse a esa intervención.",
-      "To extract basic performance information from graphed data.": "Extraer información básica de desempeño a partir de los datos graficados."
+      "To extract basic performance information from graphed data.": "Extraer información básica de desempeño a partir de los datos graficados.",
+      "Describing the environment in observable terms": "Describir el ambiente en términos observables"
     }
   },
   "professional_timely_direction_seeking": {
@@ -4880,7 +5137,8 @@
       "To protect client confidentiality in record keeping.": "Proteger la confidencialidad del cliente en el registro de datos.",
       "To prevent errors by getting guidance before, not after, a challenging situation occurs.": "Prevenir errores obteniendo orientación antes, y no después, de que ocurra una situación desafiante.",
       "To ensure services respect the learner as an individual with preferences and rights.": "Asegurar que los servicios respeten al aprendiz como una persona con preferencias y derechos.",
-      "To coordinate effectively with the interdisciplinary team while protecting client privacy and staying within scope.": "Coordinarse eficazmente con el equipo interdisciplinario mientras se protege la privacidad del cliente y se mantiene el alcance profesional."
+      "To coordinate effectively with the interdisciplinary team while protecting client privacy and staying within scope.": "Coordinarse eficazmente con el equipo interdisciplinario mientras se protege la privacidad del cliente y se mantiene el alcance profesional.",
+      "Respecting client autonomy": "Respetar la autonomía del cliente"
     }
   },
   "professional_accurate_public_statements": {
@@ -4922,7 +5180,8 @@
       "To keep treatment decisions with the supervising clinician.": "Mantener las decisiones de tratamiento bajo la responsabilidad del clínico supervisor.",
       "To support service delivery within the bounds of authorized consent.": "Apoyar la prestación de servicios dentro de los límites del consentimiento autorizado.",
       "To implement plans with fidelity rather than filling in gaps with personal judgment.": "Implementar los planes con fidelidad en lugar de llenar vacíos con juicio personal.",
-      "To translate supervision feedback into improved implementation as quickly as possible, benefiting the learner and demonstrating professional responsiveness.": "Convertir la retroalimentación de supervisión en una mejor implementación lo antes posible, beneficiando al aprendiz y demostrando receptividad profesional."
+      "To translate supervision feedback into improved implementation as quickly as possible, benefiting the learner and demonstrating professional responsiveness.": "Convertir la retroalimentación de supervisión en una mejor implementación lo antes posible, beneficiando al aprendiz y demostrando receptividad profesional.",
+      "Responding when the plan is unclear": "Responder cuando el plan no está claro"
     }
   },
   "professional_seek_clinical_direction": {
@@ -4936,7 +5195,8 @@
       "To keep implementation aligned with the supervisor's written plan.": "Mantener la implementación alineada con el plan escrito del supervisor.",
       "To protect client welfare and maintain professional objectivity by avoiding situations where personal relationships could influence clinical decisions.": "Proteger el bienestar del cliente y mantener la objetividad profesional evitando situaciones donde relaciones personales puedan influir en decisiones clínicas.",
       "To avoid acting beyond the limits of the RBT role.": "Evitar actuar más allá de los límites del rol del RBT.",
-      "To obtain clinical guidance before acting in situations that exceed the RBT's training or the written plan.": "Obtener guía clínica antes de actuar en situaciones que exceden la capacitación del RBT o el plan escrito."
+      "To obtain clinical guidance before acting in situations that exceed the RBT's training or the written plan.": "Obtener guía clínica antes de actuar en situaciones que exceden la capacitación del RBT o el plan escrito.",
+      "Seeking clinical direction": "Buscar dirección clínica"
     }
   },
   "professional_rbt_prepares_for_supervision": {
@@ -4964,7 +5224,8 @@
       "To support caregiver implementation of the plan while operating within the RBT's authorized support role.": "Apoyar la implementación del plan por parte del cuidador dentro del rol de apoyo autorizado del RBT.",
       "To improve performance by responding appropriately to supervision feedback.": "Mejorar el desempeño respondiendo adecuadamente a la retroalimentación de supervisión.",
       "To prevent accidental confidentiality breaches that occur outside of formal clinical settings.": "Prevenir violaciones accidentales de confidencialidad que ocurren fuera de contextos clínicos formales.",
-      "To balance cultural sensitivity with professional ethics when navigating gift-related situations.": "Equilibrar la sensibilidad cultural con la ética profesional al manejar situaciones relacionadas con regalos."
+      "To balance cultural sensitivity with professional ethics when navigating gift-related situations.": "Equilibrar la sensibilidad cultural con la ética profesional al manejar situaciones relacionadas con regalos.",
+      "Avoiding public disclosure of client information": "Evitar la divulgación pública de información del cliente"
     }
   },
   "skill_task_analysis_steps": {
@@ -4992,7 +5253,8 @@
       "To address multiple skill areas within one session efficiently.": "Abordar múltiples áreas de habilidad dentro de una misma sesión de forma eficiente.",
       "To keep reinforcers motivating by preventing repeated exposure to a single consequence.": "Mantener motivadores los reforzadores evitando la exposición repetida a una sola consecuencia.",
       "To create the physical conditions the SAP requires for effective instruction.": "Crear las condiciones físicas que el plan de adquisición de habilidades requiere para una enseñanza efectiva.",
-      "To fade prompts systematically based on the learner's performance rather than on guesswork or fixed time periods.": "Desvanecer las ayudas de manera sistemática según el desempeño del aprendiz, en lugar de hacerlo por intuición o por periodos fijos."
+      "To fade prompts systematically based on the learner's performance rather than on guesswork or fixed time periods.": "Desvanecer las ayudas de manera sistemática según el desempeño del aprendiz, en lugar de hacerlo por intuición o por periodos fijos.",
+      "Criteria for fading prompts": "Criterios para desvanecer ayudas"
     }
   },
   "skill_graduated_guidance": {
@@ -5020,7 +5282,8 @@
       "To understand how different time delay procedures transfer stimulus control from the prompt to the natural SD.": "Comprender cómo distintos procedimientos de demora transfieren el control del estímulo desde la ayuda hacia el SD natural.",
       "To guide consistent implementation of skill teaching.": "Guiar una implementación consistente de la enseñanza de habilidades.",
       "To expand the types of reinforcers available during sessions and prepare the learner to be responsive to social reinforcement, which is more natural in everyday environments.": "Ampliar los tipos de reforzadores disponibles durante las sesiones y preparar al aprendiz para responder al reforzamiento social, que es más natural en la vida diaria.",
-      "To describe how learning in one context can transfer to other related stimuli.": "Describir cómo el aprendizaje en un contexto puede transferirse a otros estímulos relacionados."
+      "To describe how learning in one context can transfer to other related stimuli.": "Describir cómo el aprendizaje en un contexto puede transferirse a otros estímulos relacionados.",
+      "Stimulus generalization": "Generalización del estímulo"
     }
   },
   "skill_discriminative_stimulus_sd": {
@@ -5034,7 +5297,8 @@
       "To teach and track each component of a multi-step skill separately.": "Enseñar y registrar cada componente de una habilidad de varios pasos por separado.",
       "To signal to the learner which response will contact reinforcement.": "Señalar al aprendiz qué respuesta entrará en contacto con el reforzamiento.",
       "To prevent frustration and loss of responding when a shaping step is too difficult.": "Prevenir frustración y pérdida de respuesta cuando un paso de moldeamiento es demasiado difícil.",
-      "To keep a learned skill strong after initial mastery.": "Mantener fuerte una habilidad aprendida después del dominio inicial."
+      "To keep a learned skill strong after initial mastery.": "Mantener fuerte una habilidad aprendida después del dominio inicial.",
+      "The discriminative stimulus (SD)": "Estímulo discriminativo (SD)"
     }
   },
   "skill_stimulus_control_definition": {
