@@ -363,11 +363,11 @@ export default function UpgradeScreen({ navigation }) {
         {/* Legal links — required by Apple 3.1.2 */}
         <View style={s.legalLinks}>
           <Text style={s.legalLinksTxt}>{t('upgrade.legal_links')} </Text>
-          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/terms')}>
+          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/terms-of-service')}>
             <Text style={s.legalLink}>{t('upgrade.terms_link')}</Text>
           </Pressable>
           <Text style={s.legalLinksTxt}> {t('upgrade.and')} </Text>
-          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/privacy')}>
+          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/privacy-policy')}>
             <Text style={s.legalLink}>{t('upgrade.privacy_link')}</Text>
           </Pressable>
         </View>
