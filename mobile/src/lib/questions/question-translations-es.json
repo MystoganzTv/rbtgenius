@@ -5062,5 +5062,833 @@
       "answer": "Medición",
       "purpose": "Para registrar la conducta y el progreso con datos objetivos y útiles para la toma de decisiones."
     }
+  },
+  "measurement_data_sheet_setup": {
+    "status": "reviewed",
+    "answer": "Preparación de la hoja de datos",
+    "definition": "el RBT prepara la hoja de datos correcta antes de la sesión, con el nombre del aprendiz, la fecha y las conductas objetivo completadas.",
+    "scenario": "Antes de que llegue el aprendiz, el RBT escribe el nombre, la fecha y los objetivos de sesión en la hoja de registro.",
+    "purpose": "Para garantizar que el registro de datos sea preciso y organizado desde el inicio de la sesión.",
+    "explanation": "Preparar la hoja de datos con anticipación reduce los errores y permite que el RBT se concentre en la implementación durante la sesión.",
+    "options_es": {
+      "Data sheet setup": "Preparación de la hoja de datos",
+      "For accurate and organized data collection from the start of the session.": "Para garantizar que el registro de datos sea preciso y organizado desde el inicio de la sesión."
+    }
+  },
+  "measurement_operational_def_review": {
+    "status": "reviewed",
+    "answer": "Revisión de la definición operacional",
+    "definition": "el RBT lee la definición operacional de cada conducta objetivo antes de recolectar datos para garantizar una identificación consistente.",
+    "scenario": "Antes de comenzar la sesión, el RBT repasa cómo está definida la 'conducta disruptiva' en el plan para asegurarse de registrarla de forma consistente.",
+    "purpose": "Para garantizar que el RBT identifique y registre la conducta exactamente como fue definida por el equipo.",
+    "explanation": "Revisar la definición operacional antes de cada sesión reduce la variabilidad en la medición y mejora la precisión de los datos.",
+    "options_es": {
+      "Operational definition review": "Revisión de la definición operacional",
+      "To ensure the RBT identifies and records the behavior exactly as defined by the team.": "Para garantizar que el RBT identifique y registre la conducta exactamente como fue definida por el equipo."
+    }
+  },
+  "measurement_materials_prep": {
+    "status": "reviewed",
+    "answer": "Preparación de materiales",
+    "definition": "el RBT reúne todos los materiales necesarios — incluyendo cronómetro, hojas de datos y herramientas de registro — antes de iniciar la sesión.",
+    "scenario": "El RBT coloca el cronómetro, las hojas de datos y el tablero de comunicación en la mesa antes de que el aprendiz entre al área de trabajo.",
+    "purpose": "Para que la sesión pueda comenzar sin interrupciones por materiales faltantes.",
+    "explanation": "Preparar los materiales con anticipación evita retrasos, minimiza las oportunidades para conductas problemáticas y favorece una implementación más fluida.",
+    "options_es": {
+      "Materials preparation": "Preparación de materiales",
+      "So the session can begin without interruptions from missing materials.": "Para que la sesión pueda comenzar sin interrupciones por materiales faltantes."
+    }
+  },
+  "measurement_ioa_preparation": {
+    "status": "reviewed",
+    "answer": "Preparación para la recolección de ACO",
+    "definition": "el RBT y un segundo observador preparan de forma independiente hojas de registro idénticas antes de recolectar datos de acuerdo entre observadores.",
+    "scenario": "Dos miembros del equipo revisan la definición operacional de la conducta y preparan hojas de registro separadas antes de observar juntos la sesión.",
+    "purpose": "Para que ambos observadores midan la misma conducta de forma independiente y bajo las mismas condiciones.",
+    "explanation": "Una preparación idéntica entre los dos observadores es esencial para que el cálculo del acuerdo entre observadores (ACO) sea válido.",
+    "options_es": {
+      "IOA data collection setup": "Preparación para la recolección de ACO",
+      "So both observers measure the same behavior independently under identical conditions.": "Para que ambos observadores midan la misma conducta de forma independiente y bajo las mismas condiciones."
+    }
+  },
+  "measurement_reinforcer_check_prep": {
+    "status": "reviewed",
+    "answer": "Verificación de reforzadores antes de la sesión",
+    "definition": "el RBT confirma que los ítems o actividades preferidos identificados en la evaluación de reforzadores están disponibles y accesibles antes de comenzar la sesión.",
+    "scenario": "Antes de iniciar la sesión, el RBT verifica que los reforzadores identificados en la evaluación de preferencia están disponibles y listos para usar.",
+    "purpose": "Para asegurar que el reforzamiento pueda entregarse de forma inmediata y consistente durante la sesión.",
+    "explanation": "Confirmar la disponibilidad de los reforzadores antes de la sesión previene interrupciones y garantiza que las consecuencias puedan usarse según el plan.",
+    "options_es": {
+      "Reinforcer check before session": "Verificación de reforzadores antes de la sesión",
+      "To ensure reinforcement can be delivered immediately and consistently during the session.": "Para asegurar que el reforzamiento pueda entregarse de forma inmediata y consistente durante la sesión."
+    }
+  },
+  "measurement_total_duration_across": {
+    "status": "reviewed",
+    "answer": "Duración total",
+    "definition": "el RBT suma todas las duraciones de los episodios individuales para obtener el tiempo total en que ocurrió una conducta durante la sesión.",
+    "scenario": "El aprendiz lloró durante 3 minutos, luego 5 minutos, luego 2 minutos. El RBT registra una duración total de 10 minutos.",
+    "purpose": "Para conocer cuánto tiempo total ocupó una conducta a lo largo de toda la sesión.",
+    "explanation": "La duración total suma todos los episodios y proporciona una medida global del tiempo que el aprendiz pasó en la conducta durante la sesión.",
+    "options_es": {
+      "Total duration": "Duración total",
+      "To know the total time a behavior occupied throughout the entire session.": "Para conocer cuánto tiempo total ocupó una conducta a lo largo de toda la sesión."
+    }
+  },
+  "measurement_continuous_when": {
+    "status": "reviewed",
+    "answer": "Cuándo usar medición continua",
+    "definition": "la medición continua se selecciona cuando cada ocurrencia de una conducta puede detectarse y registrarse durante el período de observación.",
+    "scenario": "El RBT puede ver y escuchar al aprendiz en todo momento durante la sesión de mesa, por lo que registra cada vez que el aprendiz dice una palabra.",
+    "purpose": "Para obtener un registro exacto de cada ocurrencia de la conducta cuando la observación directa es posible.",
+    "explanation": "La medición continua es el método más preciso cuando el observador puede detectar cada instancia de la conducta sin perder ninguna.",
+    "options_es": {
+      "When to use continuous measurement": "Cuándo usar medición continua",
+      "To obtain an exact record of every occurrence of the behavior when direct observation is possible.": "Para obtener un registro exacto de cada ocurrencia de la conducta cuando la observación directa es posible."
+    }
+  },
+  "measurement_ioa_total_count": {
+    "status": "reviewed",
+    "answer": "ACO de conteo total",
+    "definition": "el acuerdo entre observadores se calcula dividiendo el total menor entre el total mayor y multiplicando por 100 para obtener un porcentaje.",
+    "scenario": "Un observador registra 10 ocurrencias y el otro registra 8. El ACO de conteo total es 8 ÷ 10 × 100 = 80%.",
+    "purpose": "Para evaluar qué tan consistentemente dos observadores independientes contaron la misma conducta.",
+    "explanation": "Un ACO de conteo total alto indica que ambos observadores estuvieron de acuerdo en el número total de ocurrencias, lo que apoya la confiabilidad de los datos.",
+    "options_es": {
+      "Total count IOA": "ACO de conteo total",
+      "To evaluate how consistently two independent observers counted the same behavior.": "Para evaluar qué tan consistentemente dos observadores independientes contaron la misma conducta."
+    }
+  },
+  "measurement_ioa_duration_method": {
+    "status": "reviewed",
+    "answer": "ACO de duración",
+    "definition": "la duración registrada por cada uno de los dos observadores independientes se compara para calcular el porcentaje de acuerdo para cada episodio o la sesión completa.",
+    "scenario": "Para un episodio de llanto, un observador registra 4 minutos y el otro registra 5 minutos. El ACO de duración para ese episodio es 4 ÷ 5 × 100 = 80%.",
+    "purpose": "Para verificar que dos observadores midieron la duración de una conducta de manera consistente.",
+    "explanation": "El ACO de duración asegura que las medidas de tiempo de ambos observadores son suficientemente similares para considerarse confiables.",
+    "options_es": {
+      "Duration IOA": "ACO de duración",
+      "To verify that two observers measured the duration of a behavior consistently.": "Para verificar que dos observadores midieron la duración de una conducta de manera consistente."
+    }
+  },
+  "measurement_recording_multiple_behaviors": {
+    "status": "reviewed",
+    "answer": "Registro de múltiples conductas simultáneamente",
+    "definition": "el RBT registra más de una conducta objetivo al mismo tiempo usando una hoja de datos con filas o columnas separadas para cada conducta.",
+    "scenario": "El RBT usa una hoja de datos con columnas separadas para 'solicitudes vocales' y 'conducta disruptiva', marcando cada una de forma independiente durante la sesión.",
+    "purpose": "Para recolectar datos sobre varias conductas objetivo en una sola sesión sin perder información.",
+    "explanation": "Las hojas de datos bien organizadas permiten al RBT monitorear múltiples objetivos a la vez sin confundir los registros de una conducta con los de otra.",
+    "options_es": {
+      "Recording multiple behaviors simultaneously": "Registro de múltiples conductas simultáneamente",
+      "To collect data on multiple target behaviors in one session without losing information.": "Para recolectar datos sobre varias conductas objetivo en una sola sesión sin perder información."
+    }
+  },
+  "measurement_mts_when_to_use": {
+    "status": "reviewed",
+    "answer": "Cuándo usar muestreo momentáneo de tiempo",
+    "definition": "el muestreo momentáneo de tiempo se selecciona cuando el observador necesita verificar si la conducta está ocurriendo en un momento específico en lugar de durante todo un intervalo.",
+    "scenario": "El RBT solo puede observar brevemente cada 5 minutos, por lo que usa muestreo momentáneo de tiempo para registrar si el aprendiz está trabajando en el instante exacto de cada comprobación.",
+    "purpose": "Para estimar la prevalencia de una conducta cuando la observación continua no es posible.",
+    "explanation": "El muestreo momentáneo de tiempo es eficiente cuando el observador tiene otras responsabilidades, pero solo proporciona una estimación, no un conteo exacto.",
+    "options_es": {
+      "When to use momentary time sampling": "Cuándo usar muestreo momentáneo de tiempo",
+      "To estimate the prevalence of a behavior when continuous observation is not possible.": "Para estimar la prevalencia de una conducta cuando la observación continua no es posible."
+    }
+  },
+  "measurement_discontinuous_limitation": {
+    "status": "reviewed",
+    "answer": "Limitaciones de la medición discontinua",
+    "definition": "el registro discontinuo proporciona una estimación de la conducta en lugar de un conteo exacto, por lo que puede no capturar cada ocurrencia.",
+    "scenario": "El RBT usa intervalo parcial y no registra un episodio de agresión que ocurrió y terminó en el segundo 10 de un intervalo de 20 segundos.",
+    "purpose": "Para reconocer cuándo los datos de registro discontinuo pueden subestimar la frecuencia real de la conducta.",
+    "explanation": "Comprender esta limitación ayuda al RBT a reportar los datos correctamente y comunicar al supervisor cuándo la medida puede estar subestimando la conducta.",
+    "options_es": {
+      "Limitations of discontinuous measurement": "Limitaciones de la medición discontinua",
+      "To recognize when discontinuous recording data may underestimate the actual frequency of behavior.": "Para reconocer cuándo los datos de registro discontinuo pueden subestimar la frecuencia real de la conducta."
+    }
+  },
+  "measurement_permanent_product_when": {
+    "status": "reviewed",
+    "answer": "Cuándo usar registro de producto permanente",
+    "definition": "el registro de producto permanente se usa cuando la conducta produce un resultado físico duradero que puede examinarse después de que ocurre.",
+    "scenario": "Un aprendiz completa una hoja de escritura y el RBT cuenta las letras formadas correctamente después, en lugar de observar la escritura en tiempo real.",
+    "purpose": "Para medir la conducta indirectamente a través de su resultado físico cuando la observación directa no es posible o práctica.",
+    "explanation": "El registro de producto permanente es eficiente porque no requiere que el observador esté presente durante la conducta.",
+    "options_es": {
+      "When to use permanent product recording": "Cuándo usar registro de producto permanente",
+      "To measure behavior indirectly through its physical outcome when direct observation is not possible or practical.": "Para medir la conducta indirectamente a través de su resultado físico cuando la observación directa no es posible o práctica."
+    }
+  },
+  "measurement_permanent_product_examples": {
+    "status": "reviewed",
+    "answer": "Ejemplos de producto permanente",
+    "definition": "los ejemplos de productos permanentes incluyen hojas de trabajo completadas, objetos ensamblados, áreas limpiadas, número de ítems clasificados, o cualquier resultado que persiste después de que la conducta termina.",
+    "scenario": "Después de una tarea vocacional, el RBT cuenta el número de sobres que el aprendiz llenó y selló como producto permanente de la conducta de ensamblaje.",
+    "purpose": "Para identificar qué califica como producto permanente en un contexto instruccional dado.",
+    "explanation": "Reconocer los productos permanentes ayuda al RBT a saber cuándo este método de medición es aplicable y qué medir específicamente.",
+    "options_es": {
+      "Permanent product examples": "Ejemplos de producto permanente",
+      "To identify what qualifies as a permanent product in a given instructional context.": "Para identificar qué califica como producto permanente en un contexto instruccional dado."
+    }
+  },
+  "measurement_permanent_product_ioa": {
+    "status": "reviewed",
+    "answer": "ACO de producto permanente",
+    "definition": "dos observadores revisan y puntúan de forma independiente el mismo producto físico y comparan sus conteos para calcular el acuerdo entre observadores.",
+    "scenario": "Dos miembros del personal cuentan de forma independiente el número de letras correctamente formadas en la misma muestra de escritura y luego comparan sus totales.",
+    "purpose": "Para verificar que el producto permanente se está puntuando de forma consistente entre observadores.",
+    "explanation": "Calcular el ACO en productos permanentes garantiza que los criterios de puntuación sean claros y se apliquen de la misma manera por todo el personal.",
+    "options_es": {
+      "Permanent product IOA": "ACO de producto permanente",
+      "To verify that the permanent product is being scored consistently between observers.": "Para verificar que el producto permanente se está puntuando de forma consistente entre observadores."
+    }
+  },
+  "measurement_work_sample_collection": {
+    "status": "reviewed",
+    "answer": "Recolección de muestras de trabajo",
+    "definition": "el RBT guarda o fotografía el trabajo completado del aprendiz como documentación de su desempeño.",
+    "scenario": "El RBT fotografía la hoja de trabajo completada del aprendiz y la archiva en la carpeta de datos de la sesión.",
+    "purpose": "Para mantener un registro documentado del desempeño del aprendiz que pueda revisarse más adelante.",
+    "explanation": "Las muestras de trabajo ofrecen evidencia concreta del desempeño del aprendiz y son útiles para informar las decisiones de programación del equipo.",
+    "options_es": {
+      "Work sample collection": "Recolección de muestras de trabajo",
+      "To maintain a documented record of learner performance that can be reviewed later.": "Para mantener un registro documentado del desempeño del aprendiz que pueda revisarse más adelante."
+    }
+  },
+  "measurement_product_accuracy_scoring": {
+    "status": "reviewed",
+    "answer": "Puntuación de precisión del producto",
+    "definition": "el RBT evalúa los productos permanentes según un criterio definido para determinar cuántos ítems se completaron correctamente.",
+    "scenario": "El RBT revisa la hoja de matemáticas del aprendiz y marca cada problema como correcto o incorrecto según la clave de respuestas.",
+    "purpose": "Para convertir un producto permanente en una puntuación numérica que refleje qué tan precisamente se realizó la habilidad.",
+    "explanation": "Puntuar los productos permanentes según un criterio establecido produce datos objetivos y consistentes sobre la calidad del trabajo del aprendiz.",
+    "options_es": {
+      "Product accuracy scoring": "Puntuación de precisión del producto",
+      "To convert a permanent product into a numerical score that reflects how accurately the skill was performed.": "Para convertir un producto permanente en una puntuación numérica que refleje qué tan precisamente se realizó la habilidad."
+    }
+  },
+  "measurement_graph_components": {
+    "status": "reviewed",
+    "answer": "Componentes de una gráfica de conducta",
+    "definition": "una gráfica de conducta estándar tiene un eje horizontal para las sesiones o fechas, un eje vertical para la medida de la conducta, puntos de datos y líneas de cambio de fase.",
+    "scenario": "El supervisor señala que la gráfica del aprendiz necesita etiquetas en ambos ejes, puntos de datos conectados y una línea de cambio de fase donde comenzó la intervención.",
+    "purpose": "Para comunicar los datos de conducta de forma visual y estandarizada que cualquier miembro del equipo pueda interpretar.",
+    "explanation": "Incluir todos los componentes estándar de la gráfica garantiza que los datos sean fácilmente comprensibles y profesionalmente presentados.",
+    "options_es": {
+      "Components of a behavior graph": "Componentes de una gráfica de conducta",
+      "To communicate behavior data visually in a standardized format any team member can interpret.": "Para comunicar los datos de conducta de forma visual y estandarizada que cualquier miembro del equipo pueda interpretar."
+    }
+  },
+  "measurement_phase_line": {
+    "status": "reviewed",
+    "answer": "Línea de cambio de fase",
+    "definition": "una línea vertical dibujada en una gráfica marca el punto en que cambió una condición o intervención.",
+    "scenario": "El supervisor dibuja una línea vertical en la gráfica en la sesión donde se introdujo el nuevo procedimiento de intervención.",
+    "purpose": "Para mostrar visualmente cuándo cambiaron las condiciones del tratamiento y facilitar la interpretación del efecto de la intervención.",
+    "explanation": "Las líneas de cambio de fase permiten al equipo ver si los datos mostraron un cambio después de modificar la intervención.",
+    "options_es": {
+      "Phase change line": "Línea de cambio de fase",
+      "To visually show when treatment conditions changed and aid interpretation of the intervention's effect.": "Para mostrar visualmente cuándo cambiaron las condiciones del tratamiento y facilitar la interpretación del efecto de la intervención."
+    }
+  },
+  "measurement_data_entry_accuracy": {
+    "status": "reviewed",
+    "answer": "Precisión al ingresar datos",
+    "definition": "el RBT transfiere los datos de la hoja de registro de la sesión a la gráfica o sistema de datos sin errores ni omisiones.",
+    "scenario": "Al final de la sesión, el RBT transfiere los conteos de cada conducta de la hoja de papel al sistema de datos en línea, verificando cada valor antes de guardar.",
+    "purpose": "Para asegurar que los datos reflejen con exactitud lo que ocurrió durante la sesión.",
+    "explanation": "Los errores al ingresar los datos pueden distorsionar las gráficas y llevar al equipo a tomar decisiones incorrectas sobre la programación.",
+    "options_es": {
+      "Data entry accuracy": "Precisión al ingresar datos",
+      "To ensure that data accurately reflects what occurred during the session.": "Para asegurar que los datos reflejen con exactitud lo que ocurrió durante la sesión."
+    }
+  },
+  "measurement_label_vs_describe": {
+    "status": "reviewed",
+    "answer": "Etiquetar vs. describir la conducta",
+    "definition": "etiquetar la conducta usa términos vagos como 'agresivo' o 'molesto', mientras que describirla usa acciones observables específicas que cualquiera podría ver.",
+    "scenario": "En lugar de escribir 'el aprendiz se portó mal', el RBT escribe 'el aprendiz tiró el material al piso y golpeó la mesa con la mano abierta'.",
+    "purpose": "Para garantizar que los registros de conducta sean objetivos, observables y no sujetos a interpretación.",
+    "explanation": "Las descripciones conductuales específicas permiten que cualquier miembro del equipo identifique la conducta de la misma manera, mejorando la consistencia.",
+    "options_es": {
+      "Labeling vs. describing behavior": "Etiquetar vs. describir la conducta",
+      "To ensure behavior records are objective, observable, and not subject to interpretation.": "Para garantizar que los registros de conducta sean objetivos, observables y no sujetos a interpretación."
+    }
+  },
+  "measurement_pinpointing_behavior": {
+    "status": "reviewed",
+    "answer": "Definición precisa de la conducta",
+    "definition": "una conducta está definida con precisión cuando se describe de forma tan exacta que dos observadores independientes la identificarían y registrarían de la misma manera.",
+    "scenario": "El supervisor revisa la definición de 'conducta disruptiva' del RBT y la aprueba porque cualquier miembro del equipo podría identificarla de la misma forma.",
+    "purpose": "Para asegurar que la medición de la conducta sea consistente entre todos los observadores.",
+    "explanation": "Una definición precisa es la base de la medición confiable: si dos personas no pueden acordar si la conducta ocurrió, los datos no son válidos.",
+    "options_es": {
+      "Pinpointing behavior": "Definición precisa de la conducta",
+      "To ensure behavior measurement is consistent across all observers.": "Para asegurar que la medición de la conducta sea consistente entre todos los observadores."
+    }
+  },
+  "measurement_trend_direction": {
+    "status": "reviewed",
+    "answer": "Dirección de la tendencia",
+    "definition": "la dirección de la tendencia se refiere a si una serie de datos se mueve generalmente hacia arriba (aumentando), hacia abajo (disminuyendo) o se mantiene plana (estable) a lo largo de un período de sesiones.",
+    "scenario": "El supervisor señala que los datos del aprendiz muestran una tendencia ascendente durante las últimas 6 sesiones, lo que indica que la habilidad está mejorando.",
+    "purpose": "Para interpretar si una conducta objetivo está cambiando en la dirección esperada con el tratamiento actual.",
+    "explanation": "Identificar la dirección de la tendencia ayuda al equipo a tomar decisiones sobre si continuar, modificar o suspender la intervención actual.",
+    "options_es": {
+      "Trend direction": "Dirección de la tendencia",
+      "To interpret whether a target behavior is changing in the expected direction with the current treatment.": "Para interpretar si una conducta objetivo está cambiando en la dirección esperada con el tratamiento actual."
+    }
+  },
+  "skill_reinforcement_immediacy": {
+    "status": "reviewed",
+    "answer": "Inmediatez del reforzamiento",
+    "definition": "el reforzamiento es más efectivo cuando se entrega lo más rápido posible después de que ocurre la respuesta objetivo.",
+    "scenario": "En cuanto el aprendiz dice 'agua', el RBT entrega inmediatamente el vaso de agua y dice '¡Muy bien!' sin demora.",
+    "purpose": "Para fortalecer la conexión entre la respuesta y el reforzador, haciendo más probable que la conducta ocurra en el futuro.",
+    "explanation": "Cuanto más rápido se entrega el reforzador después de la respuesta, más claramente el aprendiz asocia su conducta con la consecuencia positiva.",
+    "options_es": {
+      "Reinforcement immediacy": "Inmediatez del reforzamiento",
+      "To strengthen the connection between the response and the reinforcer, making the behavior more likely in the future.": "Para fortalecer la conexión entre la respuesta y el reforzador, haciendo más probable que la conducta ocurra en el futuro."
+    }
+  },
+  "skill_reinforcement_magnitude": {
+    "status": "reviewed",
+    "answer": "Magnitud del reforzamiento",
+    "definition": "la cantidad o tamaño de un reforzador se ajusta a la dificultad o importancia de la conducta que se está reforzando.",
+    "scenario": "El RBT entrega un elogio breve por completar un ítem de mantenimiento, pero entrega acceso de 5 minutos a la tableta al completar un nuevo objetivo difícil.",
+    "purpose": "Para que el esfuerzo requerido esté equilibrado con el valor del reforzador.",
+    "explanation": "Ajustar la magnitud del reforzador a la dificultad de la tarea mantiene la motivación del aprendiz y evita la saciedad por reforzadores excesivos en tareas sencillas.",
+    "options_es": {
+      "Reinforcement magnitude": "Magnitud del reforzamiento",
+      "So that the effort required is balanced with the value of the reinforcer.": "Para que el esfuerzo requerido esté equilibrado con el valor del reforzador."
+    }
+  },
+  "skill_reinforcement_schedule_thinning": {
+    "status": "reviewed",
+    "answer": "Adelgazamiento del programa de reforzamiento",
+    "definition": "el reforzamiento se entrega gradualmente con menos frecuencia a medida que una habilidad se vuelve más fluida, pasando del reforzamiento continuo hacia programas intermitentes.",
+    "scenario": "Una vez que el aprendiz solicita artículos de forma consistente, el RBT comienza a reforzar cada 2 solicitudes, luego cada 3, en lugar de cada una.",
+    "purpose": "Para que la habilidad se mantenga con niveles de reforzamiento más naturales y parecidos a los del entorno cotidiano.",
+    "explanation": "El adelgazamiento del programa promueve la durabilidad de la habilidad al enseñar al aprendiz a trabajar por reforzadores que se presentan con menos frecuencia.",
+    "options_es": {
+      "Schedule thinning": "Adelgazamiento del programa de reforzamiento",
+      "So the skill is maintained at reinforcement levels more natural to everyday environments.": "Para que la habilidad se mantenga con niveles de reforzamiento más naturales y parecidos a los del entorno cotidiano."
+    }
+  },
+  "skill_varied_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento variado",
+    "definition": "el RBT rota entre varios reforzadores diferentes en lugar de usar siempre el mismo para prevenir la saciación y mantener la motivación.",
+    "scenario": "El RBT alterna entre entregar fichas, elogios, tiempo con juguetes y acceso a música para mantener al aprendiz motivado a lo largo de la sesión.",
+    "purpose": "Para prevenir la saciación y mantener altos los niveles de motivación durante la sesión.",
+    "explanation": "Variar los reforzadores reduce la probabilidad de que un ítem pierda su valor reforzante y mantiene el interés del aprendiz por responder.",
+    "options_es": {
+      "Varied reinforcement": "Reforzamiento variado",
+      "To prevent satiation and keep motivation levels high during the session.": "Para prevenir la saciación y mantener altos los niveles de motivación durante la sesión."
+    }
+  },
+  "skill_total_task_chaining": {
+    "status": "reviewed",
+    "answer": "Encadenamiento de tarea completa",
+    "definition": "el aprendiz es guiado a través de todos los pasos del análisis de tarea en cada sesión, recibiendo ayudas solo en los pasos que aún no puede realizar de forma independiente.",
+    "scenario": "El RBT guía al aprendiz por todos los pasos del lavado de manos en cada sesión, ayudando solo en los pasos donde el aprendiz comete errores.",
+    "purpose": "Para que el aprendiz practique la secuencia completa de la habilidad en cada sesión.",
+    "explanation": "El encadenamiento de tarea completa expone al aprendiz a toda la cadena en cada sesión, lo que puede acelerar la adquisición de la secuencia completa.",
+    "options_es": {
+      "Total task chaining": "Encadenamiento de tarea completa",
+      "So the learner practices the complete skill sequence every session.": "Para que el aprendiz practique la secuencia completa de la habilidad en cada sesión."
+    }
+  },
+  "skill_task_analysis_writing": {
+    "status": "reviewed",
+    "answer": "Redacción de un análisis de tarea",
+    "definition": "un análisis de tarea se crea dividiendo una habilidad compleja en pasos pequeños y observables que se enseñan y miden individualmente.",
+    "scenario": "El supervisor divide 'preparar un sándwich' en 12 pasos específicos que el RBT puede enseñar y registrar uno por uno.",
+    "purpose": "Para que una habilidad compleja pueda enseñarse, medirse y comunicarse de manera sistemática.",
+    "explanation": "Un análisis de tarea bien redactado garantiza que todos los miembros del equipo enseñen la habilidad de la misma manera y que los datos sean comparables.",
+    "options_es": {
+      "Writing a task analysis": "Redacción de un análisis de tarea",
+      "So a complex skill can be taught, measured, and communicated systematically.": "Para que una habilidad compleja pueda enseñarse, medirse y comunicarse de manera sistemática."
+    }
+  },
+  "skill_chaining_comparison": {
+    "status": "reviewed",
+    "answer": "Comparación de métodos de encadenamiento",
+    "definition": "el encadenamiento hacia adelante enseña los pasos en orden del primero al último, el encadenamiento hacia atrás enseña del último al primero, y el encadenamiento de tarea completa requiere intentos en todos los pasos cada sesión.",
+    "scenario": "El supervisor pregunta al RBT cuál método de encadenamiento es más apropiado para un aprendiz que necesita ver el resultado final como motivación.",
+    "purpose": "Para seleccionar el método de encadenamiento más apropiado según las necesidades del aprendiz y las características de la habilidad.",
+    "explanation": "Cada método de encadenamiento tiene ventajas distintas; elegir el adecuado puede afectar la velocidad de adquisición y la motivación del aprendiz.",
+    "options_es": {
+      "Comparing chaining methods": "Comparación de métodos de encadenamiento",
+      "To select the most appropriate chaining method based on learner needs and skill characteristics.": "Para seleccionar el método de encadenamiento más apropiado según las necesidades del aprendiz y las características de la habilidad."
+    }
+  },
+  "skill_chaining_step_independence": {
+    "status": "reviewed",
+    "answer": "Definir la independencia en un paso de la cadena",
+    "definition": "un paso de la cadena se puntúa como independiente cuando el aprendiz lo completa sin ayuda dentro del tiempo permitido después de que termina el paso anterior.",
+    "scenario": "El RBT registra el paso 4 como independiente porque el aprendiz lo completó en menos de 3 segundos sin ninguna ayuda.",
+    "purpose": "Para tener criterios claros y objetivos sobre cuándo un paso de la cadena está adquirido.",
+    "explanation": "Una definición clara de independencia garantiza que todos los miembros del equipo puntúen los pasos de la cadena de manera consistente.",
+    "options_es": {
+      "Defining independence on a chain step": "Definir la independencia en un paso de la cadena",
+      "To have clear, objective criteria for when a chain step is acquired.": "Para tener criterios claros y objetivos sobre cuándo un paso de la cadena está adquirido."
+    }
+  },
+  "skill_s_delta": {
+    "status": "reviewed",
+    "answer": "El S-delta (S∆)",
+    "definition": "el S-delta es un estímulo en cuya presencia una respuesta no es reforzada, haciendo que la respuesta sea menos probable cuando el S∆ está presente.",
+    "scenario": "El RBT presenta una tarjeta roja (S∆) para señalar que tocar el tablet no producirá acceso al juego en ese momento.",
+    "purpose": "Para enseñar al aprendiz a discriminar cuándo una respuesta producirá reforzamiento y cuándo no.",
+    "explanation": "El S-delta forma parte del entrenamiento de discriminación y ayuda al aprendiz a responder de forma diferente ante distintos estímulos ambientales.",
+    "options_es": {
+      "The S-delta (S∆)": "El S-delta (S∆)",
+      "To teach the learner to discriminate when a response will produce reinforcement and when it will not.": "Para enseñar al aprendiz a discriminar cuándo una respuesta producirá reforzamiento y cuándo no."
+    }
+  },
+  "skill_massed_trials_discrimination": {
+    "status": "reviewed",
+    "answer": "Ensayos masivos para un objetivo nuevo",
+    "definition": "al introducir un nuevo objetivo de discriminación, se presentan muchos ensayos de ese ítem de forma consecutiva antes de mezclarlo con otros objetivos.",
+    "scenario": "El RBT presenta la tarjeta de 'perro' 10 veces seguidas antes de mezclarla con otras tarjetas de animales para asegurarse de que el aprendiz pueda identificarla.",
+    "purpose": "Para dar al aprendiz práctica concentrada con un estímulo nuevo antes de introducir la discriminación con otros ítems.",
+    "explanation": "Los ensayos masivos iniciales ayudan al aprendiz a establecer una respuesta consistente ante el nuevo estímulo antes de aumentar la dificultad con la rotación.",
+    "options_es": {
+      "Massed trials for a new target": "Ensayos masivos para un objetivo nuevo",
+      "To give the learner concentrated practice with a new stimulus before introducing discrimination with other items.": "Para dar al aprendiz práctica concentrada con un estímulo nuevo antes de introducir la discriminación con otros ítems."
+    }
+  },
+  "skill_random_rotation": {
+    "status": "reviewed",
+    "answer": "Rotación aleatoria de objetivos",
+    "definition": "una vez que un objetivo está parcialmente aprendido, se mezcla en una rotación aleatoria con otros objetivos para que el aprendiz deba discriminar entre estímulos.",
+    "scenario": "Después de que el aprendiz identificó 'perro' de forma consistente en ensayos masivos, el RBT lo mezcla aleatoriamente con 'gato', 'pájaro' y 'caballo'.",
+    "purpose": "Para enseñar al aprendiz a discriminar entre estímulos en condiciones más parecidas a las situaciones naturales.",
+    "explanation": "La rotación aleatoria evita que el aprendiz responda por posición o por patrón y fortalece la discriminación real entre los estímulos.",
+    "options_es": {
+      "Random rotation of targets": "Rotación aleatoria de objetivos",
+      "To teach the learner to discriminate between stimuli under conditions more similar to natural situations.": "Para enseñar al aprendiz a discriminar entre estímulos en condiciones más parecidas a las situaciones naturales."
+    }
+  },
+  "skill_discrimination_error_correction": {
+    "status": "reviewed",
+    "answer": "Corrección de errores en entrenamiento de discriminación",
+    "definition": "después de un error en el entrenamiento de discriminación, el RBT aplica una corrección de errores que incluye modelar o ayudar la respuesta correcta y volver a presentar el ensayo.",
+    "scenario": "El aprendiz señala la tarjeta incorrecta y el RBT inmediatamente modela la respuesta correcta, refuerza un ensayo guiado, y luego re-presenta el mismo ensayo sin ayuda.",
+    "purpose": "Para que el aprendiz aprenda la discriminación correcta sin reforzar errores ni crear un patrón de error.",
+    "explanation": "La corrección de errores estructurada previene el establecimiento de respuestas incorrectas y proporciona práctica adicional en el discriminando correcto.",
+    "options_es": {
+      "Error correction in discrimination training": "Corrección de errores en entrenamiento de discriminación",
+      "So the learner learns the correct discrimination without reinforcing errors or creating an error pattern.": "Para que el aprendiz aprenda la discriminación correcta sin reforzar errores ni crear un patrón de error."
+    }
+  },
+  "skill_target_rotation_sequence": {
+    "status": "reviewed",
+    "answer": "Introducción de objetivos en el entrenamiento de discriminación",
+    "definition": "los nuevos objetivos se introducen sistemáticamente — generalmente uno a la vez — antes de combinarlos con objetivos previamente aprendidos en rotación.",
+    "scenario": "El RBT introduce el color 'azul' solo hasta que el aprendiz lo domina, y luego lo agrega a la rotación con 'rojo' y 'verde' ya aprendidos.",
+    "purpose": "Para que el aprendiz adquiera cada objetivo antes de enfrentarse a la discriminación entre múltiples estímulos.",
+    "explanation": "Introducir los objetivos uno a la vez reduce la confusión y asegura que el aprendiz tenga un repertorio base antes de enfrentar la discriminación compleja.",
+    "options_es": {
+      "Introducing targets in discrimination training": "Introducción de objetivos en el entrenamiento de discriminación",
+      "So the learner acquires each target before facing discrimination among multiple stimuli.": "Para que el aprendiz adquiera cada objetivo antes de enfrentarse a la discriminación entre múltiples estímulos."
+    }
+  },
+  "skill_most_to_least_hierarchy": {
+    "status": "reviewed",
+    "answer": "Jerarquía de mayor a menor ayuda",
+    "definition": "las ayudas comienzan en el nivel más intrusivo necesario para garantizar una respuesta correcta y se desvanecen gradualmente hacia niveles menos intrusivos a medida que el aprendiz mejora.",
+    "scenario": "El RBT comienza con guía física total para enseñar 'lavarse las manos' y reduce las ayudas sesión a sesión hasta llegar solo a un gesto.",
+    "purpose": "Para prevenir errores desde el inicio y asegurar el éxito del aprendiz mientras las ayudas se desvanecen gradualmente.",
+    "explanation": "La jerarquía de mayor a menor ayuda es útil para habilidades nuevas o complejas donde los errores podrían desmotivar al aprendiz o establecer respuestas incorrectas.",
+    "options_es": {
+      "Most-to-least prompting": "Jerarquía de mayor a menor ayuda",
+      "To prevent errors from the start and ensure learner success while prompts are gradually faded.": "Para prevenir errores desde el inicio y asegurar el éxito del aprendiz mientras las ayudas se desvanecen gradualmente."
+    }
+  },
+  "skill_independent_response_reinforcement": {
+    "status": "reviewed",
+    "answer": "Reforzamiento de respuestas independientes",
+    "definition": "las respuestas correctas sin ayuda se refuerzan de forma más entusiasta o con un reforzador mayor que las respuestas con ayuda para aumentar la probabilidad de independencia futura.",
+    "scenario": "El RBT entrega un elogio breve por una respuesta con ayuda, pero celebra efusivamente y entrega el reforzador preferido cuando el aprendiz responde de forma independiente.",
+    "purpose": "Para motivar al aprendiz a responder sin ayudas y promover la independencia.",
+    "explanation": "Diferenciar el reforzador entre respuestas independientes y con ayuda enseña al aprendiz que las respuestas sin ayuda producen mejores consecuencias.",
+    "options_es": {
+      "Reinforcing independent responses": "Reforzamiento de respuestas independientes",
+      "To motivate the learner to respond without prompts and promote independence.": "Para motivar al aprendiz a responder sin ayudas y promover la independencia."
+    }
+  },
+  "skill_natural_cues_use": {
+    "status": "reviewed",
+    "answer": "Uso de señales naturales",
+    "definition": "el RBT enseña al aprendiz a responder ante los estímulos que naturalmente señalarían la conducta en la vida cotidiana, en lugar de solo ante señales instruccionales.",
+    "scenario": "En lugar de decir '¿qué haces cuando tienes hambre?', el RBT practica la solicitud de comida cuando el aprendiz ve alimentos reales en la cocina.",
+    "purpose": "Para facilitar la generalización de la habilidad a los entornos naturales donde normalmente ocurriría.",
+    "explanation": "Usar señales naturales aumenta la probabilidad de que el aprendiz aplique la habilidad de forma espontánea en su vida diaria sin depender de instrucciones del terapeuta.",
+    "options_es": {
+      "Using natural cues": "Uso de señales naturales",
+      "To promote generalization of the skill to natural environments where it would normally occur.": "Para facilitar la generalización de la habilidad a los entornos naturales donde normalmente ocurriría."
+    }
+  },
+  "skill_prompt_hierarchy_selection": {
+    "status": "reviewed",
+    "answer": "Selección de la jerarquía de ayudas",
+    "definition": "el RBT implementa la jerarquía de ayudas especificada en el plan de adquisición de habilidades — ya sea de menor a mayor, de mayor a menor, o con demora temporal — según la decisión clínica del supervisor.",
+    "scenario": "El plan de adquisición de habilidades indica usar una jerarquía de menor a mayor ayuda y el RBT sigue ese orden exactamente tal como fue especificado.",
+    "purpose": "Para implementar la intervención de ayudas de la manera que el supervisor determinó que es más adecuada para ese aprendiz.",
+    "explanation": "El RBT no elige la jerarquía de ayudas de forma independiente; sigue el plan del supervisor para garantizar la consistencia y efectividad del tratamiento.",
+    "options_es": {
+      "Selecting a prompt hierarchy": "Selección de la jerarquía de ayudas",
+      "To implement the prompting intervention in the way the supervisor determined is most appropriate for that learner.": "Para implementar la intervención de ayudas de la manera que el supervisor determinó que es más adecuada para ese aprendiz."
+    }
+  },
+  "skill_conditioned_reinforcer_pairing_procedure": {
+    "status": "reviewed",
+    "answer": "Procedimiento de emparejamiento de reforzador condicionado",
+    "definition": "un procedimiento de emparejamiento de reforzador condicionado consiste en presentar repetidamente un estímulo neutro (como una ficha o elogio) inmediatamente antes o junto con un reforzador establecido hasta que el estímulo neutro adquiere valor reforzante por sí solo.",
+    "scenario": "El RBT dice '¡Muy bien!' justo antes de entregar el dulce favorito del aprendiz en cada ensayo, hasta que el elogio solo comienza a funcionar como reforzador.",
+    "purpose": "Para establecer nuevos reforzadores condicionados que el equipo pueda usar de forma flexible durante la intervención.",
+    "explanation": "El emparejamiento repetido hace que el estímulo neutro adquiera valor reforzante por asociación, ampliando el repertorio de reforzadores disponibles para el aprendiz.",
+    "options_es": {
+      "Conditioned reinforcer pairing": "Procedimiento de emparejamiento de reforzador condicionado",
+      "To establish new conditioned reinforcers that the team can use flexibly during intervention.": "Para establecer nuevos reforzadores condicionados que el equipo pueda usar de forma flexible durante la intervención."
+    }
+  },
+  "skill_praise_as_conditioned_reinforcer": {
+    "status": "reviewed",
+    "answer": "El elogio como reforzador condicionado",
+    "definition": "el elogio se convierte en un reforzador condicionado cuando se empareja consistentemente con otros reforzadores hasta que el aprendiz responde al elogio solo como una consecuencia reforzante.",
+    "scenario": "Después de semanas de emparejar 'buen trabajo' con acceso a juguetes, el aprendiz ahora responde con entusiasmo solo al elogio verbal.",
+    "purpose": "Para que el elogio social funcione como reforzador efectivo de manera independiente.",
+    "explanation": "Una vez establecido, el elogio como reforzador condicionado permite una entrega de reforzamiento más natural y menos dependiente de ítems tangibles.",
+    "options_es": {
+      "Praise as a conditioned reinforcer": "El elogio como reforzador condicionado",
+      "So that social praise functions as an effective reinforcer independently.": "Para que el elogio social funcione como reforzador efectivo de manera independiente."
+    }
+  },
+  "skill_conditioned_vs_unconditioned_reinforcer": {
+    "status": "reviewed",
+    "answer": "Reforzadores condicionados vs. no condicionados",
+    "definition": "un reforzador no condicionado es algo que refuerza de forma inherente sin necesidad de aprendizaje (ej. comida, agua). Un reforzador condicionado adquiere su valor reforzante a través de la asociación con otros reforzadores.",
+    "scenario": "El agua que recibe un aprendiz con sed es un reforzador no condicionado; las fichas que el aprendiz canjea por tiempo libre son reforzadores condicionados.",
+    "purpose": "Para distinguir entre los dos tipos de reforzadores y saber cómo se establece cada uno.",
+    "explanation": "Comprender la diferencia ayuda al RBT a elegir y diseñar sistemas de reforzamiento efectivos adaptados a las necesidades del aprendiz.",
+    "options_es": {
+      "Conditioned vs. unconditioned reinforcers": "Reforzadores condicionados vs. no condicionados",
+      "To distinguish between the two types of reinforcers and know how each is established.": "Para distinguir entre los dos tipos de reforzadores y saber cómo se establece cada uno."
+    }
+  },
+  "skill_acquisition_phase_definition": {
+    "status": "reviewed",
+    "answer": "Fase de adquisición",
+    "definition": "la fase de adquisición es la etapa del aprendizaje en la que se está enseñando activamente una habilidad nueva. En esta fase, el aprendiz aún no realiza la habilidad de forma independiente ni consistente.",
+    "scenario": "El aprendiz está en la fase de adquisición de 'solicitar artículos' porque todavía necesita ayudas y reforzamiento denso para completar la conducta.",
+    "purpose": "Para identificar el nivel actual del aprendiz y aplicar los procedimientos de enseñanza más intensivos.",
+    "explanation": "Durante la fase de adquisición se usan ayudas frecuentes y reforzamiento denso; una vez dominada la habilidad, se pasa a mantenimiento.",
+    "options_es": {
+      "Acquisition phase": "Fase de adquisición",
+      "To identify the learner's current level and apply the most intensive teaching procedures.": "Para identificar el nivel actual del aprendiz y aplicar los procedimientos de enseñanza más intensivos."
+    }
+  },
+  "skill_acquisition_vs_maintenance_selection": {
+    "status": "reviewed",
+    "answer": "Selección de procedimientos de adquisición vs. mantenimiento",
+    "definition": "el RBT sigue el plan de conducta para determinar si una habilidad requiere instrucción a nivel de adquisición (con ayudas y reforzamiento denso) o práctica a nivel de mantenimiento (con mínimas ayudas y programas de reforzamiento más delgados).",
+    "scenario": "El RBT verifica el plan antes de la sesión y nota que 'lavarse las manos' está en mantenimiento, por lo que usa menos ayudas y reforzamiento menos frecuente que para los objetivos nuevos.",
+    "purpose": "Para aplicar el nivel correcto de apoyo según donde se encuentra el aprendiz en la curva de aprendizaje.",
+    "explanation": "Usar procedimientos de adquisición para habilidades ya dominadas es innecesario; usar procedimientos de mantenimiento para habilidades nuevas puede retrasar el aprendizaje.",
+    "options_es": {
+      "Selecting acquisition vs. maintenance procedures": "Selección de procedimientos de adquisición vs. mantenimiento",
+      "To apply the correct level of support based on where the learner is in the learning curve.": "Para aplicar el nivel correcto de apoyo según donde se encuentra el aprendiz en la curva de aprendizaje."
+    }
+  },
+  "professional_uncertainty_action": {
+    "status": "reviewed",
+    "answer": "Acción ante la incertidumbre",
+    "definition": "cuando el RBT no está seguro de cómo responder a una situación no cubierta por el plan escrito, la respuesta correcta es hacer una pausa, garantizar la seguridad y contactar al supervisor.",
+    "scenario": "Un aprendiz comienza a actuar de una manera que el RBT nunca ha visto y que no está en el plan. El RBT garantiza la seguridad de todos y llama al supervisor antes de intervenir.",
+    "purpose": "Para asegurar que el RBT no tome decisiones clínicas fuera de su alcance cuando surge una situación inesperada.",
+    "explanation": "El RBT opera dentro de un alcance de práctica definido; ante la incertidumbre, siempre se consulta al supervisor en lugar de improvisar una intervención.",
+    "options_es": {
+      "Action when uncertain": "Acción ante la incertidumbre",
+      "To ensure the RBT does not make clinical decisions outside their scope when an unexpected situation arises.": "Para asegurar que el RBT no tome decisiones clínicas fuera de su alcance cuando surge una situación inesperada."
+    }
+  },
+  "professional_novel_behavior_response": {
+    "status": "reviewed",
+    "answer": "Respuesta ante una conducta nueva o inesperada",
+    "definition": "cuando un aprendiz muestra una conducta no contemplada en el plan escrito, el RBT no crea una intervención de forma independiente sino que contacta al supervisor.",
+    "scenario": "El aprendiz comienza a pellizcarse de forma repetida, algo que nunca había ocurrido. El RBT garantiza la seguridad del aprendiz y notifica al supervisor antes de la próxima sesión.",
+    "purpose": "Para que las nuevas conductas sean evaluadas y tratadas por un profesional calificado en lugar de recibir una respuesta improvisada.",
+    "explanation": "Crear intervenciones de manera independiente ante conductas nuevas está fuera del alcance del RBT y podría ser contraproducente o dañino.",
+    "options_es": {
+      "Responding to a new or unexpected behavior": "Respuesta ante una conducta nueva o inesperada",
+      "So new behaviors are evaluated and addressed by a qualified professional rather than receiving an improvised response.": "Para que las nuevas conductas sean evaluadas y tratadas por un profesional calificado en lugar de recibir una respuesta improvisada."
+    }
+  },
+  "professional_scope_question": {
+    "status": "reviewed",
+    "answer": "Preguntar cuando hay duda sobre el alcance del rol",
+    "definition": "el RBT pregunta al supervisor cuando no está seguro de si una tarea o decisión específica está dentro del alcance de práctica autorizado del RBT.",
+    "scenario": "Un padre le pide al RBT que explique por qué se eligió una intervención específica. El RBT le dice que consultará al supervisor antes de responder.",
+    "purpose": "Para asegurar que el RBT no asuma responsabilidades que corresponden al BCBA supervisor.",
+    "explanation": "Preguntar al supervisor cuando hay duda sobre el alcance del rol es una práctica ética que protege tanto al aprendiz como al RBT.",
+    "options_es": {
+      "Asking when unsure about scope": "Preguntar cuando hay duda sobre el alcance del rol",
+      "To ensure the RBT does not assume responsibilities that belong to the supervising BCBA.": "Para asegurar que el RBT no asuma responsabilidades que corresponden al BCBA supervisor."
+    }
+  },
+  "professional_feedback_behavior_change": {
+    "status": "reviewed",
+    "answer": "Cambio de conducta tras recibir retroalimentación",
+    "definition": "el RBT implementa la retroalimentación del supervisor ajustando la conducta específica identificada en la retroalimentación durante la siguiente sesión.",
+    "scenario": "El supervisor señala que el RBT está esperando demasiado tiempo antes de entregar el reforzador. En la siguiente sesión, el RBT entrega el reforzador inmediatamente después de cada respuesta correcta.",
+    "purpose": "Para mejorar la implementación del tratamiento y demostrar que la supervisión tiene un impacto real en la práctica.",
+    "explanation": "Implementar la retroalimentación del supervisor es una responsabilidad profesional del RBT y es esencial para el progreso del aprendiz.",
+    "options_es": {
+      "Changing behavior after feedback": "Cambio de conducta tras recibir retroalimentación",
+      "To improve treatment implementation and demonstrate that supervision has a real impact on practice.": "Para mejorar la implementación del tratamiento y demostrar que la supervisión tiene un impacto real en la práctica."
+    }
+  },
+  "professional_self_monitoring": {
+    "status": "reviewed",
+    "answer": "Automonitoreo del desempeño",
+    "definition": "el RBT hace un seguimiento independiente de su propia fidelidad de implementación e identifica áreas de mejora entre los contactos de supervisión.",
+    "scenario": "El RBT lleva un registro personal de cuántas veces entregó el reforzador con demora y trabaja para reducirlo antes de la próxima supervisión.",
+    "purpose": "Para que el RBT sea un practicante reflexivo que mejora continuamente sin depender solo de la supervisión externa.",
+    "explanation": "El automonitoreo ayuda al RBT a identificar sus propias debilidades y a mejorar la calidad del servicio entre los contactos de supervisión.",
+    "options_es": {
+      "Self-monitoring performance": "Automonitoreo del desempeño",
+      "So the RBT is a reflective practitioner who continually improves without relying solely on external supervision.": "Para que el RBT sea un practicante reflexivo que mejora continuamente sin depender solo de la supervisión externa."
+    }
+  },
+  "professional_caregiver_behavior_support": {
+    "status": "reviewed",
+    "answer": "Apoyo conductual al cuidador según autorización",
+    "definition": "el RBT puede proporcionar a los cuidadores demostraciones de procedimientos o recordatorios sobre cómo implementar estrategias específicas según las instrucciones del BCBA supervisor.",
+    "scenario": "El supervisor indica al RBT que puede mostrar a los padres cómo usar el sistema de fichas en casa. El RBT realiza la demostración exactamente como se especificó.",
+    "purpose": "Para apoyar la consistencia entre los entornos del aprendiz sin exceder el alcance del RBT.",
+    "explanation": "El RBT puede apoyar a los cuidadores solo en la medida en que el supervisor lo haya autorizado; no puede diseñar ni modificar intervenciones de manera independiente.",
+    "options_es": {
+      "Caregiver behavior support as authorized": "Apoyo conductual al cuidador según autorización",
+      "To support consistency across the learner's environments without exceeding the RBT's scope.": "Para apoyar la consistencia entre los entornos del aprendiz sin exceder el alcance del RBT."
+    }
+  },
+  "professional_stakeholder_update_protocol": {
+    "status": "reviewed",
+    "answer": "Protocolo de actualización a los interesados",
+    "definition": "el RBT sigue el procedimiento establecido por la organización para actualizar a los cuidadores y otros interesados autorizados sobre la sesión del aprendiz.",
+    "scenario": "Al final de cada sesión, el RBT completa el formulario de resumen de sesión y lo comparte con los padres tal como indica el protocolo de la agencia.",
+    "purpose": "Para mantener a los cuidadores informados de manera consistente y dentro de los límites de confidencialidad establecidos.",
+    "explanation": "Seguir el protocolo de la organización garantiza que la información se comparta de forma apropiada, protegiendo la privacidad del aprendiz y la integridad del servicio.",
+    "options_es": {
+      "Stakeholder update protocol": "Protocolo de actualización a los interesados",
+      "To keep caregivers informed consistently and within established confidentiality limits.": "Para mantener a los cuidadores informados de manera consistente y dentro de los límites de confidencialidad establecidos."
+    }
+  },
+  "professional_outside_work_contact": {
+    "status": "reviewed",
+    "answer": "Evitar contacto fuera del trabajo con clientes",
+    "definition": "el RBT no interactúa con los aprendices ni sus familias en contextos personales o sociales fuera de las actividades laborales.",
+    "scenario": "Un padre invita al RBT a la fiesta de cumpleaños del aprendiz. El RBT declina amablemente y explica que no puede participar en actividades fuera del contexto profesional.",
+    "purpose": "Para mantener los límites profesionales y prevenir relaciones duales que puedan comprometer los servicios.",
+    "explanation": "El contacto fuera del trabajo puede crear relaciones duales que afectan la objetividad clínica y violan las pautas éticas del BACB.",
+    "options_es": {
+      "Avoiding outside-work contact with clients": "Evitar contacto fuera del trabajo con clientes",
+      "To maintain professional boundaries and prevent dual relationships that could compromise services.": "Para mantener los límites profesionales y prevenir relaciones duales que puedan comprometer los servicios."
+    }
+  },
+  "professional_personal_disclosure_limits": {
+    "status": "reviewed",
+    "answer": "Límites de la autorrevelación personal",
+    "definition": "el RBT limita el intercambio de información personal con clientes y cuidadores a lo que es profesionalmente apropiado y no mantiene conversaciones personales extensas durante las sesiones.",
+    "scenario": "Un cuidador pregunta al RBT sobre su vida personal. El RBT responde brevemente y redirige la conversación al progreso del aprendiz.",
+    "purpose": "Para mantener el enfoque profesional de la sesión y preservar los límites terapéuticos.",
+    "explanation": "Compartir información personal en exceso puede difuminar los límites profesionales y afectar negativamente la relación terapéutica.",
+    "options_es": {
+      "Limits on personal self-disclosure": "Límites de la autorrevelación personal",
+      "To maintain the professional focus of the session and preserve therapeutic boundaries.": "Para mantener el enfoque profesional de la sesión y preservar los límites terapéuticos."
+    }
+  },
+  "professional_dual_relationship_avoidance": {
+    "status": "reviewed",
+    "answer": "Evitar relaciones duales",
+    "definition": "el RBT evita establecer relaciones con clientes o familias que existan fuera del contexto profesional, como amistades personales, negocios o relaciones románticas.",
+    "scenario": "El RBT descubre que el hermano de un aprendiz es un buen amigo suyo fuera del trabajo. El RBT informa al supervisor inmediatamente para gestionar el conflicto potencial.",
+    "purpose": "Para proteger la objetividad clínica y evitar conflictos de interés que puedan perjudicar al aprendiz.",
+    "explanation": "Las relaciones duales comprometen la capacidad del RBT de tomar decisiones objetivas y pueden crear situaciones en las que los intereses personales afectan el servicio.",
+    "options_es": {
+      "Dual relationship avoidance": "Evitar relaciones duales",
+      "To protect clinical objectivity and avoid conflicts of interest that could harm the learner.": "Para proteger la objetividad clínica y evitar conflictos de interés que puedan perjudicar al aprendiz."
+    }
+  },
+  "professional_person_first_language": {
+    "status": "reviewed",
+    "answer": "Lenguaje centrado en la persona",
+    "definition": "el RBT se refiere al aprendiz como persona primero — 'un aprendiz con autismo' en lugar de 'un niño autista' — cuando esto es consistente con la preferencia de la familia.",
+    "scenario": "En los informes de sesión, el RBT escribe 'un aprendiz con autismo' en lugar de 'un niño autista', siguiendo la preferencia de la familia.",
+    "purpose": "Para respetar la dignidad y la identidad de la persona, colocando a la persona antes que el diagnóstico.",
+    "explanation": "El lenguaje centrado en la persona promueve el respeto y la dignidad; sin embargo, siempre debe considerarse la preferencia de la familia o el individuo.",
+    "options_es": {
+      "Person-first language": "Lenguaje centrado en la persona",
+      "To respect the person's dignity and identity by placing the person before the diagnosis.": "Para respetar la dignidad y la identidad de la persona, colocando a la persona antes que el diagnóstico."
+    }
+  },
+  "professional_supervision_frequency": {
+    "status": "reviewed",
+    "answer": "Frecuencia requerida de supervisión",
+    "definition": "el BACB requiere que los RBTs reciban supervisión para al menos el 5% de las horas que trabajan cada mes por parte de un supervisor calificado.",
+    "scenario": "Un RBT trabajó 80 horas el mes pasado, por lo que debe haber recibido al menos 4 horas de supervisión ese mes.",
+    "purpose": "Para garantizar que los RBTs reciban orientación profesional suficiente para implementar los servicios de forma segura y efectiva.",
+    "explanation": "El requisito del 5% de supervisión mensual asegura que el trabajo del RBT sea monitoreado regularmente por un BCBA o BCaBA calificado.",
+    "options_es": {
+      "Required supervision frequency": "Frecuencia requerida de supervisión",
+      "To ensure RBTs receive sufficient professional guidance to implement services safely and effectively.": "Para garantizar que los RBTs reciban orientación profesional suficiente para implementar los servicios de forma segura y efectiva."
+    }
+  },
+  "professional_supervision_feedback_role": {
+    "status": "reviewed",
+    "answer": "Función de la retroalimentación en la supervisión del RBT",
+    "definition": "la supervisión efectiva incluye retroalimentación regular y específica del supervisor al RBT sobre su desempeño, la cual el RBT utiliza para mejorar la implementación y mantener sus habilidades.",
+    "scenario": "El supervisor observa la sesión del RBT y proporciona retroalimentación específica sobre la entrega de ayudas y el momento del reforzamiento al final de la sesión.",
+    "purpose": "Para mejorar las habilidades del RBT y garantizar que la intervención se implemente con fidelidad.",
+    "explanation": "La retroalimentación específica y oportuna del supervisor es el componente central que hace que la supervisión sea efectiva para mejorar el desempeño del RBT.",
+    "options_es": {
+      "Role of feedback in RBT supervision": "Función de la retroalimentación en la supervisión del RBT",
+      "To improve RBT skills and ensure the intervention is implemented with fidelity.": "Para mejorar las habilidades del RBT y garantizar que la intervención se implemente con fidelidad."
+    }
+  },
+  "professional_supervision_contact_frequency": {
+    "status": "reviewed",
+    "answer": "Requisitos de contacto de supervisión",
+    "definition": "los requisitos del BACB especifican que los RBTs deben recibir contacto de supervisión para un porcentaje mínimo de sus horas de servicio cada mes, realizado por un supervisor calificado que pueda proporcionar supervisión en tiempo real.",
+    "scenario": "El supervisor programa contactos de supervisión mensuales para asegurarse de que el RBT recibe el porcentaje mínimo requerido de supervisión por sus horas de servicio.",
+    "purpose": "Para cumplir con los requisitos del BACB y garantizar una supervisión adecuada del trabajo del RBT.",
+    "explanation": "Los contactos regulares de supervisión son un requisito ético y reglamentario que protege al aprendiz y apoya el desarrollo profesional del RBT.",
+    "options_es": {
+      "Supervision contact requirements": "Requisitos de contacto de supervisión",
+      "To meet BACB requirements and ensure adequate oversight of the RBT's work.": "Para cumplir con los requisitos del BACB y garantizar una supervisión adecuada del trabajo del RBT."
+    }
+  },
+  "professional_effective_supervision_components": {
+    "status": "reviewed",
+    "answer": "Componentes de una supervisión efectiva",
+    "definition": "la supervisión efectiva incluye observación directa del trabajo del RBT, retroalimentación sobre el desempeño, revisión de datos, modelado de procedimientos y documentación de los contactos de supervisión.",
+    "scenario": "Durante la supervisión, el BCBA observa una sesión, revisa las gráficas de datos, modela la técnica de corrección de errores y documenta el contacto en el registro de supervisión.",
+    "purpose": "Para que la supervisión mejore activamente el desempeño del RBT y la calidad de los servicios.",
+    "explanation": "Una supervisión que incluye todos estos componentes es más efectiva que simplemente hablar sobre el desempeño sin observación directa ni práctica guiada.",
+    "options_es": {
+      "Components of effective supervision": "Componentes de una supervisión efectiva",
+      "So supervision actively improves RBT performance and service quality.": "Para que la supervisión mejore activamente el desempeño del RBT y la calidad de los servicios."
+    }
+  },
+  "professional_social_media_client_identity": {
+    "status": "reviewed",
+    "answer": "Protección de la identidad del cliente en redes sociales",
+    "definition": "los RBTs no deben compartir ninguna información que pueda identificar a un cliente en redes sociales o comunicaciones públicas, incluso si no se usan nombres, si otros detalles pueden revelar la identidad de la persona.",
+    "scenario": "El RBT quiere publicar una foto de una actividad de sesión en sus redes sociales. Recuerda que hacerlo podría identificar al aprendiz y opta por no publicarla.",
+    "purpose": "Para proteger la privacidad y confidencialidad del cliente, que es un deber ético fundamental del RBT.",
+    "explanation": "La divulgación de información identificable en redes sociales viola las leyes de privacidad y las pautas éticas del BACB, incluso cuando la intención es positiva.",
+    "options_es": {
+      "Protecting client identity on social media": "Protección de la identidad del cliente en redes sociales",
+      "To protect client privacy and confidentiality, which is a fundamental ethical duty of the RBT.": "Para proteger la privacidad y confidencialidad del cliente, que es un deber ético fundamental del RBT."
+    }
+  },
+  "professional_dual_relationship_definition": {
+    "status": "reviewed",
+    "answer": "Relación dual",
+    "definition": "una relación dual ocurre cuando un RBT asume más de un rol con un cliente o cuidador, como también ser amigo, familiar o pareja romántica, lo que puede comprometer los límites profesionales y la efectividad clínica.",
+    "scenario": "El RBT se da cuenta de que el aprendiz que atiende es sobrino de su mejor amigo. Esto crea una relación dual que debe reportar al supervisor.",
+    "purpose": "Para identificar situaciones que pueden comprometer la objetividad y los límites profesionales del RBT.",
+    "explanation": "Reconocer las relaciones duales es el primer paso para gestionarlas adecuadamente; ignorarlas puede crear conflictos de interés que perjudiquen al cliente.",
+    "options_es": {
+      "Dual relationship": "Relación dual",
+      "To identify situations that may compromise the RBT's objectivity and professional boundaries.": "Para identificar situaciones que pueden comprometer la objetividad y los límites profesionales del RBT."
+    }
+  },
+  "professional_managing_dual_relationships": {
+    "status": "reviewed",
+    "answer": "Manejo de una relación múltiple identificada",
+    "definition": "cuando se identifica una posible relación múltiple, el RBT debe comunicársela al supervisor de inmediato y tomar medidas para evitar que afecte la prestación de servicios.",
+    "scenario": "El RBT descubre que conoce personalmente a los padres del aprendiz. Informa al supervisor ese mismo día para determinar si debe reasignarse el caso.",
+    "purpose": "Para que el supervisor pueda tomar las medidas necesarias para proteger al cliente y al RBT.",
+    "explanation": "La divulgación inmediata al supervisor es la acción ética correcta; ocultar una relación dual puede agravar el conflicto de interés.",
+    "options_es": {
+      "Managing an identified multiple relationship": "Manejo de una relación múltiple identificada",
+      "So the supervisor can take the necessary steps to protect the client and the RBT.": "Para que el supervisor pueda tomar las medidas necesarias para proteger al cliente y al RBT."
+    }
+  },
+  "professional_gift_receiving_policy": {
+    "status": "reviewed",
+    "answer": "Pautas para recibir regalos",
+    "definition": "el Código de Ética del BACB proporciona pautas sobre la recepción de regalos de clientes o cuidadores. Los RBTs deben seguir la política de su organización y evitar aceptar regalos que puedan influir en la relación terapéutica o crear un conflicto de interés.",
+    "scenario": "Un cuidador ofrece al RBT una tarjeta de regalo como agradecimiento. El RBT le agradece y explica que debe consultar la política de la agencia antes de aceptar.",
+    "purpose": "Para mantener los límites profesionales y evitar que los regalos influyan en la objetividad clínica.",
+    "explanation": "Aceptar regalos de valor significativo puede crear obligaciones implícitas o conflictos de interés que comprometan la imparcialidad del RBT.",
+    "options_es": {
+      "Gift receiving guidelines": "Pautas para recibir regalos",
+      "To maintain professional boundaries and prevent gifts from influencing clinical objectivity.": "Para mantener los límites profesionales y evitar que los regalos influyan en la objetividad clínica."
+    }
+  },
+  "professional_gift_giving_to_clients": {
+    "status": "reviewed",
+    "answer": "Pautas para dar regalos a los clientes",
+    "definition": "los RBTs deben seguir la política de su organización sobre dar regalos a los clientes. Dar regalos personales fuera del plan clínico puede difuminar los límites profesionales y funcionar inadvertidamente como reforzamiento no autorizado.",
+    "scenario": "El RBT quiere traer un juguete especial para el aprendiz como regalo personal. Antes de hacerlo, consulta la política de la agencia y habla con el supervisor.",
+    "purpose": "Para evitar que los regalos personales alteren la dinámica terapéutica o el programa de reforzamiento establecido.",
+    "explanation": "Los regalos personales pueden funcionar como reforzadores no planificados que interfieren con el plan de tratamiento o crean expectativas problemáticas.",
+    "options_es": {
+      "Gift-giving to clients guidelines": "Pautas para dar regalos a los clientes",
+      "To prevent personal gifts from altering the therapeutic dynamic or established reinforcement schedule.": "Para evitar que los regalos personales alteren la dinámica terapéutica o el programa de reforzamiento establecido."
+    }
+  },
+  "professional_gift_cultural_context": {
+    "status": "reviewed",
+    "answer": "Dar regalos en contexto cultural",
+    "definition": "en algunas culturas, ofrecer regalos es una señal de gratitud habitual y rechazar uno puede parecer ofensivo. El RBT debe reconocer el significado cultural mientras sigue las pautas éticas profesionales y consulta al supervisor.",
+    "scenario": "Una familia de otra cultura ofrece al RBT comida casera como señal de gratitud. El RBT agradece el gesto, explica su política profesional con sensibilidad y consulta al supervisor sobre cómo proceder.",
+    "purpose": "Para equilibrar la sensibilidad cultural con el cumplimiento de las pautas éticas profesionales.",
+    "explanation": "La competencia cultural requiere que el RBT reconozca las intenciones positivas detrás de los regalos y las gestione de forma respetuosa mientras mantiene los límites éticos.",
+    "options_es": {
+      "Gift-giving in cultural context": "Dar regalos en contexto cultural",
+      "To balance cultural sensitivity with compliance with professional ethical guidelines.": "Para equilibrar la sensibilidad cultural con el cumplimiento de las pautas éticas profesionales."
+    }
+  },
+  "professional_applying_supervisory_feedback": {
+    "status": "reviewed",
+    "answer": "Aplicar la retroalimentación del supervisor entre sesiones",
+    "definition": "después de recibir retroalimentación durante la supervisión, el RBT aplica la técnica corregida en la próxima sesión con el cliente en lugar de esperar al siguiente contacto de supervisión.",
+    "scenario": "El supervisor señala que el RBT debe esperar al menos 3 segundos después de la instrucción antes de ayudar. En la siguiente sesión, el RBT implementa el intervalo de espera correctamente.",
+    "purpose": "Para que la retroalimentación del supervisor tenga un impacto inmediato en la calidad del servicio.",
+    "explanation": "Aplicar la retroalimentación de inmediato demuestra responsabilidad profesional y asegura que el aprendiz se beneficie de la mejora lo antes posible.",
+    "options_es": {
+      "Applying supervisory feedback between sessions": "Aplicar la retroalimentación del supervisor entre sesiones",
+      "So supervisor feedback has an immediate impact on service quality.": "Para que la retroalimentación del supervisor tenga un impacto inmediato en la calidad del servicio."
+    }
+  },
+  "professional_rbt_credential_accuracy": {
+    "status": "reviewed",
+    "answer": "Representación precisa de las credenciales del RBT",
+    "definition": "el RBT solo puede describirse utilizando la credencial de RBT y no debe implicar que posee las credenciales de BCBA, BCaBA u otras credenciales avanzadas que no tiene.",
+    "scenario": "Un padre pregunta si el RBT es un 'terapeuta de comportamiento certificado'. El RBT explica que tiene la credencial de RBT y que el BCBA supervisor diseña los planes de tratamiento.",
+    "purpose": "Para proteger a los clientes de servicios y para mantener la integridad profesional al no exagerar las propias cualificaciones.",
+    "explanation": "Representarse con credenciales superiores a las que realmente se posee viola el Código de Ética del BACB y puede perjudicar a los clientes que toman decisiones basadas en información incorrecta.",
+    "options_es": {
+      "Accurately representing RBT credentials": "Representación precisa de las credenciales del RBT",
+      "To protect clients from fraud and maintain professional integrity by not overstating one's qualifications.": "Para proteger a los clientes de servicios y para mantener la integridad profesional al no exagerar las propias cualificaciones."
+    }
+  },
+  "professional_gift_policy_consultation": {
+    "status": "reviewed",
+    "answer": "Consultar la política antes de dar o recibir regalos",
+    "definition": "antes de dar cualquier regalo a un cliente o aceptar un regalo de un cuidador, el RBT debe consultar primero la política escrita del empleador y preguntar al supervisor si la política no es clara.",
+    "scenario": "Un cuidador ofrece al RBT una tarjeta de regalo navideña. El RBT le agradece y dice que necesita revisar la política de la agencia antes de aceptar o rechazar.",
+    "purpose": "Para tomar decisiones sobre regalos de manera informada y dentro de los límites éticos y organizacionales.",
+    "explanation": "Consultar la política antes de actuar protege al RBT de violar involuntariamente las pautas éticas y garantiza una respuesta consistente entre todos los miembros del equipo.",
+    "options_es": {
+      "Consulting policy before giving or accepting gifts": "Consultar la política antes de dar o recibir regalos",
+      "To make decisions about gifts in an informed way and within ethical and organizational limits.": "Para tomar decisiones sobre regalos de manera informada y dentro de los límites éticos y organizacionales."
+    }
   }
 }
