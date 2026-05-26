@@ -184,7 +184,13 @@
     "welcome_message": "¡Hola! Soy tu tutor de estudio RBT. Pregúntame cualquier cosa sobre principios ABA, intervención conductual o la lista de tareas RBT.",
     "subtitle_powered": "Impulsado por RBT Genius · Pregunta lo que quieras",
     "try_asking": "Prueba preguntando:",
-    "limit_reset": "Se reinicia cada día a medianoche"
+    "limit_reset": "Se reinicia cada día a medianoche",
+    "session_error": "No se pudo iniciar la sesión con el tutor. Inténtalo de nuevo.",
+    "quick_1": "Explica el reforzamiento positivo",
+    "quick_2": "¿Qué es la extinción?",
+    "quick_3": "¿Diferencia entre DTT y NET?",
+    "quick_4": "¿Qué es una evaluación funcional del comportamiento?",
+    "quick_5": "Define control de estímulo"
   },
   "analytics": {
     "title": "Análisis",

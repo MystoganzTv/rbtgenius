@@ -2,6 +2,7 @@
   "expo": {
     "name": "RBT Genius",
     "slug": "rbt-genius",
+    "scheme": "rbtgenius",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

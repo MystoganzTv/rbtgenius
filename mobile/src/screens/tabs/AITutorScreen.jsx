@@ -20,13 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 const API_BASE = 'https://www.rbtgenius.com';
 
-const QUICK_PROMPTS = [
-  'Explain positive reinforcement',
-  'What is extinction?',
-  'Difference between DTT and NET?',
-  'What is a functional behavior assessment?',
-  'Define stimulus control',
-];
+// QUICK_PROMPTS are now resolved via i18n inside the component
 
 export default function AITutorScreen({ navigation }) {
   const scheme = useColorScheme();
@@ -34,6 +28,14 @@ export default function AITutorScreen({ navigation }) {
   const { user, token } = useAuth();
   const { t } = useTranslation();
   const s = styles(theme);
+
+  const QUICK_PROMPTS = [
+    t('tutor.quick_1'),
+    t('tutor.quick_2'),
+    t('tutor.quick_3'),
+    t('tutor.quick_4'),
+    t('tutor.quick_5'),
+  ];
 
   const [messages, setMessages] = useState(() => [
     { id: 'welcome', role: 'assistant', text: t('tutor.welcome_message') },
@@ -55,7 +57,7 @@ export default function AITutorScreen({ navigation }) {
       headers: authHeaders(),
       body: JSON.stringify({ name: 'Study Session' }),
     });
-    if (!res.ok) throw new Error('Could not start a tutor session.');
+    if (!res.ok) throw new Error('SESSION_ERROR');
     const data = await res.json();
     const id = data.conversation.id;
     setConversationId(id);
@@ -100,7 +102,7 @@ export default function AITutorScreen({ navigation }) {
       const data = await res.json();
       const msgs = data.conversation?.messages || [];
       const lastAssistant = [...msgs].reverse().find((m) => m.role === 'assistant');
-      const reply = lastAssistant?.content || 'Sorry, I could not get a response.';
+      const reply = lastAssistant?.content || t('tutor.error_message');
 
       setMessages((prev) => [
         ...prev,
@@ -112,9 +114,9 @@ export default function AITutorScreen({ navigation }) {
         {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: e.message === 'Could not start a tutor session.'
-            ? e.message
-            : 'Connection error. Please check your internet and try again.',
+          text: e.message === 'SESSION_ERROR'
+            ? t('tutor.session_error')
+            : t('common.network_error'),
         },
       ]);
     } finally {

@@ -14,7 +14,7 @@ const CONTENT = {
       { h: '4. Educational use only', b: 'Content inside RBT Genius is provided for study and review. It should not be treated as legal, medical, psychological, or supervisory advice. Users remain responsible for following the standards and requirements of the BACB, their employers, and their supervisors.' },
       { h: '5. Acceptable use', b: 'You may not misuse the platform, attempt unauthorized access, copy or resell protected content, interfere with service availability, or use automated methods to extract the question bank or system content without written permission.' },
       { h: '6. Service updates', b: 'We may improve, modify, or discontinue parts of the service as the product evolves. Reasonable effort will be made to maintain platform availability, but uninterrupted access is not guaranteed.' },
-      { h: '7. Contact', b: 'For account or legal questions related to these terms, contact support@rbtgenius.app.' },
+      { h: '7. Contact', b: 'For account or legal questions related to these terms, contact support@rbtgenius.com.' },
     ],
   },
   privacy: {
@@ -26,7 +26,7 @@ const CONTENT = {
       { h: '3. Billing and payment data', b: 'Subscription payments may be processed through Stripe. RBT Genius may store payment metadata such as plan, amount, currency, status, Stripe customer IDs, and Stripe session or subscription references. Full card data is not stored directly by RBT Genius.' },
       { h: '4. OAuth and sign-in providers', b: 'If you sign in with providers such as Google, Apple, GitHub, or Microsoft, we may store your provider name, basic profile information, and linked account identifiers needed to support login and account recovery.' },
       { h: '5. Data retention', b: 'We retain account and study information for as long as needed to operate your account, maintain records, improve service quality, and comply with applicable legal or financial obligations.' },
-      { h: '6. Contact', b: 'Privacy questions can be sent to support@rbtgenius.app.' },
+      { h: '6. Contact', b: 'Privacy questions can be sent to support@rbtgenius.com.' },
     ],
   },
   refund: {
@@ -36,7 +36,7 @@ const CONTENT = {
       { h: '1. Subscription purchases', b: 'Premium access may be sold as monthly or yearly recurring billing. By purchasing a premium subscription, you authorize recurring charges according to the plan selected during checkout.' },
       { h: '2. Refund requests', b: 'Refund requests are reviewed on a case-by-case basis. If you believe you were charged in error or experienced a billing problem, contact us as soon as possible so we can review the situation.' },
       { h: '3. Non-refundable situations', b: 'In general, partial usage of a billing period, missed cancellations, or access to premium content alone may not automatically qualify for a refund. However, we will still review legitimate cases fairly.' },
-      { h: '4. How to request help', b: 'For billing support or refund review, email support@rbtgenius.app and include the email used on your account, the plan involved, and the date of the charge.' },
+      { h: '4. How to request help', b: 'For billing support or refund review, email support@rbtgenius.com and include the email used on your account, the plan involved, and the date of the charge.' },
     ],
   },
 };
@@ -70,7 +70,7 @@ export default function LegalScreen({ route, navigation }) {
         <View style={s.contactBox}>
           <Feather name="mail" color={theme.primary} size={16} style={{ marginBottom: 6 }} />
           <Text style={s.contactText}>Questions? Email us at</Text>
-          <Text style={s.contactEmail}>support@rbtgenius.app</Text>
+          <Text style={s.contactEmail}>support@rbtgenius.com</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

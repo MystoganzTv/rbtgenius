@@ -184,7 +184,13 @@
     "welcome_message": "Hi! I'm your RBT study tutor. Ask me anything about ABA principles, behavior intervention, or the RBT task list.",
     "subtitle_powered": "Powered by RBT Genius · Ask anything",
     "try_asking": "Try asking:",
-    "limit_reset": "Resets daily at midnight"
+    "limit_reset": "Resets daily at midnight",
+    "session_error": "Could not start a tutor session. Please try again.",
+    "quick_1": "Explain positive reinforcement",
+    "quick_2": "What is extinction?",
+    "quick_3": "Difference between DTT and NET?",
+    "quick_4": "What is a functional behavior assessment?",
+    "quick_5": "Define stimulus control"
   },
   "analytics": {
     "title": "Analytics",
