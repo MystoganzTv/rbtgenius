@@ -59,6 +59,7 @@ import {
   isOpenAIConfigured,
   streamTutorReplyOpenAI,
 } from './lib/tutor.js';
+import appleSignin from 'apple-signin-auth';
 
 const app = express();
 // Trust the first proxy hop so req.ip reflects the real client IP when running
@@ -756,6 +757,70 @@ app.post('/api/auth/google', async (req, res) => {
     res.json({ token: authData.token, user: authData.user });
   } catch (err) {
     res.status(500).json({ message: err.message || 'Google sign-in failed' });
+  }
+});
+
+// Native mobile Apple Sign-In: accepts identityToken from expo-apple-authentication
+app.post('/api/auth/apple', async (req, res) => {
+  const identityToken = String(req.body?.identity_token || '').trim();
+  const fullName = String(req.body?.full_name || '').trim() || null;
+  const emailFromPayload = String(req.body?.email || '').trim().toLowerCase() || null;
+  const appleUserId = String(req.body?.apple_user_id || '').trim();
+
+  if (!identityToken) {
+    res.status(400).json({ message: 'identity_token is required' });
+    return;
+  }
+
+  try {
+    // Verify the JWT issued by Apple — this fetches Apple's public keys automatically
+    const claims = await appleSignin.verifyIdToken(identityToken, {
+      audience: 'com.rbtgenius.app', // Must match bundle identifier
+      ignoreExpiration: false,
+    });
+
+    const sub = claims.sub || appleUserId;
+
+    if (!sub) {
+      res.status(401).json({ message: 'Apple did not return a user identifier' });
+      return;
+    }
+
+    // Apple only sends email on first sign-in. For returning users, look up by sub.
+    let email = claims.email || emailFromPayload;
+    if (!email) {
+      const db = readDb();
+      const existingByApple = db.users.find(
+        u => u.oauth_accounts?.apple?.id === sub
+      );
+      if (existingByApple) {
+        email = existingByApple.email;
+      }
+    }
+
+    if (!email) {
+      res.status(401).json({ message: 'Apple did not return an email address and no existing account was found.' });
+      return;
+    }
+
+    const profile = {
+      id: sub,
+      email: email.toLowerCase(),
+      name: fullName || email,
+    };
+
+    const authData = upsertOAuthUser(profile, 'apple');
+    if (authData.created) {
+      void notifyNewMember(authData.user, {
+        provider: 'apple',
+        name: profile.name,
+        email: profile.email,
+      });
+    }
+    res.json({ token: authData.token, user: authData.user });
+  } catch (err) {
+    console.error('[Apple auth error]', err?.message);
+    res.status(401).json({ message: 'Apple sign-in failed: ' + (err?.message || 'Invalid token') });
   }
 });
 
