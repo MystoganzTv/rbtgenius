@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/terms",          "destination": "/terms-of-service", "permanent": true },
+    { "source": "/privacy",        "destination": "/privacy-policy",   "permanent": true },
+    { "source": "/refund",         "destination": "/refund-policy",    "permanent": true },
+    { "source": "/legal",          "destination": "/terms-of-service", "permanent": true }
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",

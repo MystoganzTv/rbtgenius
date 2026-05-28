@@ -22,6 +22,7 @@ import {
 import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
 import { notifyNewMember, notifyNewSubscription, sendVerificationEmail } from '../server/lib/admin-notify.js';
 import crypto from 'node:crypto';
+import appleSignin from 'apple-signin-auth';
 import { getEntitlements, isPremiumPlan } from '../shared/plan-access.js';
 import { createTutorReply, isOpenAIConfigured, streamTutorReplyOpenAI } from '../server/lib/tutor.js';
 import * as db from './lib/db.js';
@@ -627,6 +628,55 @@ async function webApiHandler(req) {
     }
   }
 
+  // ── Native Apple Sign-In ────────────────────────────────────────────────────
+  // Accepts identityToken from expo-apple-authentication on iOS devices.
+  // Apple only returns email on the FIRST sign-in; subsequent logins have email=null.
+  // We handle returning users by looking up their stored Apple sub in oauth_accounts.
+  if (apiPath === '/auth/apple' && req.method === 'POST') {
+    const body = await req.json();
+    const identityToken  = String(body?.identity_token  || '').trim();
+    const emailFromBody  = String(body?.email           || '').trim().toLowerCase() || null;
+    const fullName       = String(body?.full_name       || '').trim() || null;
+    const appleUserId    = String(body?.apple_user_id   || '').trim();
+
+    if (!identityToken) return json({ message: 'identity_token is required' }, { status: 400 });
+
+    try {
+      // Verify JWT signed by Apple — fetches Apple's JWKS public keys automatically
+      const claims = await appleSignin.verifyIdToken(identityToken, {
+        audience: 'com.rbtgenius.app', // Must match bundle identifier in app.json
+        ignoreExpiration: false,
+      });
+
+      const sub = claims.sub || appleUserId;
+      if (!sub) return json({ message: 'Apple did not return a user identifier' }, { status: 401 });
+
+      // Resolve email: Apple JWT on first login, client payload as fallback,
+      // then look up by Apple sub for returning users whose email is no longer sent.
+      let email = (claims.email || emailFromBody || '').toLowerCase() || null;
+      if (!email) {
+        const existingByApple = await db.getUserByAppleId(sub);
+        if (existingByApple) email = existingByApple.email;
+      }
+      if (!email) {
+        return json(
+          { message: 'Apple did not return an email and no existing account was found. Please sign in with your email instead.' },
+          { status: 401 },
+        );
+      }
+
+      const profile = { id: sub, email, name: fullName || email };
+      const authData = await upsertOAuthUser(profile, 'apple');
+      if (authData.created) {
+        await notifyNewMember(authData.user, { source: 'apple_native', authProvider: 'apple' });
+      }
+      return json({ token: authData.token, user: authData.user });
+    } catch (err) {
+      console.error('[Apple auth error]', err?.message);
+      return json({ message: 'Apple sign-in failed: ' + (err?.message || 'Invalid token') }, { status: 401 });
+    }
+  }
+
   // ── Register ────────────────────────────────────────────────────────────────
   if (apiPath === '/auth/register' && req.method === 'POST') {
     await ensureHardcodedTestAccount();
@@ -703,6 +753,26 @@ async function webApiHandler(req) {
     if (auth.error) return auth.error;
     await db.clearUserSession(auth.user.id);
     return json({ ok: true });
+  }
+
+  // ── Delete Account ───────────────────────────────────────────────────────────
+  // Required by Apple App Store guidelines: users must be able to delete their
+  // account and all associated data directly within the app.
+  if (apiPath === '/auth/account' && req.method === 'DELETE') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const userId = auth.user.id;
+    // Delete all user data before removing the account row
+    await Promise.all([
+      db.deleteAttemptsByUser(userId),
+      db.deleteMockExamsByUser(userId),
+      db.deletePracticeSession(userId),
+      db.deleteTutorConversationsByUser(userId),
+      db.deletePushToken(userId),
+      db.deletePaymentsByUser(userId),
+    ]);
+    await db.deleteUser(userId);
+    return new Response(null, { status: 204 });
   }
 
   // ── Verify email ─────────────────────────────────────────────────────────────

@@ -43,6 +43,18 @@ export async function getUserByStripeCustomerId(customerId) {
   return normalizeUser(rows[0] ?? null);
 }
 
+export async function getUserByAppleId(appleUserId) {
+  if (!appleUserId) return null;
+  // oauth_accounts is stored as jsonb (or text jsonb) — try both cast forms
+  const rows = await sql`
+    SELECT * FROM users
+    WHERE oauth_accounts->'apple'->>'id' = ${appleUserId}
+       OR oauth_accounts::jsonb->'apple'->>'id' = ${appleUserId}
+    LIMIT 1
+  `;
+  return normalizeUser(rows[0] ?? null);
+}
+
 export async function getAllUsers() {
   const rows = await sql`SELECT * FROM users ORDER BY created_at DESC`;
   return rows.map(normalizeUser);
