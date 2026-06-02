@@ -91,7 +91,13 @@
     "readiness_body": "Preparación al {{pct}}% — {{msg}}",
     "readiness_empty": "Comienza a practicar para construir tu puntuación.",
     "domain_subtitle": "Tu rendimiento por área de contenido",
-    "no_attempts": "Sin intentos todavía en esta área"
+    "no_attempts": "Sin intentos todavía en esta área",
+    "weak_domain_title": "Enfócate en tu área más débil",
+    "weak_domain_btn": "Estudiar: {{domain}}",
+    "weak_domain_sub": "{{pct}}% de dominio — necesita atención",
+    "review_mistakes_btn": "Repasar Errores",
+    "review_mistakes_sub": "{{count}} pregunta{{count, plural, one{} other{s}}} por repasar",
+    "tab_label": "Inicio"
   },
   "practice": {
     "title": "Práctica",
@@ -111,7 +117,11 @@
     "correct_label": "✓ ¡Correcto!",
     "incorrect_label": "✗ No del todo",
     "next_question_arrow": "Siguiente pregunta →",
-    "today_count": "{{answered}}/{{limit}} hoy"
+    "today_count": "{{answered}}/{{limit}} hoy",
+    "tab_label": "Práctica",
+    "seen_once": "Ya viste esta pregunta",
+    "seen_times": "Vista {{count}} veces",
+    "seen_wrong": "{{count}} incorrectas"
   },
   "exams": {
     "title": "Examen Simulacro",
@@ -158,7 +168,8 @@
     "upgrade_pro": "Mejorar a Pro 👑",
     "retake": "Repetir examen",
     "offline_score": "⚠ Sin conexión — score calculado localmente",
-    "answered_count_alert": "Respondiste {{cnt}} de {{total}} preguntas."
+    "answered_count_alert": "Respondiste {{cnt}} de {{total}} preguntas.",
+    "tab_label": "Exámenes"
   },
   "flashcards": {
     "title": "Tarjetas",
@@ -316,7 +327,8 @@
     "profile_sub": "Cuenta, plan y preferencias",
     "upgrade": "Mejorar a Pro",
     "upgrade_sub": "Preguntas, tarjetas y exámenes simulados ilimitados",
-    "upgrade_banner_sub": "Desbloquea exámenes, análisis y práctica ilimitada"
+    "upgrade_banner_sub": "Desbloquea exámenes, análisis y práctica ilimitada",
+    "tab_label": "Más"
   },
   "upgrade": {
     "title": "Mejorar a Pro",
@@ -412,5 +424,18 @@
     "option": "Traducción de la opción {{letter}}",
     "title": "Traducción",
     "unavailable": "La traducción al español aún no está disponible para este bloque."
+  },
+  "review": {
+    "title": "Repasar Errores",
+    "loading": "Cargando tus preguntas falladas...",
+    "empty_title": "¡Sin errores pendientes!",
+    "empty_sub": "Has respondido correctamente todas las preguntas. Sigue practicando para mantenerte.",
+    "go_practice": "Volver a Práctica",
+    "progress": "{{current}} de {{total}}",
+    "done_correct": "{{correct}} de {{total}} correctas",
+    "done_great": "¡Excelente! Estás dominando estas preguntas.",
+    "done_keep_going": "Sigue adelante — cada intento mejora tu preparación.",
+    "retry": "Intentar de nuevo",
+    "finish": "Terminar repaso"
   }
 }

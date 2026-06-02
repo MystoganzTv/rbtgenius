@@ -91,7 +91,13 @@
     "readiness_body": "Readiness at {{pct}}% — {{msg}}",
     "readiness_empty": "Start practicing to build your readiness score.",
     "domain_subtitle": "Your performance by content area",
-    "no_attempts": "No attempts yet in this area"
+    "no_attempts": "No attempts yet in this area",
+    "weak_domain_title": "Focus on your weakest area",
+    "weak_domain_btn": "Study: {{domain}}",
+    "weak_domain_sub": "{{pct}}% mastery — needs attention",
+    "review_mistakes_btn": "Review Mistakes",
+    "review_mistakes_sub": "{{count}} question{{count, plural, one{} other{s}}} to revisit",
+    "tab_label": "Home"
   },
   "practice": {
     "title": "Practice",
@@ -111,7 +117,11 @@
     "correct_label": "✓ Correct!",
     "incorrect_label": "✗ Not quite",
     "next_question_arrow": "Next Question →",
-    "today_count": "{{answered}}/{{limit}} today"
+    "today_count": "{{answered}}/{{limit}} today",
+    "tab_label": "Practice",
+    "seen_once": "You've seen this before",
+    "seen_times": "Seen {{count}} times",
+    "seen_wrong": "{{count}} incorrect"
   },
   "exams": {
     "title": "Mock Exam",
@@ -158,7 +168,8 @@
     "upgrade_pro": "Upgrade to Pro 👑",
     "retake": "Retake Exam",
     "offline_score": "⚠ Offline — score calculated locally",
-    "answered_count_alert": "You've answered {{cnt}} of {{total}} questions."
+    "answered_count_alert": "You've answered {{cnt}} of {{total}} questions.",
+    "tab_label": "Exams"
   },
   "flashcards": {
     "title": "Flashcards",
@@ -316,7 +327,8 @@
     "profile_sub": "Account, plan, and preferences",
     "upgrade": "Upgrade to Pro",
     "upgrade_sub": "Unlimited questions, flashcards, and mock exams",
-    "upgrade_banner_sub": "Unlock mock exams, analytics & unlimited practice"
+    "upgrade_banner_sub": "Unlock mock exams, analytics & unlimited practice",
+    "tab_label": "More"
   },
   "upgrade": {
     "title": "Upgrade to Pro",
@@ -412,5 +424,18 @@
     "option": "Option {{letter}} Translation",
     "title": "Translation",
     "unavailable": "Spanish translation is not available yet for this section."
+  },
+  "review": {
+    "title": "Review Mistakes",
+    "loading": "Loading your missed questions...",
+    "empty_title": "No mistakes found!",
+    "empty_sub": "You have answered all questions correctly. Keep practicing to stay sharp.",
+    "go_practice": "Back to Practice",
+    "progress": "{{current}} of {{total}}",
+    "done_correct": "{{correct}} out of {{total}} correct",
+    "done_great": "Great work! You are mastering these questions.",
+    "done_keep_going": "Keep going — every attempt builds your readiness.",
+    "retry": "Try Again",
+    "finish": "Finish Review"
   }
 }

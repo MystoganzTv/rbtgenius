@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useMemo } from 'react';
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -12,19 +12,38 @@ import { useAuth } from '../../context/AuthContext';
 
 const API_BASE = 'https://www.rbtgenius.com';
 
-export default function PracticeScreen({ navigation }) {
+export default function PracticeScreen({ navigation, route }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
   const { t, i18n } = useTranslation();
   const { user, token } = useAuth();
 
-  const [selectedTopic, setSelectedTopic] = useState(TOPICS[0].key);
+  // Focus Mode: accept an initialTopic from navigation params (e.g. from Dashboard)
+  const initialTopic = route?.params?.initialTopic;
+  const defaultTopic = (initialTopic && TOPICS.find(t => t.key === initialTopic))
+    ? initialTopic
+    : TOPICS[0].key;
+
+  const [selectedTopic, setSelectedTopic] = useState(defaultTopic);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [answeredToday, setAnsweredToday] = useState(user?.questionsToday ?? 0);
   const [translationPanel, setTranslationPanel] = useState(null);
+  // Question attempt stats: { [questionId]: { total, correct, wrong } }
+  const [questionStats, setQuestionStats] = useState({});
   const submitting = useRef(false);
+
+  // Fetch aggregate attempt stats once on mount so we can show per-question history
+  useEffect(() => {
+    if (!token) return;
+    fetch(`${API_BASE}/api/question-attempts/stats`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.stats) setQuestionStats(data.stats); })
+      .catch(() => {});
+  }, [token]);
 
   const isPro = user?.isPremium ?? false;
   const dailyLimit = user?.dailyLimit ?? 15;
@@ -210,6 +229,29 @@ export default function PracticeScreen({ navigation }) {
                   />
                 </View>
                 <Text style={s.explanationText}>{questionExplanation}</Text>
+
+                {/* ── Attempt history badge ── */}
+                {(() => {
+                  const qs = questionStats[question?.id];
+                  // Show after the PREVIOUS attempts (before this one was recorded)
+                  // total includes the current attempt since submitAttempt fired on select
+                  if (!qs || qs.total < 2) return null;
+                  const prevTotal  = qs.total - 1;   // attempts before this one
+                  const prevWrong  = qs.wrong + (selectedOption !== question.correctIndex ? -1 : 0);
+                  const timesStr   = prevTotal === 1
+                    ? t('practice.seen_once')
+                    : t('practice.seen_times', { count: prevTotal });
+                  const wrongStr   = prevWrong > 0
+                    ? t('practice.seen_wrong', { count: prevWrong })
+                    : null;
+                  return (
+                    <View style={s.attemptBadge}>
+                      <Text style={s.attemptBadgeText}>
+                        🔁 {timesStr}{wrongStr ? ` · ${wrongStr}` : ''}
+                      </Text>
+                    </View>
+                  );
+                })()}
               </View>
             )}
           </View>
@@ -258,6 +300,13 @@ const styles = (theme) => StyleSheet.create({
   explanation: { backgroundColor: alpha(theme.primary, 0.06), borderRadius: 16, padding: 16, gap: 8 },
   explanationTitle: { color: theme.text, fontSize: 15, fontWeight: '800' },
   explanationText: { color: theme.muted, fontSize: 14, lineHeight: 22 },
+  attemptBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: alpha(theme.muted, 0.12),
+    borderRadius: 99, paddingHorizontal: 10, paddingVertical: 5,
+    marginTop: 2,
+  },
+  attemptBadgeText: { color: theme.muted, fontSize: 12, fontWeight: '700' },
   nextBtn: { backgroundColor: theme.primary, borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowColor: theme.primary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.28, shadowRadius: 16 },
   nextBtnText: { color: '#fff', fontSize: 16, fontWeight: '800' },
   limitWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 16 },

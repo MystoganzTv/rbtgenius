@@ -828,6 +828,24 @@ async function webApiHandler(req) {
     return json(await db.getAttemptsByUser(auth.user.id));
   }
 
+  // Returns IDs of questions where the user's latest attempt was incorrect.
+  // Powers the "Review Mistakes" practice mode in the mobile app.
+  if (apiPath === '/question-attempts/wrong' && req.method === 'GET') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const ids = await db.getWrongQuestionIdsByUser(auth.user.id);
+    return json({ question_ids: ids, count: ids.length });
+  }
+
+  // Returns aggregate attempt stats per question_id for the current user.
+  // Powers the "You've seen this question N times" hint in PracticeScreen.
+  if (apiPath === '/question-attempts/stats' && req.method === 'GET') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const stats = await db.getQuestionStatsByUser(auth.user.id);
+    return json({ stats });
+  }
+
   if (apiPath === '/question-attempts' && req.method === 'POST') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;

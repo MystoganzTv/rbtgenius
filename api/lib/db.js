@@ -117,6 +117,25 @@ export async function getAttemptsByUser(userId) {
   return sql`SELECT * FROM attempts WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT 1000`;
 }
 
+// Returns question_ids where the user's MOST RECENT attempt was incorrect.
+// Used by the "Review Mistakes" feature to surface genuinely unmastered questions.
+export async function getWrongQuestionIdsByUser(userId) {
+  const rows = await sql`
+    SELECT question_id
+    FROM (
+      SELECT DISTINCT ON (question_id)
+        question_id, is_correct
+      FROM attempts
+      WHERE user_id = ${userId}
+        AND question_id IS NOT NULL
+      ORDER BY question_id, created_at DESC
+    ) latest
+    WHERE is_correct = false
+    LIMIT 200
+  `;
+  return rows.map(r => r.question_id);
+}
+
 export async function getPracticeAttemptIdsByUser(userId) {
   const rows = await sql`
     SELECT DISTINCT question_id FROM attempts
@@ -354,6 +373,74 @@ export async function deletePushToken(userId) {
 
 export async function getAllPushTokens() {
   return sql`SELECT user_id, token, platform FROM push_tokens`;
+}
+
+// Returns push tokens enriched with per-user domain stats and last-study date.
+// Used by the personalized daily-reminder cron to craft per-user messages.
+// One query: joins push_tokens → attempts, aggregates domain accuracy + last attempt date.
+export async function getPushTokensWithUserStats() {
+  // Step 1: get all tokens with user_ids
+  const tokens = await sql`SELECT user_id, token FROM push_tokens`;
+  if (!tokens.length) return [];
+
+  const userIds = tokens.map(t => t.user_id);
+
+  // Step 2: for each user, get per-domain correct/total counts + last attempt date
+  const rows = await sql`
+    SELECT
+      user_id,
+      topic,
+      COUNT(*)::int                                          AS total,
+      SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int      AS correct,
+      MAX(created_at)                                        AS last_at
+    FROM attempts
+    WHERE user_id = ANY(${userIds})
+      AND topic IS NOT NULL
+    GROUP BY user_id, topic
+  `;
+
+  // Step 3: group by user
+  const statsMap = {};
+  for (const row of rows) {
+    if (!statsMap[row.user_id]) {
+      statsMap[row.user_id] = { domains: {}, lastAt: null };
+    }
+    const pct = row.total >= 5
+      ? Math.round((row.correct / row.total) * 100)
+      : null; // not enough data
+    statsMap[row.user_id].domains[row.topic] = { pct, total: row.total };
+    const d = new Date(row.last_at);
+    if (!statsMap[row.user_id].lastAt || d > statsMap[row.user_id].lastAt) {
+      statsMap[row.user_id].lastAt = d;
+    }
+  }
+
+  return tokens.map(({ user_id, token }) => ({
+    user_id,
+    token,
+    stats: statsMap[user_id] ?? null,
+  }));
+}
+
+// Returns aggregate attempt stats per question_id for a given user.
+// Powers the "You've seen this X times" hint in PracticeScreen.
+export async function getQuestionStatsByUser(userId) {
+  const rows = await sql`
+    SELECT
+      question_id,
+      COUNT(*)::int                                        AS total,
+      SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int    AS correct
+    FROM attempts
+    WHERE user_id = ${userId}
+      AND question_id IS NOT NULL
+    GROUP BY question_id
+  `;
+  // Returns object: { [question_id]: { total, correct, wrong } }
+  const map = {};
+  for (const r of rows) {
+    map[r.question_id] = { total: r.total, correct: r.correct, wrong: r.total - r.correct };
+  }
+  return map;
 }
 
 // ── Stripe events ─────────────────────────────────────────────────────────────
