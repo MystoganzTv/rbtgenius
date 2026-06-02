@@ -24,7 +24,8 @@
     "slide4_title": "¿Listo para Empezar?",
     "slide4_sub": "Únete a miles de RBTs que estudian de forma más inteligente cada día",
     "get_started": "Empezar Gratis",
-    "already_have_account": "Ya tengo una cuenta"
+    "already_have_account": "Ya tengo una cuenta",
+    "login_link": "Ya tengo cuenta — iniciar sesión"
   },
   "auth": {
     "login_title": "Bienvenido de vuelta",
@@ -43,7 +44,19 @@
     "error_register": "No se pudo crear la cuenta. Inténtalo de nuevo.",
     "continue_google": "Continuar con Google",
     "or_email_signin": "o inicia sesión con email",
-    "or_email_signup": "o regístrate con email"
+    "or_email_signup": "o regístrate con email",
+    "skip": "Saltar",
+    "next": "Siguiente →",
+    "sign_up_free": "Regístrate gratis",
+    "sign_in_apple": "Iniciar sesión con Apple",
+    "alert_missing_fields": "Campos requeridos",
+    "alert_missing_fields_body": "Por favor ingresa tu correo y contraseña.",
+    "alert_login_failed": "Error al iniciar sesión",
+    "alert_apple_failed": "Error con Apple Sign-In",
+    "alert_google_failed": "Error con Google Sign-In",
+    "all_fields_required": "Todos los campos son requeridos.",
+    "password_min": "La contraseña debe tener al menos 8 caracteres.",
+    "registration_failed": "No se pudo registrar. Inténtalo de nuevo."
   },
   "dashboard": {
     "title": "Inicio",
@@ -288,7 +301,9 @@
     "version": "RBT Genius v1.1.0",
     "permissions_required": "Permisos requeridos",
     "permissions_body": "Activa las notificaciones en Configuración → RBT Genius → Notificaciones.",
-    "error_save": "No se pudieron guardar los cambios. Inténtalo de nuevo."
+    "error_save": "No se pudieron guardar los cambios. Inténtalo de nuevo.",
+    "section_app": "App",
+    "section_legal": "Legal"
   },
   "more": {
     "title": "Más",

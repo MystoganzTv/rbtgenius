@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
@@ -22,6 +23,7 @@ export default function RegisterScreen({ navigation }) {
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
   const { register, loginWithGoogle } = useAuth();
+  const { t } = useTranslation();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -36,11 +38,11 @@ export default function RegisterScreen({ navigation }) {
     const mail = email.trim().toLowerCase();
 
     if (!name || !mail || !password) {
-      setError('All fields are required.');
+      setError(t('auth.all_fields_required'));
       return;
     }
     if (password.length < 8) {
-      setError('Password must be at least 8 characters.');
+      setError(t('auth.password_min'));
       return;
     }
 
@@ -48,7 +50,7 @@ export default function RegisterScreen({ navigation }) {
     try {
       await register(name, mail, password);
     } catch (e) {
-      setError(e.message || 'Registration failed. Please try again.');
+      setError(e.message || t('auth.registration_failed'));
     } finally {
       setLoading(false);
     }
@@ -59,7 +61,7 @@ export default function RegisterScreen({ navigation }) {
     try {
       await loginWithGoogle();
     } catch (err) {
-      Alert.alert('Google Sign-In failed', err.message ?? 'Try again.');
+      Alert.alert(t('auth.alert_google_failed'), err.message ?? t('common.try_again'));
     } finally {
       setGoogleLoading(false);
     }
@@ -73,11 +75,11 @@ export default function RegisterScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={s.content} keyboardShouldPersistTaps="handled">
           <View style={s.header}>
-            <Text style={s.title}>Create account</Text>
-            <Text style={s.sub}>Start your RBT exam prep today</Text>
+            <Text style={s.title}>{t('auth.register_title')}</Text>
+            <Text style={s.sub}>{t('auth.register_sub')}</Text>
           </View>
 
-          {/* Native Google Sign-In button */}
+          {/* Google Sign-In */}
           <Pressable
             style={({ pressed }) => [s.googleBtn, (pressed || googleLoading) && { opacity: 0.75 }]}
             onPress={handleGoogleRegister}
@@ -87,10 +89,8 @@ export default function RegisterScreen({ navigation }) {
               <ActivityIndicator color="#374151" size="small" />
             ) : (
               <>
-                <View style={s.googleIconBox}>
-                  <Text style={s.googleG}>G</Text>
-                </View>
-                <Text style={s.googleBtnText}>Continue with Google</Text>
+                <View style={s.googleIconBox}><Text style={s.googleG}>G</Text></View>
+                <Text style={s.googleBtnText}>{t('auth.continue_google')}</Text>
               </>
             )}
           </Pressable>
@@ -98,13 +98,13 @@ export default function RegisterScreen({ navigation }) {
           {/* Divider */}
           <View style={s.dividerRow}>
             <View style={s.dividerLine} />
-            <Text style={s.dividerText}>or sign up with email</Text>
+            <Text style={s.dividerText}>{t('auth.or_email_signup')}</Text>
             <View style={s.dividerLine} />
           </View>
 
           <View style={s.form}>
             <View style={s.field}>
-              <Text style={s.label}>Full name</Text>
+              <Text style={s.label}>{t('auth.full_name')}</Text>
               <TextInput
                 style={s.input}
                 value={fullName}
@@ -118,7 +118,7 @@ export default function RegisterScreen({ navigation }) {
             </View>
 
             <View style={s.field}>
-              <Text style={s.label}>Email</Text>
+              <Text style={s.label}>{t('auth.email')}</Text>
               <TextInput
                 style={s.input}
                 value={email}
@@ -133,12 +133,12 @@ export default function RegisterScreen({ navigation }) {
             </View>
 
             <View style={s.field}>
-              <Text style={s.label}>Password</Text>
+              <Text style={s.label}>{t('auth.password')}</Text>
               <TextInput
                 style={s.input}
                 value={password}
                 onChangeText={setPassword}
-                placeholder="Min. 8 characters"
+                placeholder="••••••••"
                 placeholderTextColor={theme.muted}
                 secureTextEntry
                 returnKeyType="done"
@@ -155,13 +155,16 @@ export default function RegisterScreen({ navigation }) {
             >
               {loading
                 ? <ActivityIndicator color="#fff" />
-                : <Text style={s.btnText}>Create Account</Text>
+                : <Text style={s.btnText}>{t('auth.sign_up')}</Text>
               }
             </Pressable>
           </View>
 
           <Pressable style={s.loginLink} onPress={() => navigation.navigate('Login')}>
-            <Text style={s.loginLinkText}>Already have an account? <Text style={{ color: theme.primary }}>Sign in</Text></Text>
+            <Text style={s.loginLinkText}>
+              {t('auth.have_account')}{' '}
+              <Text style={{ color: theme.primary }}>{t('auth.sign_in')}</Text>
+            </Text>
           </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>

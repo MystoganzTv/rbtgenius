@@ -13,9 +13,12 @@ import {
   View,
 } from 'react-native';
 import { useColorScheme } from 'react-native';
+import { useTranslation } from 'react-i18next';
+
 // expo-apple-authentication — optional (requires native build)
 let AppleAuthentication = null;
 try { AppleAuthentication = require('expo-apple-authentication'); } catch { /* no-op */ }
+
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
 
@@ -23,6 +26,8 @@ export default function LoginScreen({ navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const { login, loginWithApple, loginWithGoogle } = useAuth();
+  const { t } = useTranslation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,12 +43,12 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     if (!email.trim() || !password) {
-      Alert.alert('Missing fields', 'Please enter your email and password.');
+      Alert.alert(t('auth.alert_missing_fields'), t('auth.alert_missing_fields_body'));
       return;
     }
     setLoading(true);
     try { await login(email.trim().toLowerCase(), password); }
-    catch (err) { Alert.alert('Login failed', err.message ?? 'Check your credentials.'); }
+    catch (err) { Alert.alert(t('auth.alert_login_failed'), err.message ?? t('auth.error_credentials')); }
     finally { setLoading(false); }
   };
 
@@ -52,8 +57,8 @@ export default function LoginScreen({ navigation }) {
     try {
       await loginWithApple();
     } catch (err) {
-      if (err?.code === 'ERR_REQUEST_CANCELED') return; // user dismissed
-      Alert.alert('Apple Sign-In failed', err.message ?? 'Try again.');
+      if (err?.code === 'ERR_REQUEST_CANCELED') return;
+      Alert.alert(t('auth.alert_apple_failed'), err.message ?? t('common.try_again'));
     } finally {
       setAppleLoading(false);
     }
@@ -64,7 +69,7 @@ export default function LoginScreen({ navigation }) {
     try {
       await loginWithGoogle();
     } catch (err) {
-      Alert.alert('Google Sign-In failed', err.message ?? 'Try again.');
+      Alert.alert(t('auth.alert_google_failed'), err.message ?? t('common.try_again'));
     } finally {
       setGoogleLoading(false);
     }
@@ -81,10 +86,10 @@ export default function LoginScreen({ navigation }) {
             <Text style={s.brandName}>RBT Genius</Text>
           </View>
 
-          <Text style={s.headline}>Welcome back</Text>
-          <Text style={s.subline}>Sign in to continue your study session</Text>
+          <Text style={s.headline}>{t('auth.login_title')}</Text>
+          <Text style={s.subline}>{t('auth.login_sub')}</Text>
 
-          {/* Apple Sign-In button — shown only when native module available + iOS 13+ */}
+          {/* Apple Sign-In — only when native module available (iOS 13+) */}
           {appleAvailable && AppleAuthentication && (
             <View style={[s.appleWrapper, appleLoading && { opacity: 0.7 }]} pointerEvents={appleLoading ? 'none' : 'auto'}>
               <AppleAuthentication.AppleAuthenticationButton
@@ -99,7 +104,7 @@ export default function LoginScreen({ navigation }) {
             </View>
           )}
 
-          {/* Native Google Sign-In button */}
+          {/* Google Sign-In */}
           <Pressable
             style={({ pressed }) => [s.googleBtn, (pressed || googleLoading) && { opacity: 0.75 }]}
             onPress={handleGoogleLogin}
@@ -109,10 +114,8 @@ export default function LoginScreen({ navigation }) {
               <ActivityIndicator color={theme.text} size="small" />
             ) : (
               <>
-                <View style={s.googleIconBox}>
-                  <Text style={s.googleG}>G</Text>
-                </View>
-                <Text style={s.googleBtnText}>Continue with Google</Text>
+                <View style={s.googleIconBox}><Text style={s.googleG}>G</Text></View>
+                <Text style={s.googleBtnText}>{t('auth.continue_google')}</Text>
               </>
             )}
           </Pressable>
@@ -120,13 +123,13 @@ export default function LoginScreen({ navigation }) {
           {/* Divider */}
           <View style={s.dividerRow}>
             <View style={s.dividerLine} />
-            <Text style={s.dividerText}>or sign in with email</Text>
+            <Text style={s.dividerText}>{t('auth.or_email_signin')}</Text>
             <View style={s.dividerLine} />
           </View>
 
           <View style={s.form}>
             <View style={s.field}>
-              <Text style={s.label}>Email</Text>
+              <Text style={s.label}>{t('auth.email')}</Text>
               <TextInput
                 style={s.input}
                 value={email}
@@ -139,7 +142,7 @@ export default function LoginScreen({ navigation }) {
               />
             </View>
             <View style={s.field}>
-              <Text style={s.label}>Password</Text>
+              <Text style={s.label}>{t('auth.password')}</Text>
               <TextInput
                 style={s.input}
                 value={password}
@@ -152,14 +155,14 @@ export default function LoginScreen({ navigation }) {
               />
             </View>
             <Pressable style={[s.btn, loading && { opacity: 0.7 }]} onPress={handleLogin} disabled={loading}>
-              {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnText}>Sign In</Text>}
+              {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnText}>{t('auth.sign_in')}</Text>}
             </Pressable>
           </View>
 
           <View style={s.footer}>
-            <Text style={s.footerText}>Don't have an account? </Text>
+            <Text style={s.footerText}>{t('auth.no_account')} </Text>
             <Pressable onPress={() => navigation.navigate('Register')}>
-              <Text style={[s.footerText, { color: theme.primary, fontWeight: '700' }]}>Sign up free</Text>
+              <Text style={[s.footerText, { color: theme.primary, fontWeight: '700' }]}>{t('auth.sign_up_free')}</Text>
             </Pressable>
           </View>
 

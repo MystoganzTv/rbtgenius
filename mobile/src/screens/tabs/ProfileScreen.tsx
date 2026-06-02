@@ -477,7 +477,7 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
           </Pressable>
         </View>
 
-        <View style={s.sectionLabel}><Text style={s.sectionLabelText}>App</Text></View>
+        <View style={s.sectionLabel}><Text style={s.sectionLabelText}>{t('profile.section_app')}</Text></View>
         <View style={s.card}>
           <Pressable style={s.settingRow} onPress={handleShare}>
             <View style={s.settingCopy}>
@@ -508,7 +508,7 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
           </Pressable>
         </View>
 
-        <View style={s.sectionLabel}><Text style={s.sectionLabelText}>Legal</Text></View>
+        <View style={s.sectionLabel}><Text style={s.sectionLabelText}>{t('profile.section_legal')}</Text></View>
         <View style={s.card}>
           <Pressable style={s.settingRow} onPress={() => navigation?.navigate('Legal', { type: 'privacy' })}>
             <View style={s.settingCopy}>

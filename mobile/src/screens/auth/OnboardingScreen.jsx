@@ -5,44 +5,30 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 
 const { width } = Dimensions.get('window');
 export const ONBOARDING_KEY = 'rbt_genius_onboarding_done';
 
-const SLIDES = [
-  {
-    icon: '🎯',
-    title: 'Pasa tu examen\nRBT con confianza',
-    body: 'Más de 960 preguntas basadas en el RBT TCO 3ª edición del BACB, organizadas por dominio.',
-    accent: '#1E5EFF',
-  },
-  {
-    icon: '⚡',
-    title: 'Práctica\ninteligente',
-    body: 'Responde preguntas por tema, ve tu progreso en tiempo real y descubre dónde necesitas mejorar.',
-    accent: '#7C3AED',
-  },
-  {
-    icon: '🤖',
-    title: 'Tarjetas y\nrepaso activo',
-    body: 'Repasa conceptos clave con flashcards, explicaciones rápidas y sesiones enfocadas en memoria activa.',
-    accent: '#059669',
-  },
-  {
-    icon: '📈',
-    title: 'Mide tu\npreparación',
-    body: 'Tu readiness score sube con cada sesión. Llega al 80% y estarás listo para el examen real.',
-    accent: '#D97706',
-  },
-];
+const SLIDE_ACCENTS = ['#1E5EFF', '#7C3AED', '#059669', '#D97706'];
+const SLIDE_ICONS   = ['🎯', '⚡', '🤖', '📈'];
 
 export default function OnboardingScreen({ onDone }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
+  const { t } = useTranslation();
   const [index, setIndex] = useState(0);
   const listRef = useRef(null);
+
+  // Build slides from i18n so they respond to language changes
+  const SLIDES = [
+    { icon: SLIDE_ICONS[0], title: t('onboarding.slide1_title'), body: t('onboarding.slide1_sub'), accent: SLIDE_ACCENTS[0] },
+    { icon: SLIDE_ICONS[1], title: t('onboarding.slide2_title'), body: t('onboarding.slide2_sub'), accent: SLIDE_ACCENTS[1] },
+    { icon: SLIDE_ICONS[2], title: t('onboarding.slide3_title'), body: t('onboarding.slide3_sub'), accent: SLIDE_ACCENTS[2] },
+    { icon: SLIDE_ICONS[3], title: t('onboarding.slide4_title'), body: t('onboarding.slide4_sub'), accent: SLIDE_ACCENTS[3] },
+  ];
 
   const goTo = (i) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -64,7 +50,7 @@ export default function OnboardingScreen({ onDone }) {
       {/* Skip */}
       {!isLast && (
         <Pressable style={s.skipBtn} onPress={finish}>
-          <Text style={s.skipText}>Saltar</Text>
+          <Text style={s.skipText}>{t('auth.skip')}</Text>
         </Pressable>
       )}
 
@@ -83,7 +69,6 @@ export default function OnboardingScreen({ onDone }) {
         }}
         renderItem={({ item }) => (
           <View style={[s.slide, { width }]}>
-            {/* Big icon orb */}
             <View style={[s.iconOrb, { backgroundColor: alpha(item.accent, 0.12) }]}>
               <Text style={s.icon}>{item.icon}</Text>
             </View>
@@ -113,10 +98,10 @@ export default function OnboardingScreen({ onDone }) {
         {isLast ? (
           <>
             <Pressable style={[s.primaryBtn, { backgroundColor: slide.accent }]} onPress={finish}>
-              <Text style={s.primaryBtnText}>Empezar gratis</Text>
+              <Text style={s.primaryBtnText}>{t('onboarding.get_started')}</Text>
             </Pressable>
             <Pressable style={s.ghostBtn} onPress={finish}>
-              <Text style={[s.ghostBtnText, { color: theme.muted }]}>Ya tengo cuenta — iniciar sesión</Text>
+              <Text style={[s.ghostBtnText, { color: theme.muted }]}>{t('onboarding.already_have_account')}</Text>
             </Pressable>
           </>
         ) : (
@@ -124,7 +109,7 @@ export default function OnboardingScreen({ onDone }) {
             style={[s.primaryBtn, { backgroundColor: slide.accent }]}
             onPress={() => goTo(index + 1)}
           >
-            <Text style={s.primaryBtnText}>Siguiente →</Text>
+            <Text style={s.primaryBtnText}>{t('auth.next')}</Text>
           </Pressable>
         )}
       </View>
@@ -133,19 +118,19 @@ export default function OnboardingScreen({ onDone }) {
 }
 
 const styles = (theme) => StyleSheet.create({
-  safe:         { flex: 1 },
-  skipBtn:      { alignSelf: 'flex-end', paddingHorizontal: 24, paddingTop: 8, paddingBottom: 4 },
-  skipText:     { color: theme.muted, fontSize: 14, fontWeight: '600' },
-  slide:        { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 36, gap: 20 },
-  iconOrb:      { width: 140, height: 140, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
-  icon:         { fontSize: 64 },
-  title:        { fontSize: 34, fontWeight: '900', textAlign: 'center', lineHeight: 42 },
-  body:         { fontSize: 16, lineHeight: 26, textAlign: 'center', maxWidth: 300 },
-  dots:         { flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', paddingBottom: 24 },
-  dot:          { height: 8, borderRadius: 999 },
-  footer:       { paddingHorizontal: 24, paddingBottom: 16, gap: 12 },
-  primaryBtn:   { borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.22, shadowRadius: 14 },
+  safe:           { flex: 1 },
+  skipBtn:        { alignSelf: 'flex-end', paddingHorizontal: 24, paddingTop: 8, paddingBottom: 4 },
+  skipText:       { color: theme.muted, fontSize: 14, fontWeight: '600' },
+  slide:          { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 36, gap: 20 },
+  iconOrb:        { width: 140, height: 140, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  icon:           { fontSize: 64 },
+  title:          { fontSize: 34, fontWeight: '900', textAlign: 'center', lineHeight: 42 },
+  body:           { fontSize: 16, lineHeight: 26, textAlign: 'center', maxWidth: 300 },
+  dots:           { flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', paddingBottom: 24 },
+  dot:            { height: 8, borderRadius: 999 },
+  footer:         { paddingHorizontal: 24, paddingBottom: 16, gap: 12 },
+  primaryBtn:     { borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.22, shadowRadius: 14 },
   primaryBtnText: { color: '#fff', fontSize: 17, fontWeight: '800' },
-  ghostBtn:     { alignItems: 'center', paddingVertical: 10 },
-  ghostBtnText: { fontSize: 14, fontWeight: '600' },
+  ghostBtn:       { alignItems: 'center', paddingVertical: 10 },
+  ghostBtnText:   { fontSize: 14, fontWeight: '600' },
 });

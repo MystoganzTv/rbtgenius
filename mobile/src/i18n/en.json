@@ -24,7 +24,8 @@
     "slide4_title": "Ready to Start?",
     "slide4_sub": "Join thousands of RBTs studying smarter every day",
     "get_started": "Get Started Free",
-    "already_have_account": "I already have an account"
+    "already_have_account": "I already have an account",
+    "login_link": "I already have an account — sign in"
   },
   "auth": {
     "login_title": "Welcome back",
@@ -43,7 +44,19 @@
     "error_register": "Could not create account. Try again.",
     "continue_google": "Continue with Google",
     "or_email_signin": "or sign in with email",
-    "or_email_signup": "or sign up with email"
+    "or_email_signup": "or sign up with email",
+    "skip": "Skip",
+    "next": "Next →",
+    "sign_up_free": "Sign up free",
+    "sign_in_apple": "Sign in with Apple",
+    "alert_missing_fields": "Missing fields",
+    "alert_missing_fields_body": "Please enter your email and password.",
+    "alert_login_failed": "Login failed",
+    "alert_apple_failed": "Apple Sign-In failed",
+    "alert_google_failed": "Google Sign-In failed",
+    "all_fields_required": "All fields are required.",
+    "password_min": "Password must be at least 8 characters.",
+    "registration_failed": "Registration failed. Please try again."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -288,7 +301,9 @@
     "version": "RBT Genius v1.1.0",
     "permissions_required": "Permissions required",
     "permissions_body": "Enable notifications in Settings → RBT Genius → Notifications.",
-    "error_save": "Could not save changes. Try again."
+    "error_save": "Could not save changes. Try again.",
+    "section_app": "App",
+    "section_legal": "Legal"
   },
   "more": {
     "title": "More",
