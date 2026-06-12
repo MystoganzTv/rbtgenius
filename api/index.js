@@ -633,13 +633,21 @@ async function webApiHandler(req) {
   // Apple only returns email on the FIRST sign-in; subsequent logins have email=null.
   // We handle returning users by looking up their stored Apple sub in oauth_accounts.
   if (apiPath === '/auth/apple' && req.method === 'POST') {
-    const body = await req.json();
+    // Parse defensively: an empty or malformed body must yield a 400, never a 500.
+    let body = null;
+    try {
+      body = await req.json();
+    } catch {
+      body = null;
+    }
     const identityToken  = String(body?.identity_token  || '').trim();
     const emailFromBody  = String(body?.email           || '').trim().toLowerCase() || null;
     const fullName       = String(body?.full_name       || '').trim() || null;
     const appleUserId    = String(body?.apple_user_id   || '').trim();
 
-    if (!identityToken) return json({ message: 'identity_token is required' }, { status: 400 });
+    if (!body || !identityToken) {
+      return json({ message: 'Missing request body or identity token' }, { status: 400 });
+    }
 
     try {
       // Verify JWT signed by Apple — fetches Apple's JWKS public keys automatically
