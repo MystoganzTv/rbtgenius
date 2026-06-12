@@ -425,7 +425,8 @@
     "options_es": {
       "answer": "RBT's rol in evaluación",
       "purpose": "Para contribute to evaluación Toma de datos dentro de el RBT's autorizada alcance",
-      "RBT's role in assessment": "RBT's rol in evaluación"
+      "RBT's role in assessment": "RBT's rol in evaluación",
+      "To describe naturally occurring patterns around behavior in real settings.": "Para describir patrones que ocurren naturalmente alrededor de la conducta en entornos reales."
     }
   },
   "assessment_rbt_data_collection_fba": {
@@ -1328,7 +1329,8 @@
     "explanation": "El ignorar planificado se usa solo cuando la atención es el reforzador y cuando el procedimiento es seguro y está escrito en el plan.",
     "options_es": {
       "answer": "Ignorar planificadamente",
-      "purpose": "Para reducir conducta mantenida por atención retirando la atención según el plan."
+      "purpose": "Para reducir conducta mantenida por atención retirando la atención según el plan.",
+      "Motivating operation": "Operación motivadora"
     }
   },
   "behavior_planned_ignoring_procedure": {
@@ -2073,7 +2075,8 @@
     "explanation": "El registro de eventos es más útil cuando la conducta tiene un inicio y un final claros y cada ocurrencia se puede contar de forma fiable.",
     "options_es": {
       "answer": "Registro de eventos",
-      "purpose": "Para registrar cada ocurrencia de una conducta discreta y observable."
+      "purpose": "Para registrar cada ocurrencia de una conducta discreta y observable.",
+      "To select an interval length that accurately captures the behavior of interest.": "Para seleccionar una duración de intervalo que capture con precisión la conducta de interés."
     }
   },
   "measurement_frequency": {
@@ -2085,7 +2088,8 @@
     "explanation": "El registro de frecuencia se usa cuando el equipo necesita un conteo exacto de cuántas veces ocurrió la conducta.",
     "options_es": {
       "answer": "Registro de frecuencia",
-      "purpose": "Para captar con qué frecuencia ocurre una conducta."
+      "purpose": "Para captar con qué frecuencia ocurre una conducta.",
+      "To identify target behaviors consistently with all other staff collecting data.": "Para identificar las conductas objetivo de manera consistente con el resto del personal que recolecta datos."
     }
   },
   "measurement_ioa": {
@@ -2157,7 +2161,8 @@
     "explanation": "El registro de intervalo parcial marca la conducta como presente si ocurre en cualquier momento del intervalo.",
     "options_es": {
       "answer": "Registro de intervalo parcial",
-      "purpose": "Para anotar si la conducta ocurrió en algún momento durante cada intervalo."
+      "purpose": "Para anotar si la conducta ocurrió en algún momento durante cada intervalo.",
+      "To show on the graph exactly when a change in conditions occurred.": "Para mostrar en la gráfica exactamente cuándo ocurrió un cambio de condiciones."
     }
   },
   "measurement_percentage": {
@@ -2314,7 +2319,8 @@
     "explanation": "Seguir la cadena de mando mantiene claras las responsabilidades y deja las decisiones clínicas en manos del supervisor correspondiente.",
     "options_es": {
       "answer": "Seguir la cadena de mando",
-      "purpose": "Para canalizar inquietudes y decisiones a través de la estructura de supervisión adecuada."
+      "purpose": "Para canalizar inquietudes y decisiones a través de la estructura de supervisión adecuada.",
+      "To promote high-quality service delivery and continuous professional development for the RBT.": "Para promover una prestación de servicios de alta calidad y el desarrollo profesional continuo del RBT."
     }
   },
   "professional_communication": {
@@ -2398,7 +2404,8 @@
     "explanation": "La dignidad del cliente implica tratar al aprendiz con respeto y evitar prácticas innecesariamente intrusivas o vergonzosas.",
     "options_es": {
       "answer": "Dignidad del cliente",
-      "purpose": "Para proteger la privacidad, el respeto y el trato humano del aprendiz."
+      "purpose": "Para proteger la privacidad, el respeto y el trato humano del aprendiz.",
+      "To ensure the RBT implements behavior plans with high fidelity and continues developing competence over time.": "Para asegurar que el RBT implemente los planes de conducta con alta fidelidad y siga desarrollando su competencia con el tiempo."
     }
   },
   "professional_documentation_timeliness": {
@@ -2506,7 +2513,10 @@
     "explanation": "Llevar registros honestos y precisos es esencial porque las decisiones de tratamiento dependen de documentación confiable.",
     "options_es": {
       "answer": "Registro honesto y preciso",
-      "purpose": "Para mantener registros veraces y precisos."
+      "purpose": "Para mantener registros veraces y precisos.",
+      "To protect the privacy and dignity of clients in all public communications, including social media.": "Para proteger la privacidad y la dignidad de los clientes en todas las comunicaciones públicas, incluidas las redes sociales.",
+      "To protect the public from being misled about who is responsible for clinical decisions and what level of training the RBT has.": "Para evitar que el público sea engañado sobre quién es responsable de las decisiones clínicas y qué nivel de formación tiene el RBT.",
+      "To ensure the RBT receives adequate oversight and that service quality and learner safety are maintained.": "Para asegurar que el RBT reciba una supervisión adecuada y que se mantengan la calidad del servicio y la seguridad del aprendiz."
     }
   },
   "professional_safety": {
@@ -2530,7 +2540,9 @@
     "explanation": "Los RBT no deben hacer cambios de tratamiento de manera independiente fuera de su rol o de su formación.",
     "options_es": {
       "answer": "Alcance de competencia",
-      "purpose": "Para proteger al cliente manteniéndose dentro de las responsabilidades del rol del RBT."
+      "purpose": "Para proteger al cliente manteniéndose dentro de las responsabilidades del rol del RBT.",
+      "To make supervision contacts as informative and efficient as possible so the supervisor can give targeted, useful feedback.": "Para que los contactos de supervisión sean lo más informativos y eficientes posible, de modo que el supervisor pueda dar retroalimentación específica y útil.",
+      "To uphold the integrity of ABA as a profession and avoid misleading the public about what behavior technicians can offer.": "Para mantener la integridad de ABA como profesión y evitar engañar al público sobre lo que los técnicos de conducta pueden ofrecer."
     }
   },
   "professional_scope_refusal": {
@@ -2711,7 +2723,8 @@
     "explanation": "Las ayudas de menor a mayor conservan la oportunidad de responder de manera independiente antes de añadir ayudas más fuertes.",
     "options_es": {
       "answer": "Ayudas de menor a mayor",
-      "purpose": "Para fomentar la independencia antes de añadir ayudas más intrusivas."
+      "purpose": "Para fomentar la independencia antes de añadir ayudas más intrusivas.",
+      "To recognize when a skill is still being learned so the RBT continues providing instruction, prompts, and reinforcement at the appropriate level.": "Para reconocer cuándo una habilidad aún se está aprendiendo, de modo que el RBT siga proporcionando instrucción, apoyos y reforzamiento al nivel adecuado."
     }
   },
   "skill_maintenance": {
@@ -2723,7 +2736,8 @@
     "explanation": "La programación de mantenimiento asegura que las habilidades dominadas continúen con el tiempo en lugar de perderse cuando se detiene la enseñanza formal.",
     "options_es": {
       "answer": "Programación de mantenimiento",
-      "purpose": "Para mantener fuerte una habilidad aprendida después del dominio inicial."
+      "purpose": "Para mantener fuerte una habilidad aprendida después del dominio inicial.",
+      "To promote independence by making natural environmental cues — rather than staff instructions — the trigger for the behavior.": "Para promover la independencia haciendo que las señales naturales del entorno —y no las instrucciones del personal— sean el desencadenante de la conducta."
     }
   },
   "skill_model_prompt": {
@@ -2857,7 +2871,8 @@
     "explanation": "Una economía de fichas usa fichas como reforzadores condicionados vinculados a un reforzador de respaldo posterior.",
     "options_es": {
       "answer": "Economía de fichas",
-      "purpose": "Para construir motivación emparejando la conducta objetivo con fichas que luego pueden intercambiarse."
+      "purpose": "Para construir motivación emparejando la conducta objetivo con fichas que luego pueden intercambiarse.",
+      "To move responding from prompts to natural cues.": "Para trasladar la respuesta de los apoyos (prompts) a las señales naturales."
     }
   },
   "skill_total_task": {
@@ -2908,7 +2923,8 @@
     "options_es": {
       "answer": "Frecuencia frente a tasa",
       "purpose": "Para comparar la conducta entre sesiones de distinta duración.",
-      "Frequency vs. rate": "Frecuencia frente a tasa"
+      "Frequency vs. rate": "Frecuencia frente a tasa",
+      "To summarize the overall time spent engaging in a behavior across an entire session.": "Para resumir el tiempo total dedicado a una conducta a lo largo de toda la sesión."
     }
   },
   "measurement_decreasing_trend": {
@@ -2947,7 +2963,8 @@
     "options_es": {
       "answer": "Datos estables",
       "purpose": "Para establecer una línea base confiable antes de introducir una intervención, de modo que cualquier cambio futuro en los datos pueda atribuirse a la intervención.",
-      "Stable data": "Datos estables"
+      "Stable data": "Datos estables",
+      "To have everything needed for accurate data collection in place before the session starts.": "Para tener listo todo lo necesario para una recolección de datos precisa antes de que comience la sesión."
     }
   },
   "professional_proactive_consultation": {
@@ -2973,7 +2990,8 @@
     "options_es": {
       "answer": "Expresar desacuerdo de manera profesional",
       "purpose": "Para plantear preocupaciones legítimas sin violar la relación de supervisión ni la integridad de los servicios.",
-      "Expressing disagreement professionally": "Expresar desacuerdo de manera profesional"
+      "Expressing disagreement professionally": "Expresar desacuerdo de manera profesional",
+      "To prevent the RBT from making clinical decisions outside their scope when a situation is unclear.": "Para evitar que el RBT tome decisiones clínicas fuera de su alcance cuando una situación no es clara."
     }
   },
   "documentation_between_session_contact": {
@@ -3376,7 +3394,8 @@
     "options_es": {
       "answer": "Duración promedio",
       "purpose": "Para resumir la duración promedio de los episodios de respuesta.",
-      "Mean duration": "Duración promedio"
+      "Mean duration": "Duración promedio",
+      "To enable the RBT to communicate meaningful clinical information to the supervisor based on visual data patterns.": "Para permitir que el RBT comunique información clínica significativa al supervisor basándose en patrones visuales de los datos."
     }
   },
   "measurement_percentage_correct": {
@@ -3493,7 +3512,8 @@
     "options_es": {
       "answer": "Términos observables",
       "purpose": "Para describir la conducta en términos directamente observables o audibles.",
-      "Observable terms": "Términos observables"
+      "Observable terms": "Términos observables",
+      "To ensure reinforcers are ready so contingent delivery is not delayed during teaching.": "Para asegurar que los reforzadores estén listos y la entrega contingente no se retrase durante la enseñanza."
     }
   },
   "measurement_measurable_terms": {
@@ -3649,7 +3669,8 @@
     "options_es": {
       "answer": "Solicitud de aclaración",
       "purpose": "Para prevenir errores de implementación cuando las instrucciones no son claras.",
-      "Clarification request": "Solicitud de aclaración"
+      "Clarification request": "Solicitud de aclaración",
+      "To understand the minimum supervision standard set by the BACB for maintaining the RBT credential.": "Para comprender el estándar mínimo de supervisión establecido por la BACB para mantener la credencial RBT."
     }
   },
   "professional_secure_record_storage": {
@@ -3688,7 +3709,8 @@
     "options_es": {
       "answer": "Límite con los regalos",
       "purpose": "Para mantener límites profesionales alrededor de regalos y favores.",
-      "Gift boundary": "Límite con los regalos"
+      "Gift boundary": "Límite con los regalos",
+      "To prevent relationships that could compromise the RBT's objectivity and the quality of care.": "Para prevenir relaciones que puedan comprometer la objetividad del RBT y la calidad de la atención."
     }
   },
   "professional_multiple_relationship_risk": {
@@ -3870,7 +3892,8 @@
     "options_es": {
       "answer": "Comunicación apropiada al rol",
       "purpose": "Para comunicarse profesionalmente sin salir del alcance del rol.",
-      "Role-appropriate communication": "Comunicación apropiada al rol"
+      "Role-appropriate communication": "Comunicación apropiada al rol",
+      "To take personal responsibility for identifying and improving performance without waiting for feedback.": "Para asumir la responsabilidad personal de identificar y mejorar el desempeño sin esperar retroalimentación."
     }
   },
   "professional_truthful_representation": {
@@ -3948,7 +3971,8 @@
     "options_es": {
       "answer": "Protección de los derechos del cliente",
       "purpose": "Para proteger los derechos del cliente durante toda la prestación del servicio.",
-      "Protection of client rights": "Protección de los derechos del cliente"
+      "Protection of client rights": "Protección de los derechos del cliente",
+      "To maintain the professional role boundary that protects both the client and the RBT.": "Para mantener el límite del rol profesional que protege tanto al cliente como al RBT."
     }
   },
   "professional_authorized_information_release": {
@@ -4000,7 +4024,8 @@
     "options_es": {
       "answer": "Reforzamiento negativo",
       "purpose": "Para aumentar una conducta eliminando un evento aversivo después de la respuesta.",
-      "Negative reinforcement": "Reforzamiento negativo"
+      "Negative reinforcement": "Reforzamiento negativo",
+      "To interrupt error patterns and ensure the learner contacts the correct response after each mistake.": "Para interrumpir patrones de error y asegurar que el aprendiz llegue a la respuesta correcta después de cada equivocación."
     }
   },
   "skill_conditioned_reinforcer": {
@@ -4117,7 +4142,9 @@
     "options_es": {
       "answer": "Ayuda física",
       "purpose": "Para asistir al cliente directamente durante la respuesta.",
-      "Physical prompt": "Ayuda física"
+      "Physical prompt": "Ayuda física",
+      "To describe the relationship between an antecedent stimulus and the behavior it reliably evokes.": "Para describir la relación entre un estímulo antecedente y la conducta que evoca de manera confiable.",
+      "To build initial responding to a new target quickly before introducing other discriminations.": "Para establecer rápidamente la respuesta inicial a un objetivo nuevo antes de introducir otras discriminaciones."
     }
   },
   "skill_stimulus_prompt": {
@@ -4286,7 +4313,10 @@
     "options_es": {
       "answer": "Estímulo discriminativo (SD) en DTT",
       "purpose": "Para señalar al cliente que existe una oportunidad de respuesta que puede ser reforzada.",
-      "Discriminative stimulus (SD) in DTT": "Estímulo discriminativo (SD) en DTT"
+      "Discriminative stimulus (SD) in DTT": "Estímulo discriminativo (SD) en DTT",
+      "To create a new reinforcer that can be used more flexibly across situations and does not depend on the learner being in a state of deprivation for a specific primary reinforcer.": "Para crear un reforzador nuevo que pueda usarse con más flexibilidad en distintas situaciones y que no dependa de que el aprendiz esté en estado de privación de un reforzador primario específico.",
+      "To allow the learner to practice the full sequence each session while receiving support only where it is needed.": "Para permitir que el aprendiz practique la secuencia completa en cada sesión mientras recibe apoyo solo donde lo necesita.",
+      "To create a teaching sequence where each component of a complex skill can be prompted, reinforced, and tracked.": "Para crear una secuencia de enseñanza en la que cada componente de una habilidad compleja pueda recibir apoyos, reforzarse y registrarse."
     }
   },
   "skill_dtt_learner_response": {
@@ -4416,7 +4446,8 @@
     "options_es": {
       "answer": "Seguir la motivación del cliente en NET",
       "purpose": "Para usar la motivación que ocurre de manera natural como contexto de enseñanza, haciendo el aprendizaje más significativo.",
-      "Following the learner's motivation in NET": "Seguir la motivación del cliente en NET"
+      "Following the learner's motivation in NET": "Seguir la motivación del cliente en NET",
+      "To calibrate reinforcer value so it maintains motivation without creating satiation.": "Para calibrar el valor del reforzador de modo que mantenga la motivación sin generar saciedad."
     }
   },
   "skill_net_dtt_comparison": {
@@ -4429,7 +4460,8 @@
     "options_es": {
       "answer": "Enseñanza naturalista vs. DTT",
       "purpose": "Para entender cuándo es más apropiado cada enfoque y cómo se complementan.",
-      "Naturalistic teaching vs. DTT": "Enseñanza naturalista vs. DTT"
+      "Naturalistic teaching vs. DTT": "Enseñanza naturalista vs. DTT",
+      "To understand the difference between natural and learned reinforcers so the RBT can select and use reinforcers appropriately during sessions.": "Para comprender la diferencia entre reforzadores naturales y aprendidos, de modo que el RBT pueda seleccionar y usar reforzadores adecuadamente durante las sesiones."
     }
   },
   "skill_net_environment_use": {
@@ -4494,7 +4526,8 @@
     "options_es": {
       "answer": "Entrenamiento con múltiples ejemplares",
       "purpose": "Para ampliar la clase de estímulos que controla la respuesta, de modo que la habilidad se generalice a ejemplos nuevos.",
-      "Multiple exemplar training": "Entrenamiento con múltiples ejemplares"
+      "Multiple exemplar training": "Entrenamiento con múltiples ejemplares",
+      "To deliver instruction at the correct intensity: active teaching for new skills, lighter practice for mastered ones.": "Para impartir la instrucción con la intensidad correcta: enseñanza activa para habilidades nuevas y práctica más ligera para las ya dominadas."
     }
   },
   "skill_maintenance_probe": {
@@ -4507,7 +4540,8 @@
     "options_es": {
       "answer": "Prueba de mantenimiento",
       "purpose": "Para comprobar si las habilidades adquiridas previamente se han mantenido sin instrucción continua.",
-      "Maintenance probe": "Prueba de mantenimiento"
+      "Maintenance probe": "Prueba de mantenimiento",
+      "To support the learner with enough help to succeed initially and then systematically reduce that support.": "Para apoyar al aprendiz con la ayuda suficiente para tener éxito al inicio y luego reducir ese apoyo de manera sistemática."
     }
   },
   "skill_natural_reinforcers": {
@@ -4767,7 +4801,8 @@
     "options_es": {
       "answer": "Prevención de dependencia de ayudas",
       "purpose": "Para asegurar que la respuesta del cliente se transfiera al estímulo natural en lugar de depender de claves suplementarias.",
-      "Avoiding prompt dependency": "Prevención de dependencia de ayudas"
+      "Avoiding prompt dependency": "Prevención de dependencia de ayudas",
+      "To teach the learner to respond differently in the presence of different stimuli.": "Para enseñar al aprendiz a responder de manera diferente ante estímulos diferentes."
     }
   },
   "skill_time_delay_types": {
@@ -4845,7 +4880,8 @@
     "options_es": {
       "answer": "Topografía conductual en shaping",
       "purpose": "Para desarrollar una nueva forma conductual reforzando versiones progresivamente más precisas del objetivo.",
-      "Shaping behavior topography": "Topografía conductual en shaping"
+      "Shaping behavior topography": "Topografía conductual en shaping",
+      "To measure mastery of each individual step in the chain consistently.": "Para medir de forma consistente el dominio de cada paso individual de la cadena."
     }
   },
   "skill_shaping_regression": {
@@ -5081,7 +5117,8 @@
       "Timely consultation": "Consulta oportuna",
       "Information security": "Seguridad de la información",
       "Cultural responsiveness": "Sensibilidad cultural",
-      "Supervisor notification": "Notificación al supervisor"
+      "Supervisor notification": "Notificación al supervisor",
+      "To ensure clinical issues are addressed quickly enough to protect the learner's progress and safety.": "Para asegurar que los asuntos clínicos se atiendan con la rapidez suficiente para proteger el progreso y la seguridad del aprendiz."
     }
   },
   "professional_supervision_documentation": {
@@ -5095,7 +5132,8 @@
       "Least restrictive support": "Apoyo menos restrictivo",
       "Dual relationship avoidance": "Evitar relaciones duales",
       "Documenting supervision contacts": "Documentar los contactos de supervisión",
-      "Protecting client identity on social media": "Proteger la identidad del cliente en redes sociales"
+      "Protecting client identity on social media": "Proteger la identidad del cliente en redes sociales",
+      "To create an accurate record of the required supervision activities and protect both the RBT and the supervisor in the event of a compliance review.": "Para crear un registro preciso de las actividades de supervisión requeridas y proteger tanto al RBT como al supervisor en caso de una revisión de cumplimiento."
     }
   },
   "professional_information_sharing_limits": {
@@ -5123,7 +5161,9 @@
       "Making accurate public statements": "Hacer declaraciones públicas precisas",
       "Respectful language": "Lenguaje respetuoso",
       "Preparing for supervision meetings": "Prepararse para las reuniones de supervisión",
-      "Authorized family communication": "Comunicación autorizada con la familia"
+      "Authorized family communication": "Comunicación autorizada con la familia",
+      "To maintain professional boundaries and avoid situations where gifts could create a sense of obligation or compromise the RBT's clinical objectivity.": "Para mantener los límites profesionales y evitar situaciones en las que los regalos puedan crear un sentido de obligación o comprometer la objetividad clínica del RBT.",
+      "To share useful information with families while staying within the RBT's authorized communication scope.": "Para compartir información útil con las familias sin salir del alcance de comunicación autorizado del RBT."
     }
   },
   "professional_client_autonomy": {
@@ -5408,7 +5448,9 @@
     "explanation": "La medición continua es el método más preciso cuando el observador puede detectar cada instancia de la conducta sin perder ninguna.",
     "options_es": {
       "When to use continuous measurement": "Cuándo usar medición continua",
-      "To obtain an exact record of every occurrence of the behavior when direct observation is possible.": "Para obtener un registro exacto de cada ocurrencia de la conducta cuando la observación directa es posible."
+      "To obtain an exact record of every occurrence of the behavior when direct observation is possible.": "Para obtener un registro exacto de cada ocurrencia de la conducta cuando la observación directa es posible.",
+      "To capture every response when the behavior has a clear start and stop and is not occurring too rapidly to count.": "Para capturar cada respuesta cuando la conducta tiene un inicio y un fin claros y no ocurre con demasiada rapidez para contarla.",
+      "To display behavioral data in a consistent, readable format.": "Para presentar los datos conductuales en un formato consistente y legible."
     }
   },
   "measurement_ioa_total_count": {
@@ -5420,7 +5462,8 @@
     "explanation": "Un ACO de conteo total alto indica que ambos observadores estuvieron de acuerdo en el número total de ocurrencias, lo que apoya la confiabilidad de los datos.",
     "options_es": {
       "Total count IOA": "ACO de conteo total",
-      "To evaluate how consistently two independent observers counted the same behavior.": "Para evaluar qué tan consistentemente dos observadores independientes contaron la misma conducta."
+      "To evaluate how consistently two independent observers counted the same behavior.": "Para evaluar qué tan consistentemente dos observadores independientes contaron la misma conducta.",
+      "To measure how closely two independent observers agree on the total number of responses.": "Para medir el grado de acuerdo entre dos observadores independientes sobre el número total de respuestas."
     }
   },
   "measurement_ioa_duration_method": {
@@ -5432,7 +5475,8 @@
     "explanation": "El ACO de duración asegura que las medidas de tiempo de ambos observadores son suficientemente similares para considerarse confiables.",
     "options_es": {
       "Duration IOA": "ACO de duración",
-      "To verify that two observers measured the duration of a behavior consistently.": "Para verificar que dos observadores midieron la duración de una conducta de manera consistente."
+      "To verify that two observers measured the duration of a behavior consistently.": "Para verificar que dos observadores midieron la duración de una conducta de manera consistente.",
+      "To assess whether two observers measured the same amount of time for the same behavioral episode.": "Para evaluar si dos observadores midieron la misma cantidad de tiempo para el mismo episodio conductual."
     }
   },
   "measurement_recording_multiple_behaviors": {
@@ -5456,7 +5500,9 @@
     "explanation": "El muestreo momentáneo de tiempo es eficiente cuando el observador tiene otras responsabilidades, pero solo proporciona una estimación, no un conteo exacto.",
     "options_es": {
       "When to use momentary time sampling": "Cuándo usar muestreo momentáneo de tiempo",
-      "To estimate the prevalence of a behavior when continuous observation is not possible.": "Para estimar la prevalencia de una conducta cuando la observación continua no es posible."
+      "To estimate the prevalence of a behavior when continuous observation is not possible.": "Para estimar la prevalencia de una conducta cuando la observación continua no es posible.",
+      "To estimate how often behavior is occurring using brief, regularly spaced checks.": "Para estimar con qué frecuencia ocurre la conducta mediante verificaciones breves y espaciadas regularmente.",
+      "To understand how the choice of interval method affects the estimate of how much behavior occurred.": "Para comprender cómo la elección del método de intervalos afecta la estimación de cuánta conducta ocurrió."
     }
   },
   "measurement_discontinuous_limitation": {
@@ -5492,7 +5538,8 @@
     "explanation": "Reconocer los productos permanentes ayuda al RBT a saber cuándo este método de medición es aplicable y qué medir específicamente.",
     "options_es": {
       "Permanent product examples": "Ejemplos de producto permanente",
-      "To identify what qualifies as a permanent product in a given instructional context.": "Para identificar qué califica como producto permanente en un contexto instruccional dado."
+      "To identify what qualifies as a permanent product in a given instructional context.": "Para identificar qué califica como producto permanente en un contexto instruccional dado.",
+      "To recognize that interval-based systems sacrifice precision for practicality.": "Para reconocer que los sistemas basados en intervalos sacrifican precisión a cambio de practicidad."
     }
   },
   "measurement_permanent_product_ioa": {
@@ -5540,7 +5587,8 @@
     "explanation": "Incluir todos los componentes estándar de la gráfica garantiza que los datos sean fácilmente comprensibles y profesionalmente presentados.",
     "options_es": {
       "Components of a behavior graph": "Componentes de una gráfica de conducta",
-      "To communicate behavior data visually in a standardized format any team member can interpret.": "Para comunicar los datos de conducta de forma visual y estandarizada que cualquier miembro del equipo pueda interpretar."
+      "To communicate behavior data visually in a standardized format any team member can interpret.": "Para comunicar los datos de conducta de forma visual y estandarizada que cualquier miembro del equipo pueda interpretar.",
+      "To record behaviors that cannot be measured accurately with event or duration recording.": "Para registrar conductas que no pueden medirse con precisión mediante el registro de eventos o de duración."
     }
   },
   "measurement_phase_line": {
@@ -5564,7 +5612,9 @@
     "explanation": "Los errores al ingresar los datos pueden distorsionar las gráficas y llevar al equipo a tomar decisiones incorrectas sobre la programación.",
     "options_es": {
       "Data entry accuracy": "Precisión al ingresar datos",
-      "To ensure that data accurately reflects what occurred during the session.": "Para asegurar que los datos reflejen con exactitud lo que ocurrió durante la sesión."
+      "To ensure that data accurately reflects what occurred during the session.": "Para asegurar que los datos reflejen con exactitud lo que ocurrió durante la sesión.",
+      "To have the recording tool ready so no data are missed once the session begins.": "Para tener lista la herramienta de registro y no perder ningún dato una vez que comience la sesión.",
+      "To ensure the graphed record faithfully reflects what was observed during the session.": "Para asegurar que el registro graficado refleje fielmente lo observado durante la sesión."
     }
   },
   "measurement_label_vs_describe": {
@@ -5588,7 +5638,9 @@
     "explanation": "Una definición precisa es la base de la medición confiable: si dos personas no pueden acordar si la conducta ocurrió, los datos no son válidos.",
     "options_es": {
       "Pinpointing behavior": "Definición precisa de la conducta",
-      "To ensure behavior measurement is consistent across all observers.": "Para asegurar que la medición de la conducta sea consistente entre todos los observadores."
+      "To ensure behavior measurement is consistent across all observers.": "Para asegurar que la medición de la conducta sea consistente entre todos los observadores.",
+      "To collect data on several behaviors at once without losing accuracy.": "Para recolectar datos de varias conductas a la vez sin perder precisión.",
+      "To define a behavior tightly enough that measurement is consistent across time and staff.": "Para definir una conducta con suficiente precisión para que la medición sea consistente a lo largo del tiempo y entre el personal."
     }
   },
   "measurement_trend_direction": {
@@ -5600,7 +5652,8 @@
     "explanation": "Identificar la dirección de la tendencia ayuda al equipo a tomar decisiones sobre si continuar, modificar o suspender la intervención actual.",
     "options_es": {
       "Trend direction": "Dirección de la tendencia",
-      "To interpret whether a target behavior is changing in the expected direction with the current treatment.": "Para interpretar si una conducta objetivo está cambiando en la dirección esperada con el tratamiento actual."
+      "To interpret whether a target behavior is changing in the expected direction with the current treatment.": "Para interpretar si una conducta objetivo está cambiando en la dirección esperada con el tratamiento actual.",
+      "To help the RBT extract clinically meaningful information from graphs and communicate that information accurately to supervisors.": "Para ayudar al RBT a extraer información clínicamente significativa de las gráficas y comunicarla con precisión a los supervisores."
     }
   },
   "skill_reinforcement_immediacy": {
@@ -5612,7 +5665,8 @@
     "explanation": "Cuanto más rápido se entrega el reforzador después de la respuesta, más claramente el aprendiz asocia su conducta con la consecuencia positiva.",
     "options_es": {
       "Reinforcement immediacy": "Inmediatez del reforzamiento",
-      "To strengthen the connection between the response and the reinforcer, making the behavior more likely in the future.": "Para fortalecer la conexión entre la respuesta y el reforzador, haciendo más probable que la conducta ocurra en el futuro."
+      "To strengthen the connection between the response and the reinforcer, making the behavior more likely in the future.": "Para fortalecer la conexión entre la respuesta y el reforzador, haciendo más probable que la conducta ocurra en el futuro.",
+      "To ensure the contingency between the response and the reinforcer is clear to the learner.": "Para asegurar que la contingencia entre la respuesta y el reforzador sea clara para el aprendiz."
     }
   },
   "skill_reinforcement_magnitude": {
@@ -5636,7 +5690,8 @@
     "explanation": "El adelgazamiento del programa promueve la durabilidad de la habilidad al enseñar al aprendiz a trabajar por reforzadores que se presentan con menos frecuencia.",
     "options_es": {
       "Schedule thinning": "Adelgazamiento del programa de reforzamiento",
-      "So the skill is maintained at reinforcement levels more natural to everyday environments.": "Para que la habilidad se mantenga con niveles de reforzamiento más naturales y parecidos a los del entorno cotidiano."
+      "So the skill is maintained at reinforcement levels more natural to everyday environments.": "Para que la habilidad se mantenga con niveles de reforzamiento más naturales y parecidos a los del entorno cotidiano.",
+      "To maintain a learned behavior while making it more resistant to extinction by reducing reinforcement frequency gradually.": "Para mantener una conducta aprendida y hacerla más resistente a la extinción reduciendo gradualmente la frecuencia del reforzamiento."
     }
   },
   "skill_varied_reinforcement": {
@@ -5696,7 +5751,8 @@
     "explanation": "Una definición clara de independencia garantiza que todos los miembros del equipo puntúen los pasos de la cadena de manera consistente.",
     "options_es": {
       "Defining independence on a chain step": "Definir la independencia en un paso de la cadena",
-      "To have clear, objective criteria for when a chain step is acquired.": "Para tener criterios claros y objetivos sobre cuándo un paso de la cadena está adquirido."
+      "To have clear, objective criteria for when a chain step is acquired.": "Para tener criterios claros y objetivos sobre cuándo un paso de la cadena está adquirido.",
+      "To select the chaining method that best fits the learner and the skill being taught.": "Para seleccionar el método de encadenamiento que mejor se ajuste al aprendiz y a la habilidad que se enseña."
     }
   },
   "skill_s_delta": {
@@ -5732,7 +5788,8 @@
     "explanation": "La rotación aleatoria evita que el aprendiz responda por posición o por patrón y fortalece la discriminación real entre los estímulos.",
     "options_es": {
       "Random rotation of targets": "Rotación aleatoria de objetivos",
-      "To teach the learner to discriminate between stimuli under conditions more similar to natural situations.": "Para enseñar al aprendiz a discriminar entre estímulos en condiciones más parecidas a las situaciones naturales."
+      "To teach the learner to discriminate between stimuli under conditions more similar to natural situations.": "Para enseñar al aprendiz a discriminar entre estímulos en condiciones más parecidas a las situaciones naturales.",
+      "To test and strengthen discrimination by removing predictable patterns in how targets are presented.": "Para evaluar y fortalecer la discriminación eliminando patrones predecibles en la presentación de los objetivos."
     }
   },
   "skill_discrimination_error_correction": {
@@ -5756,7 +5813,8 @@
     "explanation": "Introducir los objetivos uno a la vez reduce la confusión y asegura que el aprendiz tenga un repertorio base antes de enfrentar la discriminación compleja.",
     "options_es": {
       "Introducing targets in discrimination training": "Introducción de objetivos en el entrenamiento de discriminación",
-      "So the learner acquires each target before facing discrimination among multiple stimuli.": "Para que el aprendiz adquiera cada objetivo antes de enfrentarse a la discriminación entre múltiples estímulos."
+      "So the learner acquires each target before facing discrimination among multiple stimuli.": "Para que el aprendiz adquiera cada objetivo antes de enfrentarse a la discriminación entre múltiples estímulos.",
+      "To build discrimination learning progressively without overwhelming the learner with too many stimuli at once.": "Para desarrollar el aprendizaje de discriminación de forma progresiva sin abrumar al aprendiz con demasiados estímulos a la vez."
     }
   },
   "skill_most_to_least_hierarchy": {
@@ -5780,7 +5838,8 @@
     "explanation": "Diferenciar el reforzador entre respuestas independientes y con ayuda enseña al aprendiz que las respuestas sin ayuda producen mejores consecuencias.",
     "options_es": {
       "Reinforcing independent responses": "Reforzamiento de respuestas independientes",
-      "To motivate the learner to respond without prompts and promote independence.": "Para motivar al aprendiz a responder sin ayudas y promover la independencia."
+      "To motivate the learner to respond without prompts and promote independence.": "Para motivar al aprendiz a responder sin ayudas y promover la independencia.",
+      "To teach the learner that independence produces better consequences than prompted responding.": "Para enseñar al aprendiz que la independencia produce mejores consecuencias que responder con apoyos."
     }
   },
   "skill_natural_cues_use": {
@@ -5804,7 +5863,8 @@
     "explanation": "El RBT no elige la jerarquía de ayudas de forma independiente; sigue el plan del supervisor para garantizar la consistencia y efectividad del tratamiento.",
     "options_es": {
       "Selecting a prompt hierarchy": "Selección de la jerarquía de ayudas",
-      "To implement the prompting intervention in the way the supervisor determined is most appropriate for that learner.": "Para implementar la intervención de ayudas de la manera que el supervisor determinó que es más adecuada para ese aprendiz."
+      "To implement the prompting intervention in the way the supervisor determined is most appropriate for that learner.": "Para implementar la intervención de ayudas de la manera que el supervisor determinó que es más adecuada para ese aprendiz.",
+      "To apply the prompt system best suited to the learner's skill level and the nature of the target behavior.": "Para aplicar el sistema de apoyos que mejor se adapte al nivel de habilidad del aprendiz y a la naturaleza de la conducta objetivo."
     }
   },
   "skill_conditioned_reinforcer_pairing_procedure": {
@@ -5864,7 +5924,8 @@
     "explanation": "Usar procedimientos de adquisición para habilidades ya dominadas es innecesario; usar procedimientos de mantenimiento para habilidades nuevas puede retrasar el aprendizaje.",
     "options_es": {
       "Selecting acquisition vs. maintenance procedures": "Selección de procedimientos de adquisición vs. mantenimiento",
-      "To apply the correct level of support based on where the learner is in the learning curve.": "Para aplicar el nivel correcto de apoyo según donde se encuentra el aprendiz en la curva de aprendizaje."
+      "To apply the correct level of support based on where the learner is in the learning curve.": "Para aplicar el nivel correcto de apoyo según donde se encuentra el aprendiz en la curva de aprendizaje.",
+      "To provide the exact amount of physical support needed at each moment and withdraw it as the learner takes over.": "Para proporcionar la cantidad exacta de apoyo físico necesaria en cada momento e irla retirando a medida que el aprendiz asume el control."
     }
   },
   "professional_uncertainty_action": {
@@ -5888,7 +5949,8 @@
     "explanation": "Crear intervenciones de manera independiente ante conductas nuevas está fuera del alcance del RBT y podría ser contraproducente o dañino.",
     "options_es": {
       "Responding to a new or unexpected behavior": "Respuesta ante una conducta nueva o inesperada",
-      "So new behaviors are evaluated and addressed by a qualified professional rather than receiving an improvised response.": "Para que las nuevas conductas sean evaluadas y tratadas por un profesional calificado en lugar de recibir una respuesta improvisada."
+      "So new behaviors are evaluated and addressed by a qualified professional rather than receiving an improvised response.": "Para que las nuevas conductas sean evaluadas y tratadas por un profesional calificado en lugar de recibir una respuesta improvisada.",
+      "To ensure that responses to new behaviors are clinically informed and authorized.": "Para asegurar que las respuestas a conductas nuevas estén clínicamente fundamentadas y autorizadas."
     }
   },
   "professional_scope_question": {
@@ -5900,7 +5962,8 @@
     "explanation": "Preguntar al supervisor cuando hay duda sobre el alcance del rol es una práctica ética que protege tanto al aprendiz como al RBT.",
     "options_es": {
       "Asking when unsure about scope": "Preguntar cuando hay duda sobre el alcance del rol",
-      "To ensure the RBT does not assume responsibilities that belong to the supervising BCBA.": "Para asegurar que el RBT no asuma responsabilidades que corresponden al BCBA supervisor."
+      "To ensure the RBT does not assume responsibilities that belong to the supervising BCBA.": "Para asegurar que el RBT no asuma responsabilidades que corresponden al BCBA supervisor.",
+      "To avoid stepping outside the RBT role by checking with the supervisor rather than making independent clinical decisions.": "Para evitar salirse del rol del RBT consultando con el supervisor en lugar de tomar decisiones clínicas independientes."
     }
   },
   "professional_feedback_behavior_change": {
@@ -5912,7 +5975,8 @@
     "explanation": "Implementar la retroalimentación del supervisor es una responsabilidad profesional del RBT y es esencial para el progreso del aprendiz.",
     "options_es": {
       "Changing behavior after feedback": "Cambio de conducta tras recibir retroalimentación",
-      "To improve treatment implementation and demonstrate that supervision has a real impact on practice.": "Para mejorar la implementación del tratamiento y demostrar que la supervisión tiene un impacto real en la práctica."
+      "To improve treatment implementation and demonstrate that supervision has a real impact on practice.": "Para mejorar la implementación del tratamiento y demostrar que la supervisión tiene un impacto real en la práctica.",
+      "To demonstrate that feedback has been understood and applied, not just acknowledged.": "Para demostrar que la retroalimentación se comprendió y se aplicó, no solo que se recibió."
     }
   },
   "professional_self_monitoring": {
@@ -5948,7 +6012,9 @@
     "explanation": "Seguir el protocolo de la organización garantiza que la información se comparta de forma apropiada, protegiendo la privacidad del aprendiz y la integridad del servicio.",
     "options_es": {
       "Stakeholder update protocol": "Protocolo de actualización a los interesados",
-      "To keep caregivers informed consistently and within established confidentiality limits.": "Para mantener a los cuidadores informados de manera consistente y dentro de los límites de confidencialidad establecidos."
+      "To keep caregivers informed consistently and within established confidentiality limits.": "Para mantener a los cuidadores informados de manera consistente y dentro de los límites de confidencialidad establecidos.",
+      "To protect client confidentiality and ensure information is shared only through appropriate, authorized channels.": "Para proteger la confidencialidad del cliente y asegurar que la información se comparta solo por canales apropiados y autorizados.",
+      "To keep authorized stakeholders appropriately informed in a consistent, sanctioned way.": "Para mantener informadas adecuadamente a las partes autorizadas de manera consistente y aprobada."
     }
   },
   "professional_outside_work_contact": {
@@ -5960,7 +6026,8 @@
     "explanation": "El contacto fuera del trabajo puede crear relaciones duales que afectan la objetividad clínica y violan las pautas éticas del BACB.",
     "options_es": {
       "Avoiding outside-work contact with clients": "Evitar contacto fuera del trabajo con clientes",
-      "To maintain professional boundaries and prevent dual relationships that could compromise services.": "Para mantener los límites profesionales y prevenir relaciones duales que puedan comprometer los servicios."
+      "To maintain professional boundaries and prevent dual relationships that could compromise services.": "Para mantener los límites profesionales y prevenir relaciones duales que puedan comprometer los servicios.",
+      "To describe individuals in ways that recognize their personhood rather than reducing them to a diagnostic label.": "Para describir a las personas de manera que se reconozca su condición de persona en lugar de reducirlas a una etiqueta diagnóstica."
     }
   },
   "professional_personal_disclosure_limits": {
@@ -5972,7 +6039,8 @@
     "explanation": "Compartir información personal en exceso puede difuminar los límites profesionales y afectar negativamente la relación terapéutica.",
     "options_es": {
       "Limits on personal self-disclosure": "Límites de la autorrevelación personal",
-      "To maintain the professional focus of the session and preserve therapeutic boundaries.": "Para mantener el enfoque profesional de la sesión y preservar los límites terapéuticos."
+      "To maintain the professional focus of the session and preserve therapeutic boundaries.": "Para mantener el enfoque profesional de la sesión y preservar los límites terapéuticos.",
+      "To maintain a professional interaction style that keeps the focus on the learner's needs.": "Para mantener un estilo de interacción profesional que mantenga el enfoque en las necesidades del aprendiz."
     }
   },
   "professional_dual_relationship_avoidance": {
@@ -6008,7 +6076,8 @@
     "explanation": "El requisito del 5% de supervisión mensual asegura que el trabajo del RBT sea monitoreado regularmente por un BCBA o BCaBA calificado.",
     "options_es": {
       "Required supervision frequency": "Frecuencia requerida de supervisión",
-      "To ensure RBTs receive sufficient professional guidance to implement services safely and effectively.": "Para garantizar que los RBTs reciban orientación profesional suficiente para implementar los servicios de forma segura y efectiva."
+      "To ensure RBTs receive sufficient professional guidance to implement services safely and effectively.": "Para garantizar que los RBTs reciban orientación profesional suficiente para implementar los servicios de forma segura y efectiva.",
+      "To ensure that decisions about gifts are guided by professional policy rather than personal judgment, which protects both the RBT and the therapeutic relationship.": "Para asegurar que las decisiones sobre regalos se guíen por la política profesional y no por el juicio personal, lo que protege tanto al RBT como a la relación terapéutica."
     }
   },
   "professional_supervision_feedback_role": {
@@ -6080,7 +6149,8 @@
     "explanation": "La divulgación inmediata al supervisor es la acción ética correcta; ocultar una relación dual puede agravar el conflicto de interés.",
     "options_es": {
       "Managing an identified multiple relationship": "Manejo de una relación múltiple identificada",
-      "So the supervisor can take the necessary steps to protect the client and the RBT.": "Para que el supervisor pueda tomar las medidas necesarias para proteger al cliente y al RBT."
+      "So the supervisor can take the necessary steps to protect the client and the RBT.": "Para que el supervisor pueda tomar las medidas necesarias para proteger al cliente y al RBT.",
+      "To maintain clinical integrity and protect both the client and the RBT from the complications that arise when personal and professional roles overlap.": "Para mantener la integridad clínica y proteger tanto al cliente como al RBT de las complicaciones que surgen cuando los roles personales y profesionales se superponen."
     }
   },
   "professional_gift_receiving_policy": {
@@ -6104,7 +6174,8 @@
     "explanation": "Los regalos personales pueden funcionar como reforzadores no planificados que interfieren con el plan de tratamiento o crean expectativas problemáticas.",
     "options_es": {
       "Gift-giving to clients guidelines": "Pautas para dar regalos a los clientes",
-      "To prevent personal gifts from altering the therapeutic dynamic or established reinforcement schedule.": "Para evitar que los regalos personales alteren la dinámica terapéutica o el programa de reforzamiento establecido."
+      "To prevent personal gifts from altering the therapeutic dynamic or established reinforcement schedule.": "Para evitar que los regalos personales alteren la dinámica terapéutica o el programa de reforzamiento establecido.",
+      "To preserve the integrity of the behavior plan and maintain appropriate professional boundaries between the RBT and the client.": "Para preservar la integridad del plan de conducta y mantener límites profesionales apropiados entre el RBT y el cliente."
     }
   },
   "professional_gift_cultural_context": {

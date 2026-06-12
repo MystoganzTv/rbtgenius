@@ -5,7 +5,6 @@ import {
   Flame,
   HelpCircle,
   Target,
-  Trophy,
   Zap,
 } from "lucide-react";
 import DomainProgress from "@/components/dashboard/DomainProgress";

@@ -81,12 +81,12 @@ function getApiPath(url) {
   return p.replace(/^\/api/, '') || '/';
 }
 
-const HARDCODED_TEST_PASSWORD = hashPassword(
-  HARDCODED_TEST_ACCOUNT.password,
-  'rbtgenius_test_account_salt',
-);
+const HARDCODED_TEST_PASSWORD = HARDCODED_TEST_ACCOUNT
+  ? hashPassword(HARDCODED_TEST_ACCOUNT.password, 'rbtgenius_test_account_salt')
+  : null;
 
 async function ensureHardcodedTestAccount() {
+  if (!HARDCODED_TEST_ACCOUNT) return null;
   const existing = await db.getUserByEmail(HARDCODED_TEST_ACCOUNT.email);
 
   if (!existing) {

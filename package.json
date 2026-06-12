@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:mobile": "vite build && npx cap sync ios",
+    "check:i18n": "node scripts/check-i18n.mjs",
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p ./jsconfig.json",

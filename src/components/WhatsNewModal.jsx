@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GraduationCap, Sparkles, X } from "lucide-react";
+import { GraduationCap, Sparkles } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLanguage } from "@/hooks/use-language";
 

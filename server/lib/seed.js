@@ -4,16 +4,24 @@ import { hashPassword } from "./auth.js";
 const LEGACY_DEMO_EMAIL = "alex.carter@example.com";
 const LEGACY_DEMO_EMAILS = [LEGACY_DEMO_EMAIL, "demo@rbtgenius.app"];
 export const ADMIN_EMAILS = [];
-export const HARDCODED_TEST_ACCOUNT = {
-  id: "bootstrap_test_user",
-  email: "test@rbtgenius.com",
-  password: "Review123!",
-  full_name: "Test RBT Genius",
-};
-const HARDCODED_TEST_PASSWORD = hashPassword(
-  HARDCODED_TEST_ACCOUNT.password,
-  "rbtgenius_test_account_salt",
-);
+
+// App Store review/demo account. Configured via env vars so no credentials
+// live in the repo. If TEST_ACCOUNT_EMAIL / TEST_ACCOUNT_PASSWORD are unset,
+// no bootstrap account is created.
+const TEST_ACCOUNT_EMAIL = String(process.env.TEST_ACCOUNT_EMAIL || "").trim().toLowerCase();
+const TEST_ACCOUNT_PASSWORD = process.env.TEST_ACCOUNT_PASSWORD || "";
+export const HARDCODED_TEST_ACCOUNT =
+  TEST_ACCOUNT_EMAIL && TEST_ACCOUNT_PASSWORD
+    ? {
+        id: "bootstrap_test_user",
+        email: TEST_ACCOUNT_EMAIL,
+        password: TEST_ACCOUNT_PASSWORD,
+        full_name: process.env.TEST_ACCOUNT_NAME || "Test RBT Genius",
+      }
+    : null;
+const HARDCODED_TEST_PASSWORD = HARDCODED_TEST_ACCOUNT
+  ? hashPassword(HARDCODED_TEST_ACCOUNT.password, "rbtgenius_test_account_salt")
+  : null;
 
 function buildHardcodedTestUser(createdAt = new Date().toISOString(), existingUser = null) {
   return {
@@ -101,15 +109,18 @@ export function normalizeDb(db) {
         })
     : [];
 
-  const existingHardcodedTestUser = normalizedUsers.find(
-    (user) => String(user.email || "").toLowerCase() === HARDCODED_TEST_ACCOUNT.email,
-  );
-  const usersWithHardcodedTest = [
-    ...normalizedUsers.filter(
-      (user) => String(user.email || "").toLowerCase() !== HARDCODED_TEST_ACCOUNT.email,
-    ),
-    buildHardcodedTestUser(seedDb.createdAt, existingHardcodedTestUser),
-  ];
+  let usersWithHardcodedTest = normalizedUsers;
+  if (HARDCODED_TEST_ACCOUNT) {
+    const existingHardcodedTestUser = normalizedUsers.find(
+      (user) => String(user.email || "").toLowerCase() === HARDCODED_TEST_ACCOUNT.email,
+    );
+    usersWithHardcodedTest = [
+      ...normalizedUsers.filter(
+        (user) => String(user.email || "").toLowerCase() !== HARDCODED_TEST_ACCOUNT.email,
+      ),
+      buildHardcodedTestUser(seedDb.createdAt, existingHardcodedTestUser),
+    ];
+  }
 
   return {
     ...seedDb,
