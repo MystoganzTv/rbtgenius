@@ -309,7 +309,7 @@
     "delete_account_error": "Could not delete account. Please try again or contact support.",
     "sign_out": "Sign Out",
     "sign_out_confirm": "Are you sure you want to sign out?",
-    "version": "RBT Genius v1.1.0",
+    "version": "RBT Genius v1.1.1",
     "permissions_required": "Permissions required",
     "permissions_body": "Enable notifications in Settings → RBT Genius → Notifications.",
     "error_save": "Could not save changes. Try again.",

@@ -309,7 +309,7 @@
     "delete_account_error": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte.",
     "sign_out": "Cerrar Sesión",
     "sign_out_confirm": "¿Estás seguro de que quieres cerrar sesión?",
-    "version": "RBT Genius v1.1.0",
+    "version": "RBT Genius v1.1.1",
     "permissions_required": "Permisos requeridos",
     "permissions_body": "Activa las notificaciones en Configuración → RBT Genius → Notificaciones.",
     "error_save": "No se pudieron guardar los cambios. Inténtalo de nuevo.",
