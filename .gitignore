@@ -6,6 +6,7 @@ capacitor.config.ts
 # Env
 .env
 .env.*
+!.env.example
 *.local
 
 # Logs
@@ -65,3 +66,4 @@ ios/App/App/capacitor.config.json
 
 # Duplicate files
 *\ 2.*
+.vercel
