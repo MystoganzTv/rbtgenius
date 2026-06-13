@@ -242,6 +242,7 @@ const UI_TRANSLATIONS = {
   "Terms of Service": "Términos del servicio",
   "Privacy Policy": "Política de privacidad",
   "Refund Policy": "Política de reembolsos",
+  "EULA": "EULA",
   "Practical exam prep for future Registered Behavior Technicians.": "Preparación práctica para el examen de futuros Registered Behavior Technicians.",
   "Plans and Access": "Planes y acceso",
   "Back to Dashboard": "Volver al panel",
