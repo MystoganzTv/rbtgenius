@@ -59,6 +59,7 @@ import AdminMembers from "./pages/AdminMembers";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
+import EULA from "./pages/EULA";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
 import Store from "./pages/Store";
@@ -77,6 +78,7 @@ export const PAGES = {
   TermsOfService,
   PrivacyPolicy,
   RefundPolicy,
+  EULA,
   Contact,
   Support,
   Store,

@@ -31,6 +31,7 @@ const PUBLIC_PAGES = new Set([
   "TermsOfService",
   "PrivacyPolicy",
   "RefundPolicy",
+  "EULA",
   "Contact",
   "Support",
   "Store",
