@@ -30,6 +30,9 @@ export default function PublicSiteFooter() {
           <Link to={createPageUrl("RefundPolicy")} className="hover:text-slate-900 dark:hover:text-slate-100">
             {translateUi("Refund Policy", language)}
           </Link>
+          <Link to={createPageUrl("EULA")} className="hover:text-slate-900 dark:hover:text-slate-100">
+            {translateUi("EULA", language)}
+          </Link>
           <Link to={createPageUrl("Store")} className="hover:text-slate-900 dark:hover:text-slate-100">
             {translateUi("Store", language)}
           </Link>
