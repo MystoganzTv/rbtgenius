@@ -64,6 +64,14 @@ export function getPracticeByTopic(topicKey, limit = 24) {
   const filtered = topicKey ? all.filter(q => q.topic === topicKey) : all;
   return filtered.slice(0, limit);
 }
+
+// Returns adapted questions matching a given set of IDs (for Review Mistakes mode).
+// Unknown IDs are silently skipped (question may have been retired from the bank).
+export function getQuestionsByIds(ids = []) {
+  if (!ids.length) return [];
+  const idSet = new Set(ids);
+  return getPracticeBank().filter(q => idSet.has(q.id));
+}
 export function getMockExamQuestions(size = 85) {
   return buildMockExamQuestionSet(size).map(adaptQuestion);
 }

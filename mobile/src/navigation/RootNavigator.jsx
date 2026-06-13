@@ -1,4 +1,5 @@
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -23,6 +24,7 @@ import AnalyticsScreen from '../screens/tabs/AnalyticsScreen';
 import ProfileScreen from '../screens/tabs/ProfileScreen';
 import UpgradeScreen from '../screens/tabs/UpgradeScreen';
 import LegalScreen from '../screens/legal/LegalScreen';
+import ReviewMistakesScreen from '../screens/tabs/ReviewMistakesScreen';
 
 const AuthStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +41,7 @@ function MoreNavigator() {
       <MoreStack.Screen name="Profile" component={ProfileScreen} />
       <MoreStack.Screen name="Upgrade" component={UpgradeScreen} />
       <MoreStack.Screen name="Legal" component={LegalScreen} />
+      <MoreStack.Screen name="ReviewMistakes" component={ReviewMistakesScreen} />
     </MoreStack.Navigator>
   );
 }
@@ -46,6 +49,7 @@ function MoreNavigator() {
 function MainTabs() {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
+  const { t } = useTranslation();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -67,17 +71,17 @@ function MainTabs() {
       <Tab.Screen
         name="Dashboard"
         component={DashboardScreen}
-        options={{ tabBarLabel: 'Home', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="view-dashboard-outline" color={color} size={size} /> }}
+        options={{ tabBarLabel: t('dashboard.tab_label'), tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="view-dashboard-outline" color={color} size={size} /> }}
       />
       <Tab.Screen
         name="Practice"
         component={PracticeScreen}
-        options={{ tabBarIcon: ({ color, size }) => <Feather name="book-open" color={color} size={size} /> }}
+        options={{ tabBarLabel: t('practice.tab_label'), tabBarIcon: ({ color, size }) => <Feather name="book-open" color={color} size={size} /> }}
       />
       <Tab.Screen
         name="MockExams"
         component={MockExamScreen}
-        options={{ tabBarLabel: 'Exams', tabBarIcon: ({ color, size }) => <Ionicons name="clipboard-outline" color={color} size={size} /> }}
+        options={{ tabBarLabel: t('exams.tab_label'), tabBarIcon: ({ color, size }) => <Ionicons name="clipboard-outline" color={color} size={size} /> }}
       />
       <Tab.Screen
         name="More"

@@ -169,6 +169,41 @@ export default function DashboardScreen({ navigation }) {
           <MetricCard accent="success" label={t('dashboard.accuracy')} value={accuracy > 0 ? `${accuracy}%` : '—'} theme={theme} />
         </View>
 
+        {/* ── Focus Mode + Review Mistakes quick-action cards ── */}
+        {(() => {
+          // Find weakest domain with at least one attempt
+          const domainsWithAttempts = DOMAIN_KEYS
+            .map(d => ({ ...d, mastery: Math.round(domainMastery[d.key] ?? 0) }))
+            .filter(d => d.mastery > 0);
+          const weakest = domainsWithAttempts.sort((a, b) => a.mastery - b.mastery)[0];
+
+          if (!weakest) return null;
+          return (
+            <View style={s.actionRow}>
+              {/* Focus Mode */}
+              <Pressable
+                style={[s.actionCard, { backgroundColor: alpha(theme.primary, 0.08), borderColor: alpha(theme.primary, 0.25) }]}
+                onPress={() => navigation?.navigate('Practice', { initialTopic: weakest.key })}
+              >
+                <Text style={s.actionEmoji}>🎯</Text>
+                <Text style={[s.actionTitle, { color: theme.primary }]}>{t('dashboard.weak_domain_title')}</Text>
+                <Text style={s.actionSub}>{t(`domains.${weakest.key}`)}</Text>
+                <Text style={[s.actionPct, { color: theme.primary }]}>{weakest.mastery}%</Text>
+              </Pressable>
+
+              {/* Review Mistakes */}
+              <Pressable
+                style={[s.actionCard, { backgroundColor: alpha('#EF4444', 0.07), borderColor: alpha('#EF4444', 0.22) }]}
+                onPress={() => navigation?.navigate('ReviewMistakes')}
+              >
+                <Text style={s.actionEmoji}>📝</Text>
+                <Text style={[s.actionTitle, { color: '#EF4444' }]}>{t('dashboard.review_mistakes_btn')}</Text>
+                <Text style={s.actionSub}>{t('dashboard.review_mistakes_sub', { count: '' }).replace(' ', '')}</Text>
+              </Pressable>
+            </View>
+          );
+        })()}
+
         {/* Domain mastery */}
         <SectionTitle title={t('dashboard.domain_mastery')} subtitle={t('dashboard.domain_subtitle')} theme={theme} />
         <View style={s.panel}>
@@ -176,7 +211,11 @@ export default function DashboardScreen({ navigation }) {
             const mastery = Math.round(domainMastery[domain.key] ?? 0);
             const color = toneColor(domain.accent, theme);
             return (
-              <View key={domain.key} style={s.domainRow}>
+              <Pressable
+                key={domain.key}
+                style={s.domainRow}
+                onPress={() => navigation?.navigate('Practice', { initialTopic: domain.key })}
+              >
                 <View style={s.domainHeader}>
                   <Text style={s.domainLabel}>{t(`domains.${domain.key}`)}</Text>
                   <Text style={[s.domainPct, { color }]}>{mastery}%</Text>
@@ -185,7 +224,7 @@ export default function DashboardScreen({ navigation }) {
                 {mastery === 0 && (
                   <Text style={s.domainHint}>{t('dashboard.no_attempts')}</Text>
                 )}
-              </View>
+              </Pressable>
             );
           })}
         </View>
@@ -274,6 +313,18 @@ const styles = (theme) => StyleSheet.create({
   domainLabel: { color: theme.text, fontSize: 14, fontWeight: '700' },
   domainPct: { fontSize: 13, fontWeight: '800' },
   domainHint: { color: theme.muted, fontSize: 11 },
+  // Focus Mode + Review Mistakes action cards
+  actionRow: { flexDirection: 'row', gap: 12 },
+  actionCard: {
+    flex: 1, borderRadius: 20, borderWidth: 1.5, padding: 16,
+    alignItems: 'flex-start', gap: 4,
+    shadowColor: theme.shadow, shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06, shadowRadius: 10,
+  },
+  actionEmoji: { fontSize: 24, marginBottom: 4 },
+  actionTitle: { fontSize: 13, fontWeight: '800', lineHeight: 18 },
+  actionSub: { color: theme.muted, fontSize: 11, fontWeight: '600' },
+  actionPct: { fontSize: 20, fontWeight: '900', marginTop: 4 },
   bankRow: { alignItems: 'center' },
   bankText: { color: theme.muted, fontSize: 12, textAlign: 'center', lineHeight: 18 },
 });

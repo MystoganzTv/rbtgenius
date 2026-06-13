@@ -10,9 +10,11 @@ try { AppleAuthentication = require('expo-apple-authentication'); } catch { /* n
 
 // RevenueCat — optional (native module, won't be available in Expo Go)
 let _initRevenueCat = null;
+let _resetRevenueCat = null;
 try {
   const rc = require('../services/RevenueCatService');
   _initRevenueCat = rc.initRevenueCat;
+  _resetRevenueCat = rc.resetRevenueCat;
 } catch { /* no-op */ }
 
 async function maybeInitRC(userId) {
@@ -276,6 +278,9 @@ export function AuthProvider({ children }) {
 
       GoogleSignin.signOut().catch(() => {});
     } finally {
+      if (_resetRevenueCat) {
+        try { await _resetRevenueCat(); } catch (e) { console.log('[RC] reset error:', e?.message); }
+      }
       await AsyncStorage.removeItem(TOKEN_KEY);
       setToken(null);
       setUser(null);
