@@ -40,11 +40,13 @@ import { getEntitlements, isPremiumPlan } from '../shared/plan-access.js';
 import {
   buildRevenueCatPayment,
   derivePlanFromSubscriber,
+  fetchRevenueCatOwnerRevenue,
   fetchRevenueCatSubscriber,
   interpretWebhookEvent,
   isRevenueCatConfigured,
   verifyWebhookAuth,
 } from '../server/lib/revenuecat.js';
+import { buildOwnerMetrics } from '../server/lib/owner-metrics.js';
 import {
   buildMemberActivitySummary,
   buildStudyDailySeries,
@@ -1408,6 +1410,76 @@ async function webApiHandler(req) {
   }
 
   // ── Admin ────────────────────────────────────────────────────────────────────
+  if (apiPath === '/admin/owner' && req.method === 'GET') {
+    const auth = await requireAdmin(req);
+    if (auth.error) return auth.error;
+    try {
+      const dataset = await db.getAdminMembersDataset();
+      const groupByUser = rows => rows.reduce((result, row) => {
+        const current = result.get(row.user_id) || [];
+        current.push(row);
+        result.set(row.user_id, current);
+        return result;
+      }, new Map());
+      const attemptsByUser = groupByUser(dataset.attempts);
+      const examsByUser = groupByUser(dataset.exams);
+      const sessionsByUser = groupByUser(dataset.sessions);
+      const visitsByUser = groupByUser(dataset.visits);
+      const tutorByUser = groupByUser(dataset.tutorActivity);
+      const users = dataset.users.map(user => {
+        const activity = buildMemberActivitySummary({
+          user,
+          attempts: attemptsByUser.get(user.id) || [],
+          exams: examsByUser.get(user.id) || [],
+          sessions: sessionsByUser.get(user.id) || [],
+          visits: visitsByUser.get(user.id) || [],
+          tutorActivity: tutorByUser.get(user.id) || [],
+        });
+        return { ...user, last_login: activity.last_active_at || null };
+      });
+      const ownerMetrics = buildOwnerMetrics({ users, payments: dataset.payments });
+
+      const completedApplePayments = dataset.payments.filter(payment =>
+        payment.status === 'completed' &&
+        String(payment.provider || payment.metadata?.provider || '').toLowerCase() === 'revenuecat',
+      );
+      const earliestAppleDate = completedApplePayments
+        .map(payment => payment.payment_date || payment.created_at)
+        .filter(Boolean)
+        .sort()[0];
+      const startDate = earliestAppleDate
+        ? new Date(earliestAppleDate).toISOString().slice(0, 10)
+        : `${new Date().getUTCFullYear()}-01-01`;
+      const endDate = new Date().toISOString().slice(0, 10);
+
+      try {
+        const revenueCat = await fetchRevenueCatOwnerRevenue({ startDate, endDate });
+        if (revenueCat?.gross && revenueCat?.proceeds) {
+          ownerMetrics.money.apple.gross = Number(revenueCat.gross.value.toFixed(2));
+          ownerMetrics.money.apple.estimatedProceeds = Number(
+            revenueCat.proceeds.value.toFixed(2),
+          );
+          ownerMetrics.money.apple.source = 'revenuecat_metrics_api';
+          ownerMetrics.money.customerGross = Number(
+            (ownerMetrics.money.stripe.gross + ownerMetrics.money.apple.gross).toFixed(2),
+          );
+          ownerMetrics.sources.revenueCat = {
+            status: 'live',
+            label: `RevenueCat proceeds estimate live · ${startDate} to ${endDate}`,
+          };
+        }
+      } catch (error) {
+        console.warn('[admin/owner] RevenueCat metrics unavailable:', error.message);
+        ownerMetrics.sources.revenueCat.error = 'Connection needs attention';
+      }
+
+      return json(ownerMetrics);
+    } catch (err) {
+      console.error('[admin/owner]', err.message);
+      return json({ message: err.message || 'Failed to load owner dashboard' }, { status: 500 });
+    }
+  }
+
   if (apiPath === '/admin/metrics' && req.method === 'GET') {
     const auth = await requireAdmin(req);
     if (auth.error) return auth.error;

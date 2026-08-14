@@ -14,7 +14,14 @@
 import { PLAN_IDS } from '../../shared/plan-access.js';
 
 const RC_API_BASE = 'https://api.revenuecat.com/v1';
+const RC_API_V2_BASE = 'https://api.revenuecat.com/v2';
 export const RC_ENTITLEMENT_ID = 'pro';
+
+function optionalPercentage(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
 
 // Map a RevenueCat / App Store product identifier to one of our plan ids.
 // Robust to store suffixes (e.g. Google base-plan ":p1m") by substring match.
@@ -114,6 +121,8 @@ export function buildRevenueCatPayment(event, userId, plan = null) {
       period_type: event.period_type || null,
       renewal_number: event.renewal_number ?? null,
       country_code: event.country_code || null,
+      tax_percentage: optionalPercentage(event.tax_percentage),
+      commission_percentage: optionalPercentage(event.commission_percentage),
       purchased_at: Number.isFinite(Number(event.purchased_at_ms))
         ? new Date(Number(event.purchased_at_ms)).toISOString()
         : occurredAt,
@@ -145,6 +154,75 @@ export function derivePlanFromSubscriber(subscriber, nowMs = Date.now()) {
 
 export function isRevenueCatConfigured() {
   return Boolean(process.env.REVENUECAT_SECRET_KEY);
+}
+
+export function isRevenueCatMetricsConfigured() {
+  return Boolean(
+    process.env.REVENUECAT_V2_SECRET_KEY && process.env.REVENUECAT_PROJECT_ID,
+  );
+}
+
+async function fetchRevenueCatRevenueMetric({
+  startDate,
+  endDate,
+  revenueType,
+  fetchImpl = fetch,
+}) {
+  const key = process.env.REVENUECAT_V2_SECRET_KEY;
+  const projectId = process.env.REVENUECAT_PROJECT_ID;
+  if (!key || !projectId) return null;
+
+  const url = new URL(
+    `${RC_API_V2_BASE}/projects/${encodeURIComponent(projectId)}/metrics/revenue`,
+  );
+  url.searchParams.set('start_date', startDate);
+  url.searchParams.set('end_date', endDate);
+  url.searchParams.set('currency', 'USD');
+  url.searchParams.set('revenue_type', revenueType);
+
+  const response = await fetchImpl(url, {
+    headers: { Authorization: `Bearer ${key}` },
+  });
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    throw new Error(
+      `RevenueCat metrics API ${response.status}: ${detail.slice(0, 160)}`,
+    );
+  }
+
+  const payload = await response.json();
+  return {
+    value: Number(payload?.value || 0),
+    currency: String(payload?.currency || 'USD').toUpperCase(),
+    startDate: payload?.start_date || startDate,
+    endDate: payload?.end_date || endDate,
+    revenueType: payload?.revenue_type || revenueType,
+  };
+}
+
+export async function fetchRevenueCatOwnerRevenue({
+  startDate,
+  endDate,
+  fetchImpl = fetch,
+}) {
+  if (!isRevenueCatMetricsConfigured()) return null;
+
+  const [gross, proceeds] = await Promise.all([
+    fetchRevenueCatRevenueMetric({
+      startDate,
+      endDate,
+      revenueType: 'revenue',
+      fetchImpl,
+    }),
+    fetchRevenueCatRevenueMetric({
+      startDate,
+      endDate,
+      revenueType: 'proceeds',
+      fetchImpl,
+    }),
+  ]);
+
+  return { gross, proceeds };
 }
 
 // Query the RevenueCat REST API for a subscriber. Returns the `subscriber`

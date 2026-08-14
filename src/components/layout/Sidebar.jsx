@@ -7,6 +7,7 @@ import {
   ChevronRight,
   ClipboardCheck,
   CreditCard,
+  CircleDollarSign,
   GraduationCap,
   HelpCircle,
   LayoutDashboard,
@@ -28,6 +29,7 @@ const navItems = [
 ];
 
 const adminItems = [
+  { name: "Owner", icon: CircleDollarSign, page: "OwnerDashboard", badge: "PRIVATE" },
   { name: "Members", icon: Shield, page: "AdminMembers", badge: "ADMIN" },
 ];
 

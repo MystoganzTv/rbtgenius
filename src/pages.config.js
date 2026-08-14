@@ -55,6 +55,7 @@ import Analytics from "./pages/Analytics";
 import Flashcards from "./pages/Flashcards";
 import Profile from "./pages/Profile";
 import AdminMembers from "./pages/AdminMembers";
+import OwnerDashboard from "./pages/OwnerDashboard";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
@@ -73,6 +74,7 @@ export const PAGES = {
   Flashcards,
   Profile,
   AdminMembers,
+  OwnerDashboard,
   TermsOfService,
   PrivacyPolicy,
   RefundPolicy,

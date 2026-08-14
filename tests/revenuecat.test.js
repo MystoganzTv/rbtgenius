@@ -81,12 +81,30 @@ test('RevenueCat purchase becomes an idempotent payment record with display meta
         period_type: 'INTRO',
         renewal_number: 1,
         country_code: null,
+        tax_percentage: null,
+        commission_percentage: null,
         purchased_at: '2026-07-27T23:11:09.000Z',
         expiration_at: '2027-07-27T23:11:09.000Z',
         event_timestamp: '2026-07-27T23:11:14.637Z',
       },
     },
   );
+});
+
+test('RevenueCat stores tax and commission percentages needed for proceeds', () => {
+  const payment = buildRevenueCatPayment(
+    {
+      ...yearlyPurchase,
+      transaction_id: 'financial-fields-1',
+      tax_percentage: 0.05,
+      commission_percentage: 0.15,
+    },
+    'user-1',
+    'premium_yearly',
+  );
+
+  assert.equal(payment.metadata.tax_percentage, 0.05);
+  assert.equal(payment.metadata.commission_percentage, 0.15);
 });
 
 test('sandbox transactions remain visible without counting as completed revenue', () => {

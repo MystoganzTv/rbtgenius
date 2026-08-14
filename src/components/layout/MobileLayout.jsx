@@ -3,12 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import {
   BarChart3,
   ClipboardCheck,
+  CircleDollarSign,
   CreditCard,
   GraduationCap,
   HelpCircle,
   LayoutDashboard,
   MoreHorizontal,
   Sparkles,
+  Shield,
   X,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
@@ -27,6 +29,11 @@ const primaryTabs = [
 const moreItems = [
   { name: "Analytics", icon: BarChart3, page: "Analytics" },
   { name: "Pricing", icon: CreditCard, page: "Pricing" },
+];
+
+const adminMoreItems = [
+  { name: "Owner", icon: CircleDollarSign, page: "OwnerDashboard", badge: "PRIVATE" },
+  { name: "Members", icon: Shield, page: "AdminMembers", badge: "ADMIN" },
 ];
 
 export default function MobileLayout({ children, currentPageName }) {
@@ -50,8 +57,11 @@ export default function MobileLayout({ children, currentPageName }) {
     }
   };
 
+  const visibleMoreItems = user?.role === "admin"
+    ? [...moreItems, ...adminMoreItems]
+    : moreItems;
   const primaryPageNames = new Set(primaryTabs.map((t) => t.page).filter(Boolean));
-  const morePageNames = new Set(moreItems.map((t) => t.page));
+  const morePageNames = new Set(visibleMoreItems.map((t) => t.page));
   const activeTab =
     primaryPageNames.has(currentPageName)
       ? currentPageName
@@ -107,7 +117,7 @@ export default function MobileLayout({ children, currentPageName }) {
               </button>
             </div>
             <div className="px-4 pb-4 grid grid-cols-3 gap-3">
-              {moreItems.map((item) => {
+              {visibleMoreItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPageName === item.page;
                 return (
