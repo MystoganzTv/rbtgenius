@@ -183,7 +183,7 @@ export default function OwnerDashboard() {
           <MetricCard
             label="Customer spending"
             value={money(data.money.customerGross)}
-            note={`${number(data.money.transactions)} completed production transactions · all time`}
+            note={`${number(data.money.transactions)} completed production ${data.money.transactions === 1 ? "transaction" : "transactions"} · all time`}
             icon={CreditCard}
           />
           <MetricCard
@@ -277,4 +277,3 @@ export default function OwnerDashboard() {
     </div>
   );
 }
-
