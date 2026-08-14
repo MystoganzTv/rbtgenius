@@ -804,6 +804,107 @@ export async function deletePaymentsByUser(userId) {
   await sql`DELETE FROM payments WHERE user_id = ${userId}`;
 }
 
+// ── App Store Connect analytics ──────────────────────────────────────────────
+
+async function ensureAppleAnalyticsTables() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS apple_analytics_rows (
+      report_name TEXT NOT NULL,
+      event_date DATE NOT NULL,
+      dimension_hash TEXT NOT NULL,
+      dimensions JSONB NOT NULL DEFAULT '{}',
+      metrics JSONB NOT NULL DEFAULT '{}',
+      processing_date DATE NOT NULL,
+      source_instance_id TEXT NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      PRIMARY KEY (report_name, event_date, dimension_hash)
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS apple_analytics_imports (
+      instance_id TEXT PRIMARY KEY,
+      report_name TEXT NOT NULL,
+      processing_date DATE NOT NULL,
+      row_count INTEGER NOT NULL DEFAULT 0,
+      imported_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_apple_analytics_rows_event_date
+    ON apple_analytics_rows(event_date DESC)
+  `;
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_apple_analytics_imports_processing_date
+    ON apple_analytics_imports(processing_date DESC)
+  `;
+}
+
+export async function getImportedAppleInstanceIds(since) {
+  await ensureAppleAnalyticsTables();
+  const rows = await sql`
+    SELECT instance_id
+    FROM apple_analytics_imports
+    WHERE processing_date >= ${since}::date
+    LIMIT 2000
+  `;
+  return new Set(rows.map(row => row.instance_id));
+}
+
+export async function upsertAppleAnalyticsRows(rows = []) {
+  await ensureAppleAnalyticsTables();
+  for (const row of rows) {
+    await sql`
+      INSERT INTO apple_analytics_rows
+        (report_name, event_date, dimension_hash, dimensions, metrics,
+         processing_date, source_instance_id, updated_at)
+      VALUES
+        (${row.report_name}, ${row.event_date}::date, ${row.dimension_hash},
+         ${JSON.stringify(row.dimensions)}::jsonb, ${JSON.stringify(row.metrics)}::jsonb,
+         ${row.processing_date}::date, ${row.source_instance_id}, ${row.updated_at}::timestamptz)
+      ON CONFLICT (report_name, event_date, dimension_hash) DO UPDATE SET
+        dimensions = EXCLUDED.dimensions,
+        metrics = EXCLUDED.metrics,
+        processing_date = EXCLUDED.processing_date,
+        source_instance_id = EXCLUDED.source_instance_id,
+        updated_at = EXCLUDED.updated_at
+    `;
+  }
+}
+
+export async function recordAppleAnalyticsImport({
+  instanceId,
+  reportName,
+  processingDate,
+  rowCount,
+}) {
+  await ensureAppleAnalyticsTables();
+  await sql`
+    INSERT INTO apple_analytics_imports
+      (instance_id, report_name, processing_date, row_count)
+    VALUES (${instanceId}, ${reportName}, ${processingDate}::date, ${rowCount})
+    ON CONFLICT (instance_id) DO UPDATE SET
+      report_name = EXCLUDED.report_name,
+      processing_date = EXCLUDED.processing_date,
+      row_count = EXCLUDED.row_count,
+      imported_at = NOW()
+  `;
+}
+
+export async function getAppleAnalyticsRows() {
+  await ensureAppleAnalyticsTables();
+  return sql`
+    SELECT
+      report_name,
+      event_date::text,
+      dimensions,
+      metrics,
+      processing_date::text
+    FROM apple_analytics_rows
+    ORDER BY event_date ASC
+    LIMIT 20000
+  `;
+}
+
 // ── Practice sessions ─────────────────────────────────────────────────────────
 
 export async function getPracticeSession(userId) {

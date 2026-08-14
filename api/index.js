@@ -48,6 +48,10 @@ import {
 } from '../server/lib/revenuecat.js';
 import { buildOwnerMetrics } from '../server/lib/owner-metrics.js';
 import {
+  aggregateAppleRows,
+  isAppleAnalyticsConfigured,
+} from '../server/lib/apple-analytics.js';
+import {
   buildMemberActivitySummary,
   buildStudyDailySeries,
   deriveSubscriptionLifecycle,
@@ -1438,6 +1442,31 @@ async function webApiHandler(req) {
         return { ...user, last_login: activity.last_active_at || null };
       });
       const ownerMetrics = buildOwnerMetrics({ users, payments: dataset.payments });
+
+      try {
+        const appleRows = await db.getAppleAnalyticsRows();
+        const appleAnalytics = aggregateAppleRows(appleRows);
+        ownerMetrics.appleAnalytics = {
+          configured: isAppleAnalyticsConfigured(),
+          awaitingData: appleRows.length === 0,
+          ...appleAnalytics,
+        };
+        ownerMetrics.sources.appStore = {
+          status: appleRows.length ? 'live' : 'partial',
+          label: appleRows.length
+            ? `Apple Analytics imported · ${appleAnalytics.period}`
+            : 'Connected; awaiting Apple reports (normally 24–48 hours)',
+        };
+      } catch (error) {
+        ownerMetrics.appleAnalytics = {
+          configured: isAppleAnalyticsConfigured(),
+          awaitingData: true,
+        };
+        ownerMetrics.sources.appStore = {
+          status: 'setup',
+          label: 'App Store Connect analytics storage or credentials need setup',
+        };
+      }
 
       const completedApplePayments = dataset.payments.filter(payment =>
         payment.status === 'completed' &&

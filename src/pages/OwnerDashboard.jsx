@@ -254,6 +254,45 @@ export default function OwnerDashboard() {
         </div>
       </section>
 
+      <section className="space-y-3">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-500">App Store</p>
+          <h2 className="mt-1 text-2xl font-bold text-slate-950 dark:text-white">Acquisition & reliability</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Apple reports are aggregated and privacy-protected. Usage metrics include only people who opted in to share diagnostics.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <MetricCard
+            label="First-time downloads"
+            value={data.appleAnalytics?.awaitingData ? "Awaiting" : number(data.appleAnalytics?.downloads)}
+            note={`${number(data.appleAnalytics?.redownloads)} redownloads · ${number(data.appleAnalytics?.updates)} updates`}
+            icon={Smartphone}
+            tone="violet"
+          />
+          <MetricCard
+            label="App Store page views"
+            value={data.appleAnalytics?.awaitingData ? "Awaiting" : number(data.appleAnalytics?.pageViews)}
+            note={data.appleAnalytics?.conversionRate == null ? "Conversion appears when Apple has enough data" : `${data.appleAnalytics.conversionRate}% download conversion`}
+            icon={TrendingUp}
+          />
+          <MetricCard
+            label="Opted-in sessions"
+            value={data.appleAnalytics?.awaitingData ? "Awaiting" : number(data.appleAnalytics?.sessions)}
+            note={data.appleAnalytics?.averageSessionSeconds ? `${number(data.appleAnalytics.averageSessionSeconds)} sec average session` : "Privacy thresholds may suppress low-volume usage"}
+            icon={Activity}
+            tone="green"
+          />
+          <MetricCard
+            label="Opted-in crashes"
+            value={data.appleAnalytics?.awaitingData ? "Awaiting" : number(data.appleAnalytics?.crashes)}
+            note={`${number(data.appleAnalytics?.installs)} installs · ${number(data.appleAnalytics?.deletions)} deletions reported`}
+            icon={Shield}
+            tone="amber"
+          />
+        </div>
+      </section>
+
       <Card className={`${cardClass} p-5 sm:p-6`}>
         <div className="flex items-center gap-3">
           <Database className="h-5 w-5 text-[#1E5EFF]" />
