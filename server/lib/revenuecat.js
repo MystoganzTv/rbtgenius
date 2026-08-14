@@ -15,6 +15,7 @@ import { PLAN_IDS } from '../../shared/plan-access.js';
 
 const RC_API_BASE = 'https://api.revenuecat.com/v1';
 const RC_API_V2_BASE = 'https://api.revenuecat.com/v2';
+const DEFAULT_RC_PROJECT_ID = 'bfdfc79b';
 export const RC_ENTITLEMENT_ID = 'pro';
 
 function optionalPercentage(value) {
@@ -158,7 +159,8 @@ export function isRevenueCatConfigured() {
 
 export function isRevenueCatMetricsConfigured() {
   return Boolean(
-    process.env.REVENUECAT_V2_SECRET_KEY && process.env.REVENUECAT_PROJECT_ID,
+    (process.env.REVENUECAT_V2_SECRET_KEY || process.env.REVENUECAT_SECRET_KEY) &&
+    (process.env.REVENUECAT_PROJECT_ID || DEFAULT_RC_PROJECT_ID),
   );
 }
 
@@ -168,8 +170,8 @@ async function fetchRevenueCatRevenueMetric({
   revenueType,
   fetchImpl = fetch,
 }) {
-  const key = process.env.REVENUECAT_V2_SECRET_KEY;
-  const projectId = process.env.REVENUECAT_PROJECT_ID;
+  const key = process.env.REVENUECAT_V2_SECRET_KEY || process.env.REVENUECAT_SECRET_KEY;
+  const projectId = process.env.REVENUECAT_PROJECT_ID || DEFAULT_RC_PROJECT_ID;
   if (!key || !projectId) return null;
 
   const url = new URL(
