@@ -84,3 +84,18 @@ test('missing RevenueCat financial percentages never imply full proceeds', () =>
   assert.equal(metrics.money.apple.proceedsCoverage, 0);
   assert.equal(metrics.money.apple.source, 'setup');
 });
+
+test('legacy zero-dollar or unknown-provider records do not inflate transaction counts', () => {
+  const metrics = buildOwnerMetrics({
+    now,
+    users: [{ id: 'u1', plan: 'free' }],
+    payments: [
+      { id: 'legacy', user_id: 'u1', status: 'completed', amount: 0 },
+      { id: 'manual', user_id: 'u1', status: 'completed', amount: 25, provider: 'manual' },
+      { id: 'stripe', user_id: 'u1', status: 'completed', amount: 19.99, provider: 'stripe' },
+    ],
+  });
+
+  assert.equal(metrics.money.transactions, 1);
+  assert.equal(metrics.money.customerGross, 19.99);
+});

@@ -84,7 +84,11 @@ function buildRevenueHistory(payments, now, months = 6) {
 }
 
 export function buildOwnerMetrics({ users = [], payments = [], now = new Date() }) {
-  const productionPayments = payments.filter(isCompletedProductionPayment);
+  const productionPayments = payments.filter((payment) => {
+    if (!isCompletedProductionPayment(payment)) return false;
+    if (!['stripe', 'revenuecat'].includes(paymentProvider(payment))) return false;
+    return paymentGrossUsd(payment) > 0;
+  });
   const thirtyDaysAgo = now.getTime() - 30 * DAY_MS;
   const recentPayments = productionPayments.filter((payment) => {
     const occurredAt = new Date(paymentDate(payment) || 0).getTime();
