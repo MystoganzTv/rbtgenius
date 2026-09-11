@@ -176,6 +176,10 @@ export default function MockExamScreen({ navigation }) {
       });
 
       setExamResult({ score, correct_answers: correct, total_questions: total, domain_scores });
+      // Same nudge as the online path: a pass is a pass even if the save failed.
+      if (score >= PASS_SCORE) {
+        void requestReviewAfterPositiveMilestone();
+      }
     }
 
     setPhase('results');

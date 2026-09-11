@@ -19,13 +19,16 @@ import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Application from 'expo-application';
 import * as Haptics from 'expo-haptics';
-import { isAvailableAsync, requestReview } from 'expo-store-review';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { alpha, getTheme } from '../../theme';
 import { MetricCard } from '../../components/ui';
 import { setupNotifications } from '../../services/NotificationService';
 import { changeLanguage } from '../../i18n';
+import {
+  APP_STORE_WRITE_REVIEW_URL,
+  APP_STORE_WRITE_REVIEW_FALLBACK_URL,
+} from '../../lib/appStore';
 
 const API_BASE = 'https://www.rbtgenius.com';
 const NOTIF_KEY = 'rbt_notifications_enabled';
@@ -279,11 +282,16 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
   };
 
   const handleRateApp = async () => {
-    const available = await isAvailableAsync();
-    if (available) {
-      void requestReview();
-    } else {
-      void Linking.openURL('https://www.rbtgenius.com');
+    // Deliberate tap: go straight to the App Store review sheet. StoreKit's
+    // native prompt is throttled and often renders nothing, which reads to the
+    // user as a broken button.
+    try {
+      const canOpen = await Linking.canOpenURL(APP_STORE_WRITE_REVIEW_URL);
+      await Linking.openURL(
+        canOpen ? APP_STORE_WRITE_REVIEW_URL : APP_STORE_WRITE_REVIEW_FALLBACK_URL,
+      );
+    } catch {
+      void Linking.openURL(APP_STORE_WRITE_REVIEW_FALLBACK_URL);
     }
   };
 
