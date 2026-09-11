@@ -1,5 +1,12 @@
 # App Store Listing — RBTGenius
-# Copia estos textos directamente en App Store Connect
+
+Mirror of what is actually live in App Store Connect (English, U.S.).
+Last synced: 11 Sep 2026, against version 1.1.4.
+
+This file drifted from the live listing once already — it carried emoji
+headings, a different opening paragraph and a "1,125+" count that the store
+never showed. Edit the store, then paste the result back here, not the other
+way round.
 
 ## NAME (30 chars max)
 RBTGenius: RBT Exam Prep
@@ -7,20 +14,19 @@ RBTGenius: RBT Exam Prep
 ## SUBTITLE (30 chars max)
 Practice Tests & Mock Exams
 
-## KEYWORDS (100 chars max — no spaces después de comas)
+## KEYWORDS (100 chars max — no spaces after commas)
 RBT,BCBA,ABA,behavior analyst,certification,exam prep,BACB,applied behavior analysis,flashcards
 
-## DESCRIPTION (4,000 chars max)
-RBTGenius is a focused study app for the Registered Behavior Technician (RBT) exam, aligned to the RBT Test Content Outline (3rd edition) that the exam has followed since January 2026.
+## DESCRIPTION (4,000 chars max — currently 2008)
+
+RBTGenius is a focused study app for the Registered Behavior Technician (RBT) exam, aligned to the RBT Test Content Outline (3rd edition), which the exam has followed since January 2026.
 
 Whether you're studying for the first time or retaking the exam, RBTGenius helps you prepare with structure and confidence.
 
-──────────────────────────────────
 WHAT'S INCLUDED
-──────────────────────────────────
 
-📚 1,100+ Practice Questions
-Real exam-style questions covering all 6 domains of the current outline:
+1,100+ PRACTICE QUESTIONS
+Exam-style practice covering all 6 domains:
 • Data Collection and Graphing
 • Behavior Assessment
 • Behavior Acquisition
@@ -28,81 +34,48 @@ Real exam-style questions covering all 6 domains of the current outline:
 • Documentation and Reporting
 • Ethics
 
-Each question includes a detailed explanation so you understand the "why" behind every answer.
+Each question includes a detailed explanation so you understand the reasoning behind the answer.
 
-📋 85-Question Mock Exams
-Simulate the real RBT exam with timed, full-length mock exams. Get a domain-by-domain breakdown of your performance after every exam, and track your readiness score over time.
+85-QUESTION MOCK EXAMS
+Practice under timed, full-length exam conditions. See a domain-by-domain performance breakdown after every exam and track your readiness over time.
 
-🃏 Flashcards
-Reinforce key concepts with topic-filtered flashcard sessions. Mark cards as mastered and watch your deck shrink as your knowledge grows.
+FLASHCARDS
+Reinforce key concepts with topic-filtered flashcard sessions. Mark cards as mastered and focus your review where it matters.
 
-📊 Analytics & Progress Tracking
-Your personalized readiness score updates with every answer. See your accuracy by domain, your weekly activity chart, study streak, and a complete history of your mock exams — all in one place.
+ANALYTICS & PROGRESS TRACKING
+Your personalized readiness score updates as you practice. See accuracy by domain, weekly activity, study streak, and mock exam history in one place.
 
-🌐 English & Spanish
-Full support for English and Spanish — switch at any time in Settings.
+ENGLISH & SPANISH
+Switch between English and Spanish at any time in Settings.
 
-──────────────────────────────────
-FREE VS PRO
-──────────────────────────────────
-
-Free Plan:
+FREE PLAN
 • 15 practice questions per day
 • 15 flashcards per session
-• Progress tracking & readiness score
+• Progress tracking and readiness score
 
-Pro Plan:
+PRO PLAN
 • Unlimited practice questions
 • Unlimited flashcard sessions
 • Full 85-question mock exams
-• Advanced analytics & domain breakdown
+• Advanced analytics and domain breakdown
 
-──────────────────────────────────
 SUBSCRIPTION INFO
-──────────────────────────────────
 • Monthly Plan: $19.99/month
-• Yearly Plan: $99.99/year (~$8.33/month)
-• Payment charged to your Apple ID account at confirmation of purchase
+• Yearly Plan: $99.99/year (about $8.33/month)
+• Payment is charged to your Apple ID account at confirmation of purchase
 • Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period
 • Manage or cancel your subscription in your Apple ID account settings
-• Any unused portion of a free trial period will be forfeited when you purchase a subscription
+
+RBTGenius is independently developed and is not affiliated with the BACB.
 
 Privacy Policy: https://rbtgenius.com/privacy-policy
 Terms of Service: https://rbtgenius.com/terms-of-service
 
-──────────────────────────────────
-WHAT'S NEW — VERSION 1.1.0
-──────────────────────────────────
-• Real-time analytics with weekly activity chart and exam history
-• Badges & achievements system — earn rewards as you study
-• Full English/Spanish language support — switch instantly in Profile
-• Daily push notification reminders to keep your streak alive
-• Improved flashcard session tracking and mastery progress
-• Faster performance and stability improvements throughout the app
+## NOTES ON THE CLAIMS
 
-## SUPPORT URL
-https://rbtgenius.com/support
-
-## MARKETING URL  
-https://rbtgenius.com
-
-## PRIVACY POLICY URL
-https://rbtgenius.com/privacy-policy
-
-## PRIMARY CATEGORY
-Education
-
-## SECONDARY CATEGORY
-Medical
-
-## AGE RATING
-4+
-
-## REVIEW NOTES (para App Review — no es público)
-Test credentials:
-  Email: review@rbtgenius.com
-  Password: AppReview2025!
-
-This app helps Registered Behavior Technicians (RBTs) prepare for the BACB certification exam.
-In-app purchases are required for unlimited access. Free tier is fully functional without payment.
-The app requires internet connection for login, purchases, and syncing progress.
+- `1,100+ PRACTICE QUESTIONS` — the bank holds 1,110 unique question ids on
+  web and 1,119 on mobile. Rounded down on purpose; recount before raising it.
+- The six domain names and `3rd edition` match the RBT Test Content Outline
+  (3rd ed.), verified item by item against the BACB document.
+- `85-QUESTION MOCK EXAMS` — matches the real exam format, and the in-app
+  blueprint is weighted to the official domain split.
