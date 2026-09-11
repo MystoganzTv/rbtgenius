@@ -15,6 +15,7 @@
     "check:i18n": "node scripts/check-i18n.mjs",
     "check:pricing": "node scripts/check-pricing.mjs",
     "stripe:sync-yearly-price": "node scripts/sync-stripe-yearly-price.mjs",
+    "test": "node --test \"tests/**/*.test.js\"",
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p ./jsconfig.json",

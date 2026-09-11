@@ -13,6 +13,7 @@ import AppErrorBoundary from "@/components/AppErrorBoundary.jsx";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { LanguageProvider } from "@/hooks/use-language";
 import { AuthProvider, useAuth } from "@/lib/AuthContext";
+import { canAccessPage } from "@/lib/page-access";
 import PageNotFound from "@/lib/PageNotFound";
 import { queryClientInstance } from "@/lib/query-client";
 import Landing from "@/pages/Landing";
@@ -105,7 +106,7 @@ function RootRoute() {
 }
 
 function RoutedPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
   const { pageName } = useParams();
   const resolvedPageKey = resolvePageKey(pageName);
@@ -125,6 +126,10 @@ function RoutedPage() {
         replace
       />
     );
+  }
+
+  if (!canAccessPage(resolvedPageKey, user)) {
+    return <Navigate to={`/${pageNameToSlug(mainPageKey)}`} replace />;
   }
 
   const canonicalPath = `/${pageNameToSlug(resolvedPageKey)}`;
