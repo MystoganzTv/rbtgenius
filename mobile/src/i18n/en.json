@@ -405,11 +405,11 @@
     "equiv_monthly": "= {{price}}/mo billed annually"
   },
   "domains": {
-    "measurement": "Measurement",
-    "assessment": "Assessment",
-    "skill_acquisition": "Skill Acquisition",
+    "measurement": "Data Collection and Graphing",
+    "assessment": "Behavior Assessment",
+    "skill_acquisition": "Behavior Acquisition",
     "behavior_reduction": "Behavior Reduction",
-    "documentation": "Documentation",
+    "documentation": "Documentation and Reporting",
     "professional_conduct": "Ethics"
   },
   "difficulties": {

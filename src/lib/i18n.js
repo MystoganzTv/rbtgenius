@@ -1,4 +1,4 @@
-import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText } from "./questions/index.js";
+import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText, topicLabels, TOTAL_PRACTICE_QUESTIONS } from "./questions/index.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {
@@ -472,7 +472,11 @@ const UI_TRANSLATIONS = {
   // Badge descriptions
   "Answer your first 50 questions.": "Responde tus primeras 50 preguntas.",
   "Build a real practice base with 250 answered questions.": "Construye una base sólida con 250 preguntas respondidas.",
-  "Cover at least 10% of the 1116-question bank.": "Cubre al menos el 10% del banco de 1116 preguntas.",
+  // Computed so it tracks the bank. The English source in backend-core.js is a
+  // template literal, so a hardcoded key here stops matching the moment the
+  // bank size changes and the badge silently falls back to English.
+  [`Cover at least 10% of the ${TOTAL_PRACTICE_QUESTIONS}-question bank.`]:
+    `Cubre al menos el 10% del banco de ${TOTAL_PRACTICE_QUESTIONS} preguntas.`,
   "Come back and study on 3 consecutive return days.": "Regresa a estudiar 3 días consecutivos.",
   "Complete your first mock exam.": "Completa tu primer examen simulado.",
   "Pass at least one mock exam.": "Aprueba al menos un examen simulado.",
@@ -625,12 +629,14 @@ const UI_TRANSLATIONS = {
   "Apply Filters": "Aplicar filtros",
 };
 
+// Spanish names for the RBT Test Content Outline (3rd ed.) domains. Keyed by the
+// legacy Task List 2 slugs, which are what the database stores.
 const TOPIC_TRANSLATIONS = {
-  measurement: "Medición",
-  assessment: "Evaluación",
-  skill_acquisition: "Adquisición de habilidades",
+  measurement: "Recolección de datos y gráficas",
+  assessment: "Evaluación de la conducta",
+  skill_acquisition: "Adquisición de conducta",
   behavior_reduction: "Reducción de conducta",
-  documentation: "Documentación",
+  documentation: "Documentación y reporte",
   professional_conduct: "Ética",
 };
 
@@ -2939,11 +2945,12 @@ export function translateUi(label, language) {
 }
 
 export function translateTopic(topic, language) {
-  const translated = TOPIC_TRANSLATIONS[topic] || topic;
   if (language === "en") {
-    return topic;
+    // Returning `topic` here printed the raw slug — users saw "skill_acquisition"
+    // in the Flashcards filter and the Analytics legend.
+    return topicLabels[topic] || topic;
   }
-  return translated;
+  return TOPIC_TRANSLATIONS[topic] || topicLabels[topic] || topic;
 }
 
 export function translateDifficulty(difficulty, language) {

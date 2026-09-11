@@ -405,11 +405,11 @@
     "equiv_monthly": "= {{price}}/mes, facturado anualmente"
   },
   "domains": {
-    "measurement": "Medición",
-    "assessment": "Evaluación",
-    "skill_acquisition": "Adquisición de Habilidades",
-    "behavior_reduction": "Reducción de Conducta",
-    "documentation": "Documentación",
+    "measurement": "Recolección de datos y gráficas",
+    "assessment": "Evaluación de la conducta",
+    "skill_acquisition": "Adquisición de conducta",
+    "behavior_reduction": "Reducción de conducta",
+    "documentation": "Documentación y reporte",
     "professional_conduct": "Ética"
   },
   "difficulties": {

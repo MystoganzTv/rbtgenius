@@ -19,13 +19,14 @@ const TIME_LIMIT = 90 * 60;
 const PASS_SCORE = 80;
 const LETTERS    = ['A', 'B', 'C', 'D', 'E'];
 
+// Names come from i18n (`domains.<key>`); only the accent lives here.
 const DOMAIN_CONFIG = [
-  { key: 'measurement',          label: 'Measurement',        accent: 'primary'  },
-  { key: 'assessment',           label: 'Assessment',          accent: 'gold'     },
-  { key: 'skill_acquisition',    label: 'Skill Acquisition',   accent: 'success'  },
-  { key: 'behavior_reduction',   label: 'Behavior Reduction',  accent: 'primary'  },
-  { key: 'documentation',        label: 'Documentation',       accent: 'gold'     },
-  { key: 'professional_conduct', label: 'Ethics',              accent: 'success'  },
+  { key: 'measurement',          accent: 'primary'  },
+  { key: 'assessment',           accent: 'gold'     },
+  { key: 'skill_acquisition',    accent: 'success'  },
+  { key: 'behavior_reduction',   accent: 'primary'  },
+  { key: 'documentation',        accent: 'gold'     },
+  { key: 'professional_conduct', accent: 'success'  },
 ];
 
 export default function MockExamScreen({ navigation }) {

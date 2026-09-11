@@ -6,12 +6,16 @@ import {
   validateConceptCoverage,
 } from "./concept-task-list-map.js";
 
+// Display names follow the RBT Test Content Outline (3rd ed.). The KEYS are the
+// legacy Task List 2 slugs and must not be renamed: attempts.topic in the
+// database stores these strings, so changing a key zeroes out every student's
+// history for that domain.
 export const topicLabels = {
-  measurement: "Measurement",
-  assessment: "Assessment",
-  skill_acquisition: "Skill Acquisition",
+  measurement: "Data Collection and Graphing",
+  assessment: "Behavior Assessment",
+  skill_acquisition: "Behavior Acquisition",
   behavior_reduction: "Behavior Reduction",
-  documentation: "Documentation",
+  documentation: "Documentation and Reporting",
   professional_conduct: "Ethics",
 };
 
@@ -1959,10 +1963,34 @@ const allQuestionConcepts = [
   },
 ];
 
-const questionConcepts = [
+/**
+ * Fifteen concepts are defined in both this file and the official expansion,
+ * and `skill_stimulus_control_transfer` is defined twice inside the expansion
+ * itself. Concatenating the lists therefore produced concepts sharing an id,
+ * and each concept expands into three questions — so the bank carried six
+ * question ids that pointed at two different questions each.
+ *
+ * The consequences were real: `getQuestionById` always returned the first, so
+ * the shadow copies were unreachable from review; an attempt logged against a
+ * shadow was recorded as the first; and a mock exam could draw both, showing a
+ * student the same id twice in one sitting.
+ *
+ * Keeping the first occurrence preserves exactly what the app already served,
+ * so no stored attempt changes meaning — it only drops the unreachable twins.
+ */
+function dedupeConceptsById(concepts) {
+  const seen = new Set();
+  return concepts.filter((concept) => {
+    if (seen.has(concept.id)) return false;
+    seen.add(concept.id);
+    return true;
+  });
+}
+
+const questionConcepts = dedupeConceptsById([
   ...allQuestionConcepts.filter((concept) => OFFICIAL_CONCEPT_IDS.has(concept.id)),
   ...additionalOfficialQuestionConcepts,
-];
+]);
 
 export const RBT_ALLOWED_DIFFICULTIES = ["beginner", "intermediate", "advanced"];
 const rbtAllowedDifficultySet = new Set(RBT_ALLOWED_DIFFICULTIES);
@@ -2304,17 +2332,21 @@ export function buildFlashcardBank(
 /**
  * BACB RBT Test Content Outline 3rd Edition (eff. Jan 2026) — section weights.
  * 75 scored questions + 10 unscored pilot = 85 total.
- * Weights: A 18%, B 12%, C 24%, D 20%, E 14%, F 12%.
- * Counts below sum to exactly 85 and match those percentages as closely as
- * possible while keeping whole numbers.
+ * Official scored-item counts: A 13, B 8, C 19, D 14, E 10, F 11 (= 75).
+ * The counts below scale those to 85 and sum to exactly 85.
+ *
+ * They previously read A 18%, B 12%, C 24%, D 20%, E 14%, F 12% — figures that
+ * appear in no BACB document. The damage was to Ethics, which ran at 11.8%
+ * against an official 15%, so every mock exam under-tested the domain that
+ * grew most in the 3rd edition.
  */
 const MOCK_EXAM_SECTION_COUNTS = {
-  A: 15, // 17.6%  (target 18%)
-  B: 10, // 11.8%  (target 12%)
-  C: 21, // 24.7%  (target 24%)
-  D: 17, // 20.0%  (target 20%)
-  E: 12, // 14.1%  (target 14%)
-  F: 10, // 11.8%  (target 12%)
+  A: 15, // 17.6%  (official 13/75 = 17.3%)
+  B: 9,  // 10.6%  (official  8/75 = 10.7%)
+  C: 22, // 25.9%  (official 19/75 = 25.3%)
+  D: 16, // 18.8%  (official 14/75 = 18.7%)
+  E: 11, // 12.9%  (official 10/75 = 13.3%)
+  F: 12, // 14.1%  (official 11/75 = 14.7%)
 };
 
 export function buildMockExamQuestionSet(

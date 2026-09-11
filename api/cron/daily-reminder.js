@@ -3,13 +3,16 @@ import { getPushTokensWithUserStats } from '../lib/db.js';
 const EXPO_PUSH_URL = 'https://exp.host/--/api/v2/push/send';
 const BATCH_SIZE    = 100;
 
-// Human-readable domain names for push notification copy
+// Domain names for push notification copy. These go out to users, so they must
+// match topicLabels in the question bank — RBT Test Content Outline (3rd ed.).
+// Kept inline rather than imported so this cron function does not pull the
+// whole question bank into its bundle.
 const DOMAIN_LABELS = {
-  measurement:          'Measurement',
-  assessment:           'Assessment',
-  skill_acquisition:    'Skill Acquisition',
+  measurement:          'Data Collection and Graphing',
+  assessment:           'Behavior Assessment',
+  skill_acquisition:    'Behavior Acquisition',
   behavior_reduction:   'Behavior Reduction',
-  documentation:        'Documentation',
+  documentation:        'Documentation and Reporting',
   professional_conduct: 'Ethics',
 };
 

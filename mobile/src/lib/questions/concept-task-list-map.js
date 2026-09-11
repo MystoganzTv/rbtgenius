@@ -13,7 +13,7 @@
 import { TASK_LIST_ITEM_BY_CODE } from "./task-list.js";
 
 const LEGACY_CONCEPT_TO_TASK_LIST = {
-  // ─── A. Measurement ────────────────────────────────────────────────────────
+  // ─── A. Data Collection and Graphing ────────────────────────────────────────────────────────
   measurement_data_collection_preparation: "A-1",
   measurement_timing_accuracy:            "A-1",
 
@@ -47,7 +47,7 @@ const LEGACY_CONCEPT_TO_TASK_LIST = {
   measurement_topography:                 "A-6",
   measurement_environment_description:    "A-6",
 
-  // ─── B. Assessment ─────────────────────────────────────────────────────────
+  // ─── B. Behavior Assessment ─────────────────────────────────────────────────────────
   assessment_preference:                  "B-1",
   assessment_paired_stimulus:             "B-1",
   assessment_mswo:                        "B-1",
@@ -76,7 +76,7 @@ const LEGACY_CONCEPT_TO_TASK_LIST = {
   assessment_structured_interview:        "B-3",
   assessment_environmental_assessment:    "B-3",
 
-  // ─── C. Skill Acquisition ──────────────────────────────────────────────────
+  // ─── C. Behavior Acquisition ──────────────────────────────────────────────────
   skill_written_plan_components:          "C-1",
 
   skill_session_preparation:              "C-2",

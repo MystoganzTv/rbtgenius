@@ -3,17 +3,16 @@ import { useLanguage } from "@/hooks/use-language";
 import { translateTopic, translateUi } from "@/lib/i18n";
 import { PRACTICE_TOPIC_TOTALS } from "@/lib/questions/index.js";
 
+// Only key and colour: the visible name comes from translateTopic, so the
+// labels that used to sit here were dead weight carrying stale Task List 2
+// names ("Skill Acquisition") that nobody could see going out of date.
 const domains = [
-  { key: "measurement", label: "Measurement", color: "#5E7CF7" },
-  { key: "assessment", label: "Assessment", color: "#6D81E8" },
-  { key: "skill_acquisition", label: "Skill Acquisition", color: "#4DAA94" },
-  { key: "behavior_reduction", label: "Behavior Reduction", color: "#8C9AB3" },
-  { key: "documentation", label: "Documentation", color: "#A07BB7" },
-  {
-    key: "professional_conduct",
-    label: "Ethics",
-    color: "#8B78D8",
-  },
+  { key: "measurement", color: "#5E7CF7" },
+  { key: "assessment", color: "#6D81E8" },
+  { key: "skill_acquisition", color: "#4DAA94" },
+  { key: "behavior_reduction", color: "#8C9AB3" },
+  { key: "documentation", color: "#A07BB7" },
+  { key: "professional_conduct", color: "#8B78D8" },
 ];
 
 export default function DomainProgress({ mastery = {}, attemptCounts = {} }) {

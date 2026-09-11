@@ -22,17 +22,8 @@ import { api } from "@/lib/api";
 import { translateTopic, translateUi } from "@/lib/i18n";
 import { isPremiumPlan } from "@/lib/plan-access";
 import { MIN_DOMAIN_ATTEMPTS } from "@/lib/backend-core";
-import { PRACTICE_TOPIC_TOTALS, TOTAL_PRACTICE_QUESTIONS } from "@/lib/questions/index.js";
+import { PRACTICE_TOPIC_TOTALS, TOTAL_PRACTICE_QUESTIONS, topicLabels } from "@/lib/questions/index.js";
 import { TASK_LIST_SECTIONS } from "@/lib/questions/index.js";
-
-const topicLabels = {
-  measurement: "Measurement",
-  assessment: "Assessment",
-  skill_acquisition: "Skill Acquisition",
-  behavior_reduction: "Behavior Reduction",
-  documentation: "Documentation",
-  professional_conduct: "Ethics",
-};
 
 const topicKeys = Object.keys(topicLabels);
 const COLORS = ["#1E5EFF", "#6366F1", "#10B981", "#FFB800", "#F43F5E", "#8B5CF6"];

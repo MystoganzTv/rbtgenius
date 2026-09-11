@@ -2,7 +2,7 @@
 
 ## Positioning
 
-**Promise:** Pass-ready practice for the 2026 RBT exam: 1,125+ questions, full mock exams, flashcards, and readiness analytics in one app.
+**Promise:** Pass-ready practice for the 2026 RBT exam: 1,100+ questions, full mock exams, flashcards, and readiness analytics in one app.
 
 **Primary CTA:** “Download RBTGenius and start your first practice set.”
 
@@ -25,12 +25,12 @@
 | 7 | Weekly challenge | “Your 7-day RBT challenge” | “For the next seven days: 10 questions daily, review every explanation, and take one mock exam on day seven.” Show checklist. | Comment “I’m in” and start today. |
 | 8 | Domain lesson | “Continuous vs. discontinuous measurement” | Give a plain-language contrast with one safe example; finish on the Measurement practice category. | Practice the Measurement domain. |
 | 9 | Mistake review | “Your wrong answers are the study plan” | Show a missed question and explanation. “Don’t just note the correct letter. Explain why your choice was wrong and why the correct answer fits.” | Review one mistake now. |
-| 10 | Product proof | “1,125+ questions, organized by domain” | Scroll through the domain selector and question interface. “Choose the area you need instead of working through random material.” | Download and choose your weakest domain. |
+| 10 | Product proof | “1,100+ questions, organized by domain” | Scroll through the domain selector and question interface. “Choose the area you need instead of working through random material.” | Download and choose your weakest domain. |
 | 11 | Quick quiz | “Antecedent, behavior, or consequence?” | Present a short original scenario, pause, then label each part on screen. | Find more scenario practice in the app. |
 | 12 | Study routine | “The 20-minute RBT routine” | “Ten minutes of questions, five minutes reviewing misses, five minutes of flashcards. Short, focused, repeatable.” | Save the routine and start a set. |
 | 13 | Mock exam demo | “Practice before test day feels real” | Show the 85-question timed exam setup and timer. “A full mock helps you practice pacing and staying focused, not only recalling definitions.” | Take your first mock exam. |
 | 14 | Progress recap | “One week later: what improved?” | Show a sample before/after readiness view. “Look for domain movement, not perfection. Pick the lowest domain for next week.” | Check your weekly progress. |
-| 15 | Domain lesson | “Preference assessment in 20 seconds” | Give a concise educational definition and explain why preference can change. Show Skill Acquisition category. | Practice Skill Acquisition questions. |
+| 15 | Domain lesson | “Preference assessment in 20 seconds” | Give a concise educational definition and explain why preference can change. Show the Behavior Acquisition category. | Practice Behavior Acquisition questions. |
 | 16 | Objection | “I don’t have time to study” | “You don’t need a perfect two-hour block. Open one domain, answer five questions, review them, and keep the habit alive.” | Do five questions today. |
 | 17 | Quick quiz | “Which response is objective?” | Show four original phrases, reveal the observable/measurable one, then show the explanation experience. | Test your Documentation skills. |
 | 18 | Feature demo | “A score without context isn’t enough” | Show accuracy, readiness, and domain breakdown. “Use all three to decide whether to review, practice, or attempt another mock.” | Open your analytics. |

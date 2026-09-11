@@ -11,7 +11,7 @@ Practice Tests & Mock Exams
 RBT,BCBA,ABA,behavior analyst,certification,exam prep,BACB,applied behavior analysis,flashcards
 
 ## DESCRIPTION (4,000 chars max)
-RBTGenius is a focused study app for the Registered Behavior Technician (RBT) exam, built around the BACB RBT Task List 3rd Edition.
+RBTGenius is a focused study app for the Registered Behavior Technician (RBT) exam, aligned to the RBT Test Content Outline (3rd edition) that the exam has followed since January 2026.
 
 Whether you're studying for the first time or retaking the exam, RBTGenius helps you prepare with structure and confidence.
 
@@ -19,14 +19,14 @@ Whether you're studying for the first time or retaking the exam, RBTGenius helps
 WHAT'S INCLUDED
 ──────────────────────────────────
 
-📚 1,125+ Practice Questions
-Real exam-style questions covering all 6 domains of the RBT Task List:
-• Measurement
-• Assessment
-• Skill Acquisition
+📚 1,100+ Practice Questions
+Real exam-style questions covering all 6 domains of the current outline:
+• Data Collection and Graphing
+• Behavior Assessment
+• Behavior Acquisition
 • Behavior Reduction
-• Documentation
-• Professional Conduct & Ethics
+• Documentation and Reporting
+• Ethics
 
 Each question includes a detailed explanation so you understand the "why" behind every answer.
 
