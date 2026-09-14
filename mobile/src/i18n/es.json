@@ -345,11 +345,7 @@
     "per_month": "/mes",
     "per_year": "/año",
     "billed_monthly": "Facturado mensualmente — cancela cuando quieras",
-    "billed_yearly": "Valor a largo plazo — $8.33/mes facturado anualmente",
-    "subscribe": "Suscribirse — {{price}}{{period}}",
     "subscribing": "Procesando...",
-    "already_subscribed": "¿Ya tienes suscripción? Gestiona en rbtgenius.com",
-    "secure": "🔒 Pago seguro via Stripe · Cancela cuando quieras",
     "free_tier": "Plan Gratuito",
     "pro_tier": "Plan Pro",
     "error": "No se pudo iniciar el pago. Inténtalo de nuevo.",
@@ -377,7 +373,7 @@
     "manage_subscription": "Administrar Suscripción",
     "billed_yearly_desc": "Facturado $99.99/año",
     "legal_rc": "Pago cargado al ID de Apple al confirmar. La suscripción se renueva automáticamente a menos que se cancele 24h antes del fin del período. Gestiona en Configuración de App Store.",
-    "legal_stripe": "Al suscribirte aceptas nuestros Términos de Servicio y Política de Privacidad. Gestiona en rbtgenius.com/profile.",
+    "legal_stripe": "Al suscribirte aceptas nuestros Términos de Servicio y Política de Privacidad. Gestiona tu suscripción desde tu perfil.",
     "not_signed_in": "Sin sesión iniciada",
     "sign_in_first": "Inicia sesión antes de mejorar tu plan.",
     "restored": "¡Restaurado!",
@@ -402,7 +398,8 @@
     "checkout_canceled_body": "No se hizo ningún cargo. Volviste a la app.",
     "subscription_active": "Tu suscripción está activa. La app está lista para continuar.",
     "purchase_failed": "Compra fallida. Inténtalo de nuevo.",
-    "equiv_monthly": "= {{price}}/mes, facturado anualmente"
+    "equiv_monthly": "= {{price}}/mes, facturado anualmente",
+    "unavailable_title": "Suscripciones no disponibles"
   },
   "domains": {
     "measurement": "Recolección de datos y gráficas",

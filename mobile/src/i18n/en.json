@@ -345,11 +345,7 @@
     "per_month": "/month",
     "per_year": "/year",
     "billed_monthly": "Billed monthly — cancel anytime",
-    "billed_yearly": "Long-term value — $8.33/mo billed annually",
-    "subscribe": "Subscribe — {{price}}{{period}}",
     "subscribing": "Processing...",
-    "already_subscribed": "Already subscribed? Manage on rbtgenius.com",
-    "secure": "🔒 Secure payment via Stripe · Cancel anytime",
     "free_tier": "Free Plan",
     "pro_tier": "Pro Plan",
     "error": "Could not start checkout. Try again.",
@@ -377,7 +373,7 @@
     "manage_subscription": "Manage Subscription",
     "billed_yearly_desc": "Billed $99.99/year",
     "legal_rc": "Payment charged to Apple ID at confirmation. Subscription auto-renews unless cancelled 24h before period end. Manage in App Store Settings.",
-    "legal_stripe": "By subscribing you agree to our Terms of Service and Privacy Policy. Manage at rbtgenius.com/profile.",
+    "legal_stripe": "By subscribing you agree to our Terms of Service and Privacy Policy. Manage your subscription from your profile.",
     "not_signed_in": "Not signed in",
     "sign_in_first": "Sign in first to upgrade.",
     "restored": "Restored!",
@@ -402,7 +398,8 @@
     "checkout_canceled_body": "No charge was made. You're back in the app.",
     "subscription_active": "Your subscription is active. The app is ready to continue.",
     "purchase_failed": "Purchase failed. Try again.",
-    "equiv_monthly": "= {{price}}/mo billed annually"
+    "equiv_monthly": "= {{price}}/mo billed annually",
+    "unavailable_title": "Subscriptions unavailable"
   },
   "domains": {
     "measurement": "Data Collection and Graphing",

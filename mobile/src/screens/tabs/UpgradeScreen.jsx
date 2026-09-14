@@ -10,6 +10,19 @@ import { useTranslation } from 'react-i18next';
 import { CommonActions } from '@react-navigation/native';
 import { alpha, getTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
+import {
+  WEB_BILLING_ENABLED,
+  startCheckout,
+  openManageSubscription,
+  openPricingPage,
+  parseBillingReturn,
+  confirmCheckoutSession,
+} from '../../lib/webBilling';
+
+// API propia (no es pago): sincroniza la entitlement de RevenueCat con el
+// backend. No confundir con los endpoints de billing web, que viven en
+// webBilling.js y no existen en el bundle de iOS.
+const API_BASE = 'https://www.rbtgenius.com';
 
 let rcAvailable = false, getOfferings, getTrialEligibility, purchasePackage, restorePurchases;
 try {
@@ -19,19 +32,6 @@ try {
   restorePurchases = rc.restorePurchases; rcAvailable = true;
 } catch { rcAvailable = false; }
 
-const API_BASE = 'https://www.rbtgenius.com';
-const APP_RETURN_SCHEME = 'exp+rbt-genius';
-const APP_RETURN_HOST = 'billing';
-
-function buildAppReturnUrl(params = {}) {
-  const url = new URL(`${APP_RETURN_SCHEME}://${APP_RETURN_HOST}`);
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      url.searchParams.set(key, String(value));
-    }
-  });
-  return url.toString();
-}
 
 function hasSevenDayFreeTrial(product) {
   const intro = product?.introPrice;
@@ -155,31 +155,17 @@ export default function UpgradeScreen({ navigation }) {
   const sel = plans.find(p => p.id === selectedPlanId) ?? defaultPlan;
 
   const handleBillingReturn = useCallback(async (incomingUrl) => {
-    if (!incomingUrl) return false;
+    const ret = parseBillingReturn(incomingUrl);
+    if (!ret) return false;
 
-    let parsed;
-    try {
-      parsed = new URL(incomingUrl);
-    } catch {
-      return false;
-    }
-
-    if (parsed.protocol !== `${APP_RETURN_SCHEME}:` || parsed.hostname !== APP_RETURN_HOST) {
-      return false;
-    }
-
-    const checkoutState = parsed.searchParams.get('checkout');
-    const portalState = parsed.searchParams.get('portal');
-    const sessionId = parsed.searchParams.get('session_id');
-
-    if (portalState === 'return') {
+    if (ret.kind === 'portal-return') {
       setLoading(false);
       await refreshSession?.().catch(() => null);
       navigation.goBack?.();
       return true;
     }
 
-    if (checkoutState === 'cancelled') {
+    if (ret.kind === 'cancelled') {
       setLoading(false);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       Alert.alert(t('upgrade.checkout_canceled'), t('upgrade.checkout_canceled_body'));
@@ -187,42 +173,29 @@ export default function UpgradeScreen({ navigation }) {
       return true;
     }
 
-    if (checkoutState === 'success' && sessionId) {
-      if (handlingReturnRef.current) return true;
-      handlingReturnRef.current = true;
-      setLoading(true);
-      try {
-        const res = await fetch(`${API_BASE}/api/billing/confirm`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ session_id: sessionId }),
-        });
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          throw new Error(data.message || 'Unable to confirm checkout');
-        }
-
-        await refreshSession?.().catch(() => null);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        Alert.alert(t('upgrade.welcome_pro'), t('upgrade.subscription_active'));
-        navigation.goBack?.();
-      } catch (error) {
-        Alert.alert(t('common.error'), error?.message || t('upgrade.error'));
-      } finally {
-        handlingReturnRef.current = false;
-        setLoading(false);
-      }
-      return true;
+    if (handlingReturnRef.current) return true;
+    handlingReturnRef.current = true;
+    setLoading(true);
+    try {
+      await confirmCheckoutSession({ token, sessionId: ret.sessionId });
+      await refreshSession?.().catch(() => null);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Alert.alert(t('upgrade.welcome_pro'), t('upgrade.subscription_active'));
+      navigation.goBack?.();
+    } catch (error) {
+      Alert.alert(t('common.error'), error?.message || t('upgrade.error'));
+    } finally {
+      handlingReturnRef.current = false;
+      setLoading(false);
     }
-
-    return false;
-  }, [navigation, refreshSession, token]);
+    return true;
+  }, [navigation, refreshSession, token, t]);
 
   useEffect(() => {
+    // Solo Android/web vuelven de un checkout alojado. En iOS no existe flujo
+    // de pago externo, asi que no se registra ningun handler de deep link.
+    if (!WEB_BILLING_ENABLED) return undefined;
+
     const subscription = Linking.addEventListener('url', ({ url }) => {
       handleBillingReturn(url).catch(() => {});
     });
@@ -237,23 +210,22 @@ export default function UpgradeScreen({ navigation }) {
   }, [handleBillingReturn]);
 
   const handleManageSubscription = async () => {
+    // iOS: ajustes de suscripcion de Apple (es lo que dice la ficha del App
+    // Store). Android/web: portal de facturacion self-serve.
+    if (!WEB_BILLING_ENABLED) {
+      await openManageSubscription().catch(() => {
+        Alert.alert(t('common.error'), t('upgrade.error'));
+      });
+      return;
+    }
+
     if (!token) return;
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/billing/portal`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ return_url: buildAppReturnUrl({ portal: 'return' }) }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (data.url) {
-        await Linking.openURL(data.url);
-      } else {
-        Alert.alert(t('common.error'), data.message || t('upgrade.error'));
+      const opened = await openManageSubscription({ token });
+      if (!opened) {
+        Alert.alert(t('common.error'), t('upgrade.error'));
         setLoading(false);
       }
     } catch {
@@ -307,26 +279,24 @@ export default function UpgradeScreen({ navigation }) {
           );
           navigation.goBack?.();
         } else Alert.alert(t('common.error'), r.error ?? t('upgrade.purchase_failed'));
+      } else if (WEB_BILLING_ENABLED) {
+        const opened = await startCheckout({ token, plan: selectedPlanId });
+        if (!opened) Alert.alert(t('common.error'), t('upgrade.error'));
       } else {
-        const res  = await fetch(`${API_BASE}/api/billing/checkout`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({
-            plan: selectedPlanId,
-            success_url: buildAppReturnUrl(),
-            cancel_url: buildAppReturnUrl(),
-          }),
-        });
-        const data = await res.json();
-        if (data.url) await Linking.openURL(data.url);
-        else Alert.alert(t('common.error'), t('upgrade.error'));
+        // iOS con StoreKit no disponible: mostrar el error y dejar reintentar.
+        // Nunca sacar la compra fuera de In-App Purchase.
+        Alert.alert(t('upgrade.unavailable_title'), t('upgrade.unavailable'));
       }
     } catch { Alert.alert(t('common.error'), t('common.network_error')); }
     finally  { setLoading(false); }
   };
 
   const handleRestore = async () => {
-    if (!useRC) { Linking.openURL(`${API_BASE}/pricing`); return; }
+    if (!useRC) {
+      if (WEB_BILLING_ENABLED) { void openPricingPage(); return; }
+      Alert.alert(t('upgrade.unavailable_title'), t('upgrade.unavailable'));
+      return;
+    }
     setLoading(true);
     const ok = await restorePurchases().catch(() => false);
     if (ok) await syncRevenueCatPlan();
@@ -471,7 +441,9 @@ export default function UpgradeScreen({ navigation }) {
             ? t('upgrade.trial_legal_rc', { price: sel.price, period: sel.period })
             : useRC
               ? t('upgrade.legal_rc')
-              : t('upgrade.legal_stripe')}
+              : WEB_BILLING_ENABLED
+                ? t('upgrade.legal_stripe')
+                : t('upgrade.legal_rc')}
         </Text>
       </ScrollView>
 

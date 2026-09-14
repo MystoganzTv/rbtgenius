@@ -2,6 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
 import { alpha, getTheme } from '../../theme';
+import { BILLING_PRIVACY_SECTION, REFUND_SECTIONS } from '../../lib/legalBilling';
 
 const CONTENT = {
   terms: {
@@ -23,7 +24,7 @@ const CONTENT = {
     sections: [
       { h: '1. Information we collect', b: 'We may collect account details such as your name, email address, login method, plan, study activity, attempts, mock exam results, usage analytics, and billing-related records connected to your account.' },
       { h: '2. Why we collect it', b: 'We use your information to operate the platform, save your progress, personalize your experience, manage subscriptions, improve product performance, and provide support when needed.' },
-      { h: '3. Billing and payment data', b: 'Subscription payments may be processed through Stripe. RBT Genius may store payment metadata such as plan, amount, currency, status, Stripe customer IDs, and Stripe session or subscription references. Full card data is not stored directly by RBT Genius.' },
+      BILLING_PRIVACY_SECTION,
       { h: '4. OAuth and sign-in providers', b: 'If you sign in with providers such as Google, Apple, GitHub, or Microsoft, we may store your provider name, basic profile information, and linked account identifiers needed to support login and account recovery.' },
       { h: '5. Data retention', b: 'We retain account and study information for as long as needed to operate your account, maintain records, improve service quality, and comply with applicable legal or financial obligations.' },
       { h: '6. Contact', b: 'Privacy questions can be sent to info@rbtgenius.com.' },
@@ -32,12 +33,7 @@ const CONTENT = {
   refund: {
     title: 'Refund Policy',
     intro: 'This policy explains how refund requests are handled for RBT Genius premium memberships.',
-    sections: [
-      { h: '1. Subscription purchases', b: 'Premium access may be sold as monthly or yearly recurring billing. By purchasing a premium subscription, you authorize recurring charges according to the plan selected during checkout.' },
-      { h: '2. Refund requests', b: 'Refund requests are reviewed on a case-by-case basis. If you believe you were charged in error or experienced a billing problem, contact us as soon as possible so we can review the situation.' },
-      { h: '3. Non-refundable situations', b: 'In general, partial usage of a billing period, missed cancellations, or access to premium content alone may not automatically qualify for a refund. However, we will still review legitimate cases fairly.' },
-      { h: '4. How to request help', b: 'For billing support or refund review, email info@rbtgenius.com and include the email used on your account, the plan involved, and the date of the charge.' },
-    ],
+    sections: REFUND_SECTIONS,
   },
 };
 
