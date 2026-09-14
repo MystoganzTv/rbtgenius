@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import {
-  Dimensions, FlatList, Pressable, StyleSheet, Text, View, useColorScheme,
+  FlatList, Pressable, StyleSheet, Text, View, useColorScheme, useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { alpha, getTheme } from '../../theme';
 
-const { width } = Dimensions.get('window');
 export const ONBOARDING_KEY = 'rbt_genius_onboarding_done';
 
 const SLIDE_ACCENTS = ['#1E5EFF', '#7C3AED', '#059669', '#D97706'];
@@ -21,6 +20,11 @@ export default function OnboardingScreen({ onDone }) {
   const { t } = useTranslation();
   const [index, setIndex] = useState(0);
   const listRef = useRef(null);
+  // Reactivo a proposito: Dimensions.get('window') a nivel de modulo congelaba
+  // el ancho en el primer import. En iPad y en ventanas redimensionables eso
+  // dejaba el carrusel entre paginas (slides mal medidas, indice equivocado) y
+  // el usuario no podia pasar del onboarding.
+  const { width } = useWindowDimensions();
 
   // Build slides from i18n so they respond to language changes
   const SLIDES = [
@@ -57,6 +61,11 @@ export default function OnboardingScreen({ onDone }) {
       {/* Slides */}
       <FlatList
         ref={listRef}
+        // Remonta al cambiar el ancho (rotacion, Stage Manager, Split View) y
+        // vuelve a la slide en la que estaba, en vez de quedar desalineado.
+        key={`onboarding-${Math.round(width)}`}
+        initialScrollIndex={index}
+        getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
         data={SLIDES}
         keyExtractor={(_, i) => String(i)}
         horizontal
