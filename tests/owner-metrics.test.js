@@ -43,7 +43,9 @@ test('owner metrics separate customer gross from estimated Apple proceeds', () =
   assert.equal(metrics.money.apple.estimatedProceeds, 15.99);
   assert.equal(metrics.money.stripe.net, null);
   assert.equal(metrics.money.verifiedTakeHome, null);
-  assert.equal(metrics.customers.paidConversionRate, 50);
+  // Premium access alone does not prove a current paid subscription.
+  assert.equal(metrics.customers.premium, 1);
+  assert.equal(metrics.customers.paidConversionRate, 0);
 });
 
 test('owner metrics exclude sandbox and trial activity from revenue', () => {
@@ -92,7 +94,7 @@ test('legacy zero-dollar or unknown-provider records do not inflate transaction 
     payments: [
       { id: 'legacy', user_id: 'u1', status: 'completed', amount: 0 },
       { id: 'manual', user_id: 'u1', status: 'completed', amount: 25, provider: 'manual' },
-      { id: 'stripe', user_id: 'u1', status: 'completed', amount: 19.99, provider: 'stripe' },
+      { id: 'stripe', user_id: 'u1', status: 'completed', amount: 19.99, provider: 'stripe', payment_date: '2026-08-01T12:00:00.000Z' },
     ],
   });
 

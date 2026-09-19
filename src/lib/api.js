@@ -208,8 +208,8 @@ confirmStoreCheckout(sessionId) {
   getAdminMetrics() {
     return request("/api/admin/metrics");
   },
-  getOwnerDashboard() {
-    return request("/api/admin/owner");
+  getOwnerDashboard(options = {}) {
+    return request(`/api/admin/owner${createQuery(options)}`);
   },
   sendMemberEmail(memberId, payload) {
     return request(`/api/admin/members/${memberId}/email`, { method: "POST", body: payload });

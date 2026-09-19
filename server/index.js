@@ -69,6 +69,7 @@ import {
   toEasternDateKey,
 } from './lib/member-analytics.js';
 import { buildOwnerMetrics } from './lib/owner-metrics.js';
+import { attachRevenueCatComparison } from './lib/owner-metrics-detail.js';
 import { reconcileStripeFees } from './lib/stripe-fees.js';
 import { fetchRevenueCatOwnerRevenue } from './lib/revenuecat.js';
 
@@ -1574,34 +1575,19 @@ app.get('/api/admin/owner', requireAdmin, async (req, res) => {
     const analytics = buildLocalMemberAnalytics(db, user);
     return { ...user, last_login: analytics.last_active_at || null };
   });
-  const ownerMetrics = buildOwnerMetrics({ users, payments: db.payments });
-  const completedApplePayments = db.payments.filter(payment =>
-    payment.status === 'completed' &&
-    String(payment.provider || payment.metadata?.provider || '').toLowerCase() === 'revenuecat',
-  );
-  const earliestAppleDate = completedApplePayments
-    .map(payment => payment.payment_date || payment.created_at)
-    .filter(Boolean)
-    .sort()[0];
-  const startDate = earliestAppleDate
-    ? new Date(earliestAppleDate).toISOString().slice(0, 10)
-    : `${new Date().getUTCFullYear()}-01-01`;
-  const endDate = new Date().toISOString().slice(0, 10);
+  let ownerMetrics;
+  try {
+    ownerMetrics = buildOwnerMetrics({ users, payments: db.payments, attempts: db.attempts || [], exams: db.mockExams || [], options: req.query });
+  } catch (error) {
+    if (error instanceof RangeError) return res.status(400).json({ message: error.message });
+    throw error;
+  }
+  const startDate = ownerMetrics.period.start.slice(0, 10);
+  const endDate = new Date(Date.parse(ownerMetrics.period.endExclusive) - 1).toISOString().slice(0, 10);
 
   try {
     const revenueCat = await fetchRevenueCatOwnerRevenue({ startDate, endDate });
-    if (revenueCat?.gross && revenueCat?.proceeds) {
-      ownerMetrics.money.apple.gross = Number(revenueCat.gross.value.toFixed(2));
-      ownerMetrics.money.apple.estimatedProceeds = Number(revenueCat.proceeds.value.toFixed(2));
-      ownerMetrics.money.apple.source = 'revenuecat_metrics_api';
-      ownerMetrics.money.customerGross = Number(
-        (ownerMetrics.money.stripe.gross + ownerMetrics.money.apple.gross).toFixed(2),
-      );
-      ownerMetrics.sources.revenueCat = {
-        status: 'live',
-        label: `RevenueCat proceeds estimate live · ${startDate} to ${endDate}`,
-      };
-    }
+    attachRevenueCatComparison(ownerMetrics, revenueCat);
   } catch (error) {
     ownerMetrics.sources.revenueCat.error = 'Connection needs attention';
   }

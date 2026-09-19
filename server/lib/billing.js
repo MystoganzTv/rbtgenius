@@ -660,7 +660,10 @@ export function paymentNeedsFeeReconciliation(payment) {
     return false;
   }
 
-  return !Number.isFinite(Number(payment.stripe_net));
+  return [payment.stripe_net, payment.stripe_fee].some(
+    value => value === null || value === undefined || value === '' ||
+      typeof value === 'boolean' || !Number.isFinite(Number(value)),
+  );
 }
 
 export function stripeFeeLookupKeys(payment) {

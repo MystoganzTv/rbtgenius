@@ -47,6 +47,7 @@ import {
   verifyWebhookAuth,
 } from '../server/lib/revenuecat.js';
 import { buildOwnerMetrics } from '../server/lib/owner-metrics.js';
+import { attachRevenueCatComparison } from '../server/lib/owner-metrics-detail.js';
 import { reconcileStripeFees } from './lib/stripe-fees.js';
 import {
   aggregateAppleRows,
@@ -1465,21 +1466,24 @@ async function webApiHandler(req) {
         });
         return { ...user, last_login: activity.last_active_at || null };
       });
-      const ownerMetrics = buildOwnerMetrics({ users, payments: dataset.payments });
+      const ownerMetrics = buildOwnerMetrics({ users, payments: dataset.payments, attempts: dataset.attempts, exams: dataset.exams, options: Object.fromEntries(url.searchParams) });
 
       try {
-        const appleRows = await db.getAppleAnalyticsRows();
+        const startDay = ownerMetrics.period.start.slice(0, 10);
+        const endDay = new Date(Date.parse(ownerMetrics.period.endExclusive) - 1).toISOString().slice(0, 10);
+        const appleRows = await db.getAppleAnalyticsRows({ start: startDay, end: endDay });
         const appleAnalytics = aggregateAppleRows(appleRows);
         ownerMetrics.appleAnalytics = {
           configured: isAppleAnalyticsConfigured(),
           awaitingData: appleRows.length === 0,
+          availableReports: [...new Set(appleRows.map(row => row.report_name))],
           ...appleAnalytics,
         };
         ownerMetrics.sources.appStore = {
-          status: appleRows.length ? 'live' : 'partial',
+          status: appleRows.length ? 'live' : isAppleAnalyticsConfigured() ? 'partial' : 'setup',
           label: appleRows.length
             ? `Apple Analytics imported · ${appleAnalytics.period}`
-            : 'Connected; awaiting Apple reports (normally 24–48 hours)',
+            : isAppleAnalyticsConfigured() ? 'No Apple reports for this period yet' : 'App Store analytics is not configured',
         };
       } catch (error) {
         ownerMetrics.appleAnalytics = {
@@ -1492,35 +1496,12 @@ async function webApiHandler(req) {
         };
       }
 
-      const completedApplePayments = dataset.payments.filter(payment =>
-        payment.status === 'completed' &&
-        String(payment.provider || payment.metadata?.provider || '').toLowerCase() === 'revenuecat',
-      );
-      const earliestAppleDate = completedApplePayments
-        .map(payment => payment.payment_date || payment.created_at)
-        .filter(Boolean)
-        .sort()[0];
-      const startDate = earliestAppleDate
-        ? new Date(earliestAppleDate).toISOString().slice(0, 10)
-        : `${new Date().getUTCFullYear()}-01-01`;
-      const endDate = new Date().toISOString().slice(0, 10);
+      const startDate = ownerMetrics.period.start.slice(0, 10);
+      const endDate = new Date(Date.parse(ownerMetrics.period.endExclusive) - 1).toISOString().slice(0, 10);
 
       try {
         const revenueCat = await fetchRevenueCatOwnerRevenue({ startDate, endDate });
-        if (revenueCat?.gross && revenueCat?.proceeds) {
-          ownerMetrics.money.apple.gross = Number(revenueCat.gross.value.toFixed(2));
-          ownerMetrics.money.apple.estimatedProceeds = Number(
-            revenueCat.proceeds.value.toFixed(2),
-          );
-          ownerMetrics.money.apple.source = 'revenuecat_metrics_api';
-          ownerMetrics.money.customerGross = Number(
-            (ownerMetrics.money.stripe.gross + ownerMetrics.money.apple.gross).toFixed(2),
-          );
-          ownerMetrics.sources.revenueCat = {
-            status: 'live',
-            label: `RevenueCat proceeds estimate live · ${startDate} to ${endDate}`,
-          };
-        }
+        attachRevenueCatComparison(ownerMetrics, revenueCat);
       } catch (error) {
         console.warn('[admin/owner] RevenueCat metrics unavailable:', error.message);
         ownerMetrics.sources.revenueCat.error = 'Connection needs attention';
@@ -1529,7 +1510,7 @@ async function webApiHandler(req) {
       return json(ownerMetrics);
     } catch (err) {
       console.error('[admin/owner]', err.message);
-      return json({ message: err.message || 'Failed to load owner dashboard' }, { status: 500 });
+      return json({ message: err.message || 'Failed to load owner dashboard' }, { status: err instanceof RangeError ? 400 : 500 });
     }
   }
 

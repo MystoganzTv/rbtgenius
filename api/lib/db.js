@@ -943,7 +943,7 @@ export async function recordAppleAnalyticsImport({
   `;
 }
 
-export async function getAppleAnalyticsRows() {
+export async function getAppleAnalyticsRows({ start = null, end = null } = {}) {
   await ensureAppleAnalyticsTables();
   return sql`
     SELECT
@@ -953,8 +953,9 @@ export async function getAppleAnalyticsRows() {
       metrics,
       processing_date::text
     FROM apple_analytics_rows
+    WHERE (${start}::date IS NULL OR event_date >= ${start}::date)
+      AND (${end}::date IS NULL OR event_date <= ${end}::date)
     ORDER BY event_date ASC
-    LIMIT 20000
   `;
 }
 

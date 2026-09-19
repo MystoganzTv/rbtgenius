@@ -18,6 +18,6 @@ for (const [surface, source] of [["desktop", sidebar], ["mobile", mobile]]) {
 }
 
 test("owner dashboard uses the Business Metrics name", () => {
-  assert.match(ownerDashboard, />Business Metrics<\/h1>/);
+  assert.match(ownerDashboard, />\s*Business Metrics\s*<\/h1>/);
   assert.doesNotMatch(ownerDashboard, />Business & product health<\/h1>/);
 });
