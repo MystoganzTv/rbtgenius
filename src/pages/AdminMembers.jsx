@@ -336,7 +336,7 @@ function SubscriptionTimeline({ member, t }) {
   );
 }
 
-function ActivityHistory({ data, isLoading, t }) {
+function ActivityHistory({ data, isLoading, t, language }) {
   if (isLoading) {
     return (
       <div className="flex min-h-48 items-center justify-center rounded-2xl border border-slate-200/80 bg-white dark:border-slate-700 dark:bg-slate-900/70">
@@ -348,73 +348,169 @@ function ActivityHistory({ data, isLoading, t }) {
   if (!data) return null;
   const recentDays = (data.daily || []).slice(-14);
   const maxQuestions = Math.max(1, ...recentDays.map((day) => Number(day.questions || 0)));
+  const chartMax = Math.max(2, Math.ceil(maxQuestions / 2) * 2);
+  const midpoint = chartMax / 2;
+  const dayColumns = {
+    gridTemplateColumns: `repeat(${Math.max(recentDays.length, 1)}, minmax(0, 1fr))`,
+  };
+  const questions14d = recentDays.reduce(
+    (total, day) => total + Number(day.questions || 0),
+    0,
+  );
+  const correct14d = recentDays.reduce(
+    (total, day) => total + Number(day.correct || 0),
+    0,
+  );
+  const accuracy14d = questions14d ? `${Math.round((correct14d / questions14d) * 100)}%` : "—";
+  const studyDays14d = recentDays.filter((day) => Number(day.questions || 0) > 0).length;
+  const visitOnlyDays14d = recentDays.filter(
+    (day) => day.active && Number(day.questions || 0) === 0,
+  ).length;
+  const locale = language === "es" ? "es-US" : "en-US";
+  const formatDay = (date, options) =>
+    new Intl.DateTimeFormat(locale, {
+      ...options,
+      timeZone: "UTC",
+    }).format(new Date(`${date}T12:00:00Z`));
+  const rangeLabel = recentDays.length
+    ? `${formatDay(recentDays[0].date, { month: "short", day: "numeric" })} – ${formatDay(
+        recentDays.at(-1).date,
+        { month: "short", day: "numeric" },
+      )}`
+    : t("Last 14 days");
 
   return (
     <div className="rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/70">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-2">
           <BarChart3 className="mt-0.5 h-4 w-4 text-[#1E5EFF] dark:text-[#7C97FF]" />
           <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            {t("Daily activity")}
-          </p>
-          <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
-            {t("Last 14 days · Eastern Time")}
-          </p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              {t("Daily activity")}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
+              {t("Questions answered each day")}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+              {rangeLabel} · {t("Eastern Time")}
+            </p>
           </div>
         </div>
-        <div className="flex gap-4 text-right text-xs">
-          <div>
-            <p className="text-slate-500 dark:text-slate-400">{t("Questions (30d)")}</p>
-            <p className="font-semibold text-slate-900 dark:text-slate-100">{data.summary.questions_30d}</p>
+        <div className="grid grid-cols-2 gap-2 text-center text-xs sm:grid-cols-4">
+          <div className="min-w-20 rounded-xl bg-blue-50 px-3 py-2 dark:bg-blue-500/10">
+            <p className="text-slate-500 dark:text-slate-400">{t("Questions")}</p>
+            <p className="mt-0.5 text-base font-bold tabular-nums text-blue-700 dark:text-blue-300">
+              {questions14d}
+            </p>
           </div>
-          <div>
-            <p className="text-slate-500 dark:text-slate-400">{t("Active days")}</p>
-            <p className="font-semibold text-slate-900 dark:text-slate-100">{data.summary.active_days_30d}</p>
+          <div className="min-w-20 rounded-xl bg-slate-100 px-3 py-2 dark:bg-slate-800">
+            <p className="text-slate-500 dark:text-slate-400">{t("Study days")}</p>
+            <p className="mt-0.5 text-base font-bold tabular-nums text-slate-900 dark:text-slate-100">
+              {studyDays14d}
+            </p>
           </div>
-          <div>
+          <div className="min-w-20 rounded-xl bg-emerald-50 px-3 py-2 dark:bg-emerald-500/10">
+            <p className="text-slate-500 dark:text-slate-400">{t("Visit-only days")}</p>
+            <p className="mt-0.5 text-base font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
+              {visitOnlyDays14d}
+            </p>
+          </div>
+          <div className="min-w-20 rounded-xl bg-violet-50 px-3 py-2 dark:bg-violet-500/10">
             <p className="text-slate-500 dark:text-slate-400">{t("Accuracy")}</p>
-            <p className="font-semibold text-slate-900 dark:text-slate-100">{data.summary.accuracy}%</p>
+            <p className="mt-0.5 text-base font-bold tabular-nums text-violet-700 dark:text-violet-300">
+              {accuracy14d}
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="mt-4 flex h-28 items-end gap-1.5" aria-label={t("Questions answered per day")}>
-        {recentDays.map((day, index) => {
-          const questions = Number(day.questions || 0);
-          const hasOtherActivity = day.active && questions === 0;
-          const height = questions > 0 ? Math.max(10, (questions / maxQuestions) * 88) : 4;
-          const dateLabel = new Intl.DateTimeFormat("en-US", {
-            month: "short",
-            day: "numeric",
-            timeZone: "UTC",
-          }).format(new Date(`${day.date}T12:00:00Z`));
-          return (
-            <div key={day.date} className="flex min-w-0 flex-1 flex-col items-center justify-end gap-1">
-              <span className="text-[10px] font-semibold tabular-nums text-slate-600 dark:text-slate-300">
-                {questions || (hasOtherActivity ? "•" : "")}
-              </span>
-              <div
-                className={`w-full max-w-8 rounded-t-md ${
-                  questions > 0
-                    ? "bg-[#1E5EFF] dark:bg-[#7C97FF]"
-                    : hasOtherActivity
-                      ? "bg-emerald-300 dark:bg-emerald-500/70"
-                      : "bg-slate-200 dark:bg-slate-700"
-                }`}
-                style={{ height: `${height}px` }}
-                title={`${dateLabel}: ${questions} questions, ${day.exams} exams${hasOtherActivity ? ", app activity" : ""}`}
-              />
-              <span className="truncate text-[9px] text-slate-400 dark:text-slate-500">
-                {index % 2 === 0 ? dateLabel.replace(" ", "\u00a0") : ""}
-              </span>
+      <div className="mt-5 overflow-x-auto pb-1">
+        <div className="min-w-[640px]">
+          <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-2">
+            <div className="relative h-36 text-right text-[10px] tabular-nums text-slate-400 dark:text-slate-500">
+              <span className="absolute right-0 top-0 -translate-y-1/2">{chartMax}</span>
+              <span className="absolute right-0 top-1/2 -translate-y-1/2">{midpoint}</span>
+              <span className="absolute bottom-0 right-0 translate-y-1/2">0</span>
             </div>
-          );
-        })}
+
+            <div className="relative h-36" aria-label={t("Questions answered per day")}>
+              <div className="pointer-events-none absolute inset-x-0 top-0 border-t border-slate-200 dark:border-slate-700" />
+              <div className="pointer-events-none absolute inset-x-0 top-1/2 border-t border-dashed border-slate-200 dark:border-slate-700" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 border-t border-slate-300 dark:border-slate-600" />
+
+              <div
+                className="absolute inset-0 grid gap-2 px-1"
+                style={dayColumns}
+              >
+                {recentDays.map((day) => {
+                  const questions = Number(day.questions || 0);
+                  const hasOtherActivity = day.active && questions === 0;
+                  const height = questions > 0 ? Math.max(12, (questions / chartMax) * 100) : 0;
+                  const dateLabel = formatDay(day.date, { month: "short", day: "numeric" });
+                  const activityLabel = questions > 0
+                    ? `${questions} ${t(questions === 1 ? "question answered" : "questions answered")}`
+                    : hasOtherActivity
+                      ? t("Opened app, no questions")
+                      : t("No activity");
+
+                  return (
+                    <div
+                      key={day.date}
+                      className="group relative flex min-w-0 items-end justify-center"
+                      title={`${dateLabel}: ${activityLabel}`}
+                      aria-label={`${dateLabel}: ${activityLabel}`}
+                    >
+                      {questions > 0 ? (
+                        <div
+                          className="flex w-full max-w-9 justify-center rounded-t-md bg-[#1E5EFF] transition-colors group-hover:bg-blue-700 dark:bg-[#7C97FF] dark:group-hover:bg-blue-300"
+                          style={{ height: `${height}%` }}
+                        >
+                          <span className="pt-1 text-[10px] font-bold tabular-nums text-white dark:text-slate-950">
+                            {questions}
+                          </span>
+                        </div>
+                      ) : hasOtherActivity ? (
+                        <span className="mb-1.5 h-2.5 w-2.5 rounded-full border-2 border-emerald-600 bg-white dark:border-emerald-400 dark:bg-slate-900" />
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-2 grid grid-cols-[2rem_minmax(0,1fr)] gap-2">
+            <span />
+            <div
+              className="grid gap-2 px-1"
+              style={dayColumns}
+            >
+              {recentDays.map((day) => (
+                <div key={day.date} className="min-w-0 text-center leading-tight">
+                  <p className="text-[9px] font-semibold uppercase text-slate-400 dark:text-slate-500">
+                    {formatDay(day.date, { weekday: "short" })}
+                  </p>
+                  <p className="mt-0.5 whitespace-nowrap text-[10px] text-slate-600 dark:text-slate-300">
+                    {formatDay(day.date, { month: "short", day: "numeric" })}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-        <span>{t("Blue = questions · Green dot = visit without questions")}</span>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-500 dark:text-slate-400">
+        <div className="flex flex-wrap items-center gap-4">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-3 w-3 rounded-sm bg-[#1E5EFF] dark:bg-[#7C97FF]" />
+            {t("Questions answered")}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full border-2 border-emerald-600 bg-white dark:border-emerald-400 dark:bg-slate-900" />
+            {t("Opened app, no questions")}
+          </span>
+        </div>
         <span>{t("Visit tracking began Aug 12, 2026; study history is backfilled.")}</span>
       </div>
     </div>
@@ -1141,6 +1237,7 @@ export default function AdminMembers() {
                                   data={inlineActivityData}
                                   isLoading={false}
                                   t={t}
+                                  language={language}
                                 />
                               </div>
 
