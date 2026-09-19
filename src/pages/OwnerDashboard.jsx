@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Activity,
@@ -27,6 +27,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
+import {
+  calendarRevenueRange,
+  shiftRevenueSelection,
+} from "@/lib/revenue-periods";
 
 const cardClass =
   "border-slate-200/80 bg-white/95 shadow-[0_22px_55px_-38px_rgba(15,23,42,0.24)] dark:!border-slate-700/80 dark:!bg-slate-900/95";
@@ -115,7 +119,7 @@ function comparison(metric, currency = false) {
     : `${metric.changePercent > 0 ? "+" : ""}${metric.changePercent}% vs previous period (${previous})`;
 }
 
-function RevenueBars({ history = [] }) {
+function RevenueBars({ history = [], onSelect, disabled }) {
   if (!history.some((item) => item.total > 0))
     return (
       <div className="flex h-64 items-center justify-center text-sm text-slate-500">
@@ -125,8 +129,8 @@ function RevenueBars({ history = [] }) {
   return (
     <div
       className="mt-6 h-64 w-full"
-      role="img"
-      aria-label="Recorded gross revenue by date, split between Stripe and Apple. Exact amounts are available in the transactions table."
+      role="group"
+      aria-label="Revenue chart. Select a month or day to see its payments. The same dates are available as buttons in the breakdown table."
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -159,6 +163,9 @@ function RevenueBars({ history = [] }) {
             contentStyle={{ borderRadius: 12, color: "#0f172a" }}
           />
           <Bar
+            onClick={(entry) => !disabled && onSelect(entry.payload || entry)}
+            cursor={disabled ? "wait" : "pointer"}
+            isAnimationActive={false}
             dataKey="stripe"
             name="Stripe"
             stackId="revenue"
@@ -166,6 +173,9 @@ function RevenueBars({ history = [] }) {
             maxBarSize={48}
           />
           <Bar
+            onClick={(entry) => !disabled && onSelect(entry.payload || entry)}
+            cursor={disabled ? "wait" : "pointer"}
+            isAnimationActive={false}
             dataKey="apple"
             name="Apple"
             stackId="revenue"
@@ -176,6 +186,117 @@ function RevenueBars({ history = [] }) {
         </BarChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+function PeriodPicker({
+  label,
+  range,
+  chooseRange,
+  selectedMonth,
+  selectedDay,
+  selectCalendar,
+  start,
+  end,
+  setStart,
+  setEnd,
+  applyDates,
+  today,
+}) {
+  const calendar = range === "specific-month" || range === "day";
+  const value = range === "specific-month" ? selectedMonth : selectedDay;
+  const unit = range === "specific-month" ? "month" : "day";
+  const next = calendar ? shiftRevenueSelection(range, value, 1) : "";
+  return (
+    <form onSubmit={applyDates} className="flex flex-wrap items-end gap-3">
+      <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
+        {label}
+        <select
+          aria-label={label}
+          className={fieldClass}
+          value={range}
+          onChange={(event) => chooseRange(event.target.value)}
+        >
+          <option value="7d">Last 7 days</option>
+          <option value="30d">Last 30 days</option>
+          <option value="6m">Last 6 months</option>
+          <option value="12m">Last 12 months</option>
+          <option value="month">This month</option>
+          <option value="specific-month">Specific month</option>
+          <option value="day">Specific day</option>
+          <option value="all">All time</option>
+          <option value="custom">Custom dates</option>
+        </select>
+      </label>
+      {calendar && (
+        <div className="flex max-w-full items-center gap-2">
+          <Button
+            type="button"
+            size="icon"
+            variant="outline"
+            aria-label={`${label}: previous ${unit}`}
+            onClick={() =>
+              selectCalendar(range, shiftRevenueSelection(range, value, -1))
+            }
+          >
+            ←
+          </Button>
+          <label className="min-w-0">
+            <span className="sr-only">
+              {label}: {unit}
+            </span>
+            <input
+              aria-label={`${label}: ${unit}`}
+              type={range === "specific-month" ? "month" : "date"}
+              className={`${fieldClass} min-w-0 max-w-full`}
+              value={value}
+              max={range === "specific-month" ? today.slice(0, 7) : today}
+              onChange={(event) => selectCalendar(range, event.target.value)}
+            />
+          </label>
+          <Button
+            type="button"
+            size="icon"
+            variant="outline"
+            aria-label={`${label}: next ${unit}`}
+            disabled={!calendarRevenueRange(range, next, today)}
+            onClick={() => selectCalendar(range, next)}
+          >
+            →
+          </Button>
+        </div>
+      )}
+      {range === "custom" && (
+        <>
+          <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
+            From
+            <input
+              aria-label={`${label}: from date`}
+              type="date"
+              className={fieldClass}
+              required
+              max={end || today}
+              value={start}
+              onChange={(event) => setStart(event.target.value)}
+            />
+          </label>
+          <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
+            To
+            <input
+              aria-label={`${label}: to date`}
+              type="date"
+              className={fieldClass}
+              required
+              min={start}
+              max={today}
+              value={end}
+              onChange={(event) => setEnd(event.target.value)}
+            />
+          </label>
+          <Button type="submit">Apply dates</Button>
+        </>
+      )}
+    </form>
   );
 }
 
@@ -205,6 +326,14 @@ export default function OwnerDashboard() {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [dateError, setDateError] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(() =>
+    new Date().toISOString().slice(0, 7),
+  );
+  const [selectedDay, setSelectedDay] = useState(() =>
+    new Date().toISOString().slice(0, 10),
+  );
+  const [drillHistory, setDrillHistory] = useState([]);
+  const transactionsRef = useRef(null);
   const query = useQuery({
     queryKey: ["owner-dashboard", options],
     queryFn: () => api.getOwnerDashboard(options),
@@ -222,7 +351,13 @@ export default function OwnerDashboard() {
   function chooseRange(value) {
     setRange(value);
     setDateError("");
-    if (value !== "custom") setOptions({ range: value, page: 1 });
+    setDrillHistory([]);
+    if (value === "specific-month" || value === "day") {
+      selectCalendar(
+        value,
+        value === "specific-month" ? selectedMonth : selectedDay,
+      );
+    } else if (value !== "custom") setOptions({ range: value, page: 1 });
   }
   function applyDates(event) {
     event.preventDefault();
@@ -231,8 +366,66 @@ export default function OwnerDashboard() {
       return;
     }
     setDateError("");
+    setDrillHistory([]);
     setOptions({ range: "custom", start, end, page: 1 });
   }
+  function selectCalendar(mode, value, drill = false) {
+    const selection = calendarRevenueRange(mode, value, today);
+    if (!selection) return;
+    if (drill)
+      setDrillHistory((history) => [
+        ...history,
+        { options, range, selectedMonth, selectedDay, start, end },
+      ]);
+    else setDrillHistory([]);
+    setDateError("");
+    setRange(mode);
+    if (mode === "specific-month") setSelectedMonth(value);
+    else setSelectedDay(value);
+    setStart(selection.start);
+    setEnd(selection.end);
+    setOptions(selection);
+  }
+  function drillIntoRevenue(bucket) {
+    if (!bucket?.key || query.isFetching) return;
+    const mode = bucket.key.length === 7 ? "specific-month" : "day";
+    if (
+      mode === "day" &&
+      options.start === bucket.key &&
+      options.end === bucket.key
+    ) {
+      transactionsRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
+    selectCalendar(mode, bucket.key, true);
+  }
+  function goBack() {
+    const previous = drillHistory.at(-1);
+    if (!previous) return;
+    setOptions(previous.options);
+    setRange(previous.range);
+    setSelectedMonth(previous.selectedMonth);
+    setSelectedDay(previous.selectedDay);
+    setStart(previous.start);
+    setEnd(previous.end);
+    setDrillHistory((history) => history.slice(0, -1));
+  }
+  const pickerProps = {
+    range,
+    chooseRange,
+    selectedMonth,
+    selectedDay,
+    selectCalendar,
+    start,
+    end,
+    setStart,
+    setEnd,
+    applyDates,
+    today,
+  };
   if (!isAdmin)
     return (
       <Card className={`${cardClass} mx-auto max-w-3xl p-10 text-center`}>
@@ -271,60 +464,14 @@ export default function OwnerDashboard() {
       </header>
 
       <Card className={`${cardClass} p-4`}>
-        <form onSubmit={applyDates} className="flex flex-wrap items-end gap-3">
-          <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
-            Reporting period
-            <select
-              aria-label="Reporting period"
-              className={fieldClass}
-              value={range}
-              onChange={(event) => chooseRange(event.target.value)}
-            >
-              <option value="7d">Last 7 days</option>
-              <option value="30d">Last 30 days</option>
-              <option value="month">This month</option>
-              <option value="all">All time</option>
-              <option value="custom">Custom dates</option>
-            </select>
-          </label>
-          {range === "custom" && (
-            <>
-              <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
-                From
-                <input
-                  aria-label="From date"
-                  type="date"
-                  className={fieldClass}
-                  required
-                  max={end || today}
-                  value={start}
-                  onChange={(event) => setStart(event.target.value)}
-                />
-              </label>
-              <label className="flex flex-col gap-1 text-xs font-semibold text-slate-500">
-                To
-                <input
-                  aria-label="To date"
-                  type="date"
-                  className={fieldClass}
-                  required
-                  min={start}
-                  max={today}
-                  value={end}
-                  onChange={(event) => setEnd(event.target.value)}
-                />
-              </label>
-              <Button type="submit">Apply dates</Button>
-            </>
-          )}
-          <span className="pb-2 text-xs text-slate-500" aria-live="polite">
-            {query.isFetching
-              ? "Updating metrics…"
-              : period
-                ? `${date(period.start)} – ${date(new Date(Date.parse(period.endExclusive) - 1))} · UTC`
-                : "All dates use UTC"}
-          </span>
-        </form>
+        <PeriodPicker label="Reporting period" {...pickerProps} />
+        <p className="mt-3 text-xs text-slate-500" aria-live="polite">
+          {query.isFetching
+            ? "Updating metrics…"
+            : period
+              ? `${date(period.start)} – ${date(new Date(Date.parse(period.endExclusive) - 1))} · UTC`
+              : "All dates use UTC"}
+        </p>
         {dateError && (
           <p role="alert" className="mt-2 text-sm text-red-600">
             {dateError}
@@ -421,7 +568,124 @@ export default function OwnerDashboard() {
                 title="Sales over time"
                 note="Recorded gross revenue · blue Stripe, violet Apple"
               />
-              <RevenueBars history={data.history} />
+              <div className="mt-4">
+                <PeriodPicker label="Revenue period" {...pickerProps} />
+              </div>
+              {dateError && (
+                <p className="mt-2 text-sm text-red-600" role="alert">
+                  {dateError}
+                </p>
+              )}
+              <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                <span aria-live="polite">
+                  {date(period.start)} –{" "}
+                  {date(new Date(Date.parse(period.endExclusive) - 1))} · UTC
+                </span>
+                {drillHistory.length > 0 && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={goBack}
+                    disabled={query.isFetching}
+                  >
+                    ← Back to previous view
+                  </Button>
+                )}
+              </div>
+              <RevenueBars
+                history={data.history}
+                onSelect={drillIntoRevenue}
+                disabled={query.isFetching}
+              />
+              <p className="mt-3 text-xs text-slate-500">
+                Click a month to explore its days, then choose a day to see its
+                sales. All totals and payment details follow your selection.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-800">
+                <span>
+                  <strong>{money(data.money.customerGross)}</strong> gross ·{" "}
+                  {number(data.money.transactions)} payments
+                </span>
+                <span>
+                  {data.money.transactions
+                    ? `${money(data.money.customerGross / data.money.transactions)} average payment`
+                    : "No payments"}
+                </span>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    transactionsRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    })
+                  }
+                >
+                  View payments
+                </Button>
+              </div>
+              <details
+                key={`${period.start}-${period.endExclusive}`}
+                className="mt-4 text-sm"
+              >
+                <summary className="cursor-pointer font-medium text-slate-700 dark:text-slate-300">
+                  {data.history[0]?.key.length === 7 ? "Monthly" : "Daily"}{" "}
+                  breakdown
+                </summary>
+                <div className="mt-3 max-h-72 overflow-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="sticky top-0 bg-white text-slate-500 dark:bg-slate-900">
+                      <tr>
+                        {[
+                          "Date · UTC",
+                          "Stripe",
+                          "Apple",
+                          "Total",
+                          "Payments",
+                        ].map((label) => (
+                          <th
+                            key={label}
+                            scope="col"
+                            className="whitespace-nowrap px-2 py-2"
+                          >
+                            {label}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.history.map((bucket) => (
+                        <tr
+                          key={bucket.key}
+                          className="border-t border-slate-100 dark:border-slate-800"
+                        >
+                          <td className="whitespace-nowrap px-2 py-2">
+                            <button
+                              type="button"
+                              className="font-medium text-[#1E5EFF] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2"
+                              disabled={query.isFetching}
+                              onClick={() => drillIntoRevenue(bucket)}
+                              aria-label={`Explore ${bucket.key}`}
+                            >
+                              {bucket.label}
+                            </button>
+                          </td>
+                          <td className="px-2 py-2">{money(bucket.stripe)}</td>
+                          <td className="px-2 py-2">{money(bucket.apple)}</td>
+                          <td className="px-2 py-2 font-semibold">
+                            {money(bucket.total)}
+                          </td>
+                          <td className="px-2 py-2">
+                            {number(bucket.transactions)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
             </Card>
             <Card className={`${cardClass} p-5 sm:p-6`}>
               <SectionTitle
@@ -646,7 +910,12 @@ export default function OwnerDashboard() {
             </p>
           </section>
 
-          <section className="space-y-3">
+          <section
+            ref={transactionsRef}
+            className="scroll-mt-20 space-y-3"
+            tabIndex={-1}
+            aria-label="Selected period payments"
+          >
             <SectionTitle
               eyebrow="Payment detail"
               title="The transactions behind the totals"
@@ -684,6 +953,13 @@ export default function OwnerDashboard() {
                       >
                         <td className="whitespace-nowrap px-5 py-4">
                           {date(row.date)}
+                          <p className="mt-1 text-xs text-slate-500">
+                            {new Date(row.date).toLocaleTimeString("en-US", {
+                              timeZone: "UTC",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
                         </td>
                         <td className="px-5 py-4">
                           <p className="font-medium">

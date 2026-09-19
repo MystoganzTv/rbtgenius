@@ -34,6 +34,12 @@ export function resolveOwnerPeriod(options = {}, now = new Date(), dates = []) {
   let end = now.getTime() + 1;
   if (range === "7d" || range === "30d")
     start = today - (range === "7d" ? 6 : 29) * DAY;
+  else if (range === "6m" || range === "12m")
+    start = Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth() - (range === "6m" ? 5 : 11),
+      1,
+    );
   else if (range === "month")
     start = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1);
   else if (range === "custom") {
@@ -84,6 +90,7 @@ export function revenueHistory(payments, period, amountOf) {
       stripe: 0,
       apple: 0,
       total: 0,
+      transactions: 0,
     });
     if (daily) cursor.setUTCDate(cursor.getUTCDate() + 1);
     else cursor.setUTCMonth(cursor.getUTCMonth() + 1);
@@ -99,6 +106,7 @@ export function revenueHistory(payments, period, amountOf) {
       payment.provider || payment.metadata?.provider || "",
     ).toLowerCase();
     bucket[provider === "stripe" ? "stripe" : "apple"] += amountOf(payment);
+    bucket.transactions += 1;
   }
   return [...buckets.values()].map((bucket) => ({
     ...bucket,
