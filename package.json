@@ -21,7 +21,9 @@
     "typecheck": "tsc -p ./jsconfig.json",
     "preview": "vite preview",
     "cap:sync": "npx cap sync",
-    "cap:ios": "npx cap open ios"
+    "cap:ios": "npx cap open ios",
+    "sync:questions": "node scripts/sync-questions.mjs",
+    "check:questions": "node scripts/sync-questions.mjs --check"
   },
   "dependencies": {
     "@capacitor/app": "^7.1.2",

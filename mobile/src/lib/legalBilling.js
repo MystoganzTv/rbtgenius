@@ -16,3 +16,14 @@ export const REFUND_SECTIONS = [
   { h: '3. Non-refundable situations', b: 'In general, partial usage of a billing period, missed cancellations, or access to premium content alone may not automatically qualify for a refund. However, we will still review legitimate cases fairly.' },
   { h: '4. How to request help', b: 'For billing support or refund review, email info@rbtgenius.com and include the email used on your account, the plan involved, and the date of the charge.' },
 ];
+
+export const BILLING_PRIVACY_SECTION_ES = {
+  h: '3. Datos de facturación y pago',
+  b: 'Los pagos de suscripciones pueden procesarse mediante Stripe. RBT Genius puede guardar metadatos como plan, importe, moneda, estado, identificadores de cliente de Stripe y referencias de sesiones o suscripciones. RBT Genius no almacena directamente los datos completos de la tarjeta.',
+};
+export const REFUND_SECTIONS_ES = [
+  { h: '1. Compras de suscripciones', b: 'El acceso premium puede venderse con facturación recurrente mensual o anual. Al comprar una suscripción, autorizas los cargos recurrentes según el plan seleccionado durante el pago.' },
+  { h: '2. Solicitudes de reembolso', b: 'Las solicitudes de reembolso se revisan individualmente. Si crees que se te cobró por error o hubo un problema de facturación, contáctanos lo antes posible para revisarlo.' },
+  { h: '3. Situaciones sin reembolso automático', b: 'En general, el uso parcial de un período, no cancelar a tiempo o acceder a contenido premium no dan derecho automático a un reembolso. Revisaremos de forma justa los casos legítimos.' },
+  { h: '4. Cómo solicitar ayuda', b: 'Para asistencia de facturación o revisión de un reembolso, escribe a info@rbtgenius.com e indica el correo de tu cuenta, el plan y la fecha del cargo.' },
+];

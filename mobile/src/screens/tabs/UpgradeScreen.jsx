@@ -56,7 +56,6 @@ export default function UpgradeScreen({ navigation }) {
     { icon: '∞',  label: t('upgrade.feat_1_label'), sub: t('upgrade.feat_1_sub') },
     { icon: '🃏', label: t('upgrade.feat_2_label'), sub: t('upgrade.feat_2_sub') },
     { icon: '📋', label: t('upgrade.feat_3_label'), sub: t('upgrade.feat_3_sub') },
-    { icon: '📊', label: t('upgrade.feat_4_label'), sub: t('upgrade.feat_4_sub') },
   ];
 
   const FALLBACK = [
@@ -65,10 +64,12 @@ export default function UpgradeScreen({ navigation }) {
   ];
   const [planId,          setPlanId]          = useState('premium_monthly');
   const [loading,         setLoading]         = useState(false);
+  const [accessPending, setAccessPending] = useState(false);
   const [offering,        setOffering]        = useState(null);
   const [trialEligibility, setTrialEligibility] = useState({});
   const [offeringsLoading, setOfferingsLoading] = useState(rcAvailable);
-  const [offeringsFailed, setOfferingsFailed] = useState(false);
+  const [offeringsFailed, setOfferingsFailed] = useState(!rcAvailable);
+  const [offeringsAttempt, setOfferingsAttempt] = useState(0);
   const fade  = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(24)).current;
   const handlingReturnRef = useRef(false);
@@ -77,6 +78,8 @@ export default function UpgradeScreen({ navigation }) {
   useEffect(() => {
     if (!rcAvailable) return;
     let cancelled = false;
+    setOfferingsLoading(true);
+    setOfferingsFailed(false);
 
     const fetchWithRetry = async () => {
       for (let attempt = 0; attempt < 3; attempt++) {
@@ -112,7 +115,7 @@ export default function UpgradeScreen({ navigation }) {
 
     fetchWithRetry();
     return () => { cancelled = true; };
-  }, []);
+  }, [offeringsAttempt]);
 
   const useRC = rcAvailable && !offeringsLoading && offering !== null;
   const plans = useRC
@@ -237,23 +240,48 @@ export default function UpgradeScreen({ navigation }) {
   // Tell the backend to re-check RevenueCat and flip the plan to premium
   // synchronously (the webhook is async and may lag). Then refresh the session
   // so gated features unlock immediately.
-  const syncRevenueCatPlan = useCallback(async () => {
-    if (!token) return;
+  const syncRevenueCatPlan = useCallback(async (requirePremium = false) => {
+    if (!token) throw new Error('Not signed in');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
-      await fetch(`${API_BASE}/api/billing/revenuecat-sync`, {
+      const response = await fetch(`${API_BASE}/api/billing/revenuecat-sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        signal: controller.signal,
       });
-    } catch { /* non-fatal: webhook will still sync */ }
-    await refreshSession?.().catch(() => null);
+      if (!response.ok) throw new Error('Subscription sync failed');
+      const access = await response.json();
+      if (requirePremium && access.is_premium !== true) throw new Error('Subscription is still pending');
+      const refreshedUser = await refreshSession?.({ signal: controller.signal });
+      if (requirePremium && !refreshedUser?.isPremium) throw new Error('Account refresh failed');
+    } finally {
+      clearTimeout(timeout);
+    }
   }, [token, refreshSession]);
+
+  const showPendingAccess = () => {
+    setAccessPending(true);
+    Alert.alert(t('upgrade.sync_pending_title'), t('upgrade.sync_pending_body'));
+  };
+
+  const handleRetryAccess = async () => {
+    setLoading(true);
+    try {
+      await syncRevenueCatPlan(true);
+      setAccessPending(false);
+      Alert.alert(t('upgrade.welcome_pro'), t('upgrade.subscription_active'));
+      navigation.goBack?.();
+    } catch { showPendingAccess(); }
+    finally { setLoading(false); }
+  };
 
   // On open, if the user already has an active RevenueCat entitlement but the
   // backend doesn't know yet (e.g. purchased on another device / before sync),
   // reconcile so the paywall flips to the "You're Pro" state automatically.
   useEffect(() => {
     if (!rcAvailable || !token || user?.isPremium) return;
-    syncRevenueCatPlan();
+    syncRevenueCatPlan().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -271,7 +299,9 @@ export default function UpgradeScreen({ navigation }) {
         // el usuario sí quería comprar. Nos quedamos para que pueda reintentar.
         if (r.cancelled) { return; }
         if (r.success) {
-          await syncRevenueCatPlan();
+          try { await syncRevenueCatPlan(true); }
+          catch { showPendingAccess(); return; }
+          setAccessPending(false);
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           Alert.alert(
             sel?.hasTrial ? t('upgrade.trial_welcome') : t('upgrade.welcome_pro'),
@@ -292,17 +322,25 @@ export default function UpgradeScreen({ navigation }) {
   };
 
   const handleRestore = async () => {
-    if (!useRC) {
+    // Restoring existing purchases does not require a loaded product catalog.
+    if (!rcAvailable) {
       if (WEB_BILLING_ENABLED) { void openPricingPage(); return; }
       Alert.alert(t('upgrade.unavailable_title'), t('upgrade.unavailable'));
       return;
     }
     setLoading(true);
-    const ok = await restorePurchases().catch(() => false);
-    if (ok) await syncRevenueCatPlan();
-    setLoading(false);
-    if (ok) { Alert.alert(t('upgrade.restored'), t('upgrade.pro_restored')); navigation.goBack?.(); }
-    else Alert.alert(t('upgrade.nothing_found'), t('upgrade.no_subscription'));
+    try {
+      const ok = await restorePurchases();
+      if (ok) {
+        try { await syncRevenueCatPlan(true); }
+        catch { showPendingAccess(); return; }
+        setAccessPending(false);
+        Alert.alert(t('upgrade.restored'), t('upgrade.pro_restored'));
+        navigation.goBack?.();
+      } else Alert.alert(t('upgrade.nothing_found'), t('upgrade.no_subscription'));
+    } catch {
+      Alert.alert(t('upgrade.unavailable_title'), t('upgrade.restore_failed'));
+    } finally { setLoading(false); }
   };
 
   // Resetea el stack del tab More a MoreHome y elimina Upgrade de la pila.
@@ -320,14 +358,22 @@ export default function UpgradeScreen({ navigation }) {
         hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
         <Text style={s.closeTxt}>✕</Text>
       </Pressable>
-      <View style={s.proWrap}>
+      <ScrollView contentContainerStyle={s.proWrap}>
         <Text style={s.proEmoji}>🎉</Text>
         <Text style={s.proTitle}>{t('upgrade.pro_you_are')}</Text>
         <Text style={s.proSub}>{t('upgrade.pro_sub')}</Text>
         <Pressable style={s.manageBtn} onPress={handleManageSubscription}>
           <Text style={s.manageTxt}>{t('upgrade.manage_subscription')}</Text>
         </Pressable>
-      </View>
+        <Pressable onPress={handleRestore} style={s.restore} disabled={loading}>
+          {loading
+            ? <ActivityIndicator color={theme.primary} />
+            : <Text style={s.restoreTxt}>{t('upgrade.restore')}</Text>}
+        </Pressable>
+        {accessPending && <Pressable onPress={handleRetryAccess} disabled={loading} style={s.restore}>
+          <Text style={s.restoreTxt}>{t('upgrade.retry_access')}</Text>
+        </Pressable>}
+      </ScrollView>
     </SafeAreaView>
   );
 
@@ -387,16 +433,28 @@ export default function UpgradeScreen({ navigation }) {
         {offeringsFailed && !useRC && (
           <View style={s.unavailableBanner}>
             <Text style={s.unavailableTxt}>{t('upgrade.unavailable')}</Text>
+            {rcAvailable && (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setOfferingsAttempt(attempt => attempt + 1)}
+                style={s.restore}>
+                <Text style={s.restoreTxt}>{t('common.retry')}</Text>
+              </Pressable>
+            )}
           </View>
         )}
 
-        {/* CTA */}
+        {accessPending && <Text style={s.trustTxt}>{t('upgrade.sync_pending_body')}</Text>}
+
+        {/* Retry an already purchased entitlement without purchasing again. */}
         <Pressable
           style={[s.cta, (loading || offeringsLoading) && { opacity: 0.72 }]}
-          onPress={handleUpgrade}
-          disabled={loading || offeringsLoading || (rcAvailable && offeringsFailed)}>
+          onPress={accessPending ? handleRetryAccess : handleUpgrade}
+          disabled={loading || (!accessPending && (offeringsLoading || (!WEB_BILLING_ENABLED && !useRC)))}>
           {loading
             ? <ActivityIndicator color="#fff" />
+            : accessPending
+              ? <Text style={s.ctaTxt}>{t('upgrade.retry_access')}</Text>
             : offeringsLoading
               ? <><Text style={s.ctaTxt}>{t('upgrade.products_loading')}</Text><ActivityIndicator color="rgba(255,255,255,0.7)" size="small" /></>
               : <>
@@ -415,7 +473,7 @@ export default function UpgradeScreen({ navigation }) {
           <Text style={s.trustDot}>·</Text>
           <Text style={s.trustTxt}>{t('upgrade.instant_access')}</Text>
         </View>
-        <Pressable onPress={handleRestore} style={s.restore}>
+        <Pressable onPress={handleRestore} style={s.restore} disabled={loading}>
           <Text style={s.restoreTxt}>{t('upgrade.restore')}</Text>
         </Pressable>
 
@@ -427,11 +485,11 @@ export default function UpgradeScreen({ navigation }) {
         {/* Legal links — required by Apple 3.1.2 */}
         <View style={s.legalLinks}>
           <Text style={s.legalLinksTxt}>{t('upgrade.legal_links')} </Text>
-          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/terms-of-service')}>
+          <Pressable onPress={() => navigation.navigate('Legal', { type: 'terms' })}>
             <Text style={s.legalLink}>{t('upgrade.terms_link')}</Text>
           </Pressable>
           <Text style={s.legalLinksTxt}> {t('upgrade.and')} </Text>
-          <Pressable onPress={() => Linking.openURL('https://www.rbtgenius.com/privacy-policy')}>
+          <Pressable onPress={() => navigation.navigate('Legal', { type: 'privacy' })}>
             <Text style={s.legalLink}>{t('upgrade.privacy_link')}</Text>
           </Pressable>
         </View>
@@ -512,7 +570,7 @@ const styles = (theme) => StyleSheet.create({
   legalLink:   { color: theme.primary, fontSize: 11, fontWeight: '600', textDecorationLine: 'underline' },
   legal:       { color: theme.muted, fontSize: 10, textAlign: 'center', lineHeight: 15, paddingHorizontal: 28 },
 
-  proWrap:     { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },
+  proWrap:     { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },
   proEmoji:    { fontSize: 64 },
   proTitle:    { color: theme.text, fontSize: 28, fontWeight: '900' },
   proSub:      { color: theme.muted, fontSize: 15, lineHeight: 23, textAlign: 'center' },

@@ -39,16 +39,22 @@ export async function scheduleDailyReminder(hour = 19) {
 
   await AsyncStorage.setItem(HOUR_KEY, String(hour));
 
-  const messages = [
-    { title: '🎯 ¡Hora de practicar!',      body: 'Mantén tu racha y mejora tu readiness score hoy.' },
-    { title: '📚 RBT Genius te espera',      body: 'Unos minutos de práctica marcan la diferencia.' },
-    { title: '🔥 ¡No pierdas tu racha!',     body: 'Practica ahora y sigue avanzando hacia tu certificación.' },
-    { title: '✅ Sesión de estudio pendiente', body: 'Tu examen RBT se acerca — una práctica rápida ayuda.' },
+  const language = await AsyncStorage.getItem('rbt_language');
+  const messages = language === 'es' ? [
+    { title: '🎯 ¡Hora de practicar!', body: 'Unos minutos de práctica te ayudan a prepararte para el examen.' },
+    { title: '📚 RBT Genius te espera', body: 'Sigue avanzando hacia tu certificación.' },
+    { title: '🔥 ¡No pierdas tu racha!', body: 'Abre la app y continúa estudiando.' },
+    { title: '✅ Continúa tu preparación', body: 'Retoma el estudio donde lo dejaste.' },
+  ] : [
+    { title: '🎯 Time to practice!', body: 'A few minutes of practice helps you prepare for the exam.' },
+    { title: '📚 RBT Genius is waiting', body: 'Keep moving toward your certification.' },
+    { title: "🔥 Don't break your streak!", body: 'Open the app and keep studying.' },
+    { title: '✅ Continue your preparation', body: 'Pick up where you left off.' },
   ];
 
   // Schedule one notification per day cycling through messages
-  for (let i = 0; i < messages.length; i++) {
-    const msg = messages[i];
+  for (let i = 0; i < 7; i++) {
+    const msg = messages[i % messages.length];
     // Schedule at the given hour, rotating days
     await Notifications.scheduleNotificationAsync({
       content: {
@@ -115,6 +121,7 @@ export async function registerPushToken(authToken) {
       body: JSON.stringify({
         token:    tokenData.data,
         platform: Platform.OS,
+        language: (await AsyncStorage.getItem('rbt_language')) === 'es' ? 'es' : 'en',
       }),
     });
   } catch {

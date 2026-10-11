@@ -75,8 +75,14 @@ test("all three copies of the bank produce the same blueprint", async () => {
     const bank = await load(path);
     shapes.push(sectionCounts(bank.buildMockExamQuestionSet(OFFICIAL_TOTAL, null, "same-seed")));
   }
-  // The banks differ slightly in content (mobile carries 9 extra questions), but
-  // the section shape of an exam must not.
+  // Generated copies must preserve the same section shape.
   assert.deepEqual(shapes[1], shapes[0], "shared/ drifted from the web bank");
   assert.deepEqual(shapes[2], shapes[0], "mobile/ drifted from the web bank");
+});
+
+
+test("all clients evaluate exactly the same questions and answers", async () => {
+  const banks = await Promise.all(Object.values(COPIES).map(load));
+  assert.equal(banks[0].rbtQuestions.length, 1119);
+  for (const bank of banks.slice(1)) assert.deepEqual(bank.rbtQuestions, banks[0].rbtQuestions);
 });

@@ -3610,4 +3610,36 @@ export const additionalOfficialQuestionConcepts = [
     "To ensure that decisions about gifts are guided by professional policy rather than personal judgment, which protects both the RBT and the therapeutic relationship.",
     "Policies about gifts vary across organizations. Checking policy first protects the RBT from unintentionally violating professional ethics standards and shows caregivers that boundaries are maintained consistently and fairly.",
   ),
+
+  // ─── Imported July 2026 — new concepts from external question set ────────
+  concept(
+    "measurement",
+    "measurement_cumulative_record",
+    "intermediate",
+    "Cumulative record",
+    "the RBT keeps a running total of responses across sessions, so the graphed line rises with each new response and never decreases.",
+    "An RBT records the total number of words a client can read from a list each session and keeps a running total across multiple sessions to show improvement over time.",
+    "To show the total number of responses accumulated over time and make overall progress visible at a glance.",
+    "A cumulative record adds each session's responses to the previous total, so a rising line shows continued responding and a flat line shows no new responses.",
+  ),
+  concept(
+    "professional_conduct",
+    "professional_exploitative_relationships",
+    "intermediate",
+    "Avoiding exploitative relationships",
+    "the RBT must never use their professional position to influence a client or caregiver for personal benefit, whether financial, social, or otherwise.",
+    "A caregiver mentions they own a landscaping business, and the RBT hints that a discount on yard work would be appreciated given all the progress their child has made in sessions.",
+    "To protect clients and caregivers from being pressured or taken advantage of by someone in a position of professional trust.",
+    "Using a professional relationship for personal gain is an exploitative relationship and violates BACB ethics standards. Services must never be leveraged for personal benefit.",
+  ),
+  concept(
+    "professional_conduct",
+    "professional_client_advocacy",
+    "intermediate",
+    "Advocating for the client's needs",
+    "the RBT speaks up through appropriate channels when the client needs additional resources, services, or support to meet their goals.",
+    "An RBT notices the current materials are insufficient for a client to meet their treatment goals, so the RBT requests additional resources from the supervisor rather than ignoring the gap.",
+    "To ensure the client receives the resources and services needed to make meaningful progress.",
+    "Advocating for clients means raising needs through proper channels — like requesting additional resources when current provisions are insufficient — while respecting the team's decision-making process.",
+  ),
 ];

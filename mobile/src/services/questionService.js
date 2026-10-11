@@ -73,7 +73,7 @@ export function getPracticeBank() {
   if (!_practiceCache) _practiceCache = buildPracticeQuestionBank(TOTAL_PRACTICE_QUESTIONS).map(adaptQuestion);
   return _practiceCache;
 }
-export function getPracticeByTopic(topicKey, limit = 24) {
+export function getPracticeByTopic(topicKey, limit = TOTAL_PRACTICE_QUESTIONS) {
   const all = getPracticeBank();
   const filtered = topicKey ? all.filter(q => q.topic === topicKey) : all;
   return filtered.slice(0, limit);
@@ -91,9 +91,9 @@ export function getMockExamQuestions(size = 85) {
 }
 
 let _flashcardCache = null;
-export function getFlashcards(limit = 120) {
+export function getFlashcards(limit = TOTAL_PRACTICE_QUESTIONS) {
   if (!_flashcardCache) {
-    _flashcardCache = buildFlashcardBank(limit).map(q => ({
+    _flashcardCache = buildFlashcardBank(TOTAL_PRACTICE_QUESTIONS).map(q => ({
       id: q.id, domain: topicLabels[q.topic] ?? q.topic, topic: q.topic,
       question: q.text,
       answer: q.options.find(o => o.label === q.correct_answer)?.text ?? '',
@@ -103,7 +103,7 @@ export function getFlashcards(limit = 120) {
       _raw: q,
     }));
   }
-  return _flashcardCache;
+  return _flashcardCache.slice(0, limit);
 }
 export function checkAnswer(questionId, selectedLetter) {
   return evaluateQuestionAnswer(questionId, selectedLetter);

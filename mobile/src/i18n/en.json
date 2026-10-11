@@ -12,7 +12,8 @@
     "skip": "Skip",
     "free": "Free",
     "pro": "Pro",
-    "network_error": "Network error. Check your connection."
+    "network_error": "Network error. Check your connection.",
+    "try_again": "Please try again."
   },
   "onboarding": {
     "slide1_title": "Master the RBT Exam",
@@ -56,7 +57,9 @@
     "alert_google_failed": "Google Sign-In failed",
     "all_fields_required": "All fields are required.",
     "password_min": "Password must be at least 8 characters.",
-    "registration_failed": "Registration failed. Please try again."
+    "registration_failed": "Registration failed. Please try again.",
+    "verify_email": "Verify your email before signing in. Check your inbox.",
+    "email_exists": "An account with that email already exists."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -99,7 +102,7 @@
     "review_mistakes_sub": "{{count}} question{{count, plural, one{} other{s}}} to revisit",
     "trial_invite_badge": "7 DAYS FREE",
     "trial_invite_title": "Try RBTGenius Premium free for 7 days",
-    "trial_invite_body": "Get unlimited practice questions, mock exams, flashcards, and performance analytics.",
+    "trial_invite_body": "Get unlimited practice questions, unlimited flashcard review, and full mock exams.",
     "trial_invite_terms": "Then $19.99/month. Your subscription automatically renews unless you cancel before the trial ends.",
     "trial_invite_cta": "Start Your Free Trial",
     "tab_label": "Home"
@@ -153,7 +156,7 @@
     "details_title": "Exam Details",
     "questions_label": "Questions",
     "time_label": "Time Limit",
-    "pass_label": "Pass Score",
+    "pass_label": "Practice target",
     "format_label": "Format",
     "format_value": "Multiple Choice",
     "tips_title": "Tips",
@@ -195,7 +198,7 @@
     "next_arrow": "Next →",
     "mastered_section": "Mastered",
     "to_review_section": "To Review",
-    "session_limit_body": "You've answered {{limit}} flashcards today — free plan limit. Upgrade to Pro for unlimited sessions.",
+    "session_limit_body": "You have reviewed {{limit}} flashcards this session. Upgrade to Pro to continue without limits.",
     "restart_btn": "Restart Session",
     "mastered_count": "You mastered {{count}} card{{plural}}.",
     "to_review_note": "You have {{count}} to review.",
@@ -256,7 +259,11 @@
     "pass_label": "PASS",
     "fail_label": "FAIL",
     "bank_title": "Question Bank",
-    "bank_sub": "questions · 43 items from the RBT TCO 3rd Edition"
+    "bank_sub": "questions · 43 items from the RBT TCO 3rd Edition",
+    "ready": "Exam Ready",
+    "almost": "Almost There",
+    "progress": "In Progress",
+    "starting": "Getting Started"
   },
   "profile": {
     "title": "Profile",
@@ -320,7 +327,8 @@
     "permissions_body": "Enable notifications in Settings → RBT Genius → Notifications.",
     "error_save": "Could not save changes. Try again.",
     "section_app": "App",
-    "section_legal": "Legal"
+    "section_legal": "Legal",
+    "language_help": "Interface language. Study questions in English with Spanish translations available for each block."
   },
   "more": {
     "title": "More",
@@ -333,7 +341,7 @@
     "profile_sub": "Account, plan, and preferences",
     "upgrade": "Upgrade to Pro",
     "upgrade_sub": "Unlimited questions, flashcards, and mock exams",
-    "upgrade_banner_sub": "Unlock mock exams, analytics & unlimited practice",
+    "upgrade_banner_sub": "Unlock mock exams, unlimited flashcards & practice",
     "tab_label": "More"
   },
   "upgrade": {
@@ -365,6 +373,10 @@
     "products_loading": "Products loading...",
     "cancel_anytime": "Cancel anytime",
     "instant_access": "Instant access",
+    "sync_pending_title": "Finishing your subscription",
+    "sync_pending_body": "Apple confirmed your subscription, but we could not confirm Pro access on your account yet. Check your connection and retry activation. You do not need to purchase again.",
+    "retry_access": "Retry activation",
+    "restore_failed": "We could not check your purchases. Check your connection and try Restore again.",
     "restore": "Restore previous purchase",
     "maybe_later": "Maybe later",
     "unavailable": "Subscriptions temporarily unavailable. Please try again later.",
@@ -449,5 +461,9 @@
     "done_keep_going": "Keep going — every attempt builds your readiness.",
     "retry": "Try Again",
     "finish": "Finish Review"
+  },
+  "study": {
+    "saving": "Saving answer…",
+    "save_failed": "Your answer has not been saved. Check your connection and retry before continuing."
   }
 }

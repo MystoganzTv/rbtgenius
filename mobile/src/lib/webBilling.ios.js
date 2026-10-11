@@ -3,10 +3,9 @@
 // On iOS every purchase of digital content goes through StoreKit (via
 // RevenueCat). This module is the iOS counterpart of `webBilling.js` and
 // intentionally contains NO external payment endpoint, checkout URL or
-// pricing-page link: App Store Review Guideline 3.1.1 forbids them, and a
-// conditional fallback to one is what got version 1.1.4 rejected under
-// guideline 5.6 ("features that appear to have been intentionally hidden
-// during the review process").
+// pricing-page link. A conditional external checkout fallback was removed
+// while investigating the Guideline 5.6 rejection. Apple has not identified
+// the specific behavior behind that rejection.
 //
 // Keep it that way. If StoreKit is unavailable the paywall must surface an
 // error and let the user retry — it must never route around Apple.

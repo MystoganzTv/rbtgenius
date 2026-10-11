@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Crown,
@@ -215,6 +215,8 @@ export default function Practice() {
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
   const [sessionHydrated, setSessionHydrated] = useState(false);
   const [entitlements, setEntitlements] = useState(null);
+  const sessionWrites = useRef(Promise.resolve());
+  const [sessionSaveError, setSessionSaveError] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: profileData } = useQuery({
@@ -277,7 +279,7 @@ export default function Practice() {
     },
   });
 
-  const { data: savedSession } = useQuery({
+  const { data: savedSession, isSuccess: sessionLoaded, isError: sessionLoadFailed } = useQuery({
     queryKey: ["practice-session"],
     queryFn: api.getPracticeSession,
   });
@@ -334,7 +336,7 @@ export default function Practice() {
     answeredCount >= baseFilteredQuestions.length;
 
   useEffect(() => {
-    if (sessionHydrated) {
+    if (sessionHydrated || !sessionLoaded) {
       return;
     }
 
@@ -353,14 +355,14 @@ export default function Practice() {
     }
 
     setSessionHydrated(true);
-  }, [savedSession, sessionHydrated]);
+  }, [savedSession, sessionHydrated, sessionLoaded]);
 
   useEffect(() => {
     if (!sessionHydrated || !started) {
       return;
     }
 
-    api.savePracticeSession({
+    const snapshot = {
       started,
       topicFilter,
       difficultyFilter,
@@ -369,7 +371,12 @@ export default function Practice() {
       questions: sessionQuestions,
       currentQuestionId,
       responses,
-    });
+    };
+    const timer = setTimeout(() => {
+      sessionWrites.current = sessionWrites.current.catch(() => {}).then(() => api.savePracticeSession(snapshot))
+        .then(() => setSessionSaveError(false)).catch(() => setSessionSaveError(true));
+    }, 250);
+    return () => clearTimeout(timer);
   }, [
     currentQuestionId,
     difficultyFilter,
@@ -399,7 +406,8 @@ export default function Practice() {
     setQuestionSeed(null);
     setReviewFilter("all");
     queryClient.setQueryData(["practice-session"], null);
-    api.clearPracticeSession();
+    sessionWrites.current = sessionWrites.current.catch(() => {}).then(() => api.clearPracticeSession())
+      .catch(() => setSessionSaveError(true));
   };
 
   const startSession = () => {
@@ -516,6 +524,18 @@ export default function Practice() {
 
     startSession();
   };
+
+  if (!sessionHydrated) {
+    return <div className="p-6" role="status">
+      {sessionLoadFailed
+        ? (language === 'es' ? 'No se pudo cargar la sesión.' : 'Unable to load your session.')
+        : (language === 'es' ? 'Cargando sesión…' : 'Loading session…')}
+      {sessionLoadFailed && <button className="ml-3 underline" type="button"
+        onClick={() => queryClient.invalidateQueries({ queryKey: ['practice-session'] })}>
+        {language === 'es' ? 'Reintentar' : 'Retry'}
+      </button>}
+    </div>;
+  }
 
   if (!started) {
     return (
@@ -730,6 +750,7 @@ export default function Practice() {
             />
           </div>
 
+          {sessionSaveError && <p role="alert">{language === 'es' ? 'No se pudo guardar la sesión. Se reintentará al continuar.' : 'Session could not be saved. We will retry when you continue.'}</p>}
           <QuestionCard
             key={currentQuestion.id}
             question={currentQuestion}

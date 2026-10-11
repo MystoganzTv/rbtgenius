@@ -2116,6 +2116,30 @@ export const OFFICIAL_CONCEPT_COUNT = questionConcepts.filter((concept) =>
   isRbtEligibleConcept(concept),
 ).length;
 
+// Canonical translations: each option belongs to a concept's answer or purpose.
+// Generated copies in web/mobile must be refreshed with npm run sync:questions.
+export const QUESTION_BANK_VERSION = "2026-10-11.1";
+let translationsEs = {};
+let optionTranslationsEs = {};
+export function setConceptTranslations(translations) {
+  translationsEs = translations || {};
+  optionTranslationsEs = {};
+  for (const [id, concept] of Object.entries(questionConceptLookup)) {
+    const tr = getConceptTranslationEs(id);
+    if (!tr) continue;
+    for (const field of ["answer", "purpose"]) {
+      if (concept[field] && tr[field]) optionTranslationsEs[concept[field].trim()] = tr[field].trim();
+    }
+  }
+}
+export function getConceptTranslationEs(id) {
+  const tr = translationsEs[id];
+  return tr && ["reviewed", "approved"].includes(tr.status) ? tr : null;
+}
+export function getSpanishForOptionText(text) {
+  return optionTranslationsEs[String(text || "").trim()] || null;
+}
+
 export const PRACTICE_TOPIC_TOTALS = rbtQuestions.reduce(
   (result, question) => ({
     ...result,

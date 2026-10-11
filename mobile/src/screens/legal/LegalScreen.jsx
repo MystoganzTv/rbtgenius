@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
+import { LEGAL_CONTENT_ES } from '../../lib/legalContentEs';
 import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
 import { alpha, getTheme } from '../../theme';
-import { BILLING_PRIVACY_SECTION, REFUND_SECTIONS } from '../../lib/legalBilling';
+import { BILLING_PRIVACY_SECTION, REFUND_SECTIONS, BILLING_PRIVACY_SECTION_ES, REFUND_SECTIONS_ES } from '../../lib/legalBilling';
 
 const CONTENT = {
   terms: {
@@ -11,7 +13,7 @@ const CONTENT = {
     sections: [
       { h: '1. About RBT Genius', b: 'RBT Genius is an educational platform designed to help users prepare for the Registered Behavior Technician exam through practice questions, flashcards, mock exams, and analytics. The platform is intended for study support and does not replace formal supervision, clinical judgment, or BACB guidance.' },
       { h: '2. Accounts and access', b: 'You are responsible for keeping your login credentials secure and for the activity that occurs under your account. You must provide accurate account information and use the service only for lawful and educational purposes.' },
-      { h: '3. Membership plans', b: 'RBT Genius may offer free and premium access levels. Premium features may include expanded question access, mock exams, analytics, and billing tools. Plan details, pricing, and feature availability may change over time.' },
+      { h: '3. Membership plans', b: 'Free accounts can answer 15 practice questions per day, review 15 flashcards per session, and view their progress and performance analytics. Pro includes unlimited practice questions, unlimited flashcard review, and full 85-question mock exams. Subscription prices and any eligible introductory offer are shown before purchase.' },
       { h: '4. Educational use only', b: 'Content inside RBT Genius is provided for study and review. It should not be treated as legal, medical, psychological, or supervisory advice. Users remain responsible for following the standards and requirements of the BACB, their employers, and their supervisors.' },
       { h: '5. Acceptable use', b: 'You may not misuse the platform, attempt unauthorized access, copy or resell protected content, interfere with service availability, or use automated methods to extract the question bank or system content without written permission.' },
       { h: '6. Service updates', b: 'We may improve, modify, or discontinue parts of the service as the product evolves. Reasonable effort will be made to maintain platform availability, but uninterrupted access is not guaranteed.' },
@@ -42,7 +44,14 @@ export default function LegalScreen({ route, navigation }) {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
-  const content = CONTENT[type] ?? CONTENT.terms;
+  const { i18n } = useTranslation();
+  const isSpanish = i18n?.language === 'es';
+  const spanish = {
+    ...LEGAL_CONTENT_ES,
+    privacy: { ...LEGAL_CONTENT_ES.privacy, sections: LEGAL_CONTENT_ES.privacy.sections.map(section => section || BILLING_PRIVACY_SECTION_ES) },
+    refund: { ...LEGAL_CONTENT_ES.refund, sections: REFUND_SECTIONS_ES },
+  };
+  const content = isSpanish ? (spanish[type] ?? spanish.terms) : (CONTENT[type] ?? CONTENT.terms);
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
@@ -65,7 +74,7 @@ export default function LegalScreen({ route, navigation }) {
 
         <View style={s.contactBox}>
           <Feather name="mail" color={theme.primary} size={16} style={{ marginBottom: 6 }} />
-          <Text style={s.contactText}>Questions? Email us at</Text>
+          <Text style={s.contactText}>{isSpanish ? '¿Tienes preguntas? Escríbenos a' : 'Questions? Email us at'}</Text>
           <Text style={s.contactEmail}>info@rbtgenius.com</Text>
         </View>
       </ScrollView>

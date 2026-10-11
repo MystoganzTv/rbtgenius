@@ -1,3 +1,5 @@
+import { useStudySave } from '../../hooks/useStudySave';
+import StudySaveStatus from '../../components/questions/StudySaveStatus';
 // @ts-nocheck
 import { useState, useCallback, useRef, useMemo } from 'react';
 import {
@@ -45,7 +47,7 @@ interface TranslationContent {
   options?: Array<{ english: string; spanish: string }>;
 }
 
-const ALL_CARDS = getFlashcards(120) as FlashcardItem[];
+const ALL_CARDS = getFlashcards() as FlashcardItem[];
 const DIFFICULTY_KEYS: DifficultyKey[] = ['all', 'Easy', 'Medium', 'Hard'];
 
 export default function FlashcardsScreen({ navigation }: { navigation?: Navigation }) {
@@ -69,7 +71,13 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
   const [reviewing, setReviewing] = useState<Set<string | number>>(new Set());
   const [sessionAnswered, setSessionAnswered] = useState(0);
   const [translationPanel, setTranslationPanel] = useState<TranslationPanelState | null>(null);
-  const submitting = useRef(false);
+  const saveState = useStudySave((user as any)?.id, token, 'flashcards', (result: any) => {
+    setSessionAnswered(count => count + 1);
+    if (result.is_correct) setMastered(previous => new Set([...previous, result.question_id]));
+    else setReviewing(previous => new Set([...previous, result.question_id]));
+    setFlipped(false);
+    setTranslationPanel(null);
+  });
 
   const filtered = ALL_CARDS.filter((card) => {
     const topicOk = filterTopic === 'all' || card.topic === filterTopic;
@@ -87,7 +95,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
   const card = filtered[index % safeLen] ?? null;
   const limitHit = !isPro && sessionAnswered >= sessionLimit;
   const allMastered = filtered.length === 0 && totalInDeck > 0;
-  const masteredCount = mastered.size;
+  const masteredCount = ALL_CARDS.filter(c => mastered.has(c.id) && (filterTopic === 'all' || c.topic === filterTopic) && (filterDiff === 'all' || c.difficulty === filterDiff)).length;
   const progressPct = totalInDeck > 0 ? Math.round((masteredCount / totalInDeck) * 100) : 0;
   const isCardMastered = card ? mastered.has(card.id) : false;
   const isCardReviewing = card ? reviewing.has(card.id) : false;
@@ -96,34 +104,10 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
     [card?._raw],
   );
 
-  const submitAttempt = useCallback(async (currentCard: FlashcardItem, isCorrect: boolean) => {
-    if (!token || submitting.current) return;
-    submitting.current = true;
-    try {
-      await fetch(`${API_BASE}/api/question-attempts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          question_id: currentCard.id,
-          is_correct: isCorrect,
-          topic: currentCard.topic,
-          difficulty: currentCard.difficulty ?? 'Medium',
-          selected_answer: isCorrect ? 'A' : 'B',
-        }),
-      });
-      setSessionAnswered((count) => count + 1);
-    } catch {
-      // silent
-    } finally {
-      submitting.current = false;
-    }
-  }, [token]);
-
-  const advance = () => {
-    setFlipped(false);
-    setTranslationPanel(null);
-    setIndex((current) => current % Math.max(filtered.length - 1, 1));
-  };
+  const submitAttempt = (currentCard: FlashcardItem, isCorrect: boolean) => saveState.save({
+    question_id: currentCard.id,
+    selected_answer: isCorrect ? currentCard._raw.correct_answer : currentCard._raw.options.find((option: any) => option.label !== currentCard._raw.correct_answer).label,
+  });
 
   const flip = () => {
     if (!card) return;
@@ -131,29 +115,29 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
     setFlipped((current) => !current);
   };
 
-  const markGotIt = () => {
-    if (!card || limitHit) return;
+  const markGotIt = async () => {
+    if (!card || limitHit || saveState.blocked) return;
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    submitAttempt(card, true);
-    setMastered((prev) => new Set([...prev, card.id]));
-    advance();
+    if (!await submitAttempt(card, true)) return;
+
   };
 
-  const markStudyMore = () => {
-    if (!card || limitHit) return;
+  const markStudyMore = async () => {
+    if (!card || limitHit || saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    submitAttempt(card, false);
-    setReviewing((prev) => new Set([...prev, card.id]));
-    advance();
+    if (!await submitAttempt(card, false)) return;
+    next();
   };
 
   const next = () => {
+    if (saveState.blocked) return;
     setFlipped(false);
     setTranslationPanel(null);
     setIndex((current) => (current + 1) % safeLen);
   };
 
   const prev = () => {
+    if (saveState.blocked) return;
     setFlipped(false);
     setTranslationPanel(null);
     setIndex((current) => (current - 1 + safeLen) % safeLen);
@@ -169,6 +153,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
   };
 
   const changeFilter = (type: 'topic' | 'diff', value: string) => {
+    if (saveState.blocked) return;
     if (type === 'topic') {
       setFilterTopic(value);
     } else {
@@ -182,6 +167,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
   if (limitHit) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
+      <StudySaveStatus state={saveState} theme={theme} />
         <View style={s.topBar}><Text style={s.screenTitle}>{t('flashcards.title')}</Text></View>
         <View style={s.centerWrap}>
           <Text style={s.bigIcon}>🎯</Text>
@@ -201,6 +187,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
   if (allMastered) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
+      <StudySaveStatus state={saveState} theme={theme} />
         <View style={s.topBar}><Text style={s.screenTitle}>{t('flashcards.title')}</Text></View>
         <View style={s.centerWrap}>
           <Text style={s.bigIcon}>🏆</Text>
@@ -228,6 +215,7 @@ export default function FlashcardsScreen({ navigation }: { navigation?: Navigati
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
+      <StudySaveStatus state={saveState} theme={theme} />
       <View style={s.topBar}>
         <Text style={s.screenTitle}>{t('flashcards.title')}</Text>
         <View style={s.topStatRow}>

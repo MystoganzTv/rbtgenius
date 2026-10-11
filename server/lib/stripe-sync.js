@@ -55,7 +55,7 @@ export function findUserForBilling(db, lookup = {}) {
     db.users.find(
       (user) => user.stripe_subscription_id && user.stripe_subscription_id === subscriptionId,
     ) ||
-    db.users.find((user) => normalizeEmail(user.email) === normalizeEmail(email)) ||
+    (email && db.users.find((user) => normalizeEmail(user.email) === normalizeEmail(email))) ||
     null
   );
 }
@@ -74,6 +74,7 @@ function upsertPayment(payments, match, nextPayment) {
     return {
       ...payment,
       ...nextPayment,
+      ...Object.fromEntries(Object.entries(payment).filter(([key, value]) => key.startsWith("stripe_") && value && !nextPayment[key])),
       id: payment.id,
       created_at: payment.created_at || nextPayment.created_at,
     };
@@ -81,8 +82,9 @@ function upsertPayment(payments, match, nextPayment) {
 }
 
 export function syncConfirmedCheckout(current, checkout, createId) {
+  if (!["paid", "no_payment_required"].includes(checkout.payment_status)) return current;
   const user = findUserForBilling(current, {
-    userId: checkout.client_reference_id,
+    userId: checkout.client_reference_id || checkout.metadata?.user_id,
     customerId: getObjectId(checkout.customer),
     subscriptionId: getObjectId(checkout.subscription),
     email: checkout.customer_details?.email || checkout.customer_email,
@@ -102,7 +104,7 @@ export function syncConfirmedCheckout(current, checkout, createId) {
   }
 
   const nextPayment = {
-    id: createId("payment"),
+    id: getObjectId(checkout.invoice) ? `pay_stripe_invoice_${getObjectId(checkout.invoice)}` : `pay_stripe_session_${checkout.id}`,
     user_id: user.id,
     created_at: new Date().toISOString(),
     plan,
@@ -135,20 +137,24 @@ export function syncConfirmedCheckout(current, checkout, createId) {
     ),
     payments: upsertPayment(
       current.payments,
-      (payment) => payment.stripe_session_id === checkout.id,
+      (payment) => payment.stripe_session_id === checkout.id ||
+        (getObjectId(checkout.invoice) && payment.stripe_invoice_id === getObjectId(checkout.invoice)),
       nextPayment,
     ),
   };
 }
 
-function applyInvoicePaid(current, invoice, createId) {
-  if (invoice?.billing_reason === "subscription_create") {
-    return current;
-  }
+export function getInvoiceSubscriptionId(invoice) {
+  return getObjectId(invoice.parent?.subscription_details?.subscription || invoice.subscription);
+}
+
+export function applyInvoicePaid(current, invoice, createId) {
+  if (!getInvoiceSubscriptionId(invoice)) return current;
 
   const user = findUserForBilling(current, {
     customerId: getObjectId(invoice.customer),
-    subscriptionId: getObjectId(invoice.subscription),
+    subscriptionId: getInvoiceSubscriptionId(invoice),
+    userId: invoice.parent?.subscription_details?.metadata?.user_id || invoice.subscription_details?.metadata?.user_id,
     email: invoice.customer_email,
   });
 
@@ -166,11 +172,11 @@ function applyInvoicePaid(current, invoice, createId) {
   }
 
   const nextPayment = {
-    id: createId("payment"),
+    id: `pay_stripe_invoice_${invoice.id}`,
     user_id: user.id,
     created_at: new Date().toISOString(),
     plan,
-    amount: Number((((invoice.amount_paid || invoice.amount_due || 0) / 100) || 0).toFixed(2)),
+    amount: Number((((invoice.amount_paid ?? 0) / 100) || 0).toFixed(2)),
     currency: normalizeCurrency(invoice.currency),
     status: "completed",
     payment_date: new Date((invoice.status_transitions?.paid_at || invoice.created || Math.floor(Date.now() / 1000)) * 1000).toISOString(),
@@ -178,7 +184,7 @@ function applyInvoicePaid(current, invoice, createId) {
     provider_label: "Stripe",
     stripe_session_id: null,
     stripe_customer_id: getObjectId(invoice.customer),
-    stripe_subscription_id: getObjectId(invoice.subscription),
+    stripe_subscription_id: getInvoiceSubscriptionId(invoice),
     stripe_invoice_id: invoice.id,
     stripe_payment_intent_id: getObjectId(invoice.payment_intent),
     stripe_charge_id: getObjectId(invoice.charge),
@@ -193,7 +199,7 @@ function applyInvoicePaid(current, invoice, createId) {
             plan,
             stripe_customer_id: getObjectId(invoice.customer) || entry.stripe_customer_id || null,
             stripe_subscription_id:
-              getObjectId(invoice.subscription) || entry.stripe_subscription_id || null,
+              getInvoiceSubscriptionId(invoice) || entry.stripe_subscription_id || null,
           }
         : entry,
     ),
@@ -327,6 +333,7 @@ export function applyStripeWebhookEvent(current, event, createId) {
   let next = current;
 
   switch (event.type) {
+    case "checkout.session.async_payment_succeeded":
     case "checkout.session.completed":
       next = syncConfirmedCheckout(next, event.data?.object || {}, createId);
       break;

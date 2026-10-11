@@ -15,3 +15,14 @@ export const REFUND_SECTIONS = [
   { h: '3. What we can help with', b: 'If premium features did not unlock after a purchase, or your subscription status looks wrong in the app, that is ours to fix. Email info@rbtgenius.com with the email on your account and we will sort out the entitlement.' },
   { h: '4. Cancelling', b: 'Cancelling stops the next renewal; premium access stays available until the end of the period you already paid for. Cancelling does not by itself trigger a refund for the current period.' },
 ];
+
+export const BILLING_PRIVACY_SECTION_ES = {
+  h: '3. Datos de facturación y pago',
+  b: 'Apple procesa las suscripciones adquiridas en esta app mediante compras dentro de la aplicación. RBT Genius no recibe ni almacena tus datos de pago. Solo guardamos el estado de suscripción que informa Apple: el producto adquirido, si está activo y cuándo se renueva o vence, para habilitar las funciones premium de tu cuenta.',
+};
+export const REFUND_SECTIONS_ES = [
+  { h: '1. Compras de suscripciones', b: 'El acceso premium se vende como suscripción mensual o anual con renovación automática y se carga a tu Apple ID al confirmar la compra. Se renueva automáticamente salvo que desactives la renovación al menos 24 horas antes del final del período actual. Puedes gestionarla o cancelarla en Ajustes > tu nombre > Suscripciones.' },
+  { h: '2. Solicitudes de reembolso', b: 'Apple gestiona los reembolsos de compras realizadas en esta app. RBT Genius no puede emitir, aprobar ni rechazar un reembolso de una compra de App Store. Solicítalo en reportaproblem.apple.com con el Apple ID utilizado para comprar.' },
+  { h: '3. Cómo podemos ayudarte', b: 'Si las funciones premium no se activaron tras una compra o el estado de tu suscripción parece incorrecto, podemos resolverlo. Escribe a info@rbtgenius.com e indica el correo de tu cuenta para revisar tu acceso.' },
+  { h: '4. Cancelación', b: 'Cancelar detiene la siguiente renovación. Conservas el acceso premium hasta que termine el período que ya pagaste. La cancelación no genera por sí sola un reembolso del período actual.' },
+];

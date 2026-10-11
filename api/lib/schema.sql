@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS push_tokens (
   user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
   token TEXT NOT NULL,
   platform TEXT NOT NULL DEFAULT 'ios',
+  language TEXT NOT NULL DEFAULT 'en',
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

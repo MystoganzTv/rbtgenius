@@ -1,3 +1,4 @@
+import { authErrorText } from '../../lib/authError';
 import { useState, useEffect } from 'react';
 import {
   ActivityIndicator,
@@ -48,7 +49,7 @@ export default function LoginScreen({ navigation }) {
     }
     setLoading(true);
     try { await login(email.trim().toLowerCase(), password); }
-    catch (err) { Alert.alert(t('auth.alert_login_failed'), err.message ?? t('auth.error_credentials')); }
+    catch (err) { Alert.alert(t('auth.alert_login_failed'), authErrorText(err, t)); }
     finally { setLoading(false); }
   };
 
@@ -58,7 +59,7 @@ export default function LoginScreen({ navigation }) {
       await loginWithApple();
     } catch (err) {
       if (err?.code === 'ERR_REQUEST_CANCELED') return;
-      Alert.alert(t('auth.alert_apple_failed'), err.message ?? t('common.try_again'));
+      Alert.alert(t('auth.alert_apple_failed'), authErrorText(err, t));
     } finally {
       setAppleLoading(false);
     }
@@ -69,7 +70,7 @@ export default function LoginScreen({ navigation }) {
     try {
       await loginWithGoogle();
     } catch (err) {
-      Alert.alert(t('auth.alert_google_failed'), err.message ?? t('common.try_again'));
+      Alert.alert(t('auth.alert_google_failed'), authErrorText(err, t));
     } finally {
       setGoogleLoading(false);
     }

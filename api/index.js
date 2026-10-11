@@ -24,9 +24,9 @@ import {
   createStripeStoreCheckoutSession,
   getBillingConfig,
   getStripeSubscriptionSummary,
-  resolvePlanFromStripeData,
 } from '../server/lib/billing.js';
-import { findUserForBilling, syncConfirmedCheckout, applyStripeWebhookEvent } from '../server/lib/stripe-sync.js';
+import { prepareStripeEvent, processStripeEvent } from '../server/lib/stripe-webhook.js';
+import { getStripeClient } from '../server/lib/billing.js';
 import {
   notifyNewMember,
   notifyNewSubscription,
@@ -344,6 +344,26 @@ async function recordStorePurchase(checkout) {
   return user;
 }
 
+// Email failures must not undo a paid entitlement. Payment insert deduplication
+// also prevents the webhook and the return page sending two confirmations.
+async function sendStripeNotifications(result, event) {
+  if (!result.user || !result.action) return;
+  try {
+    if (result.action === 'started') {
+      await notifyNewSubscription({ user: result.user, plan: result.user.plan, checkout: event.data.object });
+    }
+    await notifyBilling(result.action, {
+      user: result.user, plan: result.user.plan, source: 'stripe',
+      details: { 'Stripe reference': event.data.object.id },
+    });
+    if (result.inserted && result.payment?.status === 'completed' && result.payment.amount > 0) {
+      await sendPaymentConfirmation({ user: result.user, payment: result.payment });
+    }
+  } catch (err) {
+    console.error('[stripe] Notification failed:', event.id, err.message);
+  }
+}
+
 // Rate limit helpers that work with Postgres instead of the JSON blob
 async function checkRateLimitPg(bucket, identityParts) {
   const BUCKETS = { login: { limit: 5, windowMs: 15 * 60 * 1000 }, register: { limit: 3, windowMs: 60 * 60 * 1000 } };
@@ -495,221 +515,27 @@ async function webApiHandler(req) {
     return json(checks);
   }
 
-  // ── Stripe webhook ──────────────────────────────────────────────────────────
-  if (apiPath === '/billing/webhook' && req.method === 'POST') {
+  // Both public webhook URLs run the same verified, retryable processor.
+  if (['/billing/webhook', '/stripe/webhook'].includes(apiPath) && req.method === 'POST') {
+    let event;
     try {
-      const payload = await req.text();
-      const event = constructStripeWebhookEvent(payload, req.headers.get('stripe-signature'));
-      if (await db.hasStripeEvent(event.id)) return json({ received: true, duplicate: true });
-      await db.saveStripeEvent(event.id);
-
-      if (event.type === 'checkout.session.completed') {
-        const checkout = event.data?.object || {};
-
-        if (checkout.metadata?.payment_type === 'store_purchase') {
-          await recordStorePurchase({
-            session_id: checkout.id,
-            status: checkout.status,
-            payment_status: checkout.payment_status,
-            amount_total: checkout.amount_total ?? 0,
-            currency: checkout.currency || 'usd',
-            customer_id:
-              typeof checkout.customer === 'string' ? checkout.customer : checkout.customer?.id || null,
-            customer_email: checkout.customer_details?.email || checkout.customer_email || null,
-            client_reference_id: checkout.client_reference_id || null,
-            metadata: checkout.metadata || {},
-            completed_at: new Date(
-              (checkout.created || Math.floor(Date.now() / 1000)) * 1000,
-            ).toISOString(),
-          });
-        } else {
-          const allUsers = await db.getAllUsers();
-          const allPayments = await db.getAllPayments();
-          const mockCurrentDb = { users: allUsers, payments: allPayments };
-          const mockNext = applyStripeWebhookEvent(mockCurrentDb, event, createId);
-          for (const u of mockNext.users) {
-            const orig = allUsers.find(x => x.id === u.id);
-            if (
-              orig &&
-              (
-                orig.plan !== u.plan ||
-                orig.stripe_customer_id !== u.stripe_customer_id ||
-                orig.stripe_subscription_id !== u.stripe_subscription_id
-              )
-            ) {
-              await db.updateUser(u.id, {
-                plan: u.plan,
-                stripe_customer_id: u.stripe_customer_id,
-                stripe_subscription_id: u.stripe_subscription_id,
-              });
-            }
-          }
-          let recordedPayment = null;
-          for (const p of mockNext.payments) {
-            if (!allPayments.find(x => x.id === p.id)) {
-              const paymentWrite = await db.createPayment(p);
-              if (paymentWrite.inserted) recordedPayment = paymentWrite.payment;
-            }
-          }
-          const user = findUserForBilling({ users: mockNext.users, payments: mockNext.payments }, {
-            userId: checkout.client_reference_id,
-            customerId: typeof checkout.customer === 'string' ? checkout.customer : checkout.customer?.id,
-            email: checkout.customer_details?.email || checkout.customer_email,
-          });
-          if (user) {
-            const plan = checkout.metadata?.plan || user.plan;
-            await notifyNewSubscription({ user, plan, checkout });
-            await notifyBilling('started', {
-              user,
-              plan,
-              source: 'stripe',
-              details: {
-                Amount: checkout.amount_total
-                  ? `${Number(checkout.amount_total) / 100} ${String(checkout.currency || 'usd').toUpperCase()}`
-                  : '',
-                'Stripe session': checkout.id,
-              },
-            });
-            if (
-              recordedPayment?.status === 'completed' &&
-              recordedPayment.amount > 0
-            ) {
-              await sendPaymentConfirmation({ user, payment: recordedPayment });
-            }
-          }
-        }
-      }
-
-      if (event.type === 'customer.subscription.deleted') {
-        const sub = event.data?.object || {};
-        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
-        const user = await db.getUserByStripeCustomerId(customerId);
-        if (user) {
-          await db.updateUser(user.id, {
-            plan: 'free',
-            stripe_customer_id: customerId || user.stripe_customer_id || null,
-            stripe_subscription_id: null,
-          });
-          console.log(`[webhook] Subscription cancelled — downgraded ${user.email} to free`);
-          await notifyBilling('cancelled', {
-            user,
-            plan: user.plan,
-            source: 'stripe',
-            details: { Reason: 'subscription deleted', 'Stripe subscription': sub.id },
-          });
-        }
-      }
-
-      if (event.type === 'customer.subscription.updated') {
-        const sub = event.data?.object || {};
-        const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
-        const user = await db.getUserByStripeCustomerId(customerId);
-        if (user && sub.status === 'active') {
-          const priceId = sub.items?.data?.[0]?.price?.id;
-          const plan = resolvePlanFromStripeData(sub.metadata, priceId);
-          if (plan && plan !== 'free') {
-            await db.updateUser(user.id, {
-              plan,
-              stripe_customer_id: customerId || user.stripe_customer_id || null,
-              stripe_subscription_id: sub.id || user.stripe_subscription_id || null,
-            });
-            console.log(`[webhook] Subscription updated — ${user.email} → ${plan}`);
-          }
-        }
-        if (user && (sub.status === 'canceled' || sub.status === 'unpaid')) {
-          await db.updateUser(user.id, {
-            plan: 'free',
-            stripe_customer_id: customerId || user.stripe_customer_id || null,
-            stripe_subscription_id: sub.id || user.stripe_subscription_id || null,
-          });
-          console.log(`[webhook] Subscription ${sub.status} — downgraded ${user.email} to free`);
-          await notifyBilling('cancelled', {
-            user,
-            plan: user.plan,
-            source: 'stripe',
-            details: { Reason: `subscription ${sub.status}`, 'Stripe subscription': sub.id },
-          });
-        }
-      }
-
-      if (event.type === 'invoice.paid') {
-        const invoice = event.data?.object || {};
-        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
-        const user = await db.getUserByStripeCustomerId(customerId);
-        if (user && invoice.billing_reason === 'subscription_cycle') {
-          // Recurring renewal — ensure plan stays active
-          const priceId = invoice.lines?.data?.[0]?.price?.id;
-          const plan = resolvePlanFromStripeData(
-            invoice.parent?.subscription_details?.metadata || invoice.subscription_details?.metadata,
-            priceId,
-          );
-          if (plan && plan !== 'free' && user.plan !== plan) {
-            await db.updateUser(user.id, { plan });
-          }
-          // Record renewal payment
-          const paymentWrite = await db.createPayment({
-            id: `pay_stripe_invoice_${invoice.id}`,
-            user_id: user.id,
-            status: 'completed',
-            amount: (invoice.amount_paid || 0) / 100,
-            payment_date: new Date((invoice.created || Date.now() / 1000) * 1000).toISOString(),
-            created_at: new Date().toISOString(),
-            plan: plan || user.plan,
-            currency: String(invoice.currency || 'usd').toUpperCase(),
-            provider: 'stripe',
-            provider_label: 'Stripe',
-            stripe_customer_id: customerId || null,
-            stripe_invoice_id: invoice.id,
-            metadata: {
-              invoice_id: invoice.id,
-              reason: 'subscription_renewal',
-            },
-          });
-          console.log(`[webhook] Renewal payment recorded for ${user.email}`);
-          await notifyBilling('renewed', {
-            user,
-            plan: plan || user.plan,
-            source: 'stripe',
-            details: {
-              Amount: `${(invoice.amount_paid || 0) / 100} ${String(invoice.currency || 'usd').toUpperCase()}`,
-              Invoice: invoice.id,
-            },
-          });
-          if (
-            paymentWrite.inserted &&
-            paymentWrite.payment.amount > 0
-          ) {
-            await sendPaymentConfirmation({
-              user,
-              payment: paymentWrite.payment,
-            });
-          }
-        }
-      }
-
-      if (event.type === 'invoice.payment_failed') {
-        const invoice = event.data?.object || {};
-        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
-        const user = await db.getUserByStripeCustomerId(customerId);
-        if (user) {
-          console.warn(`[webhook] Payment failed for ${user.email} — invoice ${invoice.id}`);
-          // Stripe will retry — we don't downgrade immediately
-          await notifyBilling('payment_failed', {
-            user,
-            plan: user.plan,
-            source: 'stripe',
-            details: {
-              Amount: `${(invoice.amount_due || 0) / 100} ${String(invoice.currency || 'usd').toUpperCase()}`,
-              Invoice: invoice.id,
-              Attempt: invoice.attempt_count,
-            },
-          });
-        }
-      }
-
-      return json({ received: true });
+      event = constructStripeWebhookEvent(await req.text(), req.headers.get('stripe-signature'));
     } catch (err) {
-      return json({ message: err.message || 'Invalid Stripe webhook event' }, { status: 400 });
+      return json({ message: 'Invalid Stripe webhook signature' }, { status: 400 });
+    }
+    try {
+      if (await db.hasStripeEvent(event.id)) return json({ received: true, duplicate: true });
+      const prepared = await prepareStripeEvent(event, getStripeClient());
+      const result = await processStripeEvent(prepared, { db, recordStorePurchase });
+      await sendStripeNotifications(result, event);
+      // Keep this request bounded to its own payment; the owner dashboard
+      // reconciles older fees separately. Never scan all payments in a webhook.
+      try { if (result.payment) await reconcileStripeFees({ limit: 1, paymentIds: [result.payment.id] }); }
+      catch (err) { console.error('[stripe] Fee reconciliation deferred:', err.message); }
+      return json({ received: true, ...(result.duplicate ? { duplicate: true } : {}) });
+    } catch (err) {
+      console.error('[stripe] Processing failed:', event.id, event.type, err.message);
+      return json({ message: 'Stripe event processing failed; retry required' }, { status: 500 });
     }
   }
 
@@ -1171,14 +997,21 @@ async function webApiHandler(req) {
   if (apiPath === '/question-attempts' && req.method === 'POST') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
+    const body = await req.json();
+    const requestId = typeof body.attempt_id === 'string' && /^[a-zA-Z0-9-]{8,100}$/.test(body.attempt_id) ? body.attempt_id : null;
+    const attemptId = requestId ? `attempt_${auth.user.id}_${requestId}` : createId('attempt');
+    const existing = requestId ? await db.getAttemptById(attemptId, auth.user.id) : null;
+    if (existing) {
+      const { entitlements } = await buildUserAccessState(auth.user);
+      return json({ ...existing, entitlements });
+    }
     const { entitlements } = await buildUserAccessState(auth.user);
     if (entitlements.practice_daily_limit !== null && entitlements.usage.practice_questions_remaining <= 0)
       return sendPlanLimitReached('practice_limit', entitlements.practice_daily_limit, entitlements.usage.practice_questions_remaining);
-    const body = await req.json();
     const evaluation = evaluateQuestionAnswer(body?.question_id, body?.selected_answer);
     if (!evaluation) return json({ message: 'Question not found' }, { status: 400 });
     const attempt = await db.createAttempt({
-      id: createId('attempt'), user_id: auth.user.id, created_at: new Date().toISOString(),
+      id: attemptId, user_id: auth.user.id, created_at: new Date().toISOString(),
       question_id: evaluation.question_id, selected_answer: evaluation.selected_answer,
       is_correct: evaluation.is_correct, topic: evaluation.topic, source: body?.source || 'practice',
     });
@@ -1202,7 +1035,7 @@ async function webApiHandler(req) {
     const questionIds = Array.isArray(body?.question_ids) ? body.question_ids : [];
     const answers = body?.answers || {};
     const questions = questionIds.map(qid => evaluateQuestionAnswer(qid, answers[qid])).filter(Boolean);
-    if (questions.length === 0) return json({ message: 'Mock exam questions are required' }, { status: 400 });
+    if (questions.length === 0 || questions.length !== questionIds.length || new Set(questionIds).size !== questionIds.length) return json({ message: 'Exam contains missing, unknown or duplicate questions. Update the app and try again.' }, { status: 400 });
     const correct = questions.filter(q => q.is_correct).length;
     const score = Math.round((correct / questions.length) * 100);
     const domainScores = {};
@@ -1306,29 +1139,21 @@ async function webApiHandler(req) {
       const checkout = await confirmStripeCheckoutSession(sessionId);
       const ownsSession = checkout.client_reference_id === auth.user.id || String(checkout.customer_email || '').toLowerCase() === auth.user.email.toLowerCase();
       if (!ownsSession) return json({ message: 'This checkout session does not belong to you' }, { status: 403 });
-      const allUsers = await db.getAllUsers();
-      const allPayments = await db.getAllPayments();
-      const mockDb = { users: allUsers, payments: allPayments };
-      const mockEvent = { id: sessionId, metadata: { plan: checkout.plan, user_id: auth.user.id }, customer: checkout.customer_id, subscription: checkout.subscription_id, amount_total: Number(checkout.amount_total || 0), currency: checkout.currency, payment_status: checkout.payment_status, status: checkout.status, created: Math.floor(new Date(checkout.completed_at).getTime() / 1000), customer_details: { email: checkout.customer_email }, customer_email: checkout.customer_email, client_reference_id: checkout.client_reference_id || auth.user.id };
-      const next = syncConfirmedCheckout(mockDb, mockEvent, createId);
-      for (const u of next.users) {
-        const orig = allUsers.find(x => x.id === u.id);
-        if (
-          orig &&
-          (
-            orig.plan !== u.plan ||
-            orig.stripe_customer_id !== u.stripe_customer_id ||
-            orig.stripe_subscription_id !== u.stripe_subscription_id
-          )
-        ) {
-          await db.updateUser(u.id, {
-            plan: u.plan,
-            stripe_customer_id: u.stripe_customer_id,
-            stripe_subscription_id: u.stripe_subscription_id,
-          });
-        }
-      }
-      for (const p of next.payments) { if (!allPayments.find(x => x.id === p.id)) await db.createPayment(p); }
+      const event = {
+        id: `checkout_confirm_${sessionId}`, type: 'checkout.session.completed',
+        data: { object: {
+          id: sessionId, mode: 'subscription', metadata: { plan: checkout.plan, user_id: auth.user.id },
+          customer: checkout.customer_id, subscription: checkout.subscription_id,
+          invoice: checkout.invoice_id, payment_intent: checkout.payment_intent_id,
+          amount_total: checkout.amount_total, currency: checkout.currency,
+          payment_status: checkout.payment_status, status: checkout.status,
+          created: Math.floor(new Date(checkout.completed_at).getTime() / 1000),
+          customer_email: checkout.customer_email, client_reference_id: checkout.client_reference_id || auth.user.id,
+        } },
+      };
+      const prepared = await prepareStripeEvent(event, getStripeClient());
+      const result = await processStripeEvent(prepared, { db, recordStorePurchase });
+      await sendStripeNotifications(result, event);
       const freshUser = await db.getUserById(auth.user.id);
       return json(await buildProfilePayloadAsync(freshUser));
     } catch (err) { return json({ message: err.message || 'Unable to confirm checkout' }, { status: 400 }); }
@@ -1827,9 +1652,9 @@ async function webApiHandler(req) {
   if (apiPath === '/push-tokens' && req.method === 'POST') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
-    const { token: pushToken, platform } = await req.json().catch(() => ({}));
+    const { token: pushToken, platform, language } = await req.json().catch(() => ({}));
     if (!pushToken || typeof pushToken !== 'string') return json({ message: 'token is required' }, { status: 400 });
-    await db.upsertPushToken(auth.user.id, pushToken, platform);
+    await db.upsertPushToken(auth.user.id, pushToken, platform, language);
     return json({ ok: true });
   }
 

@@ -50,6 +50,8 @@ export default function MockExamScreen({ navigation }) {
   const [translationPanel, setTranslationPanel] = useState(null);
   const timerRef   = useRef(null);
   const startTime  = useRef(null);
+  const finishExamRef = useRef(null);
+  const finishing = useRef(false);
 
   // ── Start ─────────────────────────────────────────────────────────────────
   const startExam = () => {
@@ -63,6 +65,7 @@ export default function MockExamScreen({ navigation }) {
     setSaveError(false);
     setTranslationPanel(null);
     startTime.current = Date.now();
+    finishing.current = false;
     setPhase('running');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
@@ -70,12 +73,12 @@ export default function MockExamScreen({ navigation }) {
   // ── Timer ─────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (phase !== 'running') return;
-    timerRef.current = setInterval(() => {
-      setTimeLeft(t => {
-        if (t <= 1) { clearInterval(timerRef.current); finishExam(); return 0; }
-        return t - 1;
-      });
-    }, 1000);
+    const tick = () => {
+      const remaining = Math.max(0, TIME_LIMIT - Math.floor((Date.now() - startTime.current) / 1000));
+      setTimeLeft(remaining);
+      if (remaining === 0) finishExamRef.current?.();
+    };
+    timerRef.current = setInterval(tick, 1000);
     return () => clearInterval(timerRef.current);
   }, [phase]);
 
@@ -119,6 +122,8 @@ export default function MockExamScreen({ navigation }) {
 
   // ── Save to server ────────────────────────────────────────────────────────
   const finishExam = useCallback(async () => {
+    if (finishing.current) return;
+    finishing.current = true;
     clearInterval(timerRef.current);
     setPhase('saving');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -186,6 +191,8 @@ export default function MockExamScreen({ navigation }) {
     setPhase('results');
   }, [questions, answers, token]);
 
+  useEffect(() => { finishExamRef.current = finishExam; }, [finishExam]);
+
   const q = questions[index];
   const translationContent = useMemo(
     () => q?._raw ? buildQuestionTranslationContent(q._raw) : null,
@@ -238,7 +245,7 @@ export default function MockExamScreen({ navigation }) {
               {DOMAIN_CONFIG.map(d => {
                 const pct   = Math.round(domainScores[d.key] ?? 0);
                 const color = toneColor(d.accent, theme);
-                if (pct === 0 && !domainScores[d.key]) return null;
+                if (domainScores[d.key] == null) return null;
                 return (
                   <View key={d.key} style={s.domainRow}>
                     <View style={s.domainMeta}>

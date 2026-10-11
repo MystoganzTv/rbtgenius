@@ -19,7 +19,7 @@ const PLAN_AMOUNTS = {
 
 let stripeClient = null;
 
-function getStripeClient() {
+export function getStripeClient() {
   if (stripeClient) {
     return stripeClient;
   }
@@ -39,6 +39,7 @@ export function getPlanPriceId(plan) {
 }
 
 export function resolvePlanFromPriceId(priceId) {
+  if (!priceId) return PLAN_IDS.FREE;
   const matchedPlan = Object.keys(STRIPE_PRICE_ENV).find(
     (plan) => getPlanPriceId(plan) === priceId,
   );
@@ -193,24 +194,26 @@ export function constructStripeWebhookEvent(payload, signature) {
   return stripe.webhooks.constructEvent(payload, signature, secret);
 }
 
-function buildAbsoluteUrl(origin, pathname, params = {}) {
+export function buildAbsoluteUrl(origin, pathname, params = {}) {
   const url = new URL(pathname, origin);
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
       url.searchParams.set(key, String(value));
     }
   });
-  return url.toString();
+  // Stripe requires this exact literal token in success_url to substitute the session ID.
+  return url.toString().replaceAll("%7BCHECKOUT_SESSION_ID%7D", "{CHECKOUT_SESSION_ID}");
 }
 
-function buildReturnUrl(baseUrl, params = {}) {
+export function buildReturnUrl(baseUrl, params = {}) {
   const url = new URL(baseUrl);
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
       url.searchParams.set(key, String(value));
     }
   });
-  return url.toString();
+  // Stripe requires this exact literal token in success_url to substitute the session ID.
+  return url.toString().replaceAll("%7BCHECKOUT_SESSION_ID%7D", "{CHECKOUT_SESSION_ID}");
 }
 
 export async function createStripeCheckoutSession({
@@ -311,7 +314,7 @@ export async function confirmStripeCheckoutSession(sessionId) {
     throw new Error("This checkout session is not a subscription checkout.");
   }
 
-  if (session.status !== "complete" && session.payment_status !== "paid") {
+  if (session.status !== "complete" || !["paid", "no_payment_required"].includes(session.payment_status)) {
     throw new Error("This checkout session has not completed yet.");
   }
 
@@ -321,6 +324,8 @@ export async function confirmStripeCheckoutSession(sessionId) {
   }
 
   return {
+    invoice_id: typeof session.invoice === "string" ? session.invoice : session.invoice?.id || null,
+    payment_intent_id: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id || null,
     session_id: session.id,
     plan: normalizedPlan,
     status: session.status,
@@ -444,7 +449,7 @@ export async function confirmStripeStoreCheckoutSession(sessionId) {
     throw new Error("This checkout session is not a store purchase.");
   }
 
-  if (session.status !== "complete" && session.payment_status !== "paid") {
+  if (session.status !== "complete" || !["paid", "no_payment_required"].includes(session.payment_status)) {
     throw new Error("This checkout session has not completed yet.");
   }
 
@@ -453,6 +458,8 @@ export async function confirmStripeStoreCheckoutSession(sessionId) {
   }
 
   return {
+    invoice_id: typeof session.invoice === "string" ? session.invoice : session.invoice?.id || null,
+    payment_intent_id: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id || null,
     session_id: session.id,
     status: session.status,
     payment_status: session.payment_status,

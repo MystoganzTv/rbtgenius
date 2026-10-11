@@ -39,6 +39,7 @@ const LEGACY_CONCEPT_TO_TASK_LIST = {
   measurement_graph_trend:                "A-5",
   measurement_missing_data_impact:        "A-5",
   measurement_data_summarization:         "A-5",
+  measurement_cumulative_record:          "A-5",
   documentation_baseline_data_entry:      "A-5",
 
   measurement_observable_terms:           "A-6",
@@ -215,6 +216,8 @@ const LEGACY_CONCEPT_TO_TASK_LIST = {
   professional_role_appropriate_communication: "F-3",
 
   professional_boundaries:                "F-4",
+  professional_exploitative_relationships: "F-4",
+  professional_client_advocacy:           "F-3",
   professional_confidentiality:           "F-4",
   professional_social_media:              "F-4",
   professional_private_information_security: "F-4",

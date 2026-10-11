@@ -1,7 +1,8 @@
 # App Store Listing — RBTGenius
 
-Mirror of what is actually live in App Store Connect (English, U.S.).
-Last synced: 11 Sep 2026, against version 1.1.4.
+Mirror of the saved version metadata in App Store Connect (English, U.S.).
+Last synced: 21 Sep 2026, against rejected version 1.1.5. These edits are saved
+for the next review; the public version remains 1.1.3.
 
 This file drifted from the live listing once already — it carried emoji
 headings, a different opening paragraph and a "1,125+" count that the store
@@ -17,7 +18,7 @@ Practice Tests & Mock Exams
 ## KEYWORDS (100 chars max — no spaces after commas)
 RBT,BCBA,ABA,behavior analyst,certification,exam prep,BACB,applied behavior analysis,flashcards
 
-## DESCRIPTION (4,000 chars max — currently 2008)
+## DESCRIPTION (4,000 chars max — currently 2114)
 
 RBTGenius is a focused study app for the Registered Behavior Technician (RBT) exam, aligned to the RBT Test Content Outline (3rd edition), which the exam has followed since January 2026.
 
@@ -51,16 +52,16 @@ Switch between English and Spanish at any time in Settings.
 FREE PLAN
 • 15 practice questions per day
 • 15 flashcards per session
-• Progress tracking and readiness score
+• Progress tracking, readiness score, and performance analytics by domain
 
 PRO PLAN
 • Unlimited practice questions
 • Unlimited flashcard sessions
 • Full 85-question mock exams
-• Advanced analytics and domain breakdown
 
 SUBSCRIPTION INFO
 • Monthly Plan: $19.99/month
+• Eligible new subscribers may receive a 7-day free trial on the monthly plan. Eligibility is confirmed by Apple.
 • Yearly Plan: $99.99/year (about $8.33/month)
 • Payment is charged to your Apple ID account at confirmation of purchase
 • Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period

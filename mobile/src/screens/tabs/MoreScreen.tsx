@@ -53,6 +53,13 @@ export default function MoreScreen({ navigation }: { navigation?: Navigation }) 
   ];
 
   const isPro = user?.isPremium ?? false;
+  if (isPro) items.push({
+    key: 'Upgrade',
+    title: t('upgrade.manage_subscription'),
+    sub: t('upgrade.restore'),
+    icon: (color: string) => <Ionicons name="card-outline" color={color} size={22} />,
+    accent: 'gold',
+  });
 
   const accentColor = (accent: AccentKey) => {
     if (accent === 'gold') return theme.gold;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -72,17 +72,20 @@ function buildUser(rawUser, dashboard = {}) {
     completedQuestions: progress.total_questions_completed ?? 0,
     accuracyRate: Math.round(progress.accuracy_rate ?? 0),
     questionsToday: progress.questions_today ?? 0,
-    isPremium: entitlements.is_premium ?? false,
+    // /auth/me already contains the server-verified plan. A slow or failed
+    // dashboard request must not turn an active subscriber into a free user.
+    isPremium: entitlements.is_premium ?? ['premium_monthly', 'premium_yearly'].includes(rawUser.plan),
     dailyLimit: entitlements.practice_daily_limit ?? 15,
     flashcardLimit: entitlements.flashcard_daily_limit ?? 15,
     aiLimit: entitlements.ai_tutor_daily_limit ?? 5,
   };
 }
 
-function hydrateDashboard(rawUser, authToken, setUser) {
+function hydrateDashboard(rawUser, authToken, setUser, isCurrent) {
   fetchDashboard(authToken).then((dashboard) => {
+    if (!isCurrent()) return;
     if (!dashboard?.progress && !dashboard?.entitlements) return;
-    setUser((prev) => (prev ? buildUser(rawUser, dashboard) : prev));
+    setUser((prev) => (isCurrent() && prev?.id === rawUser.id ? buildUser(rawUser, dashboard) : prev));
   });
 }
 
@@ -90,6 +93,16 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const sessionRevision = useRef(0);
+
+  function publishUser(rawUser, authToken) {
+    const revision = ++sessionRevision.current;
+    const nextUser = buildUser(rawUser);
+    setUser(nextUser);
+    maybeInitRC(rawUser.id);
+    hydrateDashboard(rawUser, authToken, setUser, () => sessionRevision.current === revision);
+    return nextUser;
+  }
 
   useEffect(() => {
     (async () => {
@@ -128,9 +141,7 @@ export function AuthProvider({ children }) {
         }
 
         setToken(activeToken);
-        setUser(buildUser(rawUser));
-        maybeInitRC(rawUser.id);
-        hydrateDashboard(rawUser, activeToken, setUser);
+        publishUser(rawUser, activeToken);
       } catch (error) {
         console.log('[Auth] Restore session error:', error);
       } finally {
@@ -157,9 +168,7 @@ export function AuthProvider({ children }) {
     await AsyncStorage.setItem(TOKEN_KEY, t);
 
     setToken(t);
-    setUser(buildUser(rawUser));
-    maybeInitRC(rawUser.id);
-    hydrateDashboard(rawUser, t, setUser);
+    publishUser(rawUser, t);
   };
 
   const register = async (fullName, email, password) => {
@@ -180,9 +189,7 @@ export function AuthProvider({ children }) {
     await AsyncStorage.setItem(TOKEN_KEY, t);
 
     setToken(t);
-    setUser(buildUser(rawUser));
-    maybeInitRC(rawUser.id);
-    hydrateDashboard(rawUser, t, setUser);
+    publishUser(rawUser, t);
   };
 
   const loginWithApple = async () => {
@@ -222,9 +229,7 @@ export function AuthProvider({ children }) {
 
     await AsyncStorage.setItem(TOKEN_KEY, t);
     setToken(t);
-    setUser(buildUser(rawUser));
-    maybeInitRC(rawUser.id);
-    hydrateDashboard(rawUser, t, setUser);
+    publishUser(rawUser, t);
   };
 
   const loginWithGoogle = async () => {
@@ -264,9 +269,7 @@ export function AuthProvider({ children }) {
       await AsyncStorage.setItem(TOKEN_KEY, t);
 
       setToken(t);
-      setUser(buildUser(rawUser));
-      maybeInitRC(rawUser.id);
-      hydrateDashboard(rawUser, t, setUser);
+      publishUser(rawUser, t);
     } catch (error) {
       if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('[Google] User cancelled sign-in');
@@ -289,6 +292,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
+    ++sessionRevision.current;
     try {
       if (token) {
         fetch(`${API_BASE}/api/auth/logout`, {
@@ -311,9 +315,10 @@ export function AuthProvider({ children }) {
   const refreshDashboard = async () => {
     if (!token) return;
 
+    const revision = sessionRevision.current;
     const dashboard = await fetchDashboard(token);
 
-    if (!dashboard.progress) return;
+    if (sessionRevision.current !== revision || !dashboard.progress) return;
 
     setUser(prev =>
       prev
@@ -344,14 +349,16 @@ export function AuthProvider({ children }) {
     );
   };
 
-  const refreshSession = async () => {
+  const refreshSession = async ({ signal } = {}) => {
     if (!token) return null;
 
+    const revision = sessionRevision.current;
     const meRes = await fetch(`${API_BASE}/api/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
+      signal,
     });
 
-    if (!meRes.ok) return null;
+    if (!meRes.ok || sessionRevision.current !== revision) return null;
 
     const rawResponse = await meRes.json();
     const {
@@ -366,10 +373,8 @@ export function AuthProvider({ children }) {
       setToken(nextToken);
     }
 
-    setUser(buildUser(rawUser));
-    maybeInitRC(rawUser.id);
-    hydrateDashboard(rawUser, nextToken, setUser);
-    return rawUser;
+    if (sessionRevision.current !== revision) return null;
+    return publishUser(rawUser, nextToken);
   };
 
   return (

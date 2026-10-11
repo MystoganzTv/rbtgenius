@@ -1,3 +1,5 @@
+import { useStudySave } from '../../hooks/useStudySave';
+import StudySaveStatus from '../../components/questions/StudySaveStatus';
 /**
  * ReviewMistakesScreen — práctica con las preguntas donde el último
  * intento del usuario fue incorrecto. Fetches IDs from the backend,
@@ -26,7 +28,7 @@ export default function ReviewMistakesScreen({ navigation }) {
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
   const { t } = useTranslation();
-  const { token } = useAuth();
+  const { user, token } = useAuth();
 
   const [phase, setPhase] = useState('loading'); // loading | empty | practice | done
   const [questions, setQuestions] = useState([]);
@@ -34,7 +36,8 @@ export default function ReviewMistakesScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [translationPanel, setTranslationPanel] = useState(null);
-  const submitting = useRef(false);
+  const saveState = useStudySave(user?.id, token, 'review_mistakes');
+  const [loadVersion, setLoadVersion] = useState(0);
 
   // ── Load wrong question IDs on mount ────────────────────────────────────────
   useEffect(() => {
@@ -48,15 +51,15 @@ export default function ReviewMistakesScreen({ navigation }) {
         const ids = data.question_ids ?? [];
         if (!ids.length) { setPhase('empty'); return; }
         const loaded = getQuestionsByIds(ids);
-        if (!loaded.length) { setPhase('empty'); return; }
+        if (loaded.length !== ids.length) throw new Error('Unknown question IDs');
         // Shuffle so it's not always the same order
         setQuestions(loaded.sort(() => Math.random() - 0.5));
         setPhase('practice');
       } catch {
-        setPhase('empty');
+        setPhase('error');
       }
     })();
-  }, [token]);
+  }, [token, loadVersion]);
 
   const question = questions[index];
   const answered = selectedOption !== null;
@@ -67,32 +70,12 @@ export default function ReviewMistakesScreen({ navigation }) {
     : null;
 
   // ── Submit attempt ───────────────────────────────────────────────────────────
-  const submitAttempt = useCallback(async (q, chosenIndex) => {
-    if (!token || submitting.current) return;
-    submitting.current = true;
-    const letterMap = ['A', 'B', 'C', 'D', 'E'];
-    const selectedLetter = letterMap[chosenIndex] ?? 'A';
-    try {
-      await fetch(`${API_BASE}/api/question-attempts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          question_id: q.id,
-          concept_id: q.concept_id ?? null,
-          selected_answer: selectedLetter,
-          is_correct: chosenIndex === q.correctIndex,
-          topic: q.topic,
-          difficulty: q.difficulty,
-          task_list_code: q.task_list_code ?? null,
-          source: 'review_mistakes',
-        }),
-      });
-    } catch { /* silent */ }
-    finally { submitting.current = false; }
-  }, [token]);
+  const submitAttempt = (q, chosenIndex) => saveState.save({
+    question_id: q.id, selected_answer: q._raw.options[chosenIndex].label,
+  });
 
   const handleOption = (i) => {
-    if (answered) return;
+    if (answered || saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedOption(i);
     if (i === question.correctIndex) setCorrectCount(n => n + 1);
@@ -100,6 +83,7 @@ export default function ReviewMistakesScreen({ navigation }) {
   };
 
   const handleNext = () => {
+    if (saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setTranslationPanel(null);
     setSelectedOption(null);
@@ -128,6 +112,7 @@ export default function ReviewMistakesScreen({ navigation }) {
   if (phase === 'loading') {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
+        <StudySaveStatus state={saveState} theme={theme} />
         <View style={s.topBar}>
           <Text style={s.screenTitle}>{t('review.title')}</Text>
         </View>
@@ -140,9 +125,12 @@ export default function ReviewMistakesScreen({ navigation }) {
   }
 
   // ── Empty state ──────────────────────────────────────────────────────────────
+  if (phase === 'error') return <SafeAreaView style={s.safe}><View style={s.centered}><Text style={s.emptyTitle}>{t('common.network_error')}</Text><Pressable onPress={() => { setPhase('loading'); setLoadVersion(v => v + 1); }}><Text style={s.emptySub}>{t('common.retry')}</Text></Pressable></View></SafeAreaView>;
+
   if (phase === 'empty') {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
+        <StudySaveStatus state={saveState} theme={theme} />
         <View style={s.topBar}>
           <Text style={s.screenTitle}>{t('review.title')}</Text>
         </View>
@@ -164,6 +152,7 @@ export default function ReviewMistakesScreen({ navigation }) {
     const passed = pct >= 80;
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
+        <StudySaveStatus state={saveState} theme={theme} />
         <View style={s.topBar}>
           <Text style={s.screenTitle}>{t('review.title')}</Text>
         </View>
@@ -199,6 +188,7 @@ export default function ReviewMistakesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
+        <StudySaveStatus state={saveState} theme={theme} />
       <View style={s.topBar}>
         <Text style={s.screenTitle}>{t('review.title')}</Text>
         <Text style={s.screenSub}>

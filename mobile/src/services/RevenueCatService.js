@@ -3,42 +3,52 @@ import Purchases, { LOG_LEVEL } from 'react-native-purchases';
 const REVENUECAT_API_KEY = 'appl_fKgYufvLyPKZGTjOdEoAtsNwjnU';
 let isConfigured = false;
 let currentAppUserId = null;
+let requestedAppUserId = null;
+let identityOperation = Promise.resolve();
 
-export async function initRevenueCat(userId) {
-  if (__DEV__) {
-    Purchases.setLogLevel(LOG_LEVEL.DEBUG);
-  }
-
-  if (!isConfigured) {
-    await Purchases.configure({ apiKey: REVENUECAT_API_KEY });
-    isConfigured = true;
-  }
-
-  if (!userId || currentAppUserId === userId) {
-    return;
-  }
-
-  try {
-    await Purchases.logIn(userId);
+export function initRevenueCat(userId) {
+  requestedAppUserId = userId || null;
+  // Serialize identity changes and do not allow a purchase while logIn is
+  // pending. The server looks up this exact account ID to unlock access.
+  identityOperation = identityOperation.catch(() => {}).then(async () => {
+    if (!userId) throw new Error('Sign in before accessing purchases');
+    if (currentAppUserId === userId) return;
+    currentAppUserId = null;
+    if (__DEV__) Purchases.setLogLevel(LOG_LEVEL.DEBUG);
+    if (!isConfigured) {
+      await Purchases.configure({ apiKey: REVENUECAT_API_KEY, appUserID: userId });
+      isConfigured = true;
+    } else {
+      await Purchases.logIn(userId);
+    }
     currentAppUserId = userId;
-  } catch {}
+  });
+  return identityOperation;
 }
 
-export async function resetRevenueCat() {
-  if (!isConfigured) {
+export function resetRevenueCat() {
+  requestedAppUserId = null;
+  identityOperation = identityOperation.catch(() => {}).then(async () => {
     currentAppUserId = null;
-    return;
+    if (isConfigured) await Purchases.logOut();
+  });
+  return identityOperation;
+}
+
+async function ensureIdentified() {
+  try { await identityOperation; }
+  catch (error) {
+    if (!requestedAppUserId) throw error;
+    // A user-triggered retry may recover a failed login after reconnecting.
+    await initRevenueCat(requestedAppUserId);
   }
-
-  try {
-    await Purchases.logOut();
-  } catch {}
-
-  currentAppUserId = null;
+  if (!currentAppUserId || currentAppUserId !== requestedAppUserId) {
+    throw new Error('Purchase account is not ready. Please try again.');
+  }
 }
 
 export async function getOfferings() {
-  try { const o = await Purchases.getOfferings(); return o.current ?? null; }
+  try { await ensureIdentified(); const o = await Purchases.getOfferings(); return o.current ?? null; }
   catch (e) { console.warn('[RC]', e); return null; }
 }
 export async function getTrialEligibility(productIdentifiers = []) {
@@ -46,6 +56,7 @@ export async function getTrialEligibility(productIdentifiers = []) {
   if (identifiers.length === 0) return {};
 
   try {
+    await ensureIdentified();
     const eligibility = await Purchases.checkTrialOrIntroductoryPriceEligibility(identifiers);
     const eligibleStatus =
       Purchases.INTRO_ELIGIBILITY_STATUS.INTRO_ELIGIBILITY_STATUS_ELIGIBLE;
@@ -63,6 +74,9 @@ export async function getTrialEligibility(productIdentifiers = []) {
   }
 }
 export async function purchasePackage(pkg) {
+  // Do not recover an identity failure with the previous user's entitlement.
+  try { await ensureIdentified(); }
+  catch (e) { return { success: false, error: e.message }; }
   try {
     const { customerInfo } = await Purchases.purchasePackage(pkg);
     return { success: customerInfo.entitlements.active['pro'] !== undefined, customerInfo };
@@ -82,10 +96,11 @@ export async function purchasePackage(pkg) {
   }
 }
 export async function restorePurchases() {
-  try { const ci = await Purchases.restorePurchases(); return ci.entitlements.active['pro'] !== undefined; }
-  catch { return false; }
+  await ensureIdentified();
+  const ci = await Purchases.restorePurchases();
+  return ci.entitlements.active['pro'] !== undefined;
 }
 export async function checkProStatus() {
-  try { const ci = await Purchases.getCustomerInfo(); return ci.entitlements.active['pro'] !== undefined; }
+  try { await ensureIdentified(); const ci = await Purchases.getCustomerInfo(); return ci.entitlements.active['pro'] !== undefined; }
   catch { return false; }
 }

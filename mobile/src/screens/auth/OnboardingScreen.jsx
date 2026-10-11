@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import {
-  FlatList, Pressable, StyleSheet, Text, View, useColorScheme, useWindowDimensions,
+  FlatList, Pressable, ScrollView, StyleSheet, Text, View, useColorScheme, useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -25,6 +25,7 @@ export default function OnboardingScreen({ onDone }) {
   // dejaba el carrusel entre paginas (slides mal medidas, indice equivocado) y
   // el usuario no podia pasar del onboarding.
   const { width } = useWindowDimensions();
+  const clampIndex = (value) => Math.max(0, Math.min(SLIDE_ICONS.length - 1, value));
 
   // Build slides from i18n so they respond to language changes
   const SLIDES = [
@@ -35,15 +36,22 @@ export default function OnboardingScreen({ onDone }) {
   ];
 
   const goTo = (i) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    listRef.current?.scrollToIndex({ index: i, animated: true });
-    setIndex(i);
+    const nextIndex = clampIndex(i);
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    listRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+    setIndex(nextIndex);
   };
 
   const finish = async () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
-    onDone();
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    try {
+      await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+    } catch {
+      // The onboarding can be shown again next launch if persistence fails.
+    } finally {
+      // A storage failure must not trap the user before the login screen.
+      onDone();
+    }
   };
 
   const slide = SLIDES[index];
@@ -63,7 +71,7 @@ export default function OnboardingScreen({ onDone }) {
         ref={listRef}
         // Remonta al cambiar el ancho (rotacion, Stage Manager, Split View) y
         // vuelve a la slide en la que estaba, en vez de quedar desalineado.
-        key={`onboarding-${Math.round(width)}`}
+        key={`onboarding-${width}`}
         initialScrollIndex={index}
         getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
         data={SLIDES}
@@ -74,16 +82,16 @@ export default function OnboardingScreen({ onDone }) {
         scrollEnabled={true}
         onMomentumScrollEnd={(e) => {
           const newIndex = Math.round(e.nativeEvent.contentOffset.x / width);
-          setIndex(newIndex);
+          setIndex(clampIndex(newIndex));
         }}
         renderItem={({ item }) => (
-          <View style={[s.slide, { width }]}>
+          <ScrollView style={{ width }} contentContainerStyle={s.slide}>
             <View style={[s.iconOrb, { backgroundColor: alpha(item.accent, 0.12) }]}>
               <Text style={s.icon}>{item.icon}</Text>
             </View>
             <Text style={[s.title, { color: theme.text }]}>{item.title}</Text>
             <Text style={[s.body, { color: theme.muted }]}>{item.body}</Text>
-          </View>
+          </ScrollView>
         )}
       />
 
@@ -130,7 +138,7 @@ const styles = (theme) => StyleSheet.create({
   safe:           { flex: 1 },
   skipBtn:        { alignSelf: 'flex-end', paddingHorizontal: 24, paddingTop: 8, paddingBottom: 4 },
   skipText:       { color: theme.muted, fontSize: 14, fontWeight: '600' },
-  slide:          { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 36, gap: 20 },
+  slide:          { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 36, paddingVertical: 24, gap: 20 },
   iconOrb:        { width: 140, height: 140, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
   icon:           { fontSize: 64 },
   title:          { fontSize: 34, fontWeight: '900', textAlign: 'center', lineHeight: 42 },

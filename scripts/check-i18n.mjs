@@ -43,7 +43,7 @@ function* walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) yield* walk(full);
-    else if (entry.name.endsWith(".jsx")) yield full;
+    else if (/\.[jt]sx?$/.test(entry.name)) yield full;
   }
 }
 
@@ -77,6 +77,15 @@ questions.setConceptTranslations(translations);
 const i18n = await import(path.join(root, "src/lib/i18n.js"));
 
 const bank = questions.buildPracticeQuestionBank();
+const untranslatedWords = /(?<![\p{L}])(?:reinforcement|punishment|antecedent|consequence|learner|caregiver|teaching|assessment|skills|behavior|baseline|shaping|chaining|prompting|fading|motivating operation|the|with|without|should|would|because)(?![\p{L}])/iu;
+for (const id of new Set(bank.map(q => q.concept_id))) {
+  const translation = questions.getConceptTranslationEs(id);
+  for (const field of ['answer', 'definition', 'scenario', 'purpose', 'explanation']) {
+    const value = translation?.[field];
+    if (!value?.trim()) fail(`${id}.${field}: missing reviewed translation`);
+    else if (untranslatedWords.test(value)) fail(`${id}.${field}: untranslated English fragment`);
+  }
+}
 const SPANISH_MARKER = /¿|á|é|í|ó|ú|ñ/i;
 let englishQuestions = 0;
 let englishOptions = 0;
@@ -85,9 +94,26 @@ for (const question of bank) {
   if (!SPANISH_MARKER.test(localized.localizedText?.primary || "")) englishQuestions += 1;
   for (const option of localized.options || []) {
     const text = option.localizedText?.primary || "";
+    if (untranslatedWords.test(text)) fail(`${question.id}: untranslated option ${text}`);
     if (text === option.text && !SPANISH_MARKER.test(text)) englishOptions += 1;
   }
 }
+
+// Mobile key parity and literal use sites (including TSX and single quotes).
+const flatten = (value, prefix = '') => Object.entries(value).flatMap(([key, item]) =>
+  typeof item === 'object' ? flatten(item, `${prefix}${key}.`) : [`${prefix}${key}`]);
+const mobileKeys = {};
+for (const language of ['en', 'es']) mobileKeys[language] = new Set(flatten(JSON.parse(
+  fs.readFileSync(path.join(root, `mobile/src/i18n/${language}.json`), 'utf8'))));
+for (const key of new Set([...mobileKeys.en, ...mobileKeys.es])) {
+  if (!mobileKeys.en.has(key) || !mobileKeys.es.has(key)) fail(`Mobile locale key mismatch: ${key}`);
+}
+for (const file of walk(path.join(root, 'mobile/src'))) {
+  for (const match of fs.readFileSync(file, 'utf8').matchAll(/\bt\(\s*['"]([a-z_]+\.[a-z_.]+)['"]/g)) {
+    if (!mobileKeys.en.has(match[1])) fail(`Missing mobile key ${match[1]} in ${path.relative(root, file)}`);
+  }
+}
+ok('Checked mobile locale keys and reviewed question fields');
 
 if (englishQuestions > 0) fail(`${englishQuestions} question(s) fall back to English in Spanish mode`);
 else ok(`All ${bank.length} practice questions render in Spanish`);

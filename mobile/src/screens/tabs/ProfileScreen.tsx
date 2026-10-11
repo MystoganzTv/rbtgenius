@@ -234,7 +234,8 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
   const toggleLanguage = async (value: boolean) => {
     const next = value ? 'es' : 'en';
     setLanguage(next);
-    changeLanguage(next);
+    await changeLanguage(next);
+    if (notificationsOn) await setupNotifications(true, token || null);
     await AsyncStorage.setItem(LANG_KEY, next);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
@@ -464,7 +465,7 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
 
           <View style={s.settingRow}>
             <View style={s.settingCopy}>
-              <Text style={s.settingLabel}>{t('profile.language')}</Text>
+              <Text style={s.settingLabel}>{t('profile.language')}</Text><Text style={s.settingSub}>{t('profile.language_help')}</Text>
               <Text style={s.settingSub}>{language === 'es' ? '🇪🇸 Español' : '🇺🇸 English'}</Text>
             </View>
             <Switch

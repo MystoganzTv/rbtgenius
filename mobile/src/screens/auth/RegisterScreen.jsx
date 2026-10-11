@@ -1,3 +1,4 @@
+import { authErrorText } from '../../lib/authError';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -50,7 +51,7 @@ export default function RegisterScreen({ navigation }) {
     try {
       await register(name, mail, password);
     } catch (e) {
-      setError(e.message || t('auth.registration_failed'));
+      setError(authErrorText(e, t));
     } finally {
       setLoading(false);
     }
@@ -61,7 +62,7 @@ export default function RegisterScreen({ navigation }) {
     try {
       await loginWithGoogle();
     } catch (err) {
-      Alert.alert(t('auth.alert_google_failed'), err.message ?? t('common.try_again'));
+      Alert.alert(t('auth.alert_google_failed'), authErrorText(err, t));
     } finally {
       setGoogleLoading(false);
     }

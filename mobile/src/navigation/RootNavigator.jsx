@@ -86,7 +86,7 @@ function MainTabs() {
       <Tab.Screen
         name="More"
         component={MoreNavigator}
-        options={{ popToTopOnBlur: true, tabBarIcon: ({ color, size }) => <Feather name="grid" color={color} size={size} /> }}
+        options={{ tabBarLabel: t('more.tab_label'), popToTopOnBlur: true, tabBarIcon: ({ color, size }) => <Feather name="grid" color={color} size={size} /> }}
       />
     </Tab.Navigator>
   );
@@ -102,7 +102,7 @@ export default function RootNavigator() {
   useEffect(() => {
     AsyncStorage.getItem(ONBOARDING_KEY).then(val => {
       setOnboardingDone(val === 'true');
-    });
+    }).catch(() => setOnboardingDone(false));
   }, []);
 
   // Pedir permisos y activar notificaciones cuando el usuario está autenticado

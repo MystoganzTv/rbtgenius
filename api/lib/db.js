@@ -1,8 +1,13 @@
 import postgres from 'postgres';
+import { AsyncLocalStorage } from 'node:async_hooks';
+
 import { attachSessionToUser } from '../../server/lib/auth.js';
+
+const stripeTransaction = new AsyncLocalStorage();
 
 let _sql = null;
 function getSql() {
+  if (stripeTransaction.getStore()) return stripeTransaction.getStore();
   if (!_sql) {
     if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
     _sql = postgres(process.env.DATABASE_URL, {
@@ -22,6 +27,21 @@ function getSql() {
 }
 export function sql(strings, ...values) {
   return getSql()(strings, ...values);
+}
+
+// Serialize Stripe writes across both endpoints and browser confirmation. Roll back
+// the payment, entitlement and event marker together if any database write fails.
+export async function withStripeBillingTransaction(work) {
+  return getSql().begin(async (transaction) => {
+    await transaction`SELECT pg_advisory_xact_lock(726284, 1)`;
+    return stripeTransaction.run(transaction, work);
+  });
+}
+
+export async function getUserByStripeSubscriptionId(subscriptionId) {
+  if (!subscriptionId) return null;
+  const rows = await sql`SELECT * FROM users WHERE stripe_subscription_id = ${subscriptionId} LIMIT 1`;
+  return rows[0] || null;
 }
 
 // ── Health ────────────────────────────────────────────────────────────────────
@@ -622,12 +642,17 @@ export async function getMockAttemptIdsByUser(userId) {
   return [...ids];
 }
 
+export async function getAttemptById(id, userId) {
+  const [row] = await sql`SELECT * FROM attempts WHERE id = ${id} AND user_id = ${userId}`;
+  return row || null;
+}
 export async function createAttempt(attempt) {
   const [row] = await sql`
     INSERT INTO attempts (id, user_id, question_id, selected_answer, is_correct, topic, source, created_at)
     VALUES (${attempt.id}, ${attempt.user_id}, ${attempt.question_id},
       ${attempt.selected_answer ?? null}, ${attempt.is_correct}, ${attempt.topic ?? null},
       ${attempt.source ?? 'practice'}, ${attempt.created_at})
+    ON CONFLICT (id) DO UPDATE SET id = EXCLUDED.id
     RETURNING *
   `;
   return row;
@@ -791,6 +816,12 @@ export async function saveStripePaymentFees(paymentId, fees) {
 
 export async function getPaymentsByUser(userId) {
   const rows = await sql`SELECT * FROM payments WHERE user_id = ${userId} ORDER BY created_at DESC`;
+  return rows.map(normalizePayment);
+}
+
+export async function getPaymentsByIds(ids) {
+  if (!ids?.length) return [];
+  const rows = await sql`SELECT * FROM payments WHERE id IN ${sql(ids)}`;
   return rows.map(normalizePayment);
 }
 
@@ -1056,11 +1087,18 @@ export async function deleteTutorConversationsByUser(userId) {
 
 // ── Push tokens ───────────────────────────────────────────────────────────────
 
-export async function upsertPushToken(userId, token, platform) {
+let pushLanguageMigration;
+async function ensurePushLanguage() {
+  if (!pushLanguageMigration) pushLanguageMigration = sql`ALTER TABLE push_tokens ADD COLUMN IF NOT EXISTS language TEXT NOT NULL DEFAULT 'en'`
+    .catch(error => { pushLanguageMigration = null; throw error; });
+  await pushLanguageMigration;
+}
+export async function upsertPushToken(userId, token, platform, language = 'en') {
+  await ensurePushLanguage();
   await sql`
-    INSERT INTO push_tokens (user_id, token, platform, updated_at)
-    VALUES (${userId}, ${token}, ${platform ?? 'ios'}, NOW())
-    ON CONFLICT (user_id) DO UPDATE SET token = EXCLUDED.token, platform = EXCLUDED.platform, updated_at = NOW()
+    INSERT INTO push_tokens (user_id, token, platform, language, updated_at)
+    VALUES (${userId}, ${token}, ${platform ?? 'ios'}, ${language === 'es' ? 'es' : 'en'}, NOW())
+    ON CONFLICT (user_id) DO UPDATE SET token = EXCLUDED.token, platform = EXCLUDED.platform, language = EXCLUDED.language, updated_at = NOW()
   `;
 }
 
@@ -1102,7 +1140,8 @@ export async function getAllPushTokens() {
 // One query: joins push_tokens → attempts, aggregates domain accuracy + last attempt date.
 export async function getPushTokensWithUserStats() {
   // Step 1: get all tokens with user_ids
-  const tokens = await sql`SELECT user_id, token FROM push_tokens`;
+  await ensurePushLanguage();
+  const tokens = await sql`SELECT user_id, token, language FROM push_tokens`;
   if (!tokens.length) return [];
 
   const userIds = tokens.map(t => t.user_id);
@@ -1137,9 +1176,10 @@ export async function getPushTokensWithUserStats() {
     }
   }
 
-  return tokens.map(({ user_id, token }) => ({
+  return tokens.map(({ user_id, token, language }) => ({
     user_id,
     token,
+    language,
     stats: statsMap[user_id] ?? null,
   }));
 }

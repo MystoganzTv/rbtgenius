@@ -2116,37 +2116,28 @@ export const OFFICIAL_CONCEPT_COUNT = questionConcepts.filter((concept) =>
   isRbtEligibleConcept(concept),
 ).length;
 
-// ── Spanish concept translations ──────────────────────────────────────────────
-// Loaded at runtime by question-translations-es-loader.js
-let _conceptTranslationsEs = {};
-// Reverse lookup: English option text → Spanish translation
-let _answerToSpanish = {};
-let _purposeToSpanish = {};
-
+// Canonical translations: each option belongs to a concept's answer or purpose.
+// Generated copies in web/mobile must be refreshed with npm run sync:questions.
+export const QUESTION_BANK_VERSION = "2026-10-11.1";
+let translationsEs = {};
+let optionTranslationsEs = {};
 export function setConceptTranslations(translations) {
-  _conceptTranslationsEs = translations || {};
-  _answerToSpanish = {};
-  _purposeToSpanish = {};
-  for (const [conceptId, tr] of Object.entries(_conceptTranslationsEs)) {
-    const concept = questionConceptLookup[conceptId];
-    if (!concept) continue;
-    // Only use reviewed/approved translations
-    if (!tr.status || tr.status === 'draft_machine') continue;
-    if (tr.options_es?.answer) _answerToSpanish[concept.answer] = tr.options_es.answer;
-    if (tr.options_es?.purpose) _purposeToSpanish[concept.purpose] = tr.options_es.purpose;
+  translationsEs = translations || {};
+  optionTranslationsEs = {};
+  for (const [id, concept] of Object.entries(questionConceptLookup)) {
+    const tr = getConceptTranslationEs(id);
+    if (!tr) continue;
+    for (const field of ["answer", "purpose"]) {
+      if (concept[field] && tr[field]) optionTranslationsEs[concept[field].trim()] = tr[field].trim();
+    }
   }
 }
-
-export function getConceptTranslationEs(conceptId) {
-  const tr = _conceptTranslationsEs[conceptId];
-  if (!tr) return null;
-  // Only return reviewed or approved translations
-  if (!tr.status || tr.status === 'draft_machine') return null;
-  return tr;
+export function getConceptTranslationEs(id) {
+  const tr = translationsEs[id];
+  return tr && ["reviewed", "approved"].includes(tr.status) ? tr : null;
 }
-
-export function getSpanishForOptionText(englishText) {
-  return _answerToSpanish[englishText] || _purposeToSpanish[englishText] || null;
+export function getSpanishForOptionText(text) {
+  return optionTranslationsEs[String(text || "").trim()] || null;
 }
 
 export const PRACTICE_TOPIC_TOTALS = rbtQuestions.reduce(

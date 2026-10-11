@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, ScrollView, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { alpha } from '../../theme';
 
@@ -11,6 +11,8 @@ export function TranslationTrigger({ onPress, theme, style = null }) {
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="English / Español"
       onPress={handlePress}
       style={[
         {
@@ -54,7 +56,7 @@ export default function TranslationSheet({
               </Pressable>
             </View>
 
-            <View style={styles.body}>
+            <ScrollView contentContainerStyle={styles.body} style={{ flexShrink: 1 }}>
               <View style={[styles.card, { backgroundColor: alpha(theme.primary, 0.05), borderColor: alpha(theme.primary, 0.14) }]}>
                 <Text style={[styles.langTag, { color: theme.primary }]}>EN</Text>
                 <Text style={[styles.blockText, { color: theme.text }]}>{englishText || '—'}</Text>
@@ -64,7 +66,7 @@ export default function TranslationSheet({
                 <Text style={[styles.langTag, { color: theme.primary }]}>ES</Text>
                 <Text style={[styles.blockText, { color: theme.text }]}>{spanishText || unavailableLabel}</Text>
               </View>
-            </View>
+            </ScrollView>
           </View>
         </View>
       </SafeAreaView>

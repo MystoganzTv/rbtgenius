@@ -1,3 +1,5 @@
+import { useStudySave } from '../../hooks/useStudySave';
+import StudySaveStatus from '../../components/questions/StudySaveStatus';
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,7 +36,15 @@ export default function PracticeScreen({ navigation, route }) {
   const [translationPanel, setTranslationPanel] = useState(null);
   // Question attempt stats: { [questionId]: { total, correct, wrong } }
   const [questionStats, setQuestionStats] = useState({});
-  const submitting = useRef(false);
+  const saveState = useStudySave(user?.id, token, 'practice', (result) => {
+    const remaining = result.entitlements?.usage?.practice_questions_remaining;
+    setAnsweredToday(n => Number.isFinite(remaining) ? Math.max(0, (user?.dailyLimit ?? 15) - remaining) : n + 1);
+    setQuestionStats(previous => {
+      const old = previous[result.question_id] || { total: 0, correct: 0, wrong: 0 };
+      return { ...previous, [result.question_id]: { total: old.total + 1, correct: old.correct + Number(result.is_correct), wrong: old.wrong + Number(!result.is_correct) } };
+    });
+  });
+  useEffect(() => { setAnsweredToday(user?.questionsToday ?? 0); }, [user?.questionsToday]);
 
   // Fetch aggregate attempt stats once on mount so we can show per-question history
   useEffect(() => {
@@ -51,7 +61,7 @@ export default function PracticeScreen({ navigation, route }) {
   const dailyLimit = user?.dailyLimit ?? 15;
   const limitReached = !isPro && answeredToday >= dailyLimit;
 
-  const questions = getPracticeByTopic(selectedTopic, 24);
+  const questions = getPracticeByTopic(selectedTopic);
   const question = questions[questionIndex] ?? questions[0];
   const answered = selectedOption !== null;
 
@@ -64,6 +74,7 @@ export default function PracticeScreen({ navigation, route }) {
   const questionExplanation = question?.explanation || '';
 
   const handleTopicChange = (key) => {
+    if (saveState.blocked) return;
     setSelectedTopic(key);
     setQuestionIndex(0);
     setSelectedOption(null);
@@ -74,33 +85,12 @@ export default function PracticeScreen({ navigation, route }) {
     setTranslationPanel(payload);
   };
 
-  const submitAttempt = useCallback(async (q, chosenIndex) => {
-    if (!token || submitting.current) return;
-    submitting.current = true;
-    const letterMap = ['A', 'B', 'C', 'D', 'E'];
-    const selectedLetter = letterMap[chosenIndex] ?? 'A';
-    const isCorrect = chosenIndex === q.correctIndex;
-    try {
-      await fetch(`${API_BASE}/api/question-attempts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          question_id: q.id,
-          concept_id: q.concept_id ?? null,
-          selected_answer: selectedLetter,
-          is_correct: isCorrect,
-          topic: q.topic,
-          difficulty: q.difficulty,
-          task_list_code: q.task_list_code ?? null,
-        }),
-      });
-      setAnsweredToday(n => n + 1);
-    } catch (_) { /* silent */ }
-    finally { submitting.current = false; }
-  }, [token]);
+  const submitAttempt = (q, chosenIndex) => saveState.save({
+    question_id: q.id, selected_answer: q._raw.options[chosenIndex].label,
+  });
 
   const handleOption = (i) => {
-    if (answered || limitReached) return;
+    if (answered || limitReached || saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedOption(i);
     void recordPracticeResultForReview(i === question.correctIndex);
@@ -108,6 +98,7 @@ export default function PracticeScreen({ navigation, route }) {
   };
 
   const handleNext = () => {
+    if (saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setSelectedOption(null);
     setTranslationPanel(null);
@@ -115,7 +106,7 @@ export default function PracticeScreen({ navigation, route }) {
   };
 
   // ── Limit reached ─────────────────────────────────────────────────────────
-  if (limitReached) {
+  if (limitReached && !answered && !saveState.pending) {
     return (
       <SafeAreaView style={s.safe} edges={['top']}>
         <View style={s.topBar}>
@@ -153,6 +144,7 @@ export default function PracticeScreen({ navigation, route }) {
       </View>
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+        <StudySaveStatus state={saveState} theme={theme} />
         {/* Topic pills */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.pillScroll}>
           {TOPICS.map(tp => {
@@ -244,8 +236,8 @@ export default function PracticeScreen({ navigation, route }) {
                   // Show after the PREVIOUS attempts (before this one was recorded)
                   // total includes the current attempt since submitAttempt fired on select
                   if (!qs || qs.total < 2) return null;
-                  const prevTotal  = qs.total - 1;   // attempts before this one
-                  const prevWrong  = qs.wrong + (selectedOption !== question.correctIndex ? -1 : 0);
+                  const prevTotal  = qs.total - (saveState.blocked ? 0 : 1);   // attempts before this one
+                  const prevWrong  = qs.wrong - (!saveState.blocked && selectedOption !== question.correctIndex ? 1 : 0);
                   const timesStr   = prevTotal === 1
                     ? t('practice.seen_once')
                     : t('practice.seen_times', { count: prevTotal });
@@ -266,7 +258,7 @@ export default function PracticeScreen({ navigation, route }) {
         )}
 
         {answered && (
-          <Pressable style={s.nextBtn} onPress={handleNext}>
+          <Pressable style={s.nextBtn} disabled={saveState.blocked} onPress={handleNext}>
             <Text style={s.nextBtnText}>{t('practice.next_question_arrow')}</Text>
           </Pressable>
         )}

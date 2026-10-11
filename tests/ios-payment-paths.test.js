@@ -1,11 +1,12 @@
 // Regression guard for App Store Review Guideline 3.1.1 / 5.6.
 //
-// Version 1.1.4 was rejected under 5.6 because the iOS build contained a
+// While investigating version 1.1.4's rejection under 5.6, we found a
 // conditional path to an external (Stripe) payment flow: if RevenueCat
 // offerings failed to load, the paywall fell back to hosted web checkout,
 // "Restore" opened the web pricing page, and "Manage Subscription" opened the
 // Stripe billing portal. All web-billing code now lives in webBilling.js,
-// which Metro replaces with webBilling.ios.js on iOS.
+// which Metro replaces with webBilling.ios.js on iOS. Apple has not confirmed
+// that this fallback was the specific reason for the rejection.
 //
 // These tests fail if an external payment path ever leaks back into the files
 // that reach the iOS bundle.

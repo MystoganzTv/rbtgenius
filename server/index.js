@@ -1161,6 +1161,10 @@ app.get('/api/question-attempts', requireUser, (req, res) => {
 
 app.post('/api/question-attempts', requireUser, (req, res) => {
   const db = readDb();
+  const requestId = typeof req.body?.attempt_id === 'string' && /^[a-zA-Z0-9-]{8,100}$/.test(req.body.attempt_id) ? req.body.attempt_id : null;
+  const attemptId = requestId ? `attempt_${req.currentUser.id}_${requestId}` : createId('attempt');
+  const existing = requestId ? db.attempts.find(a => a.id === attemptId && a.user_id === req.currentUser.id) : null;
+  if (existing) return res.json({ ...existing, entitlements: buildUserAccessState(db, req.currentUser).entitlements });
   const { entitlements } = buildUserAccessState(db, req.currentUser);
 
   if (
@@ -1187,7 +1191,7 @@ app.post('/api/question-attempts', requireUser, (req, res) => {
   }
 
   const payload = {
-    id: createId('attempt'),
+    id: attemptId,
     user_id: req.currentUser.id,
     created_at: new Date().toISOString(),
     question_id: evaluation.question_id,
@@ -1235,8 +1239,8 @@ app.post('/api/mock-exams', requireUser, (req, res) => {
     .map(questionId => evaluateQuestionAnswer(questionId, answers[questionId]))
     .filter(Boolean);
 
-  if (questions.length === 0) {
-    res.status(400).json({ message: 'Mock exam questions are required' });
+  if (questions.length === 0 || questions.length !== questionIds.length || new Set(questionIds).size !== questionIds.length) {
+    res.status(400).json({ message: 'Exam contains missing, unknown or duplicate questions. Update the app and try again.' });
     return;
   }
 

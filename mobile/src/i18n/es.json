@@ -12,7 +12,8 @@
     "skip": "Saltar",
     "free": "Gratis",
     "pro": "Pro",
-    "network_error": "Error de red. Verifica tu conexión."
+    "network_error": "Error de red. Verifica tu conexión.",
+    "try_again": "Inténtalo de nuevo."
   },
   "onboarding": {
     "slide1_title": "Domina el Examen RBT",
@@ -56,7 +57,9 @@
     "alert_google_failed": "Error con Google Sign-In",
     "all_fields_required": "Todos los campos son requeridos.",
     "password_min": "La contraseña debe tener al menos 8 caracteres.",
-    "registration_failed": "No se pudo registrar. Inténtalo de nuevo."
+    "registration_failed": "No se pudo registrar. Inténtalo de nuevo.",
+    "verify_email": "Verifica tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.",
+    "email_exists": "Ya existe una cuenta con ese correo."
   },
   "dashboard": {
     "title": "Inicio",
@@ -99,7 +102,7 @@
     "review_mistakes_sub": "{{count}} pregunta{{count, plural, one{} other{s}}} por repasar",
     "trial_invite_badge": "7 DÍAS GRATIS",
     "trial_invite_title": "Prueba RBTGenius Premium gratis durante 7 días",
-    "trial_invite_body": "Obtén preguntas ilimitadas, exámenes simulados, flashcards y estadísticas de rendimiento.",
+    "trial_invite_body": "Obtén preguntas de práctica ilimitadas, repaso de tarjetas ilimitado y exámenes simulados completos.",
     "trial_invite_terms": "Luego $19.99 al mes. La suscripción se renueva automáticamente salvo que canceles antes de que termine la prueba.",
     "trial_invite_cta": "Comenzar Prueba Gratis",
     "tab_label": "Inicio"
@@ -153,7 +156,7 @@
     "details_title": "Detalles del examen",
     "questions_label": "Preguntas",
     "time_label": "Tiempo límite",
-    "pass_label": "Puntaje para aprobar",
+    "pass_label": "Objetivo de práctica",
     "format_label": "Formato",
     "format_value": "Opción múltiple",
     "tips_title": "Consejos",
@@ -195,7 +198,7 @@
     "next_arrow": "Siguiente →",
     "mastered_section": "Dominadas",
     "to_review_section": "A repasar",
-    "session_limit_body": "Has respondido {{limit}} tarjetas hoy — límite del plan gratuito. Actualiza a Pro para sesiones ilimitadas.",
+    "session_limit_body": "Has repasado {{limit}} tarjetas en esta sesión. Pasa a Pro para continuar sin límites.",
     "restart_btn": "Reiniciar sesión",
     "mastered_count": "Dominaste {{count}} tarjeta{{plural}}.",
     "to_review_note": "Tienes {{count}} para repasar.",
@@ -256,7 +259,11 @@
     "pass_label": "APROBADO",
     "fail_label": "FALLIDO",
     "bank_title": "Banco de Preguntas",
-    "bank_sub": "preguntas · 43 ítems del RBT TCO 3ª edición"
+    "bank_sub": "preguntas · 43 ítems del RBT TCO 3ª edición",
+    "ready": "Listo para el examen",
+    "almost": "Casi listo",
+    "progress": "En progreso",
+    "starting": "Comenzando"
   },
   "profile": {
     "title": "Perfil",
@@ -320,7 +327,8 @@
     "permissions_body": "Activa las notificaciones en Configuración → RBT Genius → Notificaciones.",
     "error_save": "No se pudieron guardar los cambios. Inténtalo de nuevo.",
     "section_app": "App",
-    "section_legal": "Legal"
+    "section_legal": "Legal",
+    "language_help": "Idioma de la interfaz. Las preguntas se estudian en inglés con traducción al español disponible en cada bloque."
   },
   "more": {
     "title": "Más",
@@ -333,7 +341,7 @@
     "profile_sub": "Cuenta, plan y preferencias",
     "upgrade": "Mejorar a Pro",
     "upgrade_sub": "Preguntas, tarjetas y exámenes simulados ilimitados",
-    "upgrade_banner_sub": "Desbloquea exámenes, análisis y práctica ilimitada",
+    "upgrade_banner_sub": "Desbloquea exámenes, tarjetas y práctica ilimitada",
     "tab_label": "Más"
   },
   "upgrade": {
@@ -365,6 +373,10 @@
     "products_loading": "Cargando planes...",
     "cancel_anytime": "Cancela cuando quieras",
     "instant_access": "Acceso inmediato",
+    "sync_pending_title": "Completando tu suscripción",
+    "sync_pending_body": "Apple confirmó tu suscripción, pero aún no pudimos confirmar el acceso Pro en tu cuenta. Revisa tu conexión y reintenta la activación. No necesitas comprar de nuevo.",
+    "retry_access": "Reintentar activación",
+    "restore_failed": "No pudimos comprobar tus compras. Revisa tu conexión e intenta restaurarlas otra vez.",
     "restore": "Restaurar compra anterior",
     "maybe_later": "Quizás después",
     "unavailable": "Suscripciones temporalmente no disponibles. Inténtalo más tarde.",
@@ -449,5 +461,9 @@
     "done_keep_going": "Sigue adelante — cada intento mejora tu preparación.",
     "retry": "Intentar de nuevo",
     "finish": "Terminar repaso"
+  },
+  "study": {
+    "saving": "Guardando respuesta…",
+    "save_failed": "Tu respuesta está pendiente de guardado. Comprueba la conexión y reintenta antes de continuar."
   }
 }

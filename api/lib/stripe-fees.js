@@ -10,7 +10,7 @@ export async function reconcileStripeFees({ limit = 10, paymentIds = null } = {}
   return reconcileStripeFeesWith({
     limit,
     paymentIds,
-    loadPayments: () => db.getAllPayments(),
+    loadPayments: () => paymentIds ? db.getPaymentsByIds(paymentIds) : db.getAllPayments(),
     saveFees: (paymentId, fees) => db.saveStripePaymentFees(paymentId, fees),
   });
 }

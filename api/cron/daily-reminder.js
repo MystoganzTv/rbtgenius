@@ -16,6 +16,12 @@ const DOMAIN_LABELS = {
   professional_conduct: 'Ethics',
 };
 
+const DOMAIN_LABELS_ES = {
+  measurement: 'Recolección de datos y gráficas', assessment: 'Evaluación de la conducta',
+  skill_acquisition: 'Adquisición de conducta', behavior_reduction: 'Reducción de conducta',
+  documentation: 'Documentación y reporte', professional_conduct: 'Ética',
+};
+
 // ── Message builders ────────────────────────────────────────────────────────
 
 /**
@@ -26,8 +32,10 @@ const DOMAIN_LABELS = {
  *   3. User is doing well but could improve  → encouraging message
  *   4. Fallback generic
  */
-function buildMessage(stats) {
-  if (!stats) return genericMessage();
+export function buildMessage(stats, language = 'en') {
+  const es = language === 'es';
+  const labels = es ? DOMAIN_LABELS_ES : DOMAIN_LABELS;
+  if (!stats) return genericMessage(language);
 
   const { domains, lastAt } = stats;
 
@@ -39,14 +47,14 @@ function buildMessage(stats) {
   if (daysSince !== null && daysSince >= 2) {
     if (daysSince >= 7) {
       return {
-        title: '👋 We miss you!',
-        body: `It's been ${daysSince} days since your last session. Jump back in — your exam prep is waiting.`,
+        title: es ? '👋 ¡Te echamos de menos!' : '👋 We miss you!',
+        body: es ? `Han pasado ${daysSince} días desde tu última sesión. Retoma tu preparación.` : `It's been ${daysSince} days since your last session. Jump back in — your exam prep is waiting.`,
         data: { screen: 'Practice' },
       };
     }
     return {
-      title: `🔥 ${daysSince} days without practice`,
-      body: 'A quick 5-minute session keeps your readiness score on track.',
+      title: es ? `🔥 ${daysSince} días sin practicar` : `🔥 ${daysSince} days without practice`,
+      body: es ? 'Una sesión de 5 minutos te ayuda a mantener tu preparación.' : 'A quick 5-minute session keeps your readiness score on track.',
       data: { screen: 'Practice' },
     };
   }
@@ -59,19 +67,19 @@ function buildMessage(stats) {
   const weakest = qualified[0];
   if (weakest) {
     const [domainKey, { pct }] = weakest;
-    const label = DOMAIN_LABELS[domainKey] ?? domainKey;
+    const label = labels[domainKey] ?? domainKey;
 
     if (pct < 50) {
       return {
-        title: `📉 ${label} needs work`,
-        body: `You're at ${pct}% in ${label}. Focus on it today to close the gap before exam day.`,
+        title: es ? `📉 Repasa ${label}` : `📉 ${label} needs work`,
+        body: es ? `Tienes un ${pct}% en ${label}. Repasa esta área antes del examen.` : `You're at ${pct}% in ${label}. Focus on it today to close the gap before exam day.`,
         data: { screen: 'Practice', initialTopic: domainKey },
       };
     }
     if (pct < 70) {
       return {
-        title: `📊 Strengthen ${label}`,
-        body: `${pct}% in ${label} — a focused session today could push you past 70%.`,
+        title: es ? `📊 Refuerza ${label}` : `📊 Strengthen ${label}`,
+        body: es ? `${pct}% en ${label}. Una sesión enfocada puede ayudarte a superar el 70%.` : `${pct}% in ${label} — a focused session today could push you past 70%.`,
         data: { screen: 'Practice', initialTopic: domainKey },
       };
     }
@@ -81,17 +89,22 @@ function buildMessage(stats) {
   const best = qualified[qualified.length - 1];
   if (best && best[1].pct >= 80) {
     return {
-      title: '✅ Keep the momentum!',
-      body: `Your ${DOMAIN_LABELS[best[0]] ?? best[0]} is at ${best[1].pct}%. Keep it sharp with a quick review.`,
+      title: es ? '✅ ¡Sigue avanzando!' : '✅ Keep the momentum!',
+      body: es ? `${labels[best[0]] ?? best[0]} está en ${best[1].pct}%. Mantén tu nivel con un repaso breve.` : `Your ${labels[best[0]] ?? best[0]} is at ${best[1].pct}%. Keep it sharp with a quick review.`,
       data: { screen: 'Practice' },
     };
   }
 
-  return genericMessage();
+  return genericMessage(language);
 }
 
-function genericMessage() {
-  const options = [
+function genericMessage(language) {
+  const options = language === 'es' ? [
+    { title: '🎯 ¡Hora de practicar!', body: 'Unos minutos de práctica te ayudan a prepararte para el examen.' },
+    { title: '📚 RBT Genius te espera', body: 'Sigue avanzando hacia tu certificación.' },
+    { title: '🔥 ¡No pierdas tu racha!', body: 'Abre la app y continúa estudiando.' },
+    { title: '✅ Continúa tu preparación', body: 'Retoma el estudio donde lo dejaste.' },
+  ] : [
     { title: '🎯 Time to practice!',        body: 'A few minutes today keeps your readiness score climbing.' },
     { title: '📚 RBT Genius is waiting',    body: 'Keep moving toward your certification — practice now.' },
     { title: "🔥 Don't break your streak!", body: 'Every session counts. Open the app and stay consistent.' },
@@ -114,10 +127,10 @@ export default async function handler(req) {
   }
 
   // Build one personalized payload per user
-  const payloads = users.map(({ token, stats }) => ({
+  const payloads = users.map(({ token, stats, language }) => ({
     to:    token,
     sound: 'default',
-    ...buildMessage(stats),
+    ...buildMessage(stats, language),
   }));
 
   let sent = 0;

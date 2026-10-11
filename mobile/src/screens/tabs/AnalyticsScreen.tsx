@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 import {
-  RefreshControl, ScrollView, StyleSheet, Text, View, useColorScheme,
+  Pressable, RefreshControl, ScrollView, StyleSheet, Text, View, useColorScheme,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
@@ -87,13 +87,16 @@ const DOMAIN_KEYS: { key: DomainKey; accent: AccentKey }[] = [
   { key: 'professional_conduct', accent: 'success' },
 ];
 
-const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 function readinessLabel(r: number) {
-  if (r >= 80) return { text: 'Exam Ready', color: '#059669' };
-  if (r >= 65) return { text: 'Almost There', color: '#D97706' };
-  if (r >= 40) return { text: 'In Progress', color: '#3266ad' };
-  return { text: 'Getting Started', color: '#888' };
+  if (r >= 80) return { text: 'analytics.ready', color: '#059669' };
+  if (r >= 65) return { text: 'analytics.almost', color: '#D97706' };
+  if (r >= 40) return { text: 'analytics.progress', color: '#3266ad' };
+  return { text: 'analytics.starting', color: '#888' };
+}
+
+function localDateKey(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
 function buildWeeklyData(attempts: Attempt[] = []): WeeklyDay[] {
@@ -103,12 +106,12 @@ function buildWeeklyData(attempts: Attempt[] = []): WeeklyDay[] {
   for (let i = 6; i >= 0; i -= 1) {
     const d = new Date(today);
     d.setDate(today.getDate() - i);
-    const key = d.toISOString().slice(0, 10);
-    days.push({ key, label: DAY_LABELS[d.getDay()], total: 0, correct: 0 });
+    const key = localDateKey(d);
+    days.push({ key, label: key, total: 0, correct: 0 });
   }
 
   for (const attempt of attempts) {
-    const dateKey = (attempt.created_at ?? '').slice(0, 10);
+    const dateKey = localDateKey(new Date(attempt.created_at ?? ''));
     const slot = days.find((day) => day.key === dateKey);
     if (slot) {
       slot.total += 1;
@@ -123,17 +126,17 @@ function buildWeeklyData(attempts: Attempt[] = []): WeeklyDay[] {
   }));
 }
 
-function formatExamDate(iso?: string) {
+function formatExamDate(iso?: string, language = 'en') {
   if (!iso) return '';
   const d = new Date(iso);
-  return d.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleDateString(language === 'es' ? 'es-US' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 export default function AnalyticsScreen() {
   const scheme = useColorScheme();
   const theme = getTheme(scheme === 'dark' ? 'dark' : 'light');
   const s = styles(theme);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const auth = useAuth() as { token?: string | null; user?: AuthUser | null } | null;
   const token = auth?.token ?? '';
   const user = auth?.user ?? null;
@@ -142,6 +145,7 @@ export default function AnalyticsScreen() {
   const [weekly, setWeekly] = useState<WeeklyDay[] | null>(null);
   const [exams, setExams] = useState<ExamSummary[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [loadError, setLoadError] = useState(false);
 
   const fetchData = useCallback(async (silent = false) => {
     if (!token) {
@@ -152,6 +156,7 @@ export default function AnalyticsScreen() {
     }
 
     if (!silent) setRefreshing(true);
+    setLoadError(false);
     try {
       const headers = { Authorization: `Bearer ${token}` };
 
@@ -163,18 +168,15 @@ export default function AnalyticsScreen() {
       if (dashRes.ok) {
         const nextDashboard = (await dashRes.json()) as DashboardData;
         setDashboard(nextDashboard);
-      }
+      } else setLoadError(true);
 
       if (analyticsRes && analyticsRes.ok) {
         const data = (await analyticsRes.json()) as AnalyticsResponse;
         setWeekly(buildWeeklyData(data.attempts ?? []));
         setExams(data.exams ?? []);
-      } else {
-        setWeekly([]);
-        setExams([]);
-      }
+      } else setLoadError(true);
     } catch {
-      // keep current data
+      setLoadError(true); // Preserve existing data and make failed refresh visible.
     } finally {
       setRefreshing(false);
     }
@@ -235,13 +237,16 @@ export default function AnalyticsScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={() => fetchData(false)} tintColor={theme.primary} />
         }
       >
+        {loadError && <Pressable accessibilityRole="button" onPress={() => fetchData(false)}>
+          <Text style={{ color: theme.text }}>{t('common.network_error')} · {t('common.retry')}</Text>
+        </Pressable>}
         <View style={s.heroCard}>
           <View style={s.heroLeft}>
             <Text style={s.heroLabel}>{t('analytics.accuracy_label')}</Text>
-            <Text style={[s.heroValue, { color: rl.color }]}>{accuracy > 0 ? `${accuracy}%` : '—'}</Text>
+            <Text style={[s.heroValue, { color: rl.color }]}>{completed > 0 ? `${accuracy}%` : '—'}</Text>
             <View style={[s.heroTag, { backgroundColor: `${rl.color}18` }]}>
               <Text style={[s.heroTagText, { color: rl.color }]}>
-                {accuracy === 0 ? t('common.loading') : rl.text}
+                {completed === 0 ? t('analytics.starting') : t(rl.text)}
               </Text>
             </View>
             <Text style={s.heroNote}>{t('analytics.real_answers')}</Text>
@@ -302,7 +307,7 @@ export default function AnalyticsScreen() {
                   const pct = day.accuracy;
                   const isToday = i === weekly.length - 1;
                   return (
-                    <View key={`${day.label}-${i}`} style={s.chartCol}>
+                    <View key={day.label} style={s.chartCol}>
                       <Text style={s.chartScore}>{day.questions > 0 ? `${pct}%` : ''}</Text>
                       <View style={s.chartTrack}>
                         {day.questions > 0 && (
@@ -318,9 +323,9 @@ export default function AnalyticsScreen() {
                         )}
                       </View>
                       <Text style={[s.chartDay, isToday && { color: theme.primary, fontWeight: '800' }]}> 
-                        {day.label}
+                        {new Date(`${day.label}T12:00:00`).toLocaleDateString(i18n.language === 'es' ? 'es-US' : 'en-US', { weekday: 'short' })}
                       </Text>
-                      {day.questions > 0 && <Text style={s.chartQCount}>{day.questions}p</Text>}
+                      {day.questions > 0 && <Text style={s.chartQCount}>{t('analytics.questions_count', { count: day.questions })}</Text>}
                     </View>
                   );
                 })}
@@ -400,7 +405,7 @@ export default function AnalyticsScreen() {
                   <View style={s.examInfo}>
                     <Text style={s.examTitle}>{passed ? t('analytics.passed') : t('analytics.failed')}</Text>
                     <Text style={s.examMeta}>
-                      {formatExamDate(exam.created_at)}
+                      {formatExamDate(exam.created_at, i18n.language)}
                       {exam.time_taken_minutes ? ` · ${exam.time_taken_minutes} min` : ''}
                     </Text>
                     {exam.domain_scores && (

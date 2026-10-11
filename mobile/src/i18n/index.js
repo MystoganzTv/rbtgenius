@@ -30,9 +30,9 @@ export async function initI18n() {
   return i18n;
 }
 
-export function changeLanguage(lang) {
-  i18n.changeLanguage(lang);
-  AsyncStorage.setItem(LANG_KEY, lang).catch(() => {});
+export async function changeLanguage(lang) {
+  await i18n.changeLanguage(lang);
+  await AsyncStorage.setItem(LANG_KEY, lang);
 }
 
 export default i18n;
