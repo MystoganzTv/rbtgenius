@@ -630,7 +630,7 @@ export default function Landing() {
                     <button
                       key={title}
                       type="button"
-                      aria-label={`Show ${title} preview`}
+                      aria-label={isEs ? `Mostrar vista previa: ${displayTitle}` : `Show ${title} preview`}
                       onClick={() => rotatePreview(index)}
                       className={`absolute left-1/2 top-0 w-[96%] -translate-x-1/2 rounded-[1.9rem] border text-left transition-all will-change-transform sm:w-[92%] sm:rounded-[2.1rem] ${cardStyles[order]} ${
                         isFrontCard
@@ -647,7 +647,7 @@ export default function Landing() {
                       }}
                     >
                       <div className="overflow-hidden rounded-[1.9rem] sm:rounded-[2.1rem]">
-                        {renderDesktopWindowBar(displayTitle, order === 0 ? "Now" : order === 1 ? "Next" : "Then")}
+                        {renderDesktopWindowBar(displayTitle, isEs ? (order === 0 ? "Ahora" : order === 1 ? "Siguiente" : "Después") : (order === 0 ? "Now" : order === 1 ? "Next" : "Then"))}
                         <div
                           className="flex min-h-[290px] flex-col p-5 pb-5 sm:min-h-[390px] sm:p-6 sm:pb-7"
                           style={{
@@ -868,19 +868,19 @@ export default function Landing() {
                   <div className={`rounded-[2rem] p-4 ${isDark ? "bg-[#020617]" : "bg-[#EEF4FB]"}`} style={{minHeight: 380}}>
                     {/* Top bar */}
                     <div className="mb-4">
-                      <p className={`text-[10px] font-semibold uppercase tracking-widest ${isDark ? "text-slate-500" : "text-slate-400"}`}>Practice</p>
-                      <p className={`text-sm font-black ${isDark ? "text-white" : "text-slate-900"}`}>ABA Principles</p>
+                      <p className={`text-[10px] font-semibold uppercase tracking-widest ${isDark ? "text-slate-500" : "text-slate-400"}`}>{isEs ? "Práctica" : "Practice"}</p>
+                      <p className={`text-sm font-black ${isDark ? "text-white" : "text-slate-900"}`}>{isEs ? "Principios de ABA" : "ABA Principles"}</p>
                     </div>
                     {/* Question card */}
                     <div className={`rounded-2xl p-4 mb-3 ${isDark ? "bg-[#0f172a]" : "bg-white"}`}>
-                      <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? "text-[#4F8CFF]" : "text-[#1E5EFF]"}`}>Question 1 / 24</p>
-                      <p className={`text-xs font-semibold leading-4 ${isDark ? "text-white" : "text-slate-900"}`}>Which schedule of reinforcement is most resistant to extinction?</p>
+                      <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? "text-[#4F8CFF]" : "text-[#1E5EFF]"}`}>{isEs ? "Pregunta 1 / 24" : "Question 1 / 24"}</p>
+                      <p className={`text-xs font-semibold leading-4 ${isDark ? "text-white" : "text-slate-900"}`}>{isEs ? "¿Qué programa de reforzamiento es más resistente a la extinción?" : "Which schedule of reinforcement is most resistant to extinction?"}</p>
                     </div>
                     {/* Answer options */}
                     {[
-                      { label: "A", text: "Fixed Ratio", correct: false },
-                      { label: "B", text: "Variable Ratio", correct: true },
-                      { label: "C", text: "Fixed Interval", correct: false },
+                      { label: "A", text: isEs ? "Razón fija" : "Fixed Ratio", correct: false },
+                      { label: "B", text: isEs ? "Razón variable" : "Variable Ratio", correct: true },
+                      { label: "C", text: isEs ? "Intervalo fijo" : "Fixed Interval", correct: false },
                     ].map((opt) => (
                       <div key={opt.label} className={`mb-2 flex items-center gap-2 rounded-xl px-3 py-2 ${opt.correct ? "bg-emerald-500/15 border border-emerald-500/30" : isDark ? "bg-white/5" : "bg-white/70"}`}>
                         <span className={`flex h-5 w-5 items-center justify-center rounded-md text-[9px] font-black ${opt.correct ? "bg-emerald-500 text-white" : isDark ? "bg-white/10 text-slate-400" : "bg-slate-100 text-slate-500"}`}>{opt.label}</span>

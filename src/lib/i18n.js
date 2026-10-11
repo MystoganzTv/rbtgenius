@@ -16,6 +16,19 @@ const conceptPurposeLookup = allQuestionConceptValues.reduce((result, concept) =
 }, {});
 
 const UI_TRANSLATIONS = {
+  "App access": "Acceso a la app",
+  "Landing page and pricing": "Inicio y precios",
+  "Dashboard, practice, and flashcards": "Panel, práctica y tarjetas",
+  "Everything unlocked": "Acceso completo",
+  "Practice questions": "Preguntas de práctica",
+  "Preview only": "Solo vista previa",
+  "Unlimited flashcard review": "Repaso ilimitado de tarjetas",
+  "Mock exams": "Exámenes simulados",
+  "Not available": "No disponible",
+  "Locked": "Bloqueado",
+  "Full 85-question mock exams": "Simulacros completos de 85 preguntas",
+  "Full readiness and performance analytics": "Estadísticas completas de preparación y rendimiento",
+  "40-hour course": "Curso de 40 horas",
   "Dashboard": "Panel",
   "Practice": "Práctica",
   "Flashcards": "Tarjetas",
@@ -2808,6 +2821,10 @@ export function localizeText(text, language) {
 
 function translateDynamicUi(label) {
   const text = String(label || "").trim();
+  const unlimitedBank = text.match(/^Unlimited across (\d+) questions and (\d+) concepts$/);
+  if (unlimitedBank) return `Acceso ilimitado a ${unlimitedBank[1]} preguntas y ${unlimitedBank[2]} conceptos`;
+  const cardsPerSession = text.match(/^(\d+) cards per session$/);
+  if (cardsPerSession) return `${cardsPerSession[1]} tarjetas por sesión`;
   let match = text.match(/^You have covered (\d+)% of the full bank so far\. Readiness will become more meaningful as coverage grows\.$/);
   if (match) {
     return `Has cubierto ${match[1]}% del banco completo hasta ahora. La preparación será más útil a medida que aumente tu cobertura.`;
