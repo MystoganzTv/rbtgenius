@@ -10,9 +10,12 @@
 - Errores de carga visibles en repaso de errores y estadísticas. Fechas, días, estados, pestaña Más, errores de autenticación, políticas y notificaciones respetan el idioma. El panel bilingüe permite desplazarse.
 - Se incluyen las correcciones previas existentes de acceso Pro, restauración de compras, paywall iOS y procesamiento transaccional de Stripe, cubiertas por la suite de regresión.
 
+- Comprobación real de la portada: traducción completa de la tabla de planes, etiquetas del carrusel y vista de ejemplo. Regresión para todos los valores dinámicos de la tabla.
+- Corregida la API de estadísticas personales: las cuentas Free móviles ya no reciben 403 al abrir la sección incluida en su plan. Crear simulacros sigue limitado a Pro.
+
 ## Comprobaciones
 
-- Suite de Node: 110 pruebas (incluye ejecución de pantallas y hook reales con servicios nativos simulados, y handlers de API con almacenamiento simulado).
+- Suite de Node: 112 pruebas (incluye ejecución de pantallas y hook reales con servicios nativos simulados, y handlers de API con almacenamiento simulado).
 - Nuevas regresiones: cierre automático tras suspensión, respuestas recientes, reintento persistente tras remontar pantalla, HTTP 500, letras de flashcards, políticas españolas, estadísticas a 0%, API idempotente, rechazo de exámenes incompletos y equivalencia completa de los bancos.
 - Compilación Vite, lint, check:i18n, check:questions y check:pricing.
 - TypeScript móvil y exportación Metro iOS.

@@ -1303,10 +1303,7 @@ app.get('/api/dashboard', requireUser, (req, res) => {
 });
 
 app.get('/api/analytics', requireUser, (req, res) => {
-  if (!isPremiumPlan(req.currentUser.plan)) {
-    sendPremiumRequired(res, 'analytics');
-    return;
-  }
+  // Personal study history is available to Free mobile members too.
 
   const db = readDb();
   res.json({

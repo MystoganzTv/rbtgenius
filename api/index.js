@@ -1067,7 +1067,8 @@ async function webApiHandler(req) {
   if (apiPath === '/analytics' && req.method === 'GET') {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
-    if (!isPremiumPlan(auth.user.plan)) return sendPremiumRequired('analytics');
+    // Mobile includes personal study analytics in Free. This authenticated
+    // endpoint only returns the caller's data; creating mock exams remains Pro.
     const [attempts, exams] = await Promise.all([db.getAttemptsByUser(auth.user.id), db.getMockExamsByUser(auth.user.id)]);
     const progress = computeProgress({ attempts, mockExams: exams, users: [auth.user] }, auth.user.id);
     return json({ progress, attempts, exams });
