@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:3840px;height:1646px;overflow:hidden}
+body{font-family:"Inter Display","Inter",sans-serif;position:relative;
+ background:
+  radial-gradient(1400px 1000px at 76% 55%, rgba(120,170,255,.55), rgba(120,170,255,0) 70%),
+  linear-gradient(160deg,#2f72ff 0%,#1e5eff 38%,#1a4bc4 70%,#13307e 100%);}
+.rings{position:absolute;left:0;top:0;width:3840px;height:1646px}
+h1{position:absolute;left:330px;top:0;height:1646px;display:flex;flex-direction:column;justify-content:center;
+ color:#fff;font-weight:800;font-size:236px;line-height:.98;letter-spacing:-7px;
+ text-shadow:0 12px 48px rgba(8,24,80,.25)}
+h1 .acc{color:#ffd45c}
+.phone{position:absolute;border-radius:100px;background:#0b1226;padding:20px;
+ box-shadow:0 60px 120px rgba(5,15,55,.55),0 0 0 3px rgba(255,255,255,.18) inset}
+.phone img{display:block;width:100%;border-radius:82px}
+.c{width:600px;left:2600px;top:330px;z-index:3}
+.l{width:540px;left:2080px;top:470px;z-index:2;transform:rotate(-7deg);transform-origin:bottom center}
+.r{width:540px;left:3150px;top:470px;z-index:2;transform:rotate(7deg);transform-origin:bottom center}
+.star{position:absolute;z-index:4}
+</style></head><body>
+<svg class="rings" viewBox="0 0 3840 1646">
+ <g fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="6">
+  <circle cx="2900" cy="1250" r="620"/><circle cx="2900" cy="1250" r="900"/>
+  <circle cx="2900" cy="1250" r="1180"/><circle cx="2900" cy="1250" r="1460"/>
+  <circle cx="2900" cy="1250" r="1740"/><circle cx="2900" cy="1250" r="2020"/><circle cx="2900" cy="1250" r="2300"/>
+ </g>
+</svg>
+<h1><span>Study smarter</span><span>for the</span><span class="acc">RBT exam.</span></h1>
+<svg class="star" style="left:1300px;top:690px" width="120" height="120" viewBox="0 0 100 100"><path d="M50 0 C55 38 62 45 100 50 C62 55 55 62 50 100 C45 62 38 55 0 50 C38 45 45 38 50 0Z" fill="#ffc21a"/></svg>
+<svg class="star" style="left:1960px;top:1250px;opacity:.8" width="64" height="64" viewBox="0 0 100 100"><path d="M50 0 C55 38 62 45 100 50 C62 55 55 62 50 100 C45 62 38 55 0 50 C38 45 45 38 50 0Z" fill="#fff"/></svg>
+<div class="phone l"><img src="analytics.png"></div>
+<div class="phone r"><img src="flashcards.png"></div>
+<div class="phone c"><img src="practice.png"></div>
+</body></html>
