@@ -62,7 +62,7 @@ test('owner metrics exclude sandbox and trial activity from revenue', () => {
   assert.equal(metrics.money.transactions, 0);
 });
 
-test('missing RevenueCat financial percentages never imply full proceeds', () => {
+test('Apple proceeds show which sales have enough data for an estimate', () => {
   const metrics = buildOwnerMetrics({
     now,
     users: [{ id: 'u1', plan: 'premium_monthly' }],
@@ -78,13 +78,24 @@ test('missing RevenueCat financial percentages never imply full proceeds', () =>
         tax_percentage: null,
         commission_percentage: null,
       },
+    }, {
+      id: 'apple-estimated',
+      user_id: 'u1',
+      status: 'completed',
+      amount: 39.99,
+      provider: 'revenuecat',
+      payment_date: '2026-08-03T12:00:00.000Z',
+      metadata: { tax_percentage: 0.05, commission_percentage: 0.15 },
     }],
   });
 
-  assert.equal(metrics.money.apple.gross, 19.99);
-  assert.equal(metrics.money.apple.estimatedProceeds, 0);
-  assert.equal(metrics.money.apple.proceedsCoverage, 0);
-  assert.equal(metrics.money.apple.source, 'setup');
+  assert.equal(metrics.money.apple.gross, 59.98);
+  assert.equal(metrics.money.apple.estimatedProceeds, 31.99);
+  assert.equal(metrics.money.apple.coveredGross, 39.99);
+  assert.equal(metrics.money.apple.uncoveredGross, 19.99);
+  assert.equal(metrics.money.apple.proceedsCoverage, 1);
+  assert.equal(metrics.money.apple.proceedsCoverageTotal, 2);
+  assert.equal(metrics.transactions.rows.find((row) => row.id === 'apple-without-financials').net, null);
 });
 
 test('legacy zero-dollar or unknown-provider records do not inflate transaction counts', () => {
@@ -102,7 +113,7 @@ test('legacy zero-dollar or unknown-provider records do not inflate transaction 
   assert.equal(metrics.money.customerGross, 19.99);
 });
 
-test('reconciled Stripe balance transactions produce a real net payout', () => {
+test('reconciled Stripe balance transactions give the net amount after Stripe fees', () => {
   const metrics = buildOwnerMetrics({
     now,
     users: [{ id: 'u1', plan: 'premium_yearly' }],

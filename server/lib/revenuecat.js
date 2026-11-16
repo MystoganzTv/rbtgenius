@@ -149,8 +149,38 @@ function isEntitlementActive(entitlement, nowMs = Date.now()) {
 // `pro` entitlement is currently active, otherwise null.
 export function derivePlanFromSubscriber(subscriber, nowMs = Date.now()) {
   const ent = subscriber?.entitlements?.[RC_ENTITLEMENT_ID];
-  if (!isEntitlementActive(ent, nowMs)) return null;
+  if (!ent) return null;
+  const subscription = subscriber?.subscriptions?.[ent.product_identifier];
+  const graceEndsAt = Date.parse(subscription?.grace_period_expires_date);
+  if (!isEntitlementActive(ent, nowMs) && !(graceEndsAt > nowMs)) return null;
   return resolvePlanFromRevenueCatProduct(ent.product_identifier) || PLAN_IDS.PREMIUM_MONTHLY;
+}
+
+function eventDate(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const date = new Date(Number(value));
+  return Number.isFinite(date.getTime()) ? date.toISOString() : '';
+}
+
+export function revenueCatEventDetails(event, nowMs = Date.now()) {
+  const graceEndsAt = eventDate(event.grace_period_expiration_at_ms);
+  const details = {
+    'RevenueCat event': event.type,
+    'RevenueCat event ID': event.id,
+    Product: event.product_id,
+    Environment: event.environment,
+    'Billing period': event.period_type,
+    'Provider event at': eventDate(event.event_timestamp_ms),
+    'Subscription expires at': eventDate(event.expiration_at_ms),
+    Reason: event.expiration_reason || event.cancel_reason,
+  };
+  if (event.type === 'BILLING_ISSUE') {
+    details['Grace period ends at'] = graceEndsAt || 'Not granted by the store';
+    details.Note = Date.parse(graceEndsAt) > nowMs
+      ? 'Access kept until the store grace period ends'
+      : 'No active store grace period. Billing retries do not guarantee Premium access.';
+  }
+  return details;
 }
 
 export function isRevenueCatConfigured() {
@@ -287,7 +317,8 @@ export function interpretWebhookEvent(event) {
   const type = event.type;
 
   // CANCELLATION = auto-renew turned off; user keeps access until expiry → ignore.
-  // BILLING_ISSUE = grace period → ignore (don't punish on a transient failure).
+  // BILLING_ISSUE may have no grace period. Access ends on EXPIRATION,
+  // not on the billing issue itself.
   if (ACTIVE_EVENT_TYPES.has(type)) {
     const plan =
       resolvePlanFromRevenueCatEvent(event) || PLAN_IDS.PREMIUM_MONTHLY;

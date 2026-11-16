@@ -277,6 +277,11 @@ const SUBSCRIPTION_EVENTS = {
     preview: "A renewal payment failed. The provider will usually retry.",
     push: (name) => ({ title: "Payment failed", body: `Renewal failed for ${name}.` }),
   },
+  billing_expired: {
+    subject: "Premium access ended — payment not recovered",
+    preview: "The store ended Premium access after a billing failure. This is not a voluntary cancellation.",
+    push: (name) => ({ title: "Premium payment unresolved", body: `${name} lost Premium access after a billing failure.` }),
+  },
 };
 
 // Fire-and-forget Expo push to the admins' phones. Never throws — a push

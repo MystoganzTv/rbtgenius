@@ -7,6 +7,8 @@ import {
   CircleDollarSign,
   CreditCard,
   Database,
+  ExternalLink,
+  Landmark,
   RefreshCw,
   Shield,
   Smartphone,
@@ -318,6 +320,171 @@ function SectionTitle({ eyebrow, title, note }) {
   );
 }
 
+function SalesChannel({
+  title,
+  icon: Icon,
+  gross,
+  count,
+  rows,
+  coverage,
+  coveredGross,
+  uncoveredGross,
+  children,
+}) {
+  return (
+    <Card className={`${cardClass} min-w-0 p-5`}>
+      <div className="flex items-center gap-2">
+        <Icon className="h-5 w-5 shrink-0 text-[#1E5EFF]" />
+        <h3 className="font-semibold text-slate-950 dark:text-white">{title}</h3>
+      </div>
+      <dl className="mt-4 divide-y divide-slate-100 text-sm dark:divide-slate-800">
+        {[
+          ["Customers paid", money(gross)],
+          ...rows,
+        ].map(([label, value]) => (
+          <div key={label} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-2.5">
+            <dt className="text-slate-600 dark:text-slate-300">{label}</dt>
+            <dd className="font-semibold tabular-nums text-slate-950 dark:text-white">
+              {value ?? (count ? "Unavailable" : "No sales")}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
+        {count
+          ? `Deduction details available for ${number(coverage)} of ${number(count)} payments${coverage && coveredGross != null ? ` (${money(coveredGross)} in sales)` : ""}.`
+          : "No recorded sales through this channel during the selected dates."}
+      </p>
+      {uncoveredGross > 0 && (
+        <p className="mt-1 text-xs leading-5 text-amber-700 dark:text-amber-300">
+          {money(uncoveredGross)} in sales still lack deduction details.
+        </p>
+      )}
+      {children}
+    </Card>
+  );
+}
+
+function MoneyOverview({ sales, grossComparison, revenueCatComparison }) {
+  const { stripe, apple } = sales;
+  return (
+    <section className="space-y-4" aria-labelledby="money-overview">
+      <h2
+        id="money-overview"
+        className="text-xl font-bold text-slate-950 dark:text-white"
+      >
+        Sales and bank transfers
+      </h2>
+      <div className="grid gap-4 md:grid-cols-2">
+        <MetricCard
+          label="What customers paid"
+          value={money(sales.customerGross)}
+          note={`${number(sales.transactions)} recorded web and iOS payments in the selected dates. USD before deductions. ${comparison(grossComparison, true)}.`}
+          icon={CircleDollarSign}
+        />
+        <Card className={`${cardClass} p-5`}>
+          <div className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <Landmark className="h-5 w-5 shrink-0 text-[#1E5EFF]" />
+            Deposited in your bank
+          </div>
+          <p className="mt-2 text-2xl font-bold text-slate-950 dark:text-white">
+            Bank data unavailable
+          </p>
+          <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-400">
+            Check the amount and transfer date in each provider, then match them
+            to your bank statement. Each transfer can cover multiple sales.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a
+              className="inline-flex items-center gap-1 font-medium text-blue-700 underline dark:text-blue-300"
+              href="https://dashboard.stripe.com/payouts"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Stripe Payouts <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+            <a
+              className="inline-flex items-center gap-1 font-medium text-blue-700 underline dark:text-blue-300"
+              href="https://appstoreconnect.apple.com/itc/payments_and_financial_reports"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Apple Payments and Financial Reports <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+          </div>
+        </Card>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <SalesChannel
+          title="Website purchases · Stripe"
+          icon={CreditCard}
+          gross={stripe.gross}
+          count={stripe.transactions}
+          coverage={stripe.netCoverage}
+          coveredGross={stripe.coveredGross}
+          uncoveredGross={stripe.uncoveredGross}
+          rows={[
+            ["Recorded Stripe fees", stripe.fees == null ? null : money(stripe.fees)],
+            [
+              "Stripe net after recorded fees",
+              stripe.net == null ? null : money(stripe.net),
+            ],
+          ]}
+        />
+        <SalesChannel
+          title="iOS purchases · Apple App Store"
+          icon={Apple}
+          gross={apple.gross}
+          count={apple.transactions}
+          coverage={apple.proceedsCoverage}
+          coveredGross={apple.coveredGross}
+          uncoveredGross={apple.uncoveredGross}
+          rows={[
+            [
+              "Estimated Apple commission and sales tax",
+              apple.proceedsCoverage && apple.coveredGross != null
+                ? money(apple.coveredGross - apple.estimatedProceeds)
+                : null,
+            ],
+            [
+              "Estimated Apple proceeds",
+              apple.proceedsCoverage ? money(apple.estimatedProceeds) : null,
+            ],
+          ]}
+        >
+          <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
+            RevenueCat supplies the Apple purchase data and estimated deductions.
+            App Store Connect Analytics also shows estimated proceeds for the
+            dates selected there.
+          </p>
+          {revenueCatComparison && (
+            <details className="mt-3 text-xs leading-5 text-slate-600 dark:text-slate-400">
+              <summary className="cursor-pointer font-medium text-blue-700 dark:text-blue-300">
+                View RevenueCat report totals
+              </summary>
+              <p className="mt-2">
+                {revenueCatComparison.start} – {revenueCatComparison.end} ·{" "}
+                {money(revenueCatComparison.gross)} before deductions ·{" "}
+                {money(revenueCatComparison.estimatedProceeds)} estimated after
+                deductions. Difference from recorded Apple sales before
+                deductions: {money(revenueCatComparison.difference)}.
+              </p>
+              <p className="mt-1">
+                Use this report to compare with the Apple sales above. Today’s
+                data may still be incomplete.
+              </p>
+            </details>
+          )}
+        </SalesChannel>
+      </div>
+      <p className="text-xs leading-5 text-slate-500 dark:text-slate-400">
+        Sales and after-deduction figures use purchase dates. Later refunds,
+        disputes and other payout adjustments can change what reaches your bank.
+      </p>
+    </section>
+  );
+}
+
 export default function OwnerDashboard() {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
@@ -344,8 +511,6 @@ export default function OwnerDashboard() {
   const data = query.data;
   const business = data?.business;
   const period = data?.period;
-  const stripe = data?.money?.stripe;
-  const apple = data?.money?.apple;
   const transactions = data?.transactions;
   const today = new Date().toISOString().slice(0, 10);
   function chooseRange(value) {
@@ -516,57 +681,18 @@ export default function OwnerDashboard() {
           className={`space-y-7 ${query.isPlaceholderData ? "opacity-60" : ""}`}
           aria-busy={query.isFetching}
         >
-          <section
-            className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
-            aria-label="Business overview"
-          >
-            <MetricCard
-              label="Revenue in period"
-              value={money(data.money.customerGross)}
-              note={`${comparison(business.comparisons.gross, true)} · before deductions`}
-              icon={CircleDollarSign}
-            />
-            <MetricCard
-              label="Estimated MRR · now"
-              value={
-                business.current.estimatedMrr === null
-                  ? "Unavailable"
-                  : money(business.current.estimatedMrr)
-              }
-              note="Latest recorded subscription payment, normalized monthly. Annual plans ÷ 12. Excludes trials and one-time purchases."
-              icon={TrendingUp}
-              tone="violet"
-            />
-            <MetricCard
-              label="Paying subscribers · now"
-              value={number(business.current.paid)}
-              note={`${number(business.current.monthly)} monthly · ${number(business.current.yearly)} yearly with a recorded paid period still in effect`}
-              icon={Users}
-              tone="green"
-            />
-            <MetricCard
-              label="First-time subscribers"
-              value={number(business.comparisons.newPaid.current)}
-              note={comparison(business.comparisons.newPaid)}
-              icon={BadgeDollarSign}
-              tone="amber"
-            />
-          </section>
-          <p className="text-xs leading-5 text-slate-500">
-            MRR and paying subscribers are current estimates, independent of the
-            selected dates. {number(business.current.inferredPeriods)} paid
-            periods use an inferred end date;{" "}
-            {number(business.current.unverifiedPremium)} Premium accounts lack a
-            matching current paid record and are excluded. Historical
-            subscription snapshots are not available for comparison.
-          </p>
+          <MoneyOverview
+            sales={data.money}
+            grossComparison={business.comparisons.gross}
+            revenueCatComparison={data.revenueCatComparison}
+          />
 
-          <section className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+          <section aria-label="Sales history">
             <Card className={`${cardClass} min-w-0 p-5 sm:p-6`}>
               <SectionTitle
                 eyebrow="Revenue"
                 title="Sales over time"
-                note="Recorded gross revenue · blue Stripe, violet Apple"
+                note="What customers paid before deductions · blue for Stripe, violet for Apple"
               />
               <div className="mt-4">
                 <PeriodPicker label="Revenue period" {...pickerProps} />
@@ -600,13 +726,9 @@ export default function OwnerDashboard() {
               />
               <p className="mt-3 text-xs text-slate-500">
                 Click a month to explore its days, then choose a day to see its
-                sales. All totals and payment details follow your selection.
+                sales. Sales totals and payments follow your date selection.
               </p>
               <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-800">
-                <span>
-                  <strong>{money(data.money.customerGross)}</strong> gross ·{" "}
-                  {number(data.money.transactions)} payments
-                </span>
                 <span>
                   {data.money.transactions
                     ? `${money(data.money.customerGross / data.money.transactions)} average payment`
@@ -687,88 +809,185 @@ export default function OwnerDashboard() {
                 </div>
               </details>
             </Card>
-            <Card className={`${cardClass} p-5 sm:p-6`}>
-              <SectionTitle
-                eyebrow="Platforms"
-                title="Where revenue comes from"
-                note={`${number(data.money.transactions)} production payments in this period`}
-              />
-              <div className="mt-6 space-y-6">
-                {[
-                  {
-                    label: "Web · Stripe",
-                    amount: stripe.gross,
-                    count: stripe.transactions,
-                    icon: CreditCard,
-                  },
-                  {
-                    label: "iOS · Apple",
-                    amount: apple.gross,
-                    count: apple.transactions,
-                    icon: Smartphone,
-                  },
-                ].map(({ label, amount, count, icon: Icon }) => (
-                  <div
-                    key={label}
-                    className="flex items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="h-5 w-5 text-[#1E5EFF]" />
-                      <div>
-                        <p className="font-semibold text-slate-900 dark:text-white">
+          </section>
+
+          <section
+            ref={transactionsRef}
+            className="scroll-mt-20 space-y-3"
+            tabIndex={-1}
+            aria-label="Selected period payments"
+          >
+            <SectionTitle
+              eyebrow="Payment detail"
+              title="Individual customer payments"
+              note="USD amounts. Stripe net is based on recorded fees. Apple proceeds use estimated commission and sales tax."
+            />
+            <Card className={`${cardClass} overflow-hidden`}>
+              <div className="max-h-[520px] overflow-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="sticky top-0 z-10 bg-slate-50 text-xs text-slate-500 dark:bg-slate-800">
+                    <tr>
+                      {[
+                        "Date · UTC",
+                        "Sales channel / reference",
+                        "Plan",
+                        "Customer paid",
+                        "Deductions",
+                        "After deductions",
+                        "Deduction details",
+                      ].map((label) => (
+                        <th
+                          key={label}
+                          scope="col"
+                          className="whitespace-nowrap px-5 py-3"
+                        >
                           {label}
-                        </p>
-                        <p className="text-xs text-slate-500">
-                          {number(count)} payments ·{" "}
-                          {data.money.customerGross
-                            ? Math.round(
-                                (amount / data.money.customerGross) * 100,
-                              )
-                            : 0}
-                          % of revenue
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">
-                      {money(amount)}
-                    </p>
-                  </div>
-                ))}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {transactions.rows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className="text-slate-800 dark:text-slate-200"
+                      >
+                        <td className="whitespace-nowrap px-5 py-4">
+                          {date(row.date)}
+                          <p className="mt-1 text-xs text-slate-500">
+                            {new Date(row.date).toLocaleTimeString("en-US", {
+                              timeZone: "UTC",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        </td>
+                        <td className="px-5 py-4">
+                          <p className="font-medium">
+                            {row.provider === "stripe" ? "Website · Stripe" : "iOS · Apple"}
+                          </p>
+                          <p
+                            className="mt-1 max-w-44 truncate text-xs text-slate-500"
+                            title={row.id}
+                          >
+                            {row.id}
+                          </p>
+                        </td>
+                        <td className="whitespace-nowrap px-5 py-4">
+                          {planName(row.plan)}
+                        </td>
+                        <td className="px-5 py-4">{money(row.gross)}</td>
+                        <td className="px-5 py-4">
+                          {row.status === "estimated"
+                            ? money(row.gross - row.net)
+                            : row.fees == null
+                              ? "—"
+                              : money(row.fees)}
+                        </td>
+                        <td className="px-5 py-4">
+                          {row.net === null ? "—" : money(row.net)}
+                        </td>
+                        <td className="px-5 py-4">
+                          <Badge variant="outline">
+                            {row.status === "reconciled"
+                              ? "Stripe fees recorded"
+                              : row.status === "estimated"
+                                ? "Apple estimate"
+                                : "Unavailable"}
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                    {!transactions.rows.length && (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="p-8 text-center text-slate-500"
+                        >
+                          No recorded customer payments for these dates.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
-              <p className="mt-6 text-xs text-slate-500">
-                Totals, chart and transaction details use the same recorded
-                payments and date range.
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 p-4 dark:border-slate-800">
+                <p className="text-xs text-slate-500">
+                  {number(transactions.total)} payments · page{" "}
+                  {transactions.page} of {transactions.pageCount}
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    disabled={query.isFetching || transactions.page <= 1}
+                    onClick={() =>
+                      setOptions((value) => ({
+                        ...value,
+                        page: transactions.page - 1,
+                      }))
+                    }
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    disabled={
+                      query.isFetching ||
+                      transactions.page >= transactions.pageCount
+                    }
+                    onClick={() =>
+                      setOptions((value) => ({
+                        ...value,
+                        page: transactions.page + 1,
+                      }))
+                    }
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
             </Card>
           </section>
 
-          <section className="space-y-3">
-            <SectionTitle
-              eyebrow="After deductions"
-              title="Revenue after platform fees"
-              note="Before operating expenses and income taxes. These amounts do not confirm a bank deposit; later refunds and disputes are not reconciled here."
+          <section
+            className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
+            aria-label="Subscriptions"
+          >
+            <MetricCard
+              label="Estimated monthly recurring revenue"
+              value={
+                business.current.estimatedMrr === null
+                  ? "Unavailable"
+                  : money(business.current.estimatedMrr)
+              }
+              note="Latest recorded subscription payment, normalized monthly. Annual plans ÷ 12. Excludes trials and one-time purchases."
+              icon={TrendingUp}
+              tone="violet"
             />
-            <div className="grid gap-4 md:grid-cols-2">
-              <MetricCard
-                label="Stripe · reconciled net"
-                value={stripe.net === null ? "Pending" : money(stripe.net)}
-                note={`${number(stripe.netCoverage)} of ${number(stripe.netCoverageTotal)} payments reconciled${stripe.fees === null ? "" : ` · ${money(stripe.fees)} in fees`}${stripe.uncoveredGross ? ` · ${money(stripe.uncoveredGross)} gross still pending` : ""}`}
-                icon={CreditCard}
-                tone="green"
-              />
-              <MetricCard
-                label="Apple · estimated proceeds"
-                value={
-                  apple.proceedsCoverage
-                    ? money(apple.estimatedProceeds)
-                    : "Unavailable"
-                }
-                note={`${number(apple.proceedsCoverage)} of ${number(apple.proceedsCoverageTotal)} payments include estimated deductions. Apple's final financial payout is not connected.`}
-                icon={Apple}
-                tone="violet"
-              />
-            </div>
+            <MetricCard
+              label="Paying subscribers · now"
+              value={number(business.current.paid)}
+              note={`${number(business.current.monthly)} monthly · ${number(business.current.yearly)} yearly with a recorded paid period still in effect`}
+              icon={Users}
+              tone="green"
+            />
+            <MetricCard
+              label="First-time subscribers"
+              value={number(business.comparisons.newPaid.current)}
+              note={comparison(business.comparisons.newPaid)}
+              icon={BadgeDollarSign}
+              tone="amber"
+            />
           </section>
+          <p className="text-xs leading-5 text-slate-500">
+            Monthly recurring revenue and paying subscribers are current
+            estimates. {number(business.current.inferredPeriods)} paid
+            periods use an inferred end date;{" "}
+            {number(business.current.unverifiedPremium)} Premium accounts lack a
+            matching current paid record and are excluded. Historical
+            subscription snapshots are not available for comparison.
+          </p>
+
 
           <section className="space-y-3">
             <SectionTitle
@@ -910,140 +1129,6 @@ export default function OwnerDashboard() {
             </p>
           </section>
 
-          <section
-            ref={transactionsRef}
-            className="scroll-mt-20 space-y-3"
-            tabIndex={-1}
-            aria-label="Selected period payments"
-          >
-            <SectionTitle
-              eyebrow="Payment detail"
-              title="The transactions behind the totals"
-              note="USD amounts. Apple proceeds are estimates; missing deductions stay pending."
-            />
-            <Card className={`${cardClass} overflow-hidden`}>
-              <div className="max-h-[520px] overflow-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="sticky top-0 z-10 bg-slate-50 text-xs text-slate-500 dark:bg-slate-800">
-                    <tr>
-                      {[
-                        "Date · UTC",
-                        "Platform / reference",
-                        "Plan",
-                        "Gross",
-                        "Fees",
-                        "Net / estimate",
-                        "Status",
-                      ].map((label) => (
-                        <th
-                          key={label}
-                          scope="col"
-                          className="whitespace-nowrap px-5 py-3"
-                        >
-                          {label}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                    {transactions.rows.map((row) => (
-                      <tr
-                        key={row.id}
-                        className="text-slate-800 dark:text-slate-200"
-                      >
-                        <td className="whitespace-nowrap px-5 py-4">
-                          {date(row.date)}
-                          <p className="mt-1 text-xs text-slate-500">
-                            {new Date(row.date).toLocaleTimeString("en-US", {
-                              timeZone: "UTC",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </p>
-                        </td>
-                        <td className="px-5 py-4">
-                          <p className="font-medium">
-                            {row.provider === "stripe" ? "Stripe" : "Apple"}
-                          </p>
-                          <p
-                            className="mt-1 max-w-44 truncate text-xs text-slate-500"
-                            title={row.id}
-                          >
-                            {row.id}
-                          </p>
-                        </td>
-                        <td className="whitespace-nowrap px-5 py-4">
-                          {planName(row.plan)}
-                        </td>
-                        <td className="px-5 py-4">{money(row.gross)}</td>
-                        <td className="px-5 py-4">
-                          {row.fees === null ? "—" : money(row.fees)}
-                        </td>
-                        <td className="px-5 py-4">
-                          {row.net === null ? "—" : money(row.net)}
-                        </td>
-                        <td className="px-5 py-4">
-                          <Badge variant="outline">
-                            {row.status === "reconciled"
-                              ? "Reconciled"
-                              : row.status === "estimated"
-                                ? "Estimated"
-                                : "Pending"}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                    {!transactions.rows.length && (
-                      <tr>
-                        <td
-                          colSpan={7}
-                          className="p-8 text-center text-slate-500"
-                        >
-                          No recorded production payments for this period.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 p-4 dark:border-slate-800">
-                <p className="text-xs text-slate-500">
-                  {number(transactions.total)} payments · page{" "}
-                  {transactions.page} of {transactions.pageCount}
-                </p>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    disabled={query.isFetching || transactions.page <= 1}
-                    onClick={() =>
-                      setOptions((value) => ({
-                        ...value,
-                        page: transactions.page - 1,
-                      }))
-                    }
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    variant="outline"
-                    disabled={
-                      query.isFetching ||
-                      transactions.page >= transactions.pageCount
-                    }
-                    onClick={() =>
-                      setOptions((value) => ({
-                        ...value,
-                        page: transactions.page + 1,
-                      }))
-                    }
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          </section>
-
           <section className="space-y-3">
             <SectionTitle
               eyebrow="App Store"
@@ -1125,20 +1210,6 @@ export default function OwnerDashboard() {
                 title="Sources and definitions"
               />
             </div>
-            {data.revenueCatComparison && (
-              <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm dark:bg-slate-800">
-                <p className="font-semibold">RevenueCat cross-check</p>
-                <p className="mt-1 text-slate-500">
-                  {money(data.revenueCatComparison.gross)} gross ·{" "}
-                  {money(data.revenueCatComparison.estimatedProceeds)} estimated
-                  proceeds · {money(data.revenueCatComparison.difference)}{" "}
-                  difference from recorded Apple gross. Daily report dates:{" "}
-                  {data.revenueCatComparison.start} –{" "}
-                  {data.revenueCatComparison.end}. Today may still be
-                  incomplete. These figures do not replace the ledger totals.
-                </p>
-              </div>
-            )}
             {!!data.quality.excludedPayments && (
               <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
                 {number(data.quality.excludedPayments)} completed records

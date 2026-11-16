@@ -3,9 +3,49 @@ import test from 'node:test';
 
 import {
   buildRevenueCatPayment,
+  derivePlanFromSubscriber,
   interpretWebhookEvent,
+  revenueCatEventDetails,
   resolvePlanFromRevenueCatEvent,
 } from '../server/lib/revenuecat.js';
+
+const graceNow = Date.parse('2026-10-13T01:00:00Z');
+const expiredSubscriber = {
+  entitlements: { pro: { product_identifier: 'com.rbtgenius.monthly', expires_date: '2026-10-13T00:24:32Z' } },
+  subscriptions: { 'com.rbtgenius.monthly': { grace_period_expires_date: '2026-10-16T00:24:32Z' } },
+};
+
+test('sync preserves Premium during store grace, and ends it at the deadline', () => {
+  assert.equal(derivePlanFromSubscriber(expiredSubscriber, graceNow), 'premium_monthly');
+  assert.equal(derivePlanFromSubscriber(expiredSubscriber, Date.parse('2026-10-16T00:24:32Z')), null);
+  assert.equal(derivePlanFromSubscriber({ ...expiredSubscriber, subscriptions: {} }, graceNow), null);
+  assert.equal(derivePlanFromSubscriber({ ...expiredSubscriber, entitlements: {} }, graceNow), null);
+});
+
+test('grace for an unrelated product does not grant Premium', () => {
+  assert.equal(derivePlanFromSubscriber({
+    ...expiredSubscriber,
+    subscriptions: { unrelated: { grace_period_expires_date: '2026-10-16T00:24:32Z' } },
+  }, graceNow), null);
+});
+
+test('billing issue without grace reports the failed trial without promising access', () => {
+  const event = { type: 'BILLING_ISSUE', period_type: 'TRIAL', event_timestamp_ms: 1791851083579,
+    expiration_at_ms: 1791851072000, grace_period_expiration_at_ms: null };
+  const details = revenueCatEventDetails(event, graceNow);
+  assert.equal(details['Grace period ends at'], 'Not granted by the store');
+  assert.equal(details['Billing period'], 'TRIAL');
+  assert.equal(details['Provider event at'], '2026-10-13T00:24:43.579Z');
+  assert.match(details.Note, /No active store grace period/);
+  assert.equal(interpretWebhookEvent(event).action, 'ignore');
+});
+
+test('billing issue reports access only while the explicit grace deadline is future', () => {
+  const event = { type: 'BILLING_ISSUE', grace_period_expiration_at_ms: graceNow + 1000 };
+  assert.match(revenueCatEventDetails(event, graceNow).Note, /Access kept until/);
+  assert.match(revenueCatEventDetails(event, graceNow + 1000).Note, /No active/);
+  assert.equal(revenueCatEventDetails({ type: 'EXPIRATION', expiration_reason: 'BILLING_ERROR' }).Reason, 'BILLING_ERROR');
+});
 
 const yearlyPurchase = {
   id: 'B02D715C-5263-4411-AD3C-37E8920E4EFE',

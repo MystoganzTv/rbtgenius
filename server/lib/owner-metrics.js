@@ -269,6 +269,9 @@ export function buildOwnerMetrics({
   const appleEstimatedProceeds = roundMoney(
     appleWithProceeds.reduce((sum, entry) => sum + entry.proceeds, 0),
   );
+  const appleCoveredGross = roundMoney(
+    appleWithProceeds.reduce((sum, entry) => sum + paymentGrossUsd(entry.payment), 0),
+  );
 
   return {
     generatedAt: now.toISOString(),
@@ -304,12 +307,14 @@ export function buildOwnerMetrics({
         gross: appleGross,
         transactions: applePayments.length,
         estimatedProceeds: appleEstimatedProceeds,
+        coveredGross: appleCoveredGross,
+        uncoveredGross: roundMoney(appleGross - appleCoveredGross),
         proceedsCoverage: appleWithProceeds.length,
         proceedsCoverageTotal: applePayments.length,
         source: appleWithProceeds.length ? "revenuecat_webhooks" : "setup",
       },
-      // Only a number we can defend: every Stripe charge reconciled and no
-      // iOS revenue waiting on Apple's final financial report.
+      // Legacy field for fully covered Stripe charge net. Bank transfers are
+      // outside the scope of these balance transaction records.
       verifiedTakeHome:
         stripeSummary.feeDataStatus === "live" && applePayments.length === 0
           ? stripeSummary.net

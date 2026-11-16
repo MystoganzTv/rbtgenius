@@ -44,6 +44,7 @@ import {
   fetchRevenueCatSubscriber,
   interpretWebhookEvent,
   isRevenueCatConfigured,
+  revenueCatEventDetails,
   verifyWebhookAuth,
 } from '../server/lib/revenuecat.js';
 import { buildOwnerMetrics } from '../server/lib/owner-metrics.js';
@@ -551,9 +552,8 @@ async function webApiHandler(req) {
       const event = body?.event || {};
       const { action, plan, appUserIds = [] } = interpretWebhookEvent(event);
 
-      // BILLING_ISSUE is deliberately 'ignore' for plan purposes (grace period —
-      // we don't revoke access on a transient failure), but the admins still
-      // want to know a renewal is failing before it turns into a lost customer.
+      // A billing issue alone does not revoke access; the store may or may not
+      // grant grace. Report the actual grace deadline rather than assuming one.
       if (event.type === 'BILLING_ISSUE') {
         let issueUser = null;
         for (const id of appUserIds) {
@@ -565,12 +565,7 @@ async function webApiHandler(req) {
             user: issueUser,
             plan: issueUser.plan,
             source: 'revenuecat',
-            details: {
-              'RevenueCat event': event.type,
-              Product: event.product_id,
-              Environment: event.environment,
-              Note: 'Access kept during grace period',
-            },
+            details: revenueCatEventDetails(event),
           });
         }
       }
@@ -636,17 +631,21 @@ async function webApiHandler(req) {
           }
           // Only downgrade RevenueCat-driven users; never clobber a Stripe sub.
           if (action === 'downgrade' && !user.stripe_subscription_id && isPremiumPlan(user.plan)) {
+            // An expiration can arrive after a recovery/renewal. Check current
+            // store access (including grace) before removing Premium.
+            const subscriber = await fetchRevenueCatSubscriber(user.id);
+            const currentPlan = derivePlanFromSubscriber(subscriber);
+            if (currentPlan) {
+              if (currentPlan !== user.plan) await db.updateUser(user.id, { plan: currentPlan });
+              return json({ received: true, access_retained: true });
+            }
             await db.updateUser(user.id, { plan: 'free' });
             console.log(`[rc/webhook] ${event.type} → ${user.email} downgraded to free`);
-            await notifyBilling('cancelled', {
+            await notifyBilling(event.expiration_reason === 'BILLING_ERROR' ? 'billing_expired' : 'cancelled', {
               user,
               plan: user.plan,
               source: 'revenuecat',
-              details: {
-                'RevenueCat event': event.type,
-                Product: event.product_id,
-                Environment: event.environment,
-              },
+              details: revenueCatEventDetails(event),
             });
           }
         } else {
@@ -656,8 +655,9 @@ async function webApiHandler(req) {
       return json({ received: true });
     } catch (err) {
       console.error('[rc/webhook] error:', err.message);
-      // Return 200 so RevenueCat does not retry indefinitely on a parse error.
-      return json({ received: true, error: err.message });
+      // A failed database/API request must be retried, especially a recovery
+      // renewal that restores access. Do not acknowledge unprocessed events.
+      return json({ message: 'RevenueCat event processing failed; retry required' }, { status: 500 });
     }
   }
 
