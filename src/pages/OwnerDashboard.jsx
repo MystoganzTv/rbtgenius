@@ -1129,6 +1129,39 @@ export default function OwnerDashboard() {
             </p>
           </section>
 
+          {data.examOutcomes ? (
+            <section className="space-y-3">
+              <SectionTitle
+                eyebrow="Real exam results"
+                title="Are our students passing the RBT exam?"
+                note="Self-reported by members after their exam date, all signup dates. A member counts once; admins are excluded."
+              />
+              <div className="grid gap-4 md:grid-cols-3">
+                <MetricCard
+                  label="Pass rate · reported"
+                  value={percent(data.examOutcomes.passRate)}
+                  note={`${number(data.examOutcomes.passed)} passed and ${number(data.examOutcomes.notPassed)} did not, out of ${number(data.examOutcomes.reported)} who reported.${data.examOutcomes.reliable ? "" : " Fewer than 20 reports: treat as directional, not as a claim for the listing."}`}
+                  icon={Activity}
+                  tone="green"
+                />
+                <MetricCard
+                  label="Waiting for a result"
+                  value={number(data.examOutcomes.awaiting)}
+                  note="Exam date has passed but the member has not said how it went. They are asked on their dashboard."
+                  icon={Users}
+                  tone="violet"
+                />
+                <MetricCard
+                  label="Upcoming exams"
+                  value={number(data.examOutcomes.upcoming)}
+                  note={`${number(data.examOutcomes.withDate)} members have entered an exam date in total.`}
+                  icon={Users}
+                  tone="blue"
+                />
+              </div>
+            </section>
+          ) : null}
+
           <section className="space-y-3">
             <SectionTitle
               eyebrow="App Store"

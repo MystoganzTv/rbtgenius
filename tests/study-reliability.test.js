@@ -25,7 +25,9 @@ test('exam timeout saves the latest selected answers exactly once, even after su
     return { ok: true, json: async () => ({ score: 100, correct_answers: 1, total_questions: 1, domain_scores: { measurement: 100 } }) };
   });
   const { Component } = screen('screens/tabs/MockExamScreen.jsx', {
-    ...modules, '../../services/questionService.js': { getMockExamQuestions: () => [question] },
+    ...modules,
+    '@react-native-async-storage/async-storage': memoryStorage(new Map()),
+    '../../services/questionService.js': { getMockExamQuestions: () => [question], getQuestionsByIds: () => [question] },
   });
   let renderer;
   await act(async () => { renderer = create(React.createElement(Component, { navigation: {} })); });
@@ -36,6 +38,46 @@ test('exam timeout saves the latest selected answers exactly once, even after su
   assert.equal(submitted.length, 1);
   assert.deepEqual(submitted[0].answers, { 'question-c': 'C' });
   assert.deepEqual(submitted[0].question_ids, ['question-c']);
+  await act(async () => renderer.unmount());
+});
+
+function memoryStorage(storage) {
+  return {
+    __esModule: true,
+    default: {
+      getItem: async key => storage.get(key) ?? null,
+      setItem: async (key, value) => { storage.set(key, value); },
+      removeItem: async key => { storage.delete(key); },
+    },
+  };
+}
+
+test('an exam interrupted by closing the app resumes with its answers and its clock', async context => {
+  let tick, now = 10_000_000, submitted = [];
+  const storage = new Map([[ 'rbt_mock_exam_in_progress', JSON.stringify({
+    userId: 'u1', ids: ['question-c'], answers: { 'question-c': 'C' }, index: 0, startedAt: now - 10 * 60 * 1000,
+  }) ]]);
+  context.mock.method(globalThis, 'setInterval', callback => { tick = callback; return 1; });
+  context.mock.method(globalThis, 'clearInterval', () => {});
+  context.mock.method(Date, 'now', () => now);
+  context.mock.method(globalThis, 'fetch', async (_url, options) => {
+    submitted.push(JSON.parse(options.body));
+    return { ok: true, json: async () => ({ score: 100, correct_answers: 1, total_questions: 1, domain_scores: { measurement: 100 } }) };
+  });
+  const { Component } = screen('screens/tabs/MockExamScreen.jsx', {
+    ...modules,
+    '@react-native-async-storage/async-storage': memoryStorage(storage),
+    '../../services/questionService.js': { getMockExamQuestions: () => [], getQuestionsByIds: () => [question] },
+  });
+  let renderer;
+  await act(async () => { renderer = create(React.createElement(Component, { navigation: {} })); });
+  await act(async () => button(renderer, 'exams.resume').props.onPress());
+  // 10 minutes were already used before the app closed: 80 more end the exam.
+  now += 80 * 60 * 1000 + 1000;
+  await act(async () => { tick(); });
+  assert.equal(submitted.length, 1);
+  assert.deepEqual(submitted[0].answers, { 'question-c': 'C' });
+  assert.equal(storage.has('rbt_mock_exam_in_progress'), false);
   await act(async () => renderer.unmount());
 });
 

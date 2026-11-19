@@ -8,6 +8,7 @@ import {
   Zap,
 } from "lucide-react";
 import DomainProgress from "@/components/dashboard/DomainProgress";
+import ExamOutcomeCard from "@/components/dashboard/ExamOutcomeCard";
 import ReadinessGauge from "@/components/dashboard/ReadinessGauge";
 import StatCard from "@/components/dashboard/StatCard";
 import StreakCard from "@/components/dashboard/StreakCard";
@@ -177,6 +178,8 @@ export default function Dashboard() {
           </div>
         </div>
       </section>
+
+      <ExamOutcomeCard />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

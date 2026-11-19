@@ -83,6 +83,7 @@ test("all three copies of the bank produce the same blueprint", async () => {
 
 test("all clients evaluate exactly the same questions and answers", async () => {
   const banks = await Promise.all(Object.values(COPIES).map(load));
-  assert.equal(banks[0].rbtQuestions.length, 1119);
+  // 1,119 concept questions plus the hand-written applied layer.
+  assert.equal(banks[0].rbtQuestions.length, 1119 + banks[0].appliedQuestions.length);
   for (const bank of banks.slice(1)) assert.deepEqual(bank.rbtQuestions, banks[0].rbtQuestions);
 });

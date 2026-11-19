@@ -17,7 +17,12 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT,
   password_salt TEXT,
   email_verified BOOLEAN NOT NULL DEFAULT TRUE,
-  email_verification_token TEXT
+  email_verification_token TEXT,
+  -- Student-reported real exam date and result.
+  -- See scripts/migrations/2026-11-18-add-exam-outcome.sql.
+  exam_date DATE,
+  exam_result TEXT CONSTRAINT users_exam_result_check CHECK (exam_result IS NULL OR exam_result IN ('passed', 'not_passed')),
+  exam_result_reported_at TIMESTAMPTZ
 );
 
 -- One row per signed-in device. Without this, `users.token` allowed a single

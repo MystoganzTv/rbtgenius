@@ -213,6 +213,8 @@ export default function ReviewMistakesScreen({ navigation }) {
           </View>
           <QuestionMedia
             source={question.imageSource}
+            chart={question?._raw?.chart}
+            questionId={question?.id}
             theme={theme}
             accessibilityLabel={t('practice.visual_alt', { domain: t(`domains.${question.topic}`) })}
           />

@@ -59,7 +59,7 @@ export function getUserFromToken(token) {
 }
 
 export function getQuestionBank(mode = "practice", options = {}) {
-  const { seed, size, excludeIds } = options;
+  const { seed, size, excludeIds, history } = options;
 
   if (mode === "flashcards") {
     return buildFlashcardBank(size || TOTAL_PRACTICE_QUESTIONS, seed);
@@ -75,6 +75,7 @@ export function getQuestionBank(mode = "practice", options = {}) {
 
   return buildPracticeQuestionBank(size || TOTAL_PRACTICE_QUESTIONS, seed, {
     excludeIds,
+    history,
   });
 }
 

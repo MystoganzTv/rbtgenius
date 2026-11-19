@@ -135,6 +135,12 @@ confirmStoreCheckout(sessionId) {
   clearPracticeSession() {
     return request("/api/practice/session", { method: "DELETE" });
   },
+  getExamOutcome() {
+    return request("/api/exam-outcome");
+  },
+  saveExamOutcome(payload) {
+    return request("/api/exam-outcome", { method: "PUT", body: payload });
+  },
   listAttempts() {
     return request("/api/question-attempts");
   },

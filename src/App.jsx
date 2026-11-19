@@ -36,6 +36,7 @@ const PUBLIC_PAGES = new Set([
   "Contact",
   "Support",
   "Store",
+  "Recertification",
 ]);
 
 function LayoutWrapper({ children, currentPageName }) {

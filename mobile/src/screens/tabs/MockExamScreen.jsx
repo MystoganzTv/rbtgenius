@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Alert, ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useTranslation } from 'react-i18next';
 import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
@@ -9,7 +10,7 @@ import QuestionMedia from '../../components/questions/QuestionMedia.jsx';
 import { buildQuestionTranslationContent } from '../../lib/questions/reviewed-question-translations.js';
 import { alpha, getTheme } from '../../theme';
 import { ProgressBar, toneColor } from '../../components/ui';
-import { getMockExamQuestions } from '../../services/questionService.js';
+import { getMockExamQuestions, getQuestionsByIds } from '../../services/questionService.js';
 import { requestReviewAfterPositiveMilestone } from '../../services/ReviewPromptService.js';
 import { useAuth } from '../../context/AuthContext';
 
@@ -18,6 +19,10 @@ const EXAM_SIZE  = 85;
 const TIME_LIMIT = 90 * 60;
 const PASS_SCORE = 80;
 const LETTERS    = ['A', 'B', 'C', 'D', 'E'];
+// An exam in progress is saved on the device after every answer, so closing
+// the app (or iOS killing it) no longer loses it. The clock keeps running
+// while the app is closed, as in the real exam.
+const IN_PROGRESS_KEY = 'rbt_mock_exam_in_progress';
 
 // Names come from i18n (`domains.<key>`); only the accent lives here.
 const DOMAIN_CONFIG = [
@@ -52,9 +57,68 @@ export default function MockExamScreen({ navigation }) {
   const startTime  = useRef(null);
   const finishExamRef = useRef(null);
   const finishing = useRef(false);
+  const [resumable, setResumable] = useState(null);
+
+  // ── Unfinished exam on this device? ──────────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    AsyncStorage.getItem(IN_PROGRESS_KEY)
+      .then((raw) => {
+        if (cancelled || !raw) return;
+        const saved = JSON.parse(raw);
+        const sameUser = !saved.userId || !user?.id || saved.userId === user.id;
+        if (!sameUser || !Array.isArray(saved.ids) || !saved.startedAt) return;
+        const remaining = Math.max(0, TIME_LIMIT - Math.floor((Date.now() - saved.startedAt) / 1000));
+        setResumable({ ...saved, remaining });
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (phase !== 'running' || questions.length === 0 || !startTime.current) return;
+    AsyncStorage.setItem(IN_PROGRESS_KEY, JSON.stringify({
+      userId: user?.id ?? null,
+      ids: questions.map(item => item.id),
+      answers,
+      index,
+      startedAt: startTime.current,
+    })).catch(() => {});
+  }, [phase, questions, answers, index, user?.id]);
+
+  const discardResumable = () => {
+    setResumable(null);
+    AsyncStorage.removeItem(IN_PROGRESS_KEY).catch(() => {});
+  };
+
+  const resumeExam = () => {
+    if (!resumable) return;
+    const byId = new Map(getQuestionsByIds(resumable.ids).map(item => [item.id, item]));
+    const restored = resumable.ids.map(id => byId.get(id)).filter(Boolean);
+    // A bank update can retire a question; an exam that lost questions is not
+    // comparable to the others, so it is discarded rather than shortened.
+    if (restored.length !== resumable.ids.length) {
+      discardResumable();
+      return;
+    }
+    const restoredIndex = Math.min(resumable.index ?? 0, restored.length - 1);
+    setQuestions(restored);
+    setAnswers(resumable.answers || {});
+    setIndex(restoredIndex);
+    setSelected((resumable.answers || {})[restored[restoredIndex].id] ?? null);
+    setTimeLeft(resumable.remaining);
+    setExamResult(null);
+    setSaveError(false);
+    setTranslationPanel(null);
+    startTime.current = resumable.startedAt;
+    finishing.current = false;
+    setResumable(null);
+    setPhase('running');
+  };
 
   // ── Start ─────────────────────────────────────────────────────────────────
   const startExam = () => {
+    setResumable(null);
     const qs = getMockExamQuestions(EXAM_SIZE);
     setQuestions(qs);
     setIndex(0);
@@ -125,6 +189,7 @@ export default function MockExamScreen({ navigation }) {
     if (finishing.current) return;
     finishing.current = true;
     clearInterval(timerRef.current);
+    AsyncStorage.removeItem(IN_PROGRESS_KEY).catch(() => {});
     setPhase('saving');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
@@ -302,6 +367,28 @@ export default function MockExamScreen({ navigation }) {
           <Text style={s.screenSub}>{t('exams.subtitle')}</Text>
         </View>
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+          {resumable && isPro ? (
+            <View style={s.infoCard}>
+              <Text style={s.infoTitle}>{t('exams.resume_title')}</Text>
+              <Text style={s.tipText}>
+                {resumable.remaining > 0
+                  ? t('exams.resume_body', {
+                      answered: Object.keys(resumable.answers || {}).length,
+                      total: resumable.ids.length,
+                      time: fmt(resumable.remaining),
+                    })
+                  : t('exams.resume_expired')}
+              </Text>
+              <Pressable style={[s.startBtn, { marginTop: 12 }]} onPress={resumeExam}>
+                <Text style={s.startBtnText}>
+                  {resumable.remaining > 0 ? t('exams.resume') : t('exams.submit_saved')}
+                </Text>
+              </Pressable>
+              <Pressable onPress={discardResumable} style={{ marginTop: 10, alignItems: 'center' }}>
+                <Text style={[s.tipText, { color: theme.muted }]}>{t('exams.discard')}</Text>
+              </Pressable>
+            </View>
+          ) : null}
           <View style={s.infoCard}>
             <Text style={s.infoTitle}>{t('exams.details_title')}</Text>
             {[
@@ -372,6 +459,8 @@ export default function MockExamScreen({ navigation }) {
           </View>
           <QuestionMedia
             source={q?.imageSource}
+            chart={q?._raw?.chart}
+            questionId={q?.id}
             theme={theme}
             accessibilityLabel={t('practice.visual_alt', { domain: q ? t(`domains.${q.topic}`) : '' })}
           />

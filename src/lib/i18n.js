@@ -1,4 +1,4 @@
-import { questionConceptLookup, getConceptTranslationEs, getSpanishForOptionText, topicLabels, TOTAL_PRACTICE_QUESTIONS } from "./questions/index.js";
+import { questionConceptLookup, getAppliedTranslationEs, getConceptTranslationEs, getSpanishForOptionText, topicLabels, TOTAL_PRACTICE_QUESTIONS } from "./questions/index.js";
 
 const allQuestionConceptValues = Object.values(questionConceptLookup || {});
 const conceptAnswerLookup = allQuestionConceptValues.reduce((result, concept) => {
@@ -100,6 +100,7 @@ const UI_TRANSLATIONS = {
   "Questions": "Preguntas",
   "Time Limit": "Límite de tiempo",
   "Pass Score": "Puntaje de aprobación",
+  "Practice target": "Objetivo de práctica",
   "Exam Instructions": "Instrucciones del examen",
   "Begin Mock Exam": "Empezar examen simulado",
   "New Chat": "Nuevo chat",
@@ -3048,6 +3049,26 @@ export function localizeQuestion(question, language) {
 
   const concept = questionConceptLookup[question.concept_id];
   const questionKind = question.id?.split("_").pop();
+
+  // Applied questions carry their own reviewed Spanish (question-bank-applied.js).
+  // They must be checked first: they share a concept_id with template
+  // questions, so the concept translation below would produce the wrong text.
+  if (language === "es") {
+    const applied = getAppliedTranslationEs(question.id);
+    if (applied) {
+      return {
+        ...question,
+        localizedTopic: translateTopic(question.topic, language),
+        localizedDifficulty: translateDifficulty(question.difficulty, language),
+        localizedText: { primary: applied.text, secondary: "" },
+        localizedExplanation: { primary: applied.explanation, secondary: "" },
+        options: (question.options || []).map((option) => ({
+          ...option,
+          localizedText: { primary: applied.options[option.label] || option.text, secondary: "" },
+        })),
+      };
+    }
+  }
 
   // Use proper Spanish translations when available — avoids Spanglish
   if (language === "es" && question.concept_id) {

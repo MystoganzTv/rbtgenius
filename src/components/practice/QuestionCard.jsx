@@ -10,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import BilingualText from "@/components/i18n/BilingualText";
+import QuestionChart from "@/components/practice/QuestionChart";
 import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -137,6 +138,15 @@ export default function QuestionCard({
             question={question}
           />
         </div>
+
+        {question?.chart ? (
+          <QuestionChart
+            chart={question.chart}
+            questionId={question.id}
+            language={language}
+            className="mb-6"
+          />
+        ) : null}
 
         <div className="space-y-3">
           {(localizedQuestion?.options || []).map((option) => {

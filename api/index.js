@@ -37,6 +37,7 @@ import {
 import crypto from 'node:crypto';
 import appleSignin from 'apple-signin-auth';
 import { getEntitlements, isPremiumPlan } from '../shared/plan-access.js';
+import { normalizeExamOutcomeUpdate, pickExamOutcome } from '../src/lib/exam-outcome.js';
 import {
   buildRevenueCatPayment,
   derivePlanFromSubscriber,
@@ -417,11 +418,11 @@ function applyQuestionFilters(questions, searchParams) {
 }
 
 function getQuestionBank(mode, options = {}) {
-  const { seed, size, excludeIds } = options;
+  const { seed, size, excludeIds, history } = options;
   if (mode === 'flashcards') return buildFlashcardBank(size || TOTAL_PRACTICE_QUESTIONS, seed);
   if (mode === 'mock') return buildMockExamQuestionSet(size || 85, null, seed, { excludeIds });
   if (mode === 'base') return baseQuestions;
-  return buildPracticeQuestionBank(size || TOTAL_PRACTICE_QUESTIONS, seed, { excludeIds });
+  return buildPracticeQuestionBank(size || TOTAL_PRACTICE_QUESTIONS, seed, { excludeIds, history });
 }
 
 async function upsertOAuthUser(profile, providerId) {
@@ -952,10 +953,16 @@ async function webApiHandler(req) {
     const auth = await requireUser(req);
     if (auth.error) return auth.error;
     if (mode === 'mock' && !isPremiumPlan(auth.user.plan)) return sendPremiumRequired('mock_exams');
-    const size = Number(url.searchParams.get('limit') || 0) || (mode === 'mock' ? 85 : TOTAL_PRACTICE_QUESTIONS);
-    const excludeIds = mode === 'mock'
-      ? await db.getMockAttemptIdsByUserDirect(auth.user.id)
-      : await db.getPracticeAttemptIdsByUser(auth.user.id);
+    if (mode !== 'mock') {
+      // Practice is ordered for this student (due mistakes, new questions,
+      // then oldest correct). Order the whole bank and let the topic filter
+      // and limit apply afterwards, so filtering never starves a small batch.
+      const history = await db.getQuestionStatsByUser(auth.user.id);
+      const qs = getQuestionBank(mode, { seed: url.searchParams.get('seed'), size: TOTAL_PRACTICE_QUESTIONS, history });
+      return json(applyQuestionFilters(sanitizeQuestions(qs, mode), url.searchParams));
+    }
+    const size = Number(url.searchParams.get('limit') || 0) || 85;
+    const excludeIds = await db.getMockAttemptIdsByUserDirect(auth.user.id);
     const qs = getQuestionBank(mode, { seed: url.searchParams.get('seed'), size, excludeIds });
     return json(applyQuestionFilters(sanitizeQuestions(qs, mode), url.searchParams));
   }
@@ -1087,6 +1094,24 @@ async function webApiHandler(req) {
     const updates = await req.json();
     const updated = await db.updateUser(auth.user.id, { full_name: updates.full_name ?? auth.user.full_name, role: resolveUserRole(auth.user.email, auth.user.role) });
     return json(safeUser(updated));
+  }
+
+  // Exam date and self-reported pass/fail. Needs the columns from
+  // scripts/migrations/2026-11-18-add-exam-outcome.sql.
+  if (apiPath === '/exam-outcome' && req.method === 'GET') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    return json(pickExamOutcome(auth.user));
+  }
+
+  if (apiPath === '/exam-outcome' && req.method === 'PUT') {
+    const auth = await requireUser(req);
+    if (auth.error) return auth.error;
+    const body = await req.json().catch(() => ({}));
+    const { patch, error } = normalizeExamOutcomeUpdate(body || {}, auth.user);
+    if (error) return json({ message: error }, { status: 400 });
+    const updated = await db.updateUser(auth.user.id, patch);
+    return json(pickExamOutcome(updated));
   }
 
   if (apiPath === '/profile/reset-progress' && req.method === 'POST') {

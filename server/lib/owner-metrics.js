@@ -1,4 +1,5 @@
 import { deriveSubscriptionLifecycle } from "./member-analytics.js";
+import { summarizeExamOutcomes } from "../../src/lib/exam-outcome.js";
 import {
   buildBusinessDetail,
   inWindow,
@@ -277,6 +278,7 @@ export function buildOwnerMetrics({
     generatedAt: now.toISOString(),
     period,
     business,
+    examOutcomes: summarizeExamOutcomes(members, now),
     transactions: {
       rows: transactions,
       page,

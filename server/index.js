@@ -32,6 +32,7 @@ import {
   normalizeRedirectPath,
 } from './lib/oauth.js';
 import { resolveUserRole } from './lib/seed.js';
+import { normalizeExamOutcomeUpdate, pickExamOutcome } from '../src/lib/exam-outcome.js';
 import { STORE_PRODUCTS } from '../src/lib/store-catalog.js';
 import {
   confirmStripeCheckoutSession,
@@ -334,19 +335,24 @@ function buildUserAccessState(db, user) {
   };
 }
 
-function getSeenPracticeQuestionIds(db, userId) {
-  return [
-    ...new Set(
-      db.attempts
-        .filter(
-          attempt =>
-            attempt.user_id === userId &&
-            (!attempt.source || attempt.source === 'practice'),
-        )
-        .map(attempt => attempt.question_id)
-        .filter(Boolean),
-    ),
-  ];
+// Same shape as the Vercel API's getQuestionStatsByUser, built from the local
+// JSON store: { [question_id]: { total, correct, wrong, last_correct, last_at } }.
+function getQuestionHistory(db, userId) {
+  const history = {};
+  for (const attempt of db.attempts) {
+    if (attempt.user_id !== userId || !attempt.question_id) continue;
+    const at = attempt.created_at || attempt.created_date || null;
+    const entry = history[attempt.question_id] || { total: 0, correct: 0, wrong: 0, last_correct: null, last_at: null };
+    entry.total += 1;
+    if (attempt.is_correct) entry.correct += 1;
+    else entry.wrong += 1;
+    if (!entry.last_at || (at && at >= entry.last_at)) {
+      entry.last_at = at;
+      entry.last_correct = Boolean(attempt.is_correct);
+    }
+    history[attempt.question_id] = entry;
+  }
+  return history;
 }
 
 function getSeenMockQuestionIds(db, userId) {
@@ -1102,13 +1108,18 @@ app.get('/api/questions', (req, res) => {
     }
 
     const db = readDb();
-    const size =
-      Number(req.query.limit || 0) ||
-      (mode === 'mock' ? 85 : TOTAL_PRACTICE_QUESTIONS);
-    const excludeIds =
-      mode === 'mock'
-        ? getSeenMockQuestionIds(db, req.currentUser.id)
-        : getSeenPracticeQuestionIds(db, req.currentUser.id);
+    if (mode !== 'mock') {
+      // Adaptive order over the whole bank; topic filter and limit apply after.
+      const questions = getQuestionBank(mode, {
+        seed: req.query.seed,
+        size: TOTAL_PRACTICE_QUESTIONS,
+        history: getQuestionHistory(db, req.currentUser.id),
+      });
+      res.json(applyQuestionFilters(sanitizeQuestions(questions, mode), req.query));
+      return;
+    }
+    const size = Number(req.query.limit || 0) || 85;
+    const excludeIds = getSeenMockQuestionIds(db, req.currentUser.id);
     const questions = getQuestionBank(mode, {
       seed: req.query.seed,
       size,
@@ -1347,6 +1358,30 @@ app.patch('/api/profile', requireUser, (req, res) => {
     ...safeUser
   } = updatedUser;
   res.json(safeUser);
+});
+
+// Exam date and self-reported pass/fail (see src/lib/exam-outcome.js).
+app.get('/api/exam-outcome', requireUser, (req, res) => {
+  res.json(pickExamOutcome(req.currentUser));
+});
+
+app.put('/api/exam-outcome', requireUser, (req, res) => {
+  const { patch, error } = normalizeExamOutcomeUpdate(req.body || {}, req.currentUser);
+  if (error) {
+    res.status(400).json({ message: error });
+    return;
+  }
+
+  let updatedUser = req.currentUser;
+  updateDb(current => ({
+    ...current,
+    users: current.users.map(user => {
+      if (user.id !== req.currentUser.id) return user;
+      updatedUser = { ...user, ...patch };
+      return updatedUser;
+    }),
+  }));
+  res.json(pickExamOutcome(updatedUser));
 });
 
 app.post('/api/profile/reset-progress', requireUser, async (req, res) => {

@@ -1,4 +1,5 @@
 import { additionalOfficialQuestionConcepts } from "./question-bank-official-expansion.js";
+import { APPLIED_QUESTIONS } from "./question-bank-applied.js";
 import {
   CONCEPT_TO_TASK_LIST,
   getTaskListCode,
@@ -2101,7 +2102,77 @@ function buildQuestionSeedSet(concept) {
   ];
 }
 
-export const baseQuestions = questionConcepts.flatMap(buildQuestionSeedSet);
+// Applied questions (see question-bank-applied.js) are authored whole rather
+// than generated from a concept. They borrow topic and outline code from their
+// concept so analytics and mock-exam weighting treat them like any other item.
+const appliedTranslationsEs = {};
+
+function buildAppliedQuestion(source, index) {
+  const concept = questionConceptLookup[source.concept_id];
+  if (!concept) {
+    throw new Error(`Applied question ${source.id} points at unknown concept ${source.concept_id}`);
+  }
+  if (source.options.length !== 4) {
+    throw new Error(`Applied question ${source.id} must have exactly four options`);
+  }
+
+  const labels = ["A", "B", "C", "D"];
+  // options[0] is the correct answer in the source. Place it by position in
+  // the list so correct letters are spread evenly across A–D (a seeded
+  // shuffle of four items skewed heavily toward one letter) and stay fixed.
+  const correctPosition = (index * 3 + 1) % 4;
+  const distractors = [1, 2, 3];
+  const order = [
+    ...distractors.slice(0, correctPosition),
+    0,
+    ...distractors.slice(correctPosition),
+  ];
+  const options = order.map((sourceIndex, position) => ({
+    label: labels[position],
+    text: source.options[sourceIndex],
+  }));
+
+  if (source.es) {
+    appliedTranslationsEs[source.id] = {
+      text: source.es.text,
+      explanation: source.es.explanation,
+      chart: source.es.chart || null,
+      options: Object.fromEntries(
+        order.map((sourceIndex, position) => [labels[position], source.es.options[sourceIndex]]),
+      ),
+    };
+  }
+
+  return {
+    id: source.id,
+    concept_id: source.concept_id,
+    kind: "applied",
+    text: source.text,
+    topic: concept.topic,
+    task_list_code: getTaskListCode(source.concept_id),
+    task_list_section: getTaskListSection(source.concept_id),
+    difficulty: source.difficulty || "advanced",
+    explanation: source.explanation,
+    options,
+    correct_answer: labels[order.indexOf(0)],
+    ...(source.chart ? { chart: source.chart } : {}),
+  };
+}
+
+export const appliedQuestions = APPLIED_QUESTIONS.map(buildAppliedQuestion);
+
+export function getAppliedTranslationEs(questionId) {
+  return appliedTranslationsEs[questionId] || null;
+}
+
+export function isAppliedQuestion(question) {
+  return Boolean(question && (question.kind === "applied" || String(question.id || "").startsWith("applied_")));
+}
+
+export const baseQuestions = [
+  ...questionConcepts.flatMap(buildQuestionSeedSet),
+  ...appliedQuestions,
+];
 export const rbtQuestions = baseQuestions.filter((question) =>
   isRbtEligibleConcept(questionConceptLookup[question.concept_id]),
 );
@@ -2118,7 +2189,7 @@ export const OFFICIAL_CONCEPT_COUNT = questionConcepts.filter((concept) =>
 
 // Canonical translations: each option belongs to a concept's answer or purpose.
 // Generated copies in web/mobile must be refreshed with npm run sync:questions.
-export const QUESTION_BANK_VERSION = "2026-10-11.1";
+export const QUESTION_BANK_VERSION = "2026-11-18.1";
 let translationsEs = {};
 let optionTranslationsEs = {};
 export function setConceptTranslations(translations) {
@@ -2296,15 +2367,113 @@ export function evaluateQuestionAnswer(questionId, selectedAnswer) {
   };
 }
 
+// ── Adaptive practice order ────────────────────────────────────────────────
+// A missed question comes back after a spacing delay instead of immediately
+// (same-day mistakes already have their own Review Mistakes mode), unseen
+// questions keep flowing in between, and questions already answered correctly
+// return oldest-first so nothing is forgotten for long.
+//
+// `history` maps question_id → { last_correct, last_at, total, correct, wrong }.
+// last_correct/last_at are optional: older API responses only carry the
+// totals, in which case a question with more wrong than right counts as missed.
+export const PRACTICE_REVIEW_SPACING_MS = 12 * 60 * 60 * 1000;
+const DUE_REVIEW_EVERY = 3; // one due review, then two new questions
+
+// Applied questions are under 3% of the bank, so left to chance a student
+// meets fewer than one per practice batch. Until that layer grows, at most
+// one question in four is applied, while the student still has applied
+// questions they have not answered correctly; mastered ones go back to the
+// normal order, so the share drops on its own instead of repeating them.
+export const APPLIED_SHARE = 0.25;
+const APPLIED_EVERY = Math.round(1 / APPLIED_SHARE);
+
+export function interleaveAppliedQuestions(questions = [], history = {}) {
+  const pending = [];
+  const rest = [];
+  for (const question of questions) {
+    const entry = readHistoryEntry(history?.[question.id]);
+    if (isAppliedQuestion(question) && !entry?.lastCorrect) pending.push(question);
+    else rest.push(question);
+  }
+  if (pending.length === 0) return questions;
+
+  const ordered = [];
+  while (pending.length > 0 || rest.length > 0) {
+    // Second slot of every block of four, so the first one shows up early.
+    const appliedTurn = ordered.length % APPLIED_EVERY === 1;
+    if ((appliedTurn && pending.length > 0) || rest.length === 0) ordered.push(pending.shift());
+    else ordered.push(rest.shift());
+  }
+  return ordered;
+}
+
+function readHistoryEntry(entry) {
+  if (!entry) return null;
+  const lastAt = entry.last_at ? Date.parse(entry.last_at) : NaN;
+  const lastCorrect =
+    typeof entry.last_correct === "boolean"
+      ? entry.last_correct
+      : Number(entry.correct || 0) >= Number(entry.wrong || 0);
+  return { lastCorrect, lastAt: Number.isFinite(lastAt) ? lastAt : null };
+}
+
+export function orderPracticeAdaptively(questions = [], history = {}, options = {}) {
+  const now = options.now ?? Date.now();
+  const spacing = options.spacingMs ?? PRACTICE_REVIEW_SPACING_MS;
+  const due = [];
+  const unseen = [];
+  const recentlyMissed = [];
+  const answeredCorrectly = [];
+
+  for (const question of questions) {
+    const entry = readHistoryEntry(history?.[question.id]);
+    if (!entry) unseen.push(question);
+    else if (!entry.lastCorrect && (entry.lastAt === null || now - entry.lastAt >= spacing)) {
+      due.push({ question, lastAt: entry.lastAt ?? 0 });
+    } else if (!entry.lastCorrect) recentlyMissed.push({ question, lastAt: entry.lastAt ?? 0 });
+    else answeredCorrectly.push({ question, lastAt: entry.lastAt ?? 0 });
+  }
+
+  const oldestFirst = (left, right) => left.lastAt - right.lastAt;
+  const dueQueue = due.sort(oldestFirst).map((item) => item.question);
+  const ordered = [];
+  let unseenIndex = 0;
+
+  while (dueQueue.length > 0 && unseenIndex < unseen.length) {
+    if (ordered.length % DUE_REVIEW_EVERY === 0) ordered.push(dueQueue.shift());
+    else ordered.push(unseen[unseenIndex++]);
+  }
+
+  return interleaveAppliedQuestions(
+    [
+      ...ordered,
+      ...dueQueue,
+      ...unseen.slice(unseenIndex),
+      ...recentlyMissed.sort(oldestFirst).map((item) => item.question),
+      ...answeredCorrectly.sort(oldestFirst).map((item) => item.question),
+    ],
+    history,
+  );
+}
+
 export function buildPracticeQuestionBank(
   size = TOTAL_PRACTICE_QUESTIONS,
   seed = "practice-default",
   options = {},
 ) {
-  const pool = buildQuestionPool({
-    seedValue: `practice:${seed}:${size}`,
-    excludeIds: options.excludeIds,
-  });
+  if (options.history) {
+    const shuffled = shuffleStable(rbtQuestions, `practice:${seed}:adaptive`);
+    return orderPracticeAdaptively(shuffled, options.history, { now: options.now })
+      .slice(0, Math.min(size, TOTAL_PRACTICE_QUESTIONS))
+      .map((question, index) => withPracticeMetadata(question, index));
+  }
+
+  const pool = interleaveAppliedQuestions(
+    buildQuestionPool({
+      seedValue: `practice:${seed}:${size}`,
+      excludeIds: options.excludeIds,
+    }),
+  );
 
   return pool
     .slice(0, Math.min(size, TOTAL_PRACTICE_QUESTIONS))
@@ -2315,8 +2484,12 @@ export function buildFlashcardBank(
   size = TOTAL_PRACTICE_QUESTIONS,
   seed = "flashcards-default",
 ) {
-  return shuffleStable(rbtQuestions, `flashcards:${seed}:${size}`)
-    .slice(0, Math.min(size, TOTAL_PRACTICE_QUESTIONS))
+  // Flashcards flip a concept prompt to its answer. Applied questions (graphs,
+  // calculations, four-way decisions) need their options to make sense, so
+  // they stay in practice and mock exams only.
+  const flashcardSource = rbtQuestions.filter((question) => !isAppliedQuestion(question));
+  return shuffleStable(flashcardSource, `flashcards:${seed}:${size}`)
+    .slice(0, Math.min(size, flashcardSource.length))
     .map((question) => cloneQuestion(question));
 }
 
@@ -2370,8 +2543,15 @@ export function buildMockExamQuestionSet(
   Object.entries(MOCK_EXAM_SECTION_COUNTS).forEach(([section, target]) => {
     const sectionPool = bySection[section] || [];
     const shuffled = shuffleStable(sectionPool, `mock:${seed}:section:${section}`);
-    // Take up to `target` questions; if section is small, take what's available
-    selected.push(...shuffled.slice(0, Math.min(target, shuffled.length)));
+    // About a quarter of each section comes from the applied layer (see
+    // APPLIED_SHARE), so a mock exam asks for decisions, calculations and
+    // graph reading the way the real exam does.
+    const applied = shuffled.filter(isAppliedQuestion);
+    const others = shuffled.filter((question) => !isAppliedQuestion(question));
+    const appliedTake = Math.min(Math.round(target * APPLIED_SHARE), applied.length);
+    const picked = [...applied.slice(0, appliedTake), ...others.slice(0, target - appliedTake)];
+    if (picked.length < target) picked.push(...applied.slice(appliedTake, appliedTake + target - picked.length));
+    selected.push(...picked);
   });
 
   // Handle any shortfall by pulling from whatever section has extras

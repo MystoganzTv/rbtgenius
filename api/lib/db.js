@@ -537,6 +537,9 @@ export async function updateUser(id, fields) {
   if (fields.password_salt !== undefined) patch.password_salt = fields.password_salt;
   if (fields.email_verified !== undefined) patch.email_verified = fields.email_verified;
   if (fields.email_verification_token !== undefined) patch.email_verification_token = fields.email_verification_token;
+  if (fields.exam_date !== undefined) patch.exam_date = fields.exam_date;
+  if (fields.exam_result !== undefined) patch.exam_result = fields.exam_result;
+  if (fields.exam_result_reported_at !== undefined) patch.exam_result_reported_at = fields.exam_result_reported_at;
   if (Object.keys(patch).length === 0) {
     const rows = await sql`SELECT * FROM users WHERE id = ${id}`;
     return normalizeUser(rows[0] ?? null);
@@ -1191,16 +1194,25 @@ export async function getQuestionStatsByUser(userId) {
     SELECT
       question_id,
       COUNT(*)::int                                        AS total,
-      SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int    AS correct
+      SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int    AS correct,
+      (ARRAY_AGG(is_correct ORDER BY created_at DESC))[1] AS last_correct,
+      MAX(created_at)                                      AS last_at
     FROM attempts
     WHERE user_id = ${userId}
       AND question_id IS NOT NULL
     GROUP BY question_id
   `;
-  // Returns object: { [question_id]: { total, correct, wrong } }
+  // Returns object: { [question_id]: { total, correct, wrong, last_correct, last_at } }
+  // last_correct/last_at were added for adaptive practice; older clients ignore them.
   const map = {};
   for (const r of rows) {
-    map[r.question_id] = { total: r.total, correct: r.correct, wrong: r.total - r.correct };
+    map[r.question_id] = {
+      total: r.total,
+      correct: r.correct,
+      wrong: r.total - r.correct,
+      last_correct: r.last_correct,
+      last_at: r.last_at ? new Date(r.last_at).toISOString() : null,
+    };
   }
   return map;
 }

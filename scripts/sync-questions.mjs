@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-const files = ['question-bank.js', 'question-bank-official-expansion.js', 'concept-task-list-map.js', 'task-list.js', 'question-translations-es.json'];
+const files = ['question-bank.js', 'question-bank-official-expansion.js', 'question-bank-applied.js', 'concept-task-list-map.js', 'task-list.js', 'question-translations-es.json'];
 const check = process.argv.includes('--check');
 for (const file of files) {
   const source = readFileSync(new URL(`../shared/questions/${file}`, import.meta.url), 'utf8');

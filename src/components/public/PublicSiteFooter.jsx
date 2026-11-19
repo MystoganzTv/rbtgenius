@@ -36,6 +36,9 @@ export default function PublicSiteFooter() {
           <Link to={createPageUrl("Store")} className="hover:text-slate-900 dark:hover:text-slate-100">
             {translateUi("Store", language)}
           </Link>
+          <Link to={createPageUrl("Recertification")} className="hover:text-slate-900 dark:hover:text-slate-100">
+            {language === "es" ? "Recertificación 2026" : "2026 Recertification"}
+          </Link>
           <Link to={createPageUrl("Support")} className="hover:text-slate-900 dark:hover:text-slate-100">
             {translateUi("Support", language)}
           </Link>

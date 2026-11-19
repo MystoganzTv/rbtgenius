@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import PremiumGate from "@/components/billing/PremiumGate";
 import BilingualText from "@/components/i18n/BilingualText";
+import QuestionChart from "@/components/practice/QuestionChart";
 import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -191,7 +192,7 @@ export default function MockExams() {
             </div>
             <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 text-center dark:border-[#1E5EFF]/15 dark:bg-[#0D1E3A]">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">{PASS_SCORE}%</p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{translateUi("Pass Score", language)}</p>
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{translateUi("Practice target", language)}</p>
             </div>
           </div>
 
@@ -386,6 +387,14 @@ export default function MockExams() {
             question={currentQuestion}
           />
         </div>
+        {currentQuestion?.chart ? (
+          <QuestionChart
+            chart={currentQuestion.chart}
+            questionId={currentQuestion.id}
+            language={language}
+            className="mb-6"
+          />
+        ) : null}
         <div className="space-y-3">
           {(localizedCurrentQuestion?.options || []).map((option) => {
             const isSelected = answers[currentQuestion.id] === option.label;

@@ -10,6 +10,7 @@ import { Badge } from '../../components/ui';
 import TranslationSheet, { TranslationTrigger } from '../../components/i18n/TranslationSheet.jsx';
 import QuestionMedia from '../../components/questions/QuestionMedia.jsx';
 import { getPracticeByTopic, TOPICS } from '../../services/questionService.js';
+import { orderPracticeAdaptively } from '../../lib/questions/question-bank.js';
 import { recordPracticeResultForReview } from '../../services/ReviewPromptService.js';
 import { buildQuestionTranslationContent } from '../../lib/questions/reviewed-question-translations.js';
 import { useAuth } from '../../context/AuthContext';
@@ -34,14 +35,19 @@ export default function PracticeScreen({ navigation, route }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [answeredToday, setAnsweredToday] = useState(user?.questionsToday ?? 0);
   const [translationPanel, setTranslationPanel] = useState(null);
-  // Question attempt stats: { [questionId]: { total, correct, wrong } }
+  // Question attempt stats: { [questionId]: { total, correct, wrong, last_correct?, last_at? } }
   const [questionStats, setQuestionStats] = useState({});
+  // The adaptive order is computed from a snapshot of the stats, taken when they
+  // load and on each topic change, so answering a question never reshuffles the
+  // list under the student mid-session.
+  const [orderSnapshot, setOrderSnapshot] = useState(null);
+  const answeredSinceSnapshot = useRef(false);
   const saveState = useStudySave(user?.id, token, 'practice', (result) => {
     const remaining = result.entitlements?.usage?.practice_questions_remaining;
     setAnsweredToday(n => Number.isFinite(remaining) ? Math.max(0, (user?.dailyLimit ?? 15) - remaining) : n + 1);
     setQuestionStats(previous => {
       const old = previous[result.question_id] || { total: 0, correct: 0, wrong: 0 };
-      return { ...previous, [result.question_id]: { total: old.total + 1, correct: old.correct + Number(result.is_correct), wrong: old.wrong + Number(!result.is_correct) } };
+      return { ...previous, [result.question_id]: { total: old.total + 1, correct: old.correct + Number(result.is_correct), wrong: old.wrong + Number(!result.is_correct), last_correct: Boolean(result.is_correct), last_at: new Date().toISOString() } };
     });
   });
   useEffect(() => { setAnsweredToday(user?.questionsToday ?? 0); }, [user?.questionsToday]);
@@ -53,7 +59,11 @@ export default function PracticeScreen({ navigation, route }) {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.stats) setQuestionStats(data.stats); })
+      .then(data => {
+        if (!data?.stats) return;
+        setQuestionStats(data.stats);
+        if (!answeredSinceSnapshot.current) setOrderSnapshot(data.stats);
+      })
       .catch(() => {});
   }, [token]);
 
@@ -61,7 +71,10 @@ export default function PracticeScreen({ navigation, route }) {
   const dailyLimit = user?.dailyLimit ?? 15;
   const limitReached = !isPro && answeredToday >= dailyLimit;
 
-  const questions = getPracticeByTopic(selectedTopic);
+  const questions = useMemo(
+    () => orderPracticeAdaptively(getPracticeByTopic(selectedTopic), orderSnapshot || {}),
+    [selectedTopic, orderSnapshot],
+  );
   const question = questions[questionIndex] ?? questions[0];
   const answered = selectedOption !== null;
 
@@ -76,6 +89,8 @@ export default function PracticeScreen({ navigation, route }) {
   const handleTopicChange = (key) => {
     if (saveState.blocked) return;
     setSelectedTopic(key);
+    setOrderSnapshot(questionStats);
+    answeredSinceSnapshot.current = false;
     setQuestionIndex(0);
     setSelectedOption(null);
     setTranslationPanel(null);
@@ -93,6 +108,7 @@ export default function PracticeScreen({ navigation, route }) {
     if (answered || limitReached || saveState.blocked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedOption(i);
+    answeredSinceSnapshot.current = true;
     void recordPracticeResultForReview(i === question.correctIndex);
     submitAttempt(question, i);
   };
@@ -167,6 +183,8 @@ export default function PracticeScreen({ navigation, route }) {
             </View>
             <QuestionMedia
               source={question.imageSource}
+              chart={question?._raw?.chart}
+              questionId={question?.id}
               theme={theme}
               accessibilityLabel={t('practice.visual_alt', { domain: t(`domains.${question.topic}`) })}
             />

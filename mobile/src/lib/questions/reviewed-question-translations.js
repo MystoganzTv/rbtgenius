@@ -1,5 +1,5 @@
 import translations from './question-translations-es.json';
-import { setConceptTranslations, getConceptTranslationEs, getSpanishForOptionText } from './question-bank.js';
+import { setConceptTranslations, getAppliedTranslationEs, getConceptTranslationEs, getSpanishForOptionText } from './question-bank.js';
 setConceptTranslations(translations);
 export { getConceptTranslationEs, getSpanishForOptionText };
 function stripTrailingPeriod(text) { return String(text || '').replace(/[.。]+$/, '').trim(); }
@@ -37,6 +37,24 @@ function buildReviewedExplanationText(question, reviewed) {
 
 export function buildQuestionTranslationContent(question) {
   if (!question) return null;
+
+  // Applied questions carry their own Spanish. Check them first: they share a
+  // concept_id with template questions, whose translation would not match.
+  const applied = getAppliedTranslationEs(question.id);
+  if (applied) {
+    return {
+      conceptId: question.concept_id,
+      englishText: question.text || "",
+      spanishText: applied.text,
+      explanationEnglish: question.explanation || "",
+      explanationSpanish: applied.explanation,
+      options: (question.options || []).map((option) => ({
+        label: option.label,
+        english: option.text || "",
+        spanish: applied.options[option.label] || "",
+      })),
+    };
+  }
 
   const reviewed = getConceptTranslationEs(question.concept_id);
   const questionTextEs = buildReviewedQuestionText(question, reviewed);

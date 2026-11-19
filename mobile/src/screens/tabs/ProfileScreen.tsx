@@ -245,11 +245,28 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
     setExamDateVisible(true);
   };
 
+  // Mirror the exam date to the account so the app can ask how the exam went
+  // and the business can measure a real pass rate. Best effort: the local copy
+  // stays the source for the countdown, and older servers without the
+  // endpoint simply answer 404.
+  const syncExamDateToAccount = (value: string | null) => {
+    if (!token) return;
+    // The profile stores MM/DD/YYYY; the account stores YYYY-MM-DD.
+    const [m, d, y] = (value || '').split('/');
+    const examDateKey = value ? `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}` : null;
+    fetch(`${API_BASE}/api/exam-outcome`, {
+      method: 'PUT',
+      headers: { ...authHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ exam_date: examDateKey }),
+    }).catch(() => {});
+  };
+
   const saveExamDate = async () => {
     const raw = examDateInput.trim();
     if (!raw) {
       setExamDate('');
       await AsyncStorage.removeItem(EXAM_DATE_KEY);
+      syncExamDateToAccount(null);
       setExamDateVisible(false);
       return;
     }
@@ -259,6 +276,7 @@ export default function ProfileScreen({ navigation }: { navigation?: Navigation 
     }
     setExamDate(raw);
     await AsyncStorage.setItem(EXAM_DATE_KEY, raw);
+    syncExamDateToAccount(raw);
     setExamDateVisible(false);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };

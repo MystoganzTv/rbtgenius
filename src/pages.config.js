@@ -63,6 +63,7 @@ import EULA from "./pages/EULA";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
 import Store from "./pages/Store";
+import Recertification from "./pages/Recertification";
 import __Layout from "./Layout.jsx";
 
 export const PAGES = {
@@ -82,6 +83,7 @@ export const PAGES = {
   Contact,
   Support,
   Store,
+  Recertification,
 };
 
 export const pagesConfig = {

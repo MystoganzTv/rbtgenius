@@ -1,7 +1,11 @@
 import { Image, StyleSheet, View } from 'react-native';
 import { alpha } from '../../theme';
+import QuestionChart from './QuestionChart.jsx';
 
-export default function QuestionMedia({ source, accessibilityLabel, theme }) {
+export default function QuestionMedia({ source, accessibilityLabel, theme, chart = null, questionId = null }) {
+  // Applied graph-reading questions replace the decorative topic image with
+  // the graph the student has to interpret.
+  if (chart) return <QuestionChart chart={chart} questionId={questionId} theme={theme} />;
   if (!source) return null;
 
   return (
