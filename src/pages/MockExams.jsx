@@ -12,6 +12,7 @@ import {
 import PremiumGate from "@/components/billing/PremiumGate";
 import BilingualText from "@/components/i18n/BilingualText";
 import QuestionChart from "@/components/practice/QuestionChart";
+import DataSheet from "@/components/practice/DataSheet";
 import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -390,6 +391,14 @@ export default function MockExams() {
         {currentQuestion?.chart ? (
           <QuestionChart
             chart={currentQuestion.chart}
+            questionId={currentQuestion.id}
+            language={language}
+            className="mb-6"
+          />
+        ) : null}
+        {currentQuestion?.data_sheet ? (
+          <DataSheet
+            sheet={currentQuestion.data_sheet}
             questionId={currentQuestion.id}
             language={language}
             className="mb-6"

@@ -19,6 +19,20 @@
  *   - Ids start with `applied_` and never end in definition/scenario/purpose,
  *     so translation code never mistakes them for template questions.
  *   - New ids only. Never reuse or rename an id once students have attempts.
+ *   - Add new questions at the END of the list. A question's position sets its
+ *     correct-answer letter, so inserting in the middle would move the letters
+ *     of every question after it.
+ *   - `status: "draft"` keeps a question away from students until a BCBA has
+ *     reviewed it. Drafts show only on the admin Question Drafts page. To
+ *     publish, delete the `status` line and run `npm run sync:questions`.
+ *   - `reference` names the outline task (or ethics code item) the question
+ *     is built on, so a reviewer can check it against the source.
+ *   - `data_sheet` draws a filled-in data sheet instead of a photo:
+ *       { title, subtitle, corner, columns: [{ label, sublabel }],
+ *         rows: [{ label, render, cells }] }
+ *     `render` is one of tally | dots | number | checkbox | text, and every
+ *     row has one cell per column. `es.data_sheet` mirrors it with Spanish
+ *     labels (and Spanish cells for text rows).
  */
 
 export const APPLIED_QUESTIONS = [
@@ -719,6 +733,326 @@ export const APPLIED_QUESTIONS = [
         "Dejar de usar reforzadores comestibles con todos los clientes",
       ],
       explanation: "La práctica culturalmente responsiva respeta los valores de la familia. La RBT atiende la petición e involucra al supervisor para ajustar los reforzadores, sin cuestionar las creencias de la familia.",
+    },
+  },
+  // ─── Drafts pending BCBA review (D. Behavior Reduction) ──────────────────
+  {
+    id: "applied_dro_token_intervals",
+    concept_id: "behavior_dro",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.3",
+    text: "The behavior plan says: at the end of each 2-minute interval, give a token if no hitting occurred during that interval. Using the data sheet, after which intervals should the RBT have delivered a token?",
+    data_sheet: {
+      title: "DRO data sheet",
+      subtitle: "Target: hitting · Interval: 2 min · Session: 12 min",
+      corner: "Interval",
+      columns: [
+        { label: "1", sublabel: "0:00–2:00" },
+        { label: "2", sublabel: "2:00–4:00" },
+        { label: "3", sublabel: "4:00–6:00" },
+        { label: "4", sublabel: "6:00–8:00" },
+        { label: "5", sublabel: "8:00–10:00" },
+        { label: "6", sublabel: "10:00–12:00" },
+      ],
+      rows: [
+        { label: "Hitting (tally)", render: "tally", cells: [0, 1, 0, 0, 2, 0] },
+        { label: "Token delivered?", render: "checkbox", cells: [null, null, null, null, null, null] },
+      ],
+    },
+    options: [
+      "After intervals 1, 3, 4 and 6",
+      "After intervals 2 and 5",
+      "After all six intervals, to keep the schedule predictable",
+      "After interval 1 only, because hitting happened later in the session",
+    ],
+    explanation: "In this DRO, the token depends on hitting not occurring during the whole interval. The tally shows hitting in intervals 2 and 5, so those end without a token, and intervals 1, 3, 4 and 6 earn one. A token after every interval no matter what would be time-based delivery, not DRO, and each interval is judged on its own.",
+    es: {
+      text: "El plan de conducta dice: al final de cada intervalo de 2 minutos, dar una ficha si no hubo golpes durante ese intervalo. Según la hoja de registro, ¿después de qué intervalos debió el RBT entregar una ficha?",
+      data_sheet: {
+        title: "Hoja de registro DRO",
+        subtitle: "Conducta objetivo: golpear · Intervalo: 2 min · Sesión: 12 min",
+        corner: "Intervalo",
+        rows: [{ label: "Golpes (marcas)" }, { label: "¿Ficha entregada?" }],
+      },
+      options: [
+        "Después de los intervalos 1, 3, 4 y 6",
+        "Después de los intervalos 2 y 5",
+        "Después de los seis intervalos, para que el programa sea predecible",
+        "Solo después del intervalo 1, porque los golpes ocurrieron más tarde en la sesión",
+      ],
+      explanation: "En este DRO, la ficha depende de que no haya golpes durante todo el intervalo. Las marcas muestran golpes en los intervalos 2 y 5, así que esos terminan sin ficha, y los intervalos 1, 3, 4 y 6 la ganan. Dar una ficha después de cada intervalo pase lo que pase sería una entrega por tiempo, no un DRO, y cada intervalo se evalúa por separado.",
+    },
+  },
+  {
+    id: "applied_abc_escape_function",
+    concept_id: "behavior_function_from_abc",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.1",
+    text: "The RBT collected the ABC data below during one morning and will share them with the supervisor. Which function do these data most likely suggest?",
+    data_sheet: {
+      title: "ABC data sheet",
+      subtitle: "Learner: J. · Classroom · Morning",
+      corner: "Time",
+      columns: [{ label: "Antecedent" }, { label: "Behavior" }, { label: "Consequence" }],
+      rows: [
+        { label: "9:05", render: "text", cells: ["Teacher hands out a math worksheet", "Tears the worksheet", "Teacher says \"Fine, skip it\" and takes the worksheet away"] },
+        { label: "9:40", render: "text", cells: ["Asked to put on shoes for recess", "Drops to the floor and screams", "Aide puts the shoes on for him"] },
+        { label: "10:20", render: "text", cells: ["Asked to read a page aloud", "Pushes the book off the desk", "Teacher moves on to another student"] },
+        { label: "11:05", render: "text", cells: ["Asked to clean up the blocks", "Screams", "Aide cleans up the blocks"] },
+      ],
+    },
+    options: [
+      "Escape: each episode follows a demand and ends with the demand removed",
+      "Attention: each episode ends with an adult talking to the learner",
+      "Tangible: each episode ends with the learner getting a preferred item",
+      "Automatic: the behavior occurs no matter what is happening",
+    ],
+    explanation: "Every episode starts with a demand and ends with the demand removed or done by someone else, which points to escape. Attention is less likely: at 10:20 the teacher turned away and the demand still ended. No preferred item was delivered, and the behavior only followed demands. The RBT reports the pattern; confirming the function is the supervisor's role.",
+    es: {
+      text: "El RBT recogió estos datos ABC durante una mañana y los compartirá con el supervisor. ¿Qué función sugieren con más probabilidad?",
+      data_sheet: {
+        title: "Hoja de registro ABC",
+        subtitle: "Aprendiz: J. · Aula · Mañana",
+        corner: "Hora",
+        columns: [{ label: "Antecedente" }, { label: "Conducta" }, { label: "Consecuencia" }],
+        rows: [
+          { cells: ["La maestra reparte una hoja de matemáticas", "Rompe la hoja", "La maestra dice \"Bueno, déjalo\" y retira la hoja"] },
+          { cells: ["Le piden ponerse los zapatos para el recreo", "Se tira al suelo y grita", "La asistente le pone los zapatos"] },
+          { cells: ["Le piden leer una página en voz alta", "Tira el libro del pupitre", "La maestra pasa a otro alumno"] },
+          { cells: ["Le piden recoger los bloques", "Grita", "La asistente recoge los bloques"] },
+        ],
+      },
+      options: [
+        "Escape: cada episodio sigue a una demanda y termina con la demanda retirada",
+        "Atención: cada episodio termina con un adulto hablándole al aprendiz",
+        "Tangible: cada episodio termina con el aprendiz recibiendo un objeto preferido",
+        "Automática: la conducta ocurre sin importar lo que esté pasando",
+      ],
+      explanation: "Cada episodio empieza con una demanda y termina con la demanda retirada o hecha por otra persona, lo que apunta a escape. La atención es menos probable: a las 10:20 la maestra se alejó y aun así la demanda terminó. No se entregó ningún objeto preferido, y la conducta solo siguió a demandas. El RBT informa del patrón; confirmar la función le corresponde al supervisor.",
+    },
+  },
+  {
+    id: "applied_automatic_rocking",
+    concept_id: "behavior_automatic_function",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.1",
+    text: "A learner rocks back and forth at about the same rate when alone in a room, during play and during work. Adults have not been responding to the rocking. Which function is most consistent with this pattern?",
+    options: [
+      "Automatic reinforcement",
+      "Escape from demands",
+      "Access to adult attention",
+      "Access to tangible items",
+    ],
+    explanation: "Behavior that continues at similar levels when the learner is alone, with no demands and no social consequences, is most consistent with automatic reinforcement: the behavior itself produces the reinforcer. Escape would be tied to demands, and attention or tangibles to someone delivering them.",
+    es: {
+      text: "Un aprendiz se balancea hacia delante y hacia atrás con una frecuencia parecida cuando está solo en una habitación, durante el juego y durante el trabajo. Los adultos no han estado respondiendo al balanceo. ¿Qué función es más coherente con este patrón?",
+      options: [
+        "Reforzamiento automático",
+        "Escape de demandas",
+        "Acceso a la atención de un adulto",
+        "Acceso a objetos tangibles",
+      ],
+      explanation: "Una conducta que se mantiene en niveles parecidos cuando el aprendiz está solo, sin demandas y sin consecuencias sociales, es más coherente con reforzamiento automático: la propia conducta produce el reforzador. El escape estaría ligado a las demandas, y la atención o los tangibles a alguien que los entregue.",
+    },
+  },
+  {
+    id: "applied_high_p_sequence",
+    concept_id: "behavior_high_p",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.2",
+    text: "The plan uses a high-probability request sequence before asking the learner to clean up, an instruction the learner often refuses. What should the RBT do?",
+    options: [
+      "Give 3 quick requests the learner usually follows, praise each, then ask to clean up right away",
+      "Ask the learner to clean up first, and give easy requests only if the learner refuses",
+      "Give 3 easy requests, then a 5-minute play break, then ask to clean up",
+      "Skip the easy requests and give the clean-up instruction louder and closer",
+    ],
+    explanation: "A high-probability sequence builds momentum: several easy requests the learner reliably follows, each reinforced, followed immediately by the harder request. Giving easy requests after a refusal can reinforce the refusal, and a long break between them loses the momentum.",
+    es: {
+      text: "El plan usa una secuencia de peticiones de alta probabilidad antes de pedirle al aprendiz que recoja, una instrucción que suele rechazar. ¿Qué debe hacer el RBT?",
+      options: [
+        "Dar 3 peticiones rápidas que el aprendiz suele cumplir, elogiar cada una y pedir enseguida que recoja",
+        "Pedirle primero que recoja, y dar peticiones fáciles solo si se niega",
+        "Dar 3 peticiones fáciles, luego un descanso de juego de 5 minutos y después pedir que recoja",
+        "Saltarse las peticiones fáciles y dar la instrucción de recoger más alto y más cerca",
+      ],
+      explanation: "Una secuencia de alta probabilidad crea impulso: varias peticiones fáciles que el aprendiz cumple de forma fiable, cada una reforzada, seguidas inmediatamente de la petición difícil. Dar peticiones fáciles después de una negativa puede reforzar la negativa, y un descanso largo entre ellas hace perder el impulso.",
+    },
+  },
+  {
+    id: "applied_ncr_on_schedule",
+    concept_id: "behavior_antecedent",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.2",
+    text: "The plan uses noncontingent reinforcement (NCR): 10 seconds of attention every 2 minutes on a timer, regardless of behavior. When the timer goes off, the learner is working quietly but called out once during the last 2 minutes. What should the RBT do?",
+    options: [
+      "Give the 10 seconds of attention now, as scheduled",
+      "Skip this attention, because the learner called out during the interval",
+      "Restart the 2-minute timer without giving attention",
+      "Wait to give attention until the learner asks for it appropriately",
+    ],
+    explanation: "In NCR, the reinforcer is delivered on a time schedule, independent of behavior. Withholding it because of the call-out would turn the procedure into DRO, restarting the timer would make it a resetting DRO, and waiting for an appropriate request would make it DRA. The RBT implements the procedure as written.",
+    es: {
+      text: "El plan usa reforzamiento no contingente (NCR): 10 segundos de atención cada 2 minutos con temporizador, sin importar la conducta. Cuando suena el temporizador, el aprendiz está trabajando en silencio, pero gritó una vez durante los últimos 2 minutos. ¿Qué debe hacer el RBT?",
+      options: [
+        "Dar ahora los 10 segundos de atención, según lo programado",
+        "Saltarse esta atención, porque el aprendiz gritó durante el intervalo",
+        "Reiniciar el temporizador de 2 minutos sin dar atención",
+        "Esperar a dar atención hasta que el aprendiz la pida de forma apropiada",
+      ],
+      explanation: "En el NCR, el reforzador se entrega según un horario de tiempo, independientemente de la conducta. Retenerlo por el grito convertiría el procedimiento en un DRO, reiniciar el temporizador lo convertiría en un DRO con reinicio, y esperar una petición apropiada lo convertiría en un DRA. El RBT aplica el procedimiento tal como está escrito.",
+    },
+  },
+  {
+    id: "applied_escape_extinction_brushing",
+    concept_id: "behavior_escape_extinction_implementation",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.4",
+    text: "The plan uses escape extinction: tooth brushing continues with the written prompts until it is finished, even if the learner cries. Today the learner cries but is safe. What should the RBT do?",
+    options: [
+      "Keep going with the prompts in the plan until brushing is finished",
+      "Stop brushing until the learner calms down, then start over",
+      "End brushing for today and try again tomorrow",
+      "Switch to a preferred activity, then come back to brushing",
+    ],
+    explanation: "Under escape extinction, problem behavior no longer ends the task. Stopping, ending early or switching to a preferred activity all remove the task after crying, which reinforces the crying. The RBT continues as written while monitoring safety, and records and reports the data.",
+    es: {
+      text: "El plan usa extinción de escape: el cepillado de dientes continúa con las ayudas escritas hasta terminar, aunque el aprendiz llore. Hoy el aprendiz llora pero está seguro. ¿Qué debe hacer el RBT?",
+      options: [
+        "Seguir con las ayudas del plan hasta terminar el cepillado",
+        "Parar el cepillado hasta que el aprendiz se calme y luego empezar de nuevo",
+        "Terminar el cepillado por hoy e intentarlo mañana",
+        "Cambiar a una actividad preferida y luego volver al cepillado",
+      ],
+      explanation: "Con la extinción de escape, la conducta problema ya no termina la tarea. Parar, terminar antes o cambiar a una actividad preferida retiran la tarea después del llanto, lo que refuerza el llanto. El RBT continúa como está escrito vigilando la seguridad, y registra e informa de los datos.",
+    },
+  },
+  {
+    id: "applied_extinction_caregiver_attention",
+    concept_id: "behavior_extinction_consistency",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.4",
+    text: "Whining is maintained by attention, and the plan uses extinction: no attention for whining. During home sessions, a parent often comforts the learner when the learner whines. What should the RBT do?",
+    options: [
+      "Report it to the supervisor, since occasional attention can make whining harder to reduce",
+      "Nothing different, since extinction from the RBT alone is enough",
+      "Start comforting the learner too, so all adults respond the same way",
+      "Add a consequence for whining so that it decreases faster",
+    ],
+    explanation: "Extinction depends on consistency. When whining still produces attention some of the time, it can persist longer and become more resistant to extinction. Training caregivers and changing the plan are the supervisor's job, so the RBT keeps implementing the plan as written and reports what is happening.",
+    es: {
+      text: "Las quejas se mantienen por atención, y el plan usa extinción: no dar atención a las quejas. En las sesiones en casa, uno de los padres suele consolar al aprendiz cuando se queja. ¿Qué debe hacer el RBT?",
+      options: [
+        "Informar al supervisor, porque la atención ocasional puede hacer las quejas más difíciles de reducir",
+        "Nada distinto, porque la extinción por parte del RBT basta",
+        "Empezar a consolar también al aprendiz, para que todos los adultos respondan igual",
+        "Añadir una consecuencia a las quejas para que bajen más rápido",
+      ],
+      explanation: "La extinción depende de la consistencia. Cuando las quejas siguen produciendo atención algunas veces, pueden durar más y volverse más resistentes a la extinción. Entrenar a los cuidadores y cambiar el plan le corresponde al supervisor, así que el RBT sigue aplicando el plan tal como está escrito e informa de lo que ocurre.",
+    },
+  },
+  {
+    id: "applied_response_cost_tokens",
+    concept_id: "behavior_response_cost_procedure",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.5",
+    text: "The plan adds response cost to the token system: remove 1 token for each instance of swearing. The learner exchanges tokens at 5. Using the token record, how many tokens does the learner have, and can the learner exchange now?",
+    data_sheet: {
+      title: "Token record",
+      subtitle: "Response cost: 1 token per swear · Exchange at 5 tokens",
+      corner: "Time",
+      columns: [{ label: "9:00–9:15" }, { label: "9:15–9:30" }, { label: "9:30–9:45" }],
+      rows: [
+        { label: "Tokens earned", render: "dots", cells: [2, 3, 1] },
+        { label: "Swearing (tally)", render: "tally", cells: [0, 1, 1] },
+      ],
+    },
+    options: [
+      "4 tokens, so not yet; the learner keeps working toward 5",
+      "6 tokens, so yes; tokens already earned cannot be removed",
+      "8 tokens, so yes; each instance of swearing counts as a token",
+      "0 tokens, so no; swearing clears the whole token board",
+    ],
+    explanation: "The learner earned 6 tokens, and the 2 instances of swearing each removed 1, leaving 4. Exchange happens at 5, so the learner keeps working. Clearing the whole board would be a different procedure from the one in the plan, and the RBT applies response cost only as written.",
+    es: {
+      text: "El plan añade costo de respuesta al sistema de fichas: retirar 1 ficha por cada vez que el aprendiz dice una grosería. El aprendiz canjea las fichas al llegar a 5. Según el registro de fichas, ¿cuántas fichas tiene el aprendiz y puede canjearlas ahora?",
+      data_sheet: {
+        title: "Registro de fichas",
+        subtitle: "Costo de respuesta: 1 ficha por grosería · Canje a las 5 fichas",
+        corner: "Hora",
+        rows: [{ label: "Fichas ganadas" }, { label: "Groserías (marcas)" }],
+      },
+      options: [
+        "4 fichas, así que todavía no; el aprendiz sigue trabajando hacia 5",
+        "6 fichas, así que sí; las fichas ya ganadas no se pueden retirar",
+        "8 fichas, así que sí; cada grosería cuenta como una ficha",
+        "0 fichas, así que no; una grosería borra todo el tablero de fichas",
+      ],
+      explanation: "El aprendiz ganó 6 fichas, y cada una de las 2 groserías retiró 1, así que le quedan 4. El canje es a las 5, así que sigue trabajando. Borrar todo el tablero sería un procedimiento distinto al del plan, y el RBT aplica el costo de respuesta solo como está escrito.",
+    },
+  },
+  {
+    id: "applied_spontaneous_recovery_data",
+    concept_id: "behavior_spontaneous_recovery",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.6",
+    text: "Extinction for screaming has been in place since session 1, with no changes to the plan. Using the frequency data, what does session 9 most likely show, and what should the RBT do?",
+    data_sheet: {
+      title: "Frequency data",
+      subtitle: "Target: screaming · Extinction in place since session 1",
+      corner: "Session",
+      columns: [
+        { label: "1" }, { label: "2" }, { label: "3" }, { label: "4" }, { label: "5" },
+        { label: "6" }, { label: "7" }, { label: "8" }, { label: "9" }, { label: "10" },
+      ],
+      rows: [{ label: "Screaming (count)", render: "number", cells: [8, 12, 6, 4, 2, 0, 0, 0, 3, 0] }],
+    },
+    options: [
+      "Spontaneous recovery; keep following the plan and record the data",
+      "An extinction burst; stop extinction until the screaming settles",
+      "Extinction has failed; go back to responding to the screaming",
+      "Resurgence; add a new procedure so the screaming stops",
+    ],
+    explanation: "After several sessions at zero, a brief return of a behavior that is still under extinction is spontaneous recovery. It is expected and usually fades if extinction continues, so the RBT keeps following the plan, records and reports. The extinction burst happened when extinction started (session 2 here), and resurgence involves an alternative behavior being put on extinction, which did not happen.",
+    es: {
+      text: "La extinción de los gritos está en marcha desde la sesión 1, sin cambios en el plan. Según los datos de frecuencia, ¿qué muestra con más probabilidad la sesión 9 y qué debe hacer el RBT?",
+      data_sheet: {
+        title: "Datos de frecuencia",
+        subtitle: "Conducta objetivo: gritar · Extinción desde la sesión 1",
+        corner: "Sesión",
+        rows: [{ label: "Gritos (conteo)" }],
+      },
+      options: [
+        "Recuperación espontánea; seguir el plan y registrar los datos",
+        "Una explosión de extinción; detener la extinción hasta que bajen los gritos",
+        "La extinción ha fallado; volver a responder a los gritos",
+        "Resurgimiento; añadir un procedimiento nuevo para que paren los gritos",
+      ],
+      explanation: "Después de varias sesiones en cero, un regreso breve de una conducta que sigue en extinción es recuperación espontánea. Es esperable y suele desaparecer si la extinción continúa, así que el RBT sigue el plan, registra e informa. La explosión de extinción ocurrió al empezar la extinción (aquí, la sesión 2), y el resurgimiento implica que una conducta alternativa pase a extinción, lo que no ocurrió.",
+    },
+  },
+  {
+    id: "applied_post_crisis_report",
+    concept_id: "behavior_post_crisis_documentation",
+    status: "draft",
+    reference: "BACB RBT Test Content Outline (3rd ed.), D.7",
+    text: "During a session, the RBT used the crisis procedure in the plan when a learner tried to run into the street. Everyone is now safe. What should the RBT do next?",
+    options: [
+      "Notify the supervisor and complete the incident report the agency requires, describing only what happened",
+      "Write a short note next week, once the learner's behavior has settled",
+      "Tell the caregiver at pickup and skip the written report, since no one was hurt",
+      "Write in the report that the learner was being manipulative and defiant",
+    ],
+    explanation: "After a crisis, the RBT notifies the supervisor promptly and documents the event objectively, following the agency's incident-reporting requirements and timelines. Delaying, skipping the written report or using labels like \"manipulative\" instead of observable descriptions all fall short of the RBT's documentation duties.",
+    es: {
+      text: "Durante una sesión, el RBT aplicó el procedimiento de crisis del plan cuando un aprendiz intentó correr hacia la calle. Ahora todos están a salvo. ¿Qué debe hacer el RBT a continuación?",
+      options: [
+        "Avisar al supervisor y completar el informe de incidente que exige la agencia, describiendo solo lo que pasó",
+        "Escribir una nota breve la semana que viene, cuando la conducta del aprendiz se haya calmado",
+        "Contárselo al cuidador al recogerlo y omitir el informe escrito, porque nadie se hizo daño",
+        "Escribir en el informe que el aprendiz estaba siendo manipulador y desafiante",
+      ],
+      explanation: "Después de una crisis, el RBT avisa al supervisor sin demora y documenta el hecho de forma objetiva, siguiendo los requisitos y plazos de la agencia para informar incidentes. Retrasarlo, omitir el informe escrito o usar etiquetas como \"manipulador\" en lugar de descripciones observables no cumple con las obligaciones de documentación del RBT.",
     },
   },
 ];

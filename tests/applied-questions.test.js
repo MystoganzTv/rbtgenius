@@ -4,6 +4,12 @@ import test from "node:test";
 import {
   appliedQuestions,
   buildFlashcardBank,
+  buildMockExamQuestionSet,
+  buildPracticeQuestionBank,
+  DATA_SHEET_RENDERS,
+  draftAppliedQuestions,
+  localizeDataSheet,
+  TOTAL_PRACTICE_QUESTIONS,
   evaluateQuestionAnswer,
   getAppliedTranslationEs,
   getQuestionById,
@@ -11,6 +17,10 @@ import {
   sanitizeQuestion,
 } from "../shared/questions/question-bank.js";
 import { APPLIED_QUESTIONS } from "../shared/questions/question-bank-applied.js";
+
+const PUBLISHED_SOURCES = APPLIED_QUESTIONS.filter((source) => source.status !== "draft");
+const DRAFT_SOURCES = APPLIED_QUESTIONS.filter((source) => source.status === "draft");
+const builtById = new Map([...appliedQuestions, ...draftAppliedQuestions].map((question) => [question.id, question]));
 
 test("every applied question is complete, eligible and in the practice bank", () => {
   assert.ok(appliedQuestions.length >= 30, "applied layer should not shrink silently");
@@ -32,7 +42,7 @@ test("every applied question is complete, eligible and in the practice bank", ()
 });
 
 test("the source's first option is always the graded correct answer", () => {
-  for (const source of APPLIED_QUESTIONS) {
+  for (const source of PUBLISHED_SOURCES) {
     const built = getQuestionById(source.id);
     const correct = built.options.find((option) => option.label === built.correct_answer);
     assert.equal(correct.text, source.options[0], source.id);
@@ -49,7 +59,7 @@ test("correct letters are spread evenly across A–D", () => {
 
 test("Spanish stays aligned with the English option order", () => {
   for (const source of APPLIED_QUESTIONS) {
-    const built = getQuestionById(source.id);
+    const built = builtById.get(source.id);
     const spanish = getAppliedTranslationEs(source.id);
     assert.ok(spanish?.text && spanish?.explanation, `${source.id} is missing Spanish`);
     assert.equal(source.es.options.length, 4, source.id);
@@ -97,3 +107,61 @@ test("applied questions answered correctly stop taking the reserved slots", asyn
   const batch = buildPracticeQuestionBank(TOTAL_PRACTICE_QUESTIONS, "share-check", { history }).slice(0, 24);
   assert.equal(batch.filter((question) => question.kind === "applied").length, 0);
 });
+
+test("drafts never reach students", () => {
+  assert.equal(draftAppliedQuestions.length, DRAFT_SOURCES.length);
+  const draftIds = new Set(draftAppliedQuestions.map((question) => question.id));
+  const practice = buildPracticeQuestionBank(TOTAL_PRACTICE_QUESTIONS, "draft-check", { history: {} });
+  const exam = buildMockExamQuestionSet(85, null, "draft-check");
+  const cards = buildFlashcardBank(5000, "draft-check");
+  for (const pool of [rbtQuestions, practice, exam, cards, appliedQuestions]) {
+    assert.ok(pool.every((question) => !draftIds.has(question.id)));
+  }
+  for (const id of draftIds) assert.ok(!getQuestionById(id), id);
+});
+
+test("drafts are complete and cite their source", () => {
+  for (const question of draftAppliedQuestions) {
+    assert.match(question.id, /^applied_/);
+    assert.ok(question.task_list_code, `${question.id} has no outline code`);
+    assert.match(question.reference || "", /Test Content Outline|Ethics Code/, `${question.id} has no reference`);
+    assert.equal(question.options.length, 4);
+    assert.equal(new Set(question.options.map((option) => option.text)).size, 4, `${question.id} repeats an option`);
+    const correct = question.options.find((option) => option.label === question.correct_answer);
+    assert.equal(correct.text, DRAFT_SOURCES.find((source) => source.id === question.id).options[0]);
+  }
+});
+
+test("data sheets are well formed in both languages and survive sanitizing", () => {
+  const sheeted = [...appliedQuestions, ...draftAppliedQuestions].filter((question) => question.data_sheet);
+  assert.ok(sheeted.length >= 4);
+  for (const question of sheeted) {
+    const sheet = question.data_sheet;
+    assert.ok(sheet.title && sheet.columns.length > 0 && sheet.rows.length > 0, question.id);
+    for (const row of sheet.rows) {
+      assert.ok(DATA_SHEET_RENDERS.includes(row.render), `${question.id}: render ${row.render}`);
+      assert.equal(row.cells.length, sheet.columns.length, `${question.id}: ${row.label}`);
+      for (const cell of row.cells) {
+        if (row.render === "text") assert.equal(typeof cell, "string", question.id);
+        else if (row.render === "checkbox") assert.ok(cell === null || typeof cell === "boolean", question.id);
+        else assert.ok(Number.isInteger(cell) && cell >= 0 && cell <= 30, question.id);
+      }
+    }
+
+    const spanish = localizeDataSheet(sheet, question.id, "es");
+    assert.notEqual(spanish.title, sheet.title, `${question.id} has no Spanish data sheet`);
+    assert.equal(spanish.rows.length, sheet.rows.length);
+    spanish.rows.forEach((row, index) => {
+      const english = sheet.rows[index].label;
+      // Time stamps and numbers ("9:05") are the same in both languages.
+      if (/[a-z]/i.test(english)) assert.notEqual(row.label, english, `${question.id}: row ${index} label not translated`);
+      assert.equal(row.cells.length, sheet.columns.length);
+      if (row.render === "text") {
+        assert.notDeepEqual(row.cells, sheet.rows[index].cells, `${question.id}: row ${index} cells not translated`);
+      }
+    });
+    assert.deepEqual(localizeDataSheet(sheet, question.id, "en"), sheet);
+    assert.deepEqual(sanitizeQuestion(question).data_sheet, sheet);
+  }
+});
+

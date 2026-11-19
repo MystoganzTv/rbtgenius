@@ -184,6 +184,7 @@ export default function PracticeScreen({ navigation, route }) {
             <QuestionMedia
               source={question.imageSource}
               chart={question?._raw?.chart}
+              dataSheet={question?._raw?.data_sheet}
               questionId={question?.id}
               theme={theme}
               accessibilityLabel={t('practice.visual_alt', { domain: t(`domains.${question.topic}`) })}

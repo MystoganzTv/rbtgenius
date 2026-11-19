@@ -2137,6 +2137,7 @@ function buildAppliedQuestion(source, index) {
       text: source.es.text,
       explanation: source.es.explanation,
       chart: source.es.chart || null,
+      data_sheet: source.es.data_sheet || null,
       options: Object.fromEntries(
         order.map((sourceIndex, position) => [labels[position], source.es.options[sourceIndex]]),
       ),
@@ -2156,10 +2157,43 @@ function buildAppliedQuestion(source, index) {
     options,
     correct_answer: labels[order.indexOf(0)],
     ...(source.chart ? { chart: source.chart } : {}),
+    ...(source.data_sheet ? { data_sheet: source.data_sheet } : {}),
+    ...(source.reference ? { reference: source.reference } : {}),
+    ...(source.status === "draft" ? { status: "draft" } : {}),
   };
 }
 
-export const appliedQuestions = APPLIED_QUESTIONS.map(buildAppliedQuestion);
+// Built from the full source list so a question keeps its index (and so its
+// correct-answer letter) when it moves from draft to published.
+const builtAppliedQuestions = APPLIED_QUESTIONS.map(buildAppliedQuestion);
+
+// Drafts are written but not yet reviewed by a BCBA. They never reach
+// students: practice, mock exams, flashcards and answer grading only see
+// `appliedQuestions`. Admins preview drafts on the Question Drafts page.
+export const appliedQuestions = builtAppliedQuestions.filter((question) => question.status !== "draft");
+export const draftAppliedQuestions = builtAppliedQuestions.filter((question) => question.status === "draft");
+
+export const DATA_SHEET_RENDERS = ["tally", "dots", "number", "checkbox", "text"];
+
+// Swaps a data sheet's labels (and text cells) for their Spanish versions.
+// Numbers, tallies and checkboxes are language-neutral and stay as they are.
+export function localizeDataSheet(sheet, questionId, language = "en") {
+  if (!sheet || language !== "es") return sheet || null;
+  const spanish = appliedTranslationsEs[questionId]?.data_sheet;
+  if (!spanish) return sheet;
+  return {
+    ...sheet,
+    title: spanish.title || sheet.title,
+    subtitle: spanish.subtitle || sheet.subtitle,
+    corner: spanish.corner || sheet.corner,
+    columns: sheet.columns.map((column, index) => ({ ...column, ...(spanish.columns?.[index] || {}) })),
+    rows: sheet.rows.map((row, index) => ({
+      ...row,
+      label: spanish.rows?.[index]?.label || row.label,
+      cells: spanish.rows?.[index]?.cells || row.cells,
+    })),
+  };
+}
 
 export function getAppliedTranslationEs(questionId) {
   return appliedTranslationsEs[questionId] || null;

@@ -460,6 +460,7 @@ export default function MockExamScreen({ navigation }) {
           <QuestionMedia
             source={q?.imageSource}
             chart={q?._raw?.chart}
+            dataSheet={q?._raw?.data_sheet}
             questionId={q?.id}
             theme={theme}
             accessibilityLabel={t('practice.visual_alt', { domain: q ? t(`domains.${q.topic}`) : '' })}

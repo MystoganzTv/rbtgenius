@@ -16,7 +16,7 @@
  * admin page to the sidebar, add it here too. `tests/page-access.test.js`
  * fails when the two drift apart.
  */
-const ADMIN_ONLY_PAGES = new Set(["OwnerDashboard", "AdminMembers"]);
+const ADMIN_ONLY_PAGES = new Set(["OwnerDashboard", "AdminMembers", "QuestionDrafts"]);
 
 export function canAccessPage(pageKey, user) {
   return !ADMIN_ONLY_PAGES.has(pageKey) || user?.role === "admin";

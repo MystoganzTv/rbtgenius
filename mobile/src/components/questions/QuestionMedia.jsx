@@ -1,11 +1,14 @@
 import { Image, StyleSheet, View } from 'react-native';
 import { alpha } from '../../theme';
 import QuestionChart from './QuestionChart.jsx';
+import DataSheet from './DataSheet.jsx';
 
-export default function QuestionMedia({ source, accessibilityLabel, theme, chart = null, questionId = null }) {
+export default function QuestionMedia({ source, accessibilityLabel, theme, chart = null, dataSheet = null, questionId = null }) {
   // Applied graph-reading questions replace the decorative topic image with
   // the graph the student has to interpret.
   if (chart) return <QuestionChart chart={chart} questionId={questionId} theme={theme} />;
+  // The same goes for applied questions built around a filled-in data sheet.
+  if (dataSheet) return <DataSheet sheet={dataSheet} questionId={questionId} theme={theme} />;
   if (!source) return null;
 
   return (

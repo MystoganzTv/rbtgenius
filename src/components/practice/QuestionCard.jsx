@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import BilingualText from "@/components/i18n/BilingualText";
 import QuestionChart from "@/components/practice/QuestionChart";
+import DataSheet from "@/components/practice/DataSheet";
 import TranslateTextButton from "@/components/i18n/TranslateTextButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -142,6 +143,15 @@ export default function QuestionCard({
         {question?.chart ? (
           <QuestionChart
             chart={question.chart}
+            questionId={question.id}
+            language={language}
+            className="mb-6"
+          />
+        ) : null}
+
+        {question?.data_sheet ? (
+          <DataSheet
+            sheet={question.data_sheet}
             questionId={question.id}
             language={language}
             className="mb-6"

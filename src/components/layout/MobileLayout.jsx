@@ -12,6 +12,7 @@ import {
   Sparkles,
   Shield,
   X,
+  FileCheck,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { useAuth } from "@/lib/AuthContext";
@@ -33,6 +34,7 @@ const moreItems = [
 
 const adminMoreItems = [
   { name: "Members", icon: Shield, page: "AdminMembers", badge: "ADMIN" },
+  { name: "Question Drafts", icon: FileCheck, page: "QuestionDrafts", badge: "ADMIN" },
   { name: "Business Metrics", icon: CircleDollarSign, page: "OwnerDashboard", badge: "PRIVATE" },
 ];
 
