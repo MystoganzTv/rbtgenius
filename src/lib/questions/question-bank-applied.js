@@ -735,11 +735,10 @@ export const APPLIED_QUESTIONS = [
       explanation: "La práctica culturalmente responsiva respeta los valores de la familia. La RBT atiende la petición e involucra al supervisor para ajustar los reforzadores, sin cuestionar las creencias de la familia.",
     },
   },
-  // ─── Drafts pending BCBA review (D. Behavior Reduction) ──────────────────
+  // ─── D. Behavior Reduction (reviewed by a BCBA, Nov 2026) ────────────────
   {
     id: "applied_dro_token_intervals",
     concept_id: "behavior_dro",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.3",
     text: "The behavior plan says: at the end of each 2-minute interval, give a token if no hitting occurred during that interval. Using the data sheet, after which intervals should the RBT have delivered a token?",
     data_sheet: {
@@ -786,7 +785,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_abc_escape_function",
     concept_id: "behavior_function_from_abc",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.1",
     text: "The RBT collected the ABC data below during one morning and will share them with the supervisor. Which function do these data most likely suggest?",
     data_sheet: {
@@ -834,7 +832,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_automatic_rocking",
     concept_id: "behavior_automatic_function",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.1",
     text: "A learner rocks back and forth at about the same rate when alone in a room, during play and during work. Adults have not been responding to the rocking. Which function is most consistent with this pattern?",
     options: [
@@ -858,7 +855,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_high_p_sequence",
     concept_id: "behavior_high_p",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.2",
     text: "The plan uses a high-probability request sequence before asking the learner to clean up, an instruction the learner often refuses. What should the RBT do?",
     options: [
@@ -882,7 +878,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_ncr_on_schedule",
     concept_id: "behavior_antecedent",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.2",
     text: "The plan uses noncontingent reinforcement (NCR): 10 seconds of attention every 2 minutes on a timer, regardless of behavior. When the timer goes off, the learner is working quietly but called out once during the last 2 minutes. What should the RBT do?",
     options: [
@@ -906,7 +901,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_escape_extinction_brushing",
     concept_id: "behavior_escape_extinction_implementation",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.4",
     text: "The plan uses escape extinction: tooth brushing continues with the written prompts until it is finished, even if the learner cries. Today the learner cries but is safe. What should the RBT do?",
     options: [
@@ -930,7 +924,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_extinction_caregiver_attention",
     concept_id: "behavior_extinction_consistency",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.4",
     text: "Whining is maintained by attention, and the plan uses extinction: no attention for whining. During home sessions, a parent often comforts the learner when the learner whines. What should the RBT do?",
     options: [
@@ -954,7 +947,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_response_cost_tokens",
     concept_id: "behavior_response_cost_procedure",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.5",
     text: "The plan adds response cost to the token system: remove 1 token for each instance of swearing. The learner exchanges tokens at 5. Using the token record, how many tokens does the learner have, and can the learner exchange now?",
     data_sheet: {
@@ -994,7 +986,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_spontaneous_recovery_data",
     concept_id: "behavior_spontaneous_recovery",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.6",
     text: "Extinction for screaming has been in place since session 1, with no changes to the plan. Using the frequency data, what does session 9 most likely show, and what should the RBT do?",
     data_sheet: {
@@ -1034,7 +1025,6 @@ export const APPLIED_QUESTIONS = [
   {
     id: "applied_post_crisis_report",
     concept_id: "behavior_post_crisis_documentation",
-    status: "draft",
     reference: "BACB RBT Test Content Outline (3rd ed.), D.7",
     text: "During a session, the RBT used the crisis procedure in the plan when a learner tried to run into the street. Everyone is now safe. What should the RBT do next?",
     options: [
